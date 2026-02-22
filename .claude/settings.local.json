@@ -6,7 +6,42 @@
       "Bash(git -C /Users/wooseongmin/AI init:*)",
       "Bash(git -C /Users/wooseongmin/AI status)",
       "Bash(git -C /Users/wooseongmin/AI add -A)",
-      "Bash(git -C:*)"
+      "Bash(git -C:*)",
+      "Bash(gh repo create:*)",
+      "Bash(brew install:*)",
+      "Bash(git --version)",
+      "Bash(curl:*)",
+      "Bash(unzip:*)",
+      "Bash(python3:*)",
+      "Bash(~/bin/gh auth:*)",
+      "Bash(~/bin/gh repo create:*)",
+      "Bash(~/bin/gh repo view AI)",
+      "Bash(npx skills:*)",
+      "Bash(echo FOUND:*)",
+      "Bash(source:*)",
+      "Bash(/bin/zsh:*)",
+      "Bash(cd:*)",
+      "Bash(claude mcp:*)",
+      "mcp__ide__getDiagnostics",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs",
+      "mcp__plugin_slack_slack__slack_search_channels",
+      "mcp__plugin_slack_slack__slack_search_public",
+      "WebFetch(domain:api.anthropic.com)"
     ]
-  }
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[완료] $(date +%H:%M:%S)\""
+          }
+        ]
+      }
+    ]
+  },
+  "outputStyle": "Explanatory"
 }

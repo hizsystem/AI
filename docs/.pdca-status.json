@@ -1,0 +1,41 @@
+{
+  "version": "2.0",
+  "lastUpdated": "2026-02-21T17:53:28.513Z",
+  "activeFeatures": [
+    ".claude"
+  ],
+  "primaryFeature": ".claude",
+  "features": {
+    ".claude": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-21T17:53:28.513Z",
+        "lastUpdated": "2026-02-21T17:53:28.513Z"
+      },
+      "lastFile": "/Users/wooseongmin/.claude/statusline-command.sh"
+    }
+  },
+  "pipeline": {
+    "currentPhase": 1,
+    "level": "Dynamic",
+    "phaseHistory": []
+  },
+  "session": {
+    "startedAt": "2026-02-21T15:55:09.018Z",
+    "onboardingCompleted": false,
+    "lastActivity": "2026-02-21T17:53:28.513Z"
+  },
+  "history": [
+    {
+      "timestamp": "2026-02-21T17:53:28.513Z",
+      "feature": ".claude",
+      "phase": "do",
+      "action": "updated"
+    }
+  ]
+}
