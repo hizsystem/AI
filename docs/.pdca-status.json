@@ -1,8 +1,9 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-02-21T17:53:28.513Z",
+  "lastUpdated": "2026-02-22T18:29:10.397Z",
   "activeFeatures": [
-    ".claude"
+    ".claude",
+    "scripts"
   ],
   "primaryFeature": ".claude",
   "features": {
@@ -18,6 +19,19 @@
         "lastUpdated": "2026-02-21T17:53:28.513Z"
       },
       "lastFile": "/Users/wooseongmin/.claude/statusline-command.sh"
+    },
+    "scripts": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-02-22T18:22:18.427Z",
+        "lastUpdated": "2026-02-22T18:29:10.397Z"
+      },
+      "lastFile": "/Users/wooseongmin/AI/scripts/link_sheets.py"
     }
   },
   "pipeline": {
@@ -28,12 +42,48 @@
   "session": {
     "startedAt": "2026-02-21T15:55:09.018Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-02-21T17:53:28.513Z"
+    "lastActivity": "2026-02-22T18:29:10.397Z"
   },
   "history": [
     {
       "timestamp": "2026-02-21T17:53:28.513Z",
       "feature": ".claude",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-22T18:22:18.428Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-22T18:22:58.141Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-22T18:23:27.292Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-22T18:26:40.168Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-22T18:27:16.114Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-02-22T18:29:10.397Z",
+      "feature": "scripts",
       "phase": "do",
       "action": "updated"
     }

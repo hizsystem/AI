@@ -27,7 +27,20 @@
       "mcp__context7__query-docs",
       "mcp__plugin_slack_slack__slack_search_channels",
       "mcp__plugin_slack_slack__slack_search_public",
-      "WebFetch(domain:api.anthropic.com)"
+      "WebFetch(domain:api.anthropic.com)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "WebSearch",
+      "WebFetch(domain:leviyonghun.com)",
+      "WebFetch(domain:www.levigrowth.com)",
+      "mcp__notion-mcp__API-post-search",
+      "mcp__plugin_slack_slack__slack_create_canvas",
+      "Bash(grep:*)",
+      "Bash(tail:*)",
+      "Bash(echo LANG=$LANG:*)",
+      "Bash(echo:*)",
+      "Bash(ls:*)",
+      "Bash(git add:*)"
     ]
   },
   "hooks": {
