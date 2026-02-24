@@ -9,5 +9,8 @@ __pycache__/
 .venv/
 venv/
 
+# Git Worktrees
+.worktrees/
+
 # OS
 .DS_Store
