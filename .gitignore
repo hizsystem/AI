@@ -1,5 +1,6 @@
 # Secrets
 .secrets/
+.secrets
 *.json
 !package.json
 
