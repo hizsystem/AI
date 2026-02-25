@@ -26,16 +26,8 @@ def create_summary_tab(ws, name, team):
         ["현재 실지출", 0],
         ["수익률", "=IF(B9=0,0,(B9-B10)/B9)"],
         ["", ""],
-        ["[진행 상태]", ""],
-        ["전체 TASK", "=COUNTA('통합 TASK-스케줄'!A3:A)"],
-        ["완료", "=COUNTIF('통합 TASK-스케줄'!G3:G,\"완료\")"],
-        ["진행중", "=COUNTIF('통합 TASK-스케줄'!G3:G,\"진행중\")"],
-        ["미착수", "=COUNTIF('통합 TASK-스케줄'!G3:G,\"미착수\")"],
-        ["진행률", "=IF(B16=0,0,B17/B16)"],
-        ["", ""],
         ["[시트 색인]", ""],
         ["종합-요약-색인", "이 탭"],
-        ["통합 TASK/스케줄", "TASK 및 일정 관리"],
         ["2026 예상 매출", "세금계산서 기준 월별 매출"],
         ["2026 예상 지출", "카테고리별 월별 지출"],
     ]
@@ -44,32 +36,11 @@ def create_summary_tab(ws, name, team):
         {"range": "A1", "format": {"textFormat": {"bold": True, "fontSize": 11}}},
         {"range": "A8", "format": {"textFormat": {"bold": True, "fontSize": 11}}},
         {"range": "A15", "format": {"textFormat": {"bold": True, "fontSize": 11}}},
-        {"range": "A22", "format": {"textFormat": {"bold": True, "fontSize": 11}}},
     ])
-
-
-def create_task_tab(sh):
-    """탭 2: 통합 TASK / 스케줄"""
-    ws = sh.add_worksheet(title="통합 TASK-스케줄", rows=200, cols=9)
-    data = [
-        ["TASK ID", "카테고리", "TASK명", "담당자", "시작일", "마감일", "상태", "우선순위", "비고"],
-        ["", "(기획/디자인/개발/마케팅/미팅)", "", "", "YYYY-MM-DD", "YYYY-MM-DD", "(미착수/진행중/완료/보류)", "(상/중/하)", ""],
-    ]
-    ws.update(values=data, range_name="A1")
-    ws.batch_format([
-        {"range": "A1:I1", "format": {
-            "textFormat": {"bold": True, "foregroundColorStyle": {"rgbColor": {"red": 1, "green": 1, "blue": 1}}},
-            "backgroundColor": {"red": 0.2, "green": 0.4, "blue": 0.7},
-        }},
-        {"range": "A2:I2", "format": {
-            "textFormat": {"italic": True, "foregroundColorStyle": {"rgbColor": {"red": 0.6, "green": 0.6, "blue": 0.6}}},
-        }},
-    ])
-    return ws
 
 
 def create_revenue_tab(sh):
-    """탭 3: 2026 예상 매출"""
+    """탭 2: 2026 예상 매출"""
     ws = sh.add_worksheet(title="2026 예상 매출", rows=50, cols=17)
     header = ["항목", "세금계산서 발행일", "공급가", "VAT포함"] + MONTHS + ["연간합계"]
 
@@ -93,7 +64,7 @@ def create_revenue_tab(sh):
 
 
 def create_expense_tab(sh):
-    """탭 4: 2026 예상 지출 — 모든 데이터를 한 번에 구성"""
+    """탭 3: 2026 예상 지출 — 모든 데이터를 한 번에 구성"""
     ws = sh.add_worksheet(title="2026 예상 지출", rows=60, cols=15)
 
     # 전체 데이터를 한 번에 구성
@@ -165,15 +136,11 @@ def create_project_sheet(name, team, share_emails=None):
     create_summary_tab(sh.sheet1, name, team)
     time.sleep(3)
 
-    # 탭 2: 통합 TASK/스케줄
-    create_task_tab(sh)
-    time.sleep(3)
-
-    # 탭 3: 2026 예상 매출
+    # 탭 2: 2026 예상 매출
     create_revenue_tab(sh)
     time.sleep(3)
 
-    # 탭 4: 2026 예상 지출
+    # 탭 3: 2026 예상 지출
     create_expense_tab(sh)
 
     # 공유
