@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>무료 마케팅 진단 — 30분이면 방향이 잡힙니다</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       Free Consultation — Blue Accent Theme
+       Same layout as Pain Series, color swap
+       ======================================== */
+    :root {
+      --cover-bg: #2563EB;
+      --cover-text: #FFFFFF;
+      --accent: #2563EB;
+      --accent-light: #60A5FA;
+      --body-bg: #F5F0EB;
+      --body-text: #1A1A1A;
+      --body-secondary: #3D3D3D;
+      --body-muted: #9E9E9E;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      --dark-bg: #1A1A1A;
+      --dark-text: #FFFFFF;
+      --dark-accent: #60A5FA;
+      --cta-button: #2563EB;
+      --cta-text: #FFFFFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: #D4CBC2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .slide.cover-theme { background-color: var(--cover-bg); color: var(--cover-text); }
+    .slide.body-theme { background-color: var(--body-bg); color: var(--body-text); }
+    .slide.dark-theme { background-color: var(--dark-bg); color: var(--dark-text); }
+
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Badge & Page ── */
+    .q-badge {
+      width: 52px; height: 52px;
+      background: var(--accent);
+      border-radius: 12px;
+      color: #FFFFFF;
+      font-size: 30px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .page-num {
+      font-size: 26px; font-weight: 500;
+      color: var(--body-muted);
+      position: absolute; top: 56px; right: 60px;
+    }
+    .dark-theme .page-num { color: rgba(255,255,255,0.4); }
+    .cover-theme .page-num { color: rgba(255,255,255,0.5); }
+
+    .top-row {
+      display: flex; align-items: center; gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    /* ── Typography (v2 — enlarged) ── */
+    .headline {
+      font-size: 72px; font-weight: 900;
+      line-height: 1.25; letter-spacing: -2px;
+      margin-bottom: 24px;
+    }
+    .sub-headline {
+      font-size: 56px; font-weight: 700;
+      line-height: 1.3; margin-bottom: 20px;
+    }
+    .body-text {
+      font-size: 40px; font-weight: 400;
+      line-height: 1.6; color: var(--body-secondary);
+    }
+    .dark-theme .body-text { color: #94A3B8; }
+    .highlight { color: var(--accent); font-weight: 700; }
+
+    /* ── Series Badge ── */
+    .series-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      color: var(--cover-text);
+      font-size: 28px; font-weight: 600;
+      padding: 12px 28px; border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .dark-theme .series-badge {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* ── Credit ── */
+    .credit {
+      position: absolute; bottom: 36px;
+      left: 0; right: 0; text-align: center;
+      font-size: 24px; font-weight: 400;
+      color: var(--body-muted);
+    }
+    .dark-theme .credit { color: rgba(255,255,255,0.3); }
+    .cover-theme .credit { color: rgba(255,255,255,0.3); }
+
+    /* ── Checklist ── */
+    .checklist { margin-top: 28px; }
+    .checklist-item {
+      display: flex; align-items: center;
+      padding: 24px 28px;
+      background: var(--card-bg);
+      border-radius: 14px; margin-bottom: 14px;
+      box-shadow: var(--card-shadow);
+    }
+    .checklist-icon {
+      width: 44px; height: 44px;
+      border-radius: 10px; color: #FFFFFF;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; font-weight: 800;
+      margin-right: 20px; flex-shrink: 0;
+    }
+    .checklist-label {
+      flex: 1; font-size: 34px; font-weight: 600;
+      color: var(--body-text);
+    }
+    .checklist-sub {
+      font-size: 26px; font-weight: 400;
+      color: var(--body-muted);
+    }
+
+    /* ── Compare Cards ── */
+    .compare-row { display: flex; gap: 24px; margin-top: 32px; }
+    .compare-card { flex: 1; border-radius: 20px; padding: 36px 32px; }
+    .compare-card.before {
+      background: linear-gradient(135deg, #FEE2E2, #FECACA);
+      color: #991B1B;
+    }
+    .compare-card.after {
+      background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+      color: #1E3A8A;
+    }
+    .compare-label {
+      font-size: 28px; font-weight: 700;
+      padding: 8px 18px; border-radius: 8px;
+      display: inline-block; margin-bottom: 20px;
+    }
+    .compare-card.before .compare-label { background: rgba(239,68,68,0.15); }
+    .compare-card.after .compare-label { background: rgba(37,99,235,0.15); }
+    .compare-item {
+      font-size: 34px; font-weight: 600;
+      line-height: 1.8;
+    }
+
+    /* ── Process Flow ── */
+    .process-flow { margin-top: 28px; }
+    .process-step {
+      display: flex; align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    .process-num {
+      width: 56px; height: 56px;
+      background: var(--accent); border-radius: 50%;
+      color: #FFFFFF; font-size: 28px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-right: 24px;
+    }
+    .process-content { flex: 1; padding-top: 4px; }
+    .process-title {
+      font-size: 38px; font-weight: 700;
+      color: var(--body-text); margin-bottom: 6px;
+    }
+    .process-desc {
+      font-size: 30px; font-weight: 400;
+      color: var(--body-muted);
+    }
+    .process-line {
+      width: 2px; height: 20px;
+      background: #D1D5DB; margin-left: 27px;
+    }
+
+    /* ── Insight Bar (Blue) ── */
+    .insight-bar {
+      background: linear-gradient(90deg, #2563EB, #60A5FA);
+      border-radius: 14px; padding: 28px 32px;
+      color: #FFFFFF; font-size: 34px; font-weight: 700;
+      margin-top: 28px; line-height: 1.5;
+    }
+
+    /* ── CTA Button ── */
+    .cta-button {
+      display: inline-block;
+      background: var(--accent); color: #FFFFFF;
+      padding: 28px 64px; border-radius: 16px;
+      font-size: 36px; font-weight: 700;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================
+       SLIDE 01 — COVER (Blue)
+       ============================ -->
+  <div class="slide cover-theme">
+    <div class="slide-inner">
+      <div class="series-badge">무료 마케팅 진단</div>
+
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div class="headline" style="font-size:80px; color:#FFFFFF; letter-spacing:-3px; margin-bottom:32px;">
+          스타트업 마케팅,<br>
+          뭐부터 해야 할지<br>
+          모르겠다면
+        </div>
+        <div style="font-size:44px; font-weight:600; color:rgba(255,255,255,0.75);">
+          30분이면 방향이 잡힙니다.
+        </div>
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 02 — PAIN POINTS
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner">
+      <div class="top-row">
+        <div class="q-badge">?</div>
+      </div>
+      <div class="page-num">02 / 07</div>
+
+      <div class="sub-headline">
+        혹시 이런 상황<br>
+        <span class="highlight">아니세요?</span>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:#EF4444;">✕</div>
+          <div class="checklist-label">광고 돌렸는데 효과를 모르겠다</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:#EF4444;">✕</div>
+          <div class="checklist-label">SNS 뭘 올려야 할지 막막하다</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:#EF4444;">✕</div>
+          <div class="checklist-label">대행사 써봤는데 돈만 날렸다</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:#EF4444;">✕</div>
+          <div class="checklist-label">마케팅에 쓸 시간이 없다</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:#EF4444;">✕</div>
+          <div class="checklist-label">뭐가 문제인지조차 모르겠다</div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top:auto; margin-bottom:60px;">
+        10팀 중 8팀이 같은 고민을 합니다.<br>
+        혼자 해결하려다 더 늦어져요.
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 03 — VALUE (30분 진단 항목)
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner">
+      <div class="top-row">
+        <div class="q-badge" style="background:#22C55E;">✓</div>
+      </div>
+      <div class="page-num">03 / 07</div>
+
+      <div class="sub-headline">
+        30분 무료 진단에서<br>
+        <span class="highlight">이걸 봐드립니다</span>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:var(--accent);">1</div>
+          <div>
+            <div class="checklist-label">현재 마케팅 현황 진단</div>
+            <div class="checklist-sub">지금 하고 있는 것 vs 해야 할 것</div>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:var(--accent);">2</div>
+          <div>
+            <div class="checklist-label">경쟁사 대비 포지셔닝</div>
+            <div class="checklist-sub">우리 브랜드만의 차별점 정리</div>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:var(--accent);">3</div>
+          <div>
+            <div class="checklist-label">우선 집중할 채널 추천</div>
+            <div class="checklist-sub">인스타? 블로그? 광고? 정답은 다릅니다</div>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:var(--accent);">4</div>
+          <div>
+            <div class="checklist-label">예산 배분 방향</div>
+            <div class="checklist-sub">한정된 예산으로 최대 효과</div>
+          </div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:var(--accent);">5</div>
+          <div>
+            <div class="checklist-label">90일 액션플랜 초안</div>
+            <div class="checklist-sub">바로 실행할 수 있는 우선순위</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 04 — BEFORE / AFTER
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner">
+      <div class="top-row">
+        <div class="q-badge" style="background:var(--accent);">→</div>
+      </div>
+      <div class="page-num">04 / 07</div>
+
+      <div class="sub-headline">
+        상담 전 vs 후,<br>
+        <span class="highlight">이렇게 달라집니다</span>
+      </div>
+
+      <div class="compare-row" style="flex:1;">
+        <div class="compare-card before">
+          <div class="compare-label">상담 전</div>
+          <div class="compare-item">
+            뭐부터 할지 모름<br>
+            광고비만 나감<br>
+            감으로 운영<br>
+            혼자 끙끙
+          </div>
+        </div>
+        <div class="compare-card after">
+          <div class="compare-label">상담 후</div>
+          <div class="compare-item">
+            우선순위 명확<br>
+            예산 효율 2배<br>
+            데이터 기반 운영<br>
+            전문가 서포트
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center; font-size:32px; font-weight:600; color:var(--accent); margin-bottom:40px;">
+        같은 예산, 완전히 다른 결과
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 05 — PROCESS (3단계)
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner">
+      <div class="top-row">
+        <div class="q-badge">!</div>
+      </div>
+      <div class="page-num">05 / 07</div>
+
+      <div class="sub-headline">
+        신청부터 완료까지<br>
+        <span class="highlight">딱 3단계</span>
+      </div>
+
+      <div class="process-flow" style="margin-top:40px;">
+        <div class="process-step">
+          <div class="process-num">1</div>
+          <div class="process-content">
+            <div class="process-title">간단 신청</div>
+            <div class="process-desc">링크 클릭 → 5개 질문 답변 (1분)</div>
+          </div>
+        </div>
+        <div class="process-line"></div>
+        <div class="process-step">
+          <div class="process-num">2</div>
+          <div class="process-content">
+            <div class="process-title">30분 화상 미팅</div>
+            <div class="process-desc">현황 분석 + 즉석 피드백 + Q&A</div>
+          </div>
+        </div>
+        <div class="process-line"></div>
+        <div class="process-step">
+          <div class="process-num">3</div>
+          <div class="process-content">
+            <div class="process-title">맞춤 진단 리포트 제공</div>
+            <div class="process-desc">현황 진단 + 채널 추천 + 90일 플랜</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top:auto; margin-bottom:60px;">
+        1분 신청, 30분 투자로<br>
+        3개월 방향이 잡힙니다.
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 06 — CLOSING (Dark)
+       ============================ -->
+  <div class="slide dark-theme">
+    <div class="slide-inner">
+      <div class="series-badge">무료 마케팅 진단</div>
+      <div class="page-num">06 / 07</div>
+
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div class="headline" style="font-size:76px; color:#FFFFFF; letter-spacing:-3px; margin-bottom:36px;">
+          무료니까,<br>
+          <span style="color:var(--dark-accent);">일단 받아보세요.</span>
+        </div>
+
+        <div style="width:60px; height:3px; background:var(--dark-accent); margin-bottom:36px;"></div>
+
+        <div class="body-text" style="font-size:38px; color:#94A3B8; line-height:1.7;">
+          마케팅, 혼자 고민하지 마세요.<br>
+          방향만 잡아도 절반은 해결됩니다.<br><br>
+          지금 받지 않으면<br>
+          3개월 뒤에도 같은 고민을 하고 있을 거예요.
+        </div>
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 07 — CTA
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner" style="align-items:center; justify-content:center; text-align:center;">
+      <div class="page-num">07 / 07</div>
+
+      <div style="width:96px; height:96px; background:var(--accent); border-radius:24px; display:flex; align-items:center; justify-content:center; margin-bottom:36px;">
+        <span style="font-size:48px; color:#FFFFFF; font-weight:900;">B</span>
+      </div>
+
+      <div class="headline" style="font-size:72px; text-align:center; letter-spacing:-2px;">
+        무료 마케팅 진단<br>
+        <span class="highlight">지금 신청하세요</span>
+      </div>
+
+      <div class="body-text" style="text-align:center; margin-bottom:48px; font-size:36px; color:var(--body-secondary);">
+        5개 질문에 답하면<br>
+        맞춤 진단 리포트를 보내드립니다.
+      </div>
+
+      <div class="cta-button">무료 진단 신청하기</div>
+
+      <div class="body-text" style="text-align:center; margin-top:28px; font-size:30px; color:var(--body-muted);">
+        start.brandrise.co.kr
+      </div>
+
+      <div class="credit" style="bottom:56px;">brandrise</div>
+    </div>
+  </div>
+
+</body>
+</html>

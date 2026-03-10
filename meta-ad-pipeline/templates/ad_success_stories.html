@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #EFF6FF 0%, #FFFFFF 50%, #EFF6FF 100%);
+}
+.slide { width: 1080px; height: 1080px; position: relative; }
+
+/* 로고 */
+.logo {
+    position: absolute; top: 40px; right: 48px;
+    font-size: 22px; font-weight: 700; color: #94A3B8; letter-spacing: 1px;
+}
+
+/* 상단 타이틀 */
+.header {
+    text-align: center; padding-top: 64px;
+}
+.header .sub {
+    font-size: 22px; font-weight: 600; color: #2563EB;
+    letter-spacing: 2px; margin-bottom: 8px;
+}
+.header h1 {
+    font-size: 56px; font-weight: 900; color: #0F172A;
+    letter-spacing: -1px;
+}
+
+/* 카드 그리드 */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 40px 56px;
+}
+.card {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid #E2E8F0;
+    text-align: center;
+}
+.card .client {
+    font-size: 20px; font-weight: 700; color: #374151;
+    margin-bottom: 4px;
+}
+.card .desc {
+    font-size: 16px; font-weight: 400; color: #9CA3AF;
+    margin-bottom: 12px;
+}
+.card .metric {
+    font-size: 26px; font-weight: 800; color: #2563EB;
+    letter-spacing: -0.5px;
+}
+
+/* 하단 메시지 */
+.bottom-msg {
+    text-align: center;
+    padding: 28px 0 0;
+}
+.bottom-msg h2 {
+    font-size: 44px; font-weight: 800; color: #0F172A;
+    position: relative; display: inline-block;
+}
+.bottom-msg h2::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 12px; background: #BFDBFE; border-radius: 6px;
+    z-index: -1;
+}
+
+/* CTA 바 */
+.cta-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 88px;
+    background: #2563EB;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 700; color: #FFFFFF;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+    <div class="logo">brandrise</div>
+
+    <div class="header">
+        <div class="sub">brandrise success story</div>
+        <h1>성공사례</h1>
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div class="client">CJ 맥스봉</div>
+            <div class="desc">토탈 브랜딩</div>
+            <div class="metric">매출 74.2% 성장</div>
+        </div>
+        <div class="card">
+            <div class="client">NCSOFT 도구리</div>
+            <div class="desc">바이럴 캠페인</div>
+            <div class="metric">1,200만명 참여</div>
+        </div>
+        <div class="card">
+            <div class="client">리솔츠</div>
+            <div class="desc">브랜드 구축·입점</div>
+            <div class="metric">백화점 3사 입점</div>
+        </div>
+        <div class="card">
+            <div class="client">하이네켄</div>
+            <div class="desc">퍼포먼스 마케팅</div>
+            <div class="metric">인터랙션 215%</div>
+        </div>
+        <div class="card">
+            <div class="client">미샤</div>
+            <div class="desc">SNS 채널 운영</div>
+            <div class="metric">40만 조회 달성</div>
+        </div>
+        <div class="card">
+            <div class="client">CJ 브랜딩</div>
+            <div class="desc">디지털 마케팅</div>
+            <div class="metric">소셜어워드 대상</div>
+        </div>
+    </div>
+
+    <div class="bottom-msg">
+        <h2>이제 대표님 차례입니다</h2>
+    </div>
+
+    <div class="cta-bar">무료 마케팅 1:1 진단 신청하기 →</div>
+</div>
+</body>
+</html>

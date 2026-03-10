@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #0F172A 0%, #070B14 100%);
+    color: #FFFFFF;
+}
+.slide { width: 1080px; height: 1080px; position: relative; }
+
+.logo {
+    position: absolute; top: 40px; right: 48px;
+    font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 1px;
+    z-index: 10;
+}
+
+.content {
+    padding: 52px 64px;
+    padding-bottom: 96px;
+    display: flex; flex-direction: column;
+    height: 100%;
+}
+
+.tag {
+    display: inline-block;
+    font-size: 18px; font-weight: 600;
+    color: #60A5FA; background: rgba(96,165,250,0.10);
+    padding: 8px 20px; border-radius: 100px;
+    margin-bottom: 24px; width: fit-content;
+}
+
+.headline {
+    font-size: 44px; font-weight: 900; line-height: 1.25;
+    letter-spacing: -2px;
+    margin-bottom: 12px;
+}
+.headline .blue {
+    color: #60A5FA;
+}
+
+.sub-copy {
+    font-size: 24px; font-weight: 400; color: #94A3B8;
+    line-height: 1.5;
+    margin-bottom: 36px;
+}
+
+/* 예산 배분 비주얼 */
+.budget-visual {
+    flex: 1;
+    display: flex; flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+.budget-label {
+    font-size: 15px; font-weight: 600; color: #94A3B8;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+}
+
+.budget-row {
+    display: flex; align-items: center; gap: 16px;
+}
+
+.budget-bar-wrap {
+    flex: 1;
+    height: 56px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.budget-bar {
+    height: 100%;
+    border-radius: 12px;
+    display: flex; align-items: center;
+    padding-left: 20px;
+    font-size: 18px; font-weight: 700;
+}
+.budget-bar.priority-1 {
+    background: linear-gradient(90deg, #2563EB 0%, #3B82F6 100%);
+    width: 85%;
+}
+.budget-bar.priority-2 {
+    background: linear-gradient(90deg, #1D4ED8 0%, #2563EB 100%);
+    width: 65%;
+}
+.budget-bar.priority-3 {
+    background: rgba(96,165,250,0.2);
+    width: 40%;
+    color: #60A5FA;
+}
+
+.budget-pct {
+    font-size: 20px; font-weight: 800; color: #FFFFFF;
+    width: 60px; text-align: right;
+    flex-shrink: 0;
+}
+.budget-pct.dim { color: #6B7280; }
+
+.priority-tag {
+    display: inline-block;
+    font-size: 13px; font-weight: 700;
+    padding: 4px 10px; border-radius: 6px;
+    margin-left: 12px;
+}
+.priority-tag.p1 { background: rgba(96,165,250,0.2); color: #60A5FA; }
+.priority-tag.p2 { background: rgba(96,165,250,0.12); color: #93C5FD; }
+.priority-tag.p3 { background: rgba(255,255,255,0.05); color: #6B7280; }
+
+/* 하단 인사이트 */
+.insight-box {
+    background: rgba(96,165,250,0.06);
+    border: 1px solid rgba(96,165,250,0.15);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-top: 24px;
+    text-align: center;
+}
+.insight-box p {
+    font-size: 18px; font-weight: 500; color: #94A3B8;
+    line-height: 1.6;
+}
+.insight-box strong {
+    color: #60A5FA; font-weight: 700;
+}
+
+/* CTA 바 */
+.cta-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(90deg, #2563EB 0%, #3B82F6 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 700; color: #FFFFFF;
+    letter-spacing: -0.5px;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+    <div class="logo">brandrise</div>
+
+    <div class="content">
+        <div class="tag">스타트업 마케팅 예산 가이드</div>
+
+        <div class="headline">
+            사업화 자금의 30%를<br>마케팅에 쓴다면, <span class="blue">어디에?</span>
+        </div>
+
+        <div class="sub-copy">
+            브랜딩, SNS, 퍼포먼스… 우선순위가 중요합니다.
+        </div>
+
+        <div class="budget-visual">
+            <div class="budget-label">추천 예산 배분 (사업화 자금 7천만 원 기준)</div>
+
+            <div class="budget-row">
+                <div class="budget-bar-wrap">
+                    <div class="budget-bar priority-1">
+                        브랜드 전략 + 아이덴티티
+                        <span class="priority-tag p1">1순위</span>
+                    </div>
+                </div>
+                <div class="budget-pct">35%</div>
+            </div>
+
+            <div class="budget-row">
+                <div class="budget-bar-wrap">
+                    <div class="budget-bar priority-2">
+                        SNS 콘텐츠 운영
+                        <span class="priority-tag p2">2순위</span>
+                    </div>
+                </div>
+                <div class="budget-pct">25%</div>
+            </div>
+
+            <div class="budget-row">
+                <div class="budget-bar-wrap">
+                    <div class="budget-bar priority-3">
+                        퍼포먼스 광고
+                        <span class="priority-tag p3">3순위</span>
+                    </div>
+                </div>
+                <div class="budget-pct dim">20%</div>
+            </div>
+
+            <div class="budget-row">
+                <div class="budget-bar-wrap">
+                    <div class="budget-bar priority-3" style="width: 30%;">
+                        기타 (PR·이벤트)
+                    </div>
+                </div>
+                <div class="budget-pct dim">20%</div>
+            </div>
+        </div>
+
+        <div class="insight-box">
+            <p><strong>브랜딩 없이 광고를 돌리면</strong>, 클릭당 비용만 올라갑니다.<br>
+            순서를 지키면 같은 예산으로 <strong>3배 더 효율적</strong>입니다.</p>
+        </div>
+    </div>
+
+    <div class="cta-bar">3분 진단으로 우선순위 확인 →</div>
+</div>
+</body>
+</html>

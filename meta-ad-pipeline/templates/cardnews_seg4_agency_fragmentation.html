@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대행사 3곳 쓰는데 왜 매출은 그대로일까? — brandrise</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       CSS Variables (Design Tokens)
+       ======================================== */
+    :root {
+      --accent: #E8752E;
+      --accent-light: #FB923C;
+      --bg-warm: #F5F0EB;
+      --bg-dark: #1A1A1A;
+      --bg-accent: #E8752E;
+      --text-primary: #1A1A1A;
+      --text-secondary: #3D3D3D;
+      --text-muted: #9E9E9E;
+      --text-white: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      --gradient-orange: linear-gradient(90deg, #F97316, #FB923C);
+      --gradient-blue: linear-gradient(90deg, #3B82F6, #60A5FA);
+      --gradient-purple: linear-gradient(90deg, #8B5CF6, #A78BFA);
+      --gradient-green: linear-gradient(90deg, #22C55E, #4ADE80);
+      --gradient-pink: linear-gradient(90deg, #EC4899, #F472B6);
+      --gradient-teal: linear-gradient(90deg, #14B8A6, #2DD4BF);
+      --compare-before-bg: linear-gradient(135deg, #FECACA, #FCA5A5);
+      --compare-before-color: #991B1B;
+      --compare-after-bg: linear-gradient(135deg, #A7F3D0, #6EE7B7);
+      --compare-after-color: #065F46;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #E0D8D0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+
+    /* ========================================
+       Slide Base
+       ======================================== */
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .slide.warm-light {
+      background: var(--bg-warm);
+      color: var(--text-primary);
+    }
+
+    .slide.warm-accent {
+      background: var(--bg-accent);
+      color: var(--text-primary);
+    }
+
+    .slide.dark {
+      background: var(--bg-dark);
+      color: var(--text-white);
+    }
+
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========================================
+       Components: Q Badge
+       ======================================== */
+    .q-badge {
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      border-radius: 12px;
+      color: var(--text-white);
+      font-size: 30px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Components: Page Number
+       ======================================== */
+    .page-num {
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .slide.dark .page-num {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    /* ========================================
+       Components: Headline (1.25x)
+       ======================================== */
+    .headline {
+      font-size: 82px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: var(--text-primary);
+      margin-bottom: 28px;
+      word-break: keep-all;
+    }
+
+    .slide.dark .headline {
+      color: var(--text-white);
+    }
+
+    .headline .accent {
+      color: var(--accent);
+    }
+
+    .slide.warm-accent .headline .accent {
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Body Text (1.25x)
+       ======================================== */
+    .body-text {
+      font-size: 45px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      word-break: keep-all;
+    }
+
+    .body-text strong {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .body-text .accent {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .slide.dark .body-text {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .slide.dark .body-text strong {
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Tag / Badge
+       ======================================== */
+    .tag {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .tag.dark-bg {
+      background: rgba(0,0,0,0.15);
+      color: var(--text-primary);
+    }
+
+    .tag.accent-bg {
+      background: var(--accent);
+      color: var(--text-white);
+    }
+
+    .tag.light-bg {
+      background: rgba(232,117,46,0.12);
+      color: var(--accent);
+    }
+
+    .tag.white-bg {
+      background: rgba(255,255,255,0.15);
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Credit
+       ======================================== */
+    .credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .slide.warm-accent .credit {
+      color: rgba(26,26,26,0.4);
+    }
+
+    .slide.dark .credit {
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ========================================
+       Components: Terminal Code Block (1.25x)
+       ======================================== */
+    .terminal {
+      background: #2D2D2D;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .terminal-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .terminal-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: #FF5F57; }
+    .terminal-dot.yellow { background: #FEBC2E; }
+    .terminal-dot.green { background: #28C840; }
+
+    .terminal-title {
+      margin-left: 12px;
+      font-size: 26px;
+      color: #9E9E9E;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .terminal-body {
+      padding: 28px 32px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 30px;
+      line-height: 1.85;
+      color: #E0E0E0;
+    }
+
+    .terminal-body .key { color: #82AAFF; }
+    .terminal-body .value { color: #C3E88D; }
+    .terminal-body .comment { color: #6B7280; }
+    .terminal-body .error { color: #EF4444; }
+    .terminal-body .accent { color: #E8752E; }
+
+    /* ========================================
+       Components: Color Bar Card (1.25x)
+       ======================================== */
+    .color-bar {
+      display: flex;
+      align-items: stretch;
+      border-radius: 14px;
+      margin-bottom: 14px;
+      color: #FFFFFF;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .color-bar.orange  { background: var(--gradient-orange); }
+    .color-bar.blue    { background: var(--gradient-blue); }
+    .color-bar.purple  { background: var(--gradient-purple); }
+    .color-bar.green   { background: var(--gradient-green); }
+    .color-bar.pink    { background: var(--gradient-pink); }
+    .color-bar.teal    { background: var(--gradient-teal); }
+
+    .color-bar .bar-label {
+      flex: 0 0 200px;
+      padding: 20px 24px;
+      font-size: 32px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      background: rgba(0,0,0,0.1);
+    }
+
+    .color-bar .bar-content {
+      flex: 1;
+      padding: 16px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .color-bar .bar-title {
+      font-size: 30px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .color-bar .bar-desc {
+      font-size: 26px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    .color-bar .bar-cost {
+      flex: 0 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      font-size: 26px;
+      font-weight: 700;
+      background: rgba(0,0,0,0.12);
+    }
+
+    /* Simple color bars for Slide 05, 07 */
+    .color-bar.simple {
+      padding: 22px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .color-bar.simple .bar-num {
+      font-size: 28px;
+      font-weight: 800;
+      opacity: 0.7;
+      margin-bottom: 6px;
+    }
+
+    .color-bar.simple .bar-main {
+      font-size: 34px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .color-bar.simple .bar-sub {
+      font-size: 26px;
+      font-weight: 500;
+      opacity: 0.85;
+      margin-top: 4px;
+    }
+
+    /* ========================================
+       Components: Compare Cards
+       ======================================== */
+    .compare-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .compare-card {
+      flex: 1;
+      border-radius: 16px;
+      padding: 32px;
+    }
+
+    .compare-card.before {
+      background: var(--compare-before-bg);
+      color: var(--compare-before-color);
+    }
+
+    .compare-card.after {
+      background: var(--compare-after-bg);
+      color: var(--compare-after-color);
+    }
+
+    .compare-label {
+      font-size: 24px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .compare-card.before .compare-label {
+      background: rgba(153,27,27,0.15);
+    }
+
+    .compare-card.after .compare-label {
+      background: rgba(6,95,70,0.15);
+    }
+
+    .compare-number {
+      font-size: 60px;
+      font-weight: 900;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .compare-desc {
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 1.6;
+    }
+
+    .compare-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .compare-item .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .compare-card.before .compare-item .dot {
+      background: var(--compare-before-color);
+    }
+
+    .compare-card.after .compare-item .dot {
+      background: var(--compare-after-color);
+    }
+
+    .compare-item .text {
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    /* ========================================
+       Components: Checklist (1.25x)
+       ======================================== */
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      padding: 26px 32px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      margin-bottom: 14px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .checklist-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      border-radius: 10px;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      font-weight: 800;
+      margin-right: 22px;
+      flex-shrink: 0;
+    }
+
+    .checklist-label {
+      flex: 1;
+      font-size: 36px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.45;
+    }
+
+    /* ========================================
+       Components: Insight Bar (1.25x)
+       ======================================== */
+    .insight-bar {
+      background: var(--gradient-orange);
+      border-radius: 14px;
+      padding: 28px 32px;
+      color: #FFFFFF;
+      font-size: 36px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      line-height: 1.5;
+    }
+
+    .insight-bar .icon {
+      font-size: 48px;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Components: Data Table (1.25x)
+       ======================================== */
+    .data-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 18px 16px;
+      text-align: center;
+      font-size: 26px;
+      line-height: 1.4;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .data-table th {
+      background: #2D2D2D;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 24px;
+    }
+
+    .data-table th:first-child {
+      background: #1A1A1A;
+      font-size: 22px;
+      width: 120px;
+    }
+
+    .data-table th.highlight {
+      background: var(--accent);
+      color: #FFFFFF;
+    }
+
+    .data-table td {
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .data-table td:first-child {
+      font-weight: 700;
+      color: var(--text-primary);
+      background: rgba(0,0,0,0.02);
+      font-size: 24px;
+      text-align: left;
+      padding-left: 20px;
+    }
+
+    .data-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .data-table td.good {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .data-table td.bad {
+      color: #9E9E9E;
+    }
+
+    .data-table td.best {
+      color: var(--accent);
+      font-weight: 800;
+      background: rgba(232,117,46,0.06);
+    }
+
+    /* ========================================
+       Utility
+       ======================================== */
+    .spacer { flex: 1; }
+    .mt-auto { margin-top: auto; }
+    .mb-12 { margin-bottom: 12px; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-20 { margin-bottom: 20px; }
+    .mb-24 { margin-bottom: 24px; }
+    .mb-28 { margin-bottom: 28px; }
+    .mb-32 { margin-bottom: 32px; }
+    .mb-40 { margin-bottom: 40px; }
+    .mb-48 { margin-bottom: 48px; }
+    .mb-56 { margin-bottom: 56px; }
+
+    /* ========================================
+       Divider
+       ======================================== */
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: rgba(255,255,255,0.2);
+      margin: 32px 0;
+    }
+
+    .divider.dark {
+      background: rgba(0,0,0,0.1);
+    }
+
+    /* ========================================
+       CTA Slide Specific (1.25x)
+       ======================================== */
+    .cta-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .cta-logo {
+      font-size: 100px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .cta-sub {
+      font-size: 42px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 44px;
+      font-weight: 700;
+      padding: 24px 64px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .cta-handle {
+      display: inline-block;
+      padding: 12px 32px;
+      border-radius: 100px;
+      background: rgba(232,117,46,0.1);
+      color: var(--accent);
+      font-size: 36px;
+      font-weight: 600;
+    }
+
+    /* ========================================
+       Cover Specific (1.25x)
+       ======================================== */
+    .cover-headline {
+      font-size: 100px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: var(--text-primary);
+      word-break: keep-all;
+      margin-bottom: 28px;
+    }
+
+    .cover-headline .white {
+      color: #FFFFFF;
+    }
+
+    .cover-sub {
+      font-size: 46px;
+      font-weight: 500;
+      color: rgba(26,26,26,0.7);
+      line-height: 1.6;
+    }
+
+    .cover-credit {
+      position: absolute;
+      bottom: 52px;
+      left: 60px;
+      font-size: 30px;
+      font-weight: 700;
+      color: rgba(26,26,26,0.35);
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       Visual Decoration
+       ======================================== */
+    .cover-visual {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 480px;
+      height: 480px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 50% 0 0 0;
+    }
+
+    .cover-visual-inner {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      width: 200px;
+      height: 200px;
+      border: 4px solid rgba(26,26,26,0.12);
+      border-radius: 50%;
+    }
+
+    /* ========================================
+       Dark Slide Specifics (1.25x)
+       ======================================== */
+    .dark-emotional {
+      font-size: 56px;
+      font-weight: 400;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.6);
+      word-break: keep-all;
+    }
+
+    .dark-emotional strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .dark-accent-msg {
+      font-size: 70px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SLIDE 01 — COVER (warm-accent)
+       ============================================================ -->
+  <div class="slide warm-accent" id="slide-01">
+    <div class="slide-inner">
+      <div class="tag dark-bg">매출 30-100억 마케팅</div>
+
+      <div style="margin-top: 40px;">
+        <div class="cover-headline">
+          대행사 3곳 쓰는데<br>
+          왜 <span class="white">매출</span>은<br>
+          그대로일까?
+        </div>
+        <div class="cover-sub">
+          통합 없는 마케팅이 만드는 악순환
+        </div>
+      </div>
+
+      <!-- Decorative shape -->
+      <div class="cover-visual">
+        <div class="cover-visual-inner"></div>
+      </div>
+
+      <div class="cover-credit">brandrise</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 02 — 상황 체크리스트 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-02">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">02 / 10</div>
+      </div>
+
+      <div class="headline">
+        지금 이런 상황<br>
+        <span class="accent">아닌가요?</span>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0;">
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background: var(--accent);">&#10003;</div>
+          <div class="checklist-label">퍼포먼스 / PR / 콘텐츠 대행사가 각각 따로</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background: var(--accent);">&#10003;</div>
+          <div class="checklist-label">각 대행사 보고서 숫자는 좋은데 전체 매출은 정체</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background: var(--accent);">&#10003;</div>
+          <div class="checklist-label">대행사 간 조율을 마케팅 이사가 직접 해야 한다</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background: var(--accent);">&#10003;</div>
+          <div class="checklist-label">통합 대시보드가 없어 전체 ROI를 모른다</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 03 — 대행사 3곳의 현실 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-03">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">03 / 10</div>
+      </div>
+
+      <div class="headline">
+        대행사 3곳의<br>
+        <span class="accent">현실</span>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0;">
+        <!-- A대행사 -->
+        <div class="color-bar orange">
+          <div class="bar-label">A대행사</div>
+          <div class="bar-content">
+            <div class="bar-title">메타 광고</div>
+            <div class="bar-desc">ROAS 320% 보고</div>
+          </div>
+          <div class="bar-cost">월 500만원</div>
+        </div>
+        <!-- B대행사 -->
+        <div class="color-bar blue">
+          <div class="bar-label">B대행사</div>
+          <div class="bar-content">
+            <div class="bar-title">네이버 SA</div>
+            <div class="bar-desc">클릭률 4.2% 보고</div>
+          </div>
+          <div class="bar-cost">월 400만원</div>
+        </div>
+        <!-- C대행사 -->
+        <div class="color-bar purple">
+          <div class="bar-label">C대행사</div>
+          <div class="bar-content">
+            <div class="bar-title">SNS 운영</div>
+            <div class="bar-desc">팔로워 +2,000 보고</div>
+          </div>
+          <div class="bar-cost">월 300만원</div>
+        </div>
+        <!-- D대행사 -->
+        <div class="color-bar pink">
+          <div class="bar-label">D대행사</div>
+          <div class="bar-content">
+            <div class="bar-title">PR</div>
+            <div class="bar-desc">기사 12건 보고</div>
+          </div>
+          <div class="bar-cost">월 400만원</div>
+        </div>
+
+        <!-- 하단 인사이트바 -->
+        <div class="insight-bar" style="margin-top: 20px;">
+          <div class="icon">&#9888;</div>
+          <div>각자의 숫자는 좋다. 그런데 매출은?</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 04 — 파편화된 마케팅의 비용 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-04">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">04 / 10</div>
+      </div>
+
+      <div class="headline">
+        파편화된 마케팅의<br>
+        <span class="accent">비용</span>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <div class="terminal">
+          <div class="terminal-header">
+            <div class="terminal-dot red"></div>
+            <div class="terminal-dot yellow"></div>
+            <div class="terminal-dot green"></div>
+            <div class="terminal-title">agency_audit.py</div>
+          </div>
+          <div class="terminal-body">
+            <span class="key">agency_total</span> = {<br>
+            &nbsp;&nbsp;<span class="key">"monthly_cost"</span>:&nbsp;&nbsp;&nbsp;&nbsp;<span class="value">"&#8361;1,600만원"</span>,<br>
+            &nbsp;&nbsp;<span class="key">"agencies"</span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="value">"4곳"</span>,<br>
+            &nbsp;&nbsp;<span class="key">"unified_strategy"</span>: <span class="error">False</span>,<br>
+            &nbsp;&nbsp;<span class="key">"shared_dashboard"</span>: <span class="error">False</span>,<br>
+            &nbsp;&nbsp;<span class="key">"message_aligned"</span>:&nbsp;&nbsp;<span class="error">False</span>,<br>
+            &nbsp;&nbsp;<span class="key">"real_roi"</span>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="error">"측정 불가 &#9888;&#65039;"</span><br>
+            }<br><br>
+            <span class="comment"># 연간 &#8361;1.92억 지출, ROI 측정 불가</span><br>
+            <span class="comment"># <span class="accent">구조가 문제다</span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 05 — 왜 대행사를 바꿔도 달라지지 않을까? (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-05">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">05 / 10</div>
+      </div>
+
+      <div class="headline">
+        왜 대행사를 바꿔도<br>
+        <span class="accent">달라지지 않을까?</span>
+      </div>
+
+      <div class="body-text mb-40" style="font-size: 38px;">
+        대행사를 아무리 교체해도 결과가 같은 이유.<br>
+        <strong>문제는 대행사가 아니라 구조입니다.</strong>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0;">
+        <div class="color-bar orange simple">
+          <div class="bar-num">문제 1</div>
+          <div class="bar-main">대행사는 '자기 채널' 성과만 최적화한다</div>
+          <div class="bar-sub">전체 마케팅 ROI는 관심 밖</div>
+        </div>
+        <div class="color-bar blue simple">
+          <div class="bar-num">문제 2</div>
+          <div class="bar-main">전체 전략을 설계하는 컨트롤타워가 없다</div>
+          <div class="bar-sub">조율 비용은 마케팅 이사에게 전가</div>
+        </div>
+        <div class="color-bar purple simple">
+          <div class="bar-num">문제 3</div>
+          <div class="bar-main">대행사에 데이터/자산이 종속되어 교체 비용도 크다</div>
+          <div class="bar-sub">바꿔도 처음부터 다시 시작</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 06 — 해답은 대행사 교체가 아닙니다 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-06">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">06 / 10</div>
+      </div>
+
+      <div class="headline">
+        해답은 대행사<br>
+        <span class="accent">교체가 아닙니다</span>
+      </div>
+
+      <div class="body-text mb-40" style="font-size: 42px;">
+        바꿔야 할 것은 대행사가 아니라<br>
+        <strong>마케팅의 구조입니다.</strong>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <div class="compare-row">
+          <div class="compare-card before">
+            <div class="compare-label">BEFORE</div>
+            <div class="compare-item">
+              <div class="dot"></div>
+              <div class="text">대행사 4곳 분리</div>
+            </div>
+            <div class="compare-item">
+              <div class="dot"></div>
+              <div class="text">각자 보고</div>
+            </div>
+            <div class="compare-item">
+              <div class="dot"></div>
+              <div class="text">전략 부재</div>
+            </div>
+            <div class="compare-item">
+              <div class="dot"></div>
+              <div class="text" style="font-weight: 800; font-size: 36px;">월 1,600만원</div>
+            </div>
+          </div>
+          <div class="compare-card after">
+            <div class="compare-label">AFTER</div>
+            <div class="compare-item">
+              <div class="dot"></div>
+              <div class="text">1팀 통합</div>
+            </div>
+            <div class="compare-item">
+              <div class="dot"></div>
+              <div class="text">통합 대시보드</div>
+            </div>
+            <div class="compare-item">
+              <div class="dot"></div>
+              <div class="text">전략→실행 원스톱</div>
+            </div>
+            <div class="compare-item">
+              <div class="dot"></div>
+              <div class="text" style="font-weight: 800; font-size: 36px;">비용 30% 절감</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 07 — 통합 CMO 팀이란? (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-07">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">07 / 10</div>
+      </div>
+
+      <div class="headline">
+        통합 CMO 팀이란?
+      </div>
+
+      <div class="body-text mb-32" style="font-size: 36px;">
+        <strong>brandrise</strong>는 전략부터 실행, 측정까지<br>
+        한 팀으로 움직입니다.
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 0;">
+        <div class="color-bar orange simple">
+          <div class="bar-num">STRATEGY</div>
+          <div class="bar-main">전략 수립</div>
+          <div class="bar-sub">브랜드 포지셔닝, 채널 전략, KPI 설계</div>
+        </div>
+        <div class="color-bar blue simple">
+          <div class="bar-num">EXECUTION</div>
+          <div class="bar-main">실행 통합</div>
+          <div class="bar-sub">퍼포먼스 + 콘텐츠 + PR 원스톱 실행</div>
+        </div>
+        <div class="color-bar green simple">
+          <div class="bar-num">MEASUREMENT</div>
+          <div class="bar-main">성과 측정</div>
+          <div class="bar-sub">통합 대시보드, 주간/월간 리포팅</div>
+        </div>
+        <div class="color-bar purple simple">
+          <div class="bar-num">EMPOWERMENT</div>
+          <div class="bar-main">팀 역량 강화</div>
+          <div class="bar-sub">인하우스 팀 코칭, 프로세스 구축</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 08 — 비용으로 비교하면? (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-08">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">08 / 10</div>
+      </div>
+
+      <div class="headline">
+        비용으로<br>
+        <span class="accent">비교하면?</span>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th>CMO 채용</th>
+              <th>대행사 4곳</th>
+              <th class="highlight">brandrise</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>월 비용</td>
+              <td class="bad">1,000만원+</td>
+              <td class="bad">1,600만원+</td>
+              <td class="best">합리적 고정비</td>
+            </tr>
+            <tr>
+              <td>시작까지</td>
+              <td class="bad">6개월+</td>
+              <td class="bad">계약 중</td>
+              <td class="best">2주</td>
+            </tr>
+            <tr>
+              <td>전략</td>
+              <td class="good">O</td>
+              <td class="bad">X (채널별)</td>
+              <td class="best">O (통합)</td>
+            </tr>
+            <tr>
+              <td>실행</td>
+              <td class="bad">X (별도 필요)</td>
+              <td class="good">O (분리)</td>
+              <td class="best">O (원스톱)</td>
+            </tr>
+            <tr>
+              <td>리스크</td>
+              <td class="bad">이탈 (재임 4.1년)</td>
+              <td class="bad">교체 비용</td>
+              <td class="best">팀 단위</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="margin-top: 20px; text-align: right; font-size: 24px; color: var(--text-muted);">
+          * CMO 평균 재임기간 4.1년 (C-레벨 중 최단) &mdash; HBR 코리아
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 09 — Closing (dark)
+       ============================================================ -->
+  <div class="slide dark" id="slide-09">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="tag white-bg">brandrise</div>
+        <div class="page-num">09 / 10</div>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <div class="headline" style="font-size: 82px; margin-bottom: 40px;">
+          대행사를 바꾸지 마세요.<br>
+          <span class="accent">구조를 바꾸세요.</span>
+        </div>
+
+        <div class="dark-emotional mb-48">
+          매출 30-100억 기업에 필요한 건<br>
+          더 좋은 대행사가 아니라<br>
+          전략부터 실행까지 한 팀으로 움직이는<br>
+          <strong>통합 CMO 팀입니다.</strong>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="dark-accent-msg" style="margin-top: 32px;">
+          brandrise
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 10 — CTA (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-10">
+    <div class="slide-inner">
+      <div class="cta-center">
+        <div class="tag light-bg mb-24">매출 30-100억 전담 CMO 팀</div>
+
+        <div class="cta-logo">brandrise</div>
+
+        <div class="cta-sub">
+          현재 마케팅 체계를 진단하고<br>
+          통합 전략 로드맵을 제안합니다
+        </div>
+
+        <div class="cta-button">30분 전략 상담 예약</div>
+
+        <div style="margin-top: 32px;">
+          <div class="cta-handle">@brandrise_kr</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+</body>
+</html>

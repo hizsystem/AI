@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B안 — 소셜아이어워드 최우수상. 우리가 짠 전략입니다 — brandrise</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    :root {
+      --accent:          #E8752E;
+      --accent-light:    #FB923C;
+      --bg-dark:         #1A1A1A;
+      --bg-darker:       #0A0A0A;
+      --text-white:      #FFFFFF;
+      --text-muted:      #9E9E9E;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; word-break: keep-all; }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #2B2B2B;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 48px; padding: 48px 24px;
+      width: 1080px; margin: 0 auto;
+    }
+
+    .slide {
+      width: 1080px; height: 1350px;
+      position: relative; overflow: hidden; flex-shrink: 0;
+    }
+
+    .slide::before {
+      content: '';
+      position: absolute; left: 0; top: 12%; bottom: 12%;
+      width: 6px; background: var(--accent);
+      border-radius: 0 3px 3px 0; z-index: 2;
+    }
+
+    .slide-inner {
+      padding: 56px 60px; height: 100%;
+      position: relative;
+      display: flex; flex-direction: column;
+    }
+
+    .slide.cover { background: var(--bg-dark); color: var(--text-white); }
+    .slide.dark-slide { background: var(--bg-darker); color: var(--text-white); }
+    .slide.case-slide { background: var(--bg-darker); color: var(--text-white); }
+    .slide.cta-slide { background: var(--bg-dark); color: var(--text-white); }
+
+    /* Cover deco */
+    .cover-circle-deco {
+      position: absolute; top: -120px; right: -120px;
+      width: 480px; height: 480px; border-radius: 50%;
+      background: rgba(232,117,46,0.08); z-index: 0;
+    }
+    .cover-circle-deco-2 {
+      position: absolute; top: 60px; right: 60px;
+      width: 220px; height: 220px; border-radius: 50%;
+      background: rgba(232,117,46,0.05); z-index: 0;
+    }
+
+    /* Tags */
+    .tag {
+      display: inline-block; padding: 10px 24px;
+      border-radius: 100px; font-size: 26px; font-weight: 600;
+      letter-spacing: 0.5px; white-space: nowrap;
+    }
+    .tag.on-dark {
+      background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.85);
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .tag.accent-bg { background: var(--accent); color: #fff; }
+
+    /* Header */
+    .slide-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 44px; flex-shrink: 0;
+    }
+    .page-num { font-size: 26px; font-weight: 500; color: rgba(255,255,255,0.3); }
+
+    /* Headlines */
+    .cover-headline {
+      font-size: 92px; font-weight: 900; line-height: 1.22;
+      color: var(--text-white); margin-bottom: 40px;
+      position: relative; z-index: 1;
+    }
+    .cover-headline .accent { color: var(--accent); }
+
+    .headline {
+      font-size: 80px; font-weight: 900; line-height: 1.25;
+      color: var(--text-white); margin-bottom: 32px;
+    }
+    .headline .accent { color: var(--accent); }
+
+    /* Body */
+    .body-text {
+      font-size: 44px; font-weight: 400; line-height: 1.7;
+      color: rgba(255,255,255,0.65);
+    }
+    .body-text strong { font-weight: 700; color: var(--text-white); }
+
+    /* Divider */
+    .divider {
+      width: 56px; height: 5px;
+      background: var(--accent); border-radius: 3px;
+      margin: 32px 0;
+    }
+
+    /* Credit */
+    .credit {
+      position: absolute; bottom: 16px; left: 0; right: 0;
+      text-align: center; font-size: 22px; font-weight: 500;
+      color: rgba(255,255,255,0.22); z-index: 3;
+      letter-spacing: 1px;
+    }
+
+    /* Pain list */
+    .pain-list { list-style: none; }
+    .pain-list li {
+      font-size: 46px; font-weight: 600; line-height: 1.5;
+      color: var(--text-white);
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .pain-list li:last-child { border-bottom: none; }
+    .pain-list li .bullet {
+      display: inline-block; width: 14px; height: 14px;
+      background: var(--accent); border-radius: 50%;
+      margin-right: 20px; vertical-align: middle;
+    }
+
+    /* Positioning X list */
+    .position-item {
+      display: flex; align-items: flex-start; gap: 24px;
+      margin-bottom: 28px;
+    }
+    .position-x {
+      font-size: 52px; font-weight: 900; color: var(--accent);
+      line-height: 1; flex-shrink: 0; margin-top: 4px;
+    }
+    .position-text {
+      font-size: 44px; font-weight: 600; color: var(--text-white);
+      line-height: 1.4;
+      text-decoration: line-through;
+      text-decoration-color: rgba(255,255,255,0.3);
+    }
+
+    /* ========================================
+       Case Study — Image Grid Layout
+       ======================================== */
+    .case-label {
+      display: inline-block; padding: 8px 20px;
+      background: var(--accent); color: #fff;
+      font-size: 24px; font-weight: 700;
+      border-radius: 6px; margin-bottom: 20px; letter-spacing: 1px;
+    }
+    .case-title {
+      font-size: 68px; font-weight: 900; line-height: 1.2;
+      color: var(--text-white); margin-bottom: 8px;
+    }
+    .case-subtitle {
+      font-size: 34px; font-weight: 500; line-height: 1.5;
+      color: rgba(255,255,255,0.6); margin-bottom: 28px;
+    }
+
+    /* Screenshot image area */
+    .screenshot-wrap {
+      flex: 1;
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 28px;
+      background: rgba(255,255,255,0.04);
+    }
+    .screenshot-wrap img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+
+    /* Stats bar */
+    .case-stats {
+      display: flex; gap: 16px; flex-shrink: 0;
+    }
+    .case-stat {
+      flex: 1;
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 18px 20px;
+      text-align: center;
+    }
+    .case-stat .stat-number {
+      font-size: 44px; font-weight: 900; color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .case-stat .stat-label {
+      font-size: 20px; font-weight: 500; color: rgba(255,255,255,0.5);
+    }
+    .case-stat .stat-number.text-stat {
+      font-size: 32px;
+    }
+
+    /* Service list */
+    .service-row {
+      display: flex; align-items: center; gap: 20px;
+      margin-bottom: 20px;
+    }
+    .service-num {
+      width: 52px; height: 52px; background: var(--accent);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; font-weight: 900; color: #fff; flex-shrink: 0;
+    }
+    .service-text {
+      font-size: 40px; font-weight: 600; color: #fff;
+    }
+
+    /* CTA */
+    .cta-button {
+      display: inline-block; padding: 28px 56px;
+      background: var(--accent); color: #fff;
+      font-size: 38px; font-weight: 800;
+      border-radius: 12px; text-align: center;
+    }
+    .cta-sub {
+      font-size: 30px; font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      margin-top: 24px; text-align: center;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ SLIDE 1 — COVER ============ -->
+  <div class="slide cover">
+    <div class="cover-circle-deco"></div>
+    <div class="cover-circle-deco-2"></div>
+    <div class="slide-inner">
+      <div class="slide-header">
+        <span class="tag on-dark">brandrise portfolio</span>
+        <span class="page-num">01</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center; position:relative; z-index:1;">
+        <div class="cover-headline">
+          소셜아이어워드<br>
+          <span class="accent">최우수상.</span><br>
+          우리가 짠<br>
+          전략입니다.
+        </div>
+        <div class="divider"></div>
+        <p class="body-text">
+          현대차 재단부터 글로벌 브랜드까지.<br>
+          <strong>채널 기획이 바뀌면 숫자가 바뀝니다.</strong>
+        </p>
+      </div>
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 2 — PAIN POINT ============ -->
+  <div class="slide dark-slide">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <span class="tag on-dark">실제 상담에서 듣는 말들</span>
+        <span class="page-num">02</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <ul class="pain-list">
+          <li><span class="bullet"></span>"키비주얼을 어떻게 잡아야 할지 모르겠어요"</li>
+          <li><span class="bullet"></span>"무드보드? 그게 뭔가요?"</li>
+          <li><span class="bullet"></span>"디자이너는 있는데 방향이 없어요"</li>
+          <li><span class="bullet"></span>"대행사는 비싸고, 혼자 하자니 막막해요"</li>
+        </ul>
+        <div style="margin-top:48px;">
+          <p class="body-text" style="font-size:38px;">
+            → 인스타그램 채널 운영, <strong style="color:var(--accent);">기획이 먼저입니다.</strong>
+          </p>
+        </div>
+      </div>
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 3 — POSITIONING ============ -->
+  <div class="slide dark-slide">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <span class="tag accent-bg">우리는 다릅니다</span>
+        <span class="page-num">03</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div class="position-item">
+          <span class="position-x">X</span>
+          <span class="position-text">전략 없는 운영</span>
+        </div>
+        <div class="position-item">
+          <span class="position-x">X</span>
+          <span class="position-text">데이터 없는 콘텐츠</span>
+        </div>
+        <div class="position-item">
+          <span class="position-x">X</span>
+          <span class="position-text">브랜드 없는 피드</span>
+        </div>
+        <div class="divider" style="margin:48px 0;"></div>
+        <p class="body-text" style="font-size:48px;">
+          brandrise의 인스타그램 채널 운영은<br>
+          <strong style="color:var(--accent);">브랜드 전략에서 시작합니다.</strong>
+        </p>
+      </div>
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 4 — CASE 01: 현대차 정몽구 재단 ============ -->
+  <div class="slide case-slide">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <span class="case-label">CASE 01</span>
+        <span class="page-num">04</span>
+      </div>
+
+      <div class="case-title">현대차 정몽구 재단</div>
+      <div class="case-subtitle">인스타그램 채널 기획 · 콘텐츠 운영</div>
+
+      <!-- 캡처 이미지 -->
+      <div class="screenshot-wrap">
+        <img src="./images/case01-hyundai-cmk.png" alt="@hyundai_cmk 인스타그램 피드">
+      </div>
+
+      <div class="case-stats">
+        <div class="case-stat">
+          <div class="stat-number">2만+</div>
+          <div class="stat-label">팔로워</div>
+        </div>
+        <div class="case-stat">
+          <div class="stat-number">604</div>
+          <div class="stat-label">게시물</div>
+        </div>
+        <div class="case-stat">
+          <div class="stat-number" style="font-size:32px;">최우수상</div>
+          <div class="stat-label">소셜아이어워드</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 5 — CASE 02: VINKER ============ -->
+  <div class="slide case-slide">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <span class="case-label">CASE 02</span>
+        <span class="page-num">05</span>
+      </div>
+
+      <div class="case-title">VINKER</div>
+      <div class="case-subtitle">글로벌 대체육 치킨 브랜드 기획 런칭</div>
+
+      <!-- 캡처 이미지 -->
+      <div class="screenshot-wrap">
+        <img src="./images/case02-vinker.png" alt="@vinkerfoods 인스타그램 피드">
+      </div>
+
+      <div class="case-stats">
+        <div class="case-stat">
+          <div class="stat-number text-stat">북미 타겟</div>
+          <div class="stat-label">브랜드 런칭</div>
+        </div>
+        <div class="case-stat">
+          <div class="stat-number text-stat">토탈 브랜딩</div>
+          <div class="stat-label">캐릭터 개발</div>
+        </div>
+        <div class="case-stat">
+          <div class="stat-number text-stat">캐나다</div>
+          <div class="stat-label">글로벌 마케팅</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 6 — WHAT WE DO ============ -->
+  <div class="slide dark-slide">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <span class="tag on-dark">brandrise가 하는 일</span>
+        <span class="page-num">06</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div class="headline" style="font-size:72px; margin-bottom:48px;">
+          채널 <span class="accent">기획</span>부터<br>
+          콘텐츠 <span class="accent">운영</span>까지<br>
+          원스톱으로.
+        </div>
+        <div class="service-row">
+          <div class="service-num">01</div>
+          <span class="service-text">채널 컨셉 · 무드보드 · 키비주얼 설계</span>
+        </div>
+        <div class="service-row">
+          <div class="service-num">02</div>
+          <span class="service-text">콘텐츠 캘린더 · 피드 기획</span>
+        </div>
+        <div class="service-row">
+          <div class="service-num">03</div>
+          <span class="service-text">템플릿 · 가이드라인 제작</span>
+        </div>
+        <div class="service-row">
+          <div class="service-num">04</div>
+          <span class="service-text">촬영 디렉팅 · 운영 · 리포팅</span>
+        </div>
+      </div>
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============ SLIDE 7 — CTA ============ -->
+  <div class="slide cta-slide">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <span class="tag on-dark">free consultation</span>
+        <span class="page-num">07</span>
+      </div>
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
+        <div class="headline" style="text-align:center; font-size:72px; margin-bottom:24px;">
+          인스타그램 채널,<br>
+          <span class="accent">지금 바로</span><br>
+          시작하세요.
+        </div>
+        <p class="body-text" style="font-size:36px; text-align:center; margin-bottom:40px; line-height:1.7;">
+          고민되는 부분을 말씀해주세요.<br>
+          <strong>1차 진단과 개선 방향을 제안드립니다.</strong>
+        </p>
+        <div class="divider" style="margin:0 auto 36px;"></div>
+        <div class="cta-button">
+          DM으로 무료 상담 신청 →
+        </div>
+        <div class="cta-sub">
+          프로필 링크에서 포트폴리오도 확인하실 수 있습니다.
+        </div>
+      </div>
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+</body>
+</html>

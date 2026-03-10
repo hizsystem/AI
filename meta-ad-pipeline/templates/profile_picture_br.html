@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    width: 1080px;
+    height: 1080px;
+    overflow: hidden;
+  }
+
+  .slide {
+    width: 1080px;
+    height: 1080px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* === Option A: Warm Orange === */
+  .option-a {
+    background: #E8752E;
+  }
+
+  .option-a .br-text {
+    font-family: 'Pretendard', 'Inter', -apple-system, sans-serif;
+    font-size: 420px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  /* Subtle quarter-circle deco */
+  .option-a .deco {
+    position: absolute;
+    bottom: -120px;
+    right: -120px;
+    width: 400px;
+    height: 400px;
+    border: 60px solid rgba(255,255,255,0.12);
+    border-radius: 50%;
+  }
+
+  /* === Option B: Dark + Orange accent === */
+  .option-b {
+    background: #1A1A1A;
+  }
+
+  .option-b .br-text {
+    font-family: 'Pretendard', 'Inter', -apple-system, sans-serif;
+    font-size: 420px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+
+  .option-b .br-text span {
+    color: #E8752E;
+  }
+
+  /* Orange circle behind text */
+  .option-b .deco {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: rgba(232, 117, 46, 0.12);
+    border-radius: 50%;
+    z-index: 0;
+  }
+
+  .option-b .br-text {
+    z-index: 1;
+    position: relative;
+  }
+
+  /* === Option C: Gradient Warm === */
+  .option-c {
+    background: linear-gradient(135deg, #E8752E 0%, #D4621C 50%, #C25518 100%);
+  }
+
+  .option-c .br-text {
+    font-family: 'Pretendard', 'Inter', -apple-system, sans-serif;
+    font-size: 380px;
+    font-weight: 900;
+    color: #FFFFFF;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    text-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  }
+
+  /* Dot pattern */
+  .option-c::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.08) 1.5px, transparent 1.5px);
+    background-size: 32px 32px;
+  }
+
+  .option-c .br-text {
+    z-index: 1;
+    position: relative;
+  }
+</style>
+</head>
+<body>
+
+  <!-- Option A: Clean Orange + White BR -->
+  <div class="slide option-a">
+    <div class="br-text">BR</div>
+    <div class="deco"></div>
+  </div>
+
+  <!-- Option B: Dark + Orange B, White R -->
+  <div class="slide option-b">
+    <div class="deco"></div>
+    <div class="br-text"><span>B</span>R</div>
+  </div>
+
+  <!-- Option C: Gradient Orange + Dot Grid -->
+  <div class="slide option-c">
+    <div class="br-text">BR</div>
+  </div>
+
+</body>
+</html>

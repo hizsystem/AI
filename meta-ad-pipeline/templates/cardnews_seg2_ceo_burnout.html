@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대표님, 혼자 다 하지 마세요 — brandrise</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       CSS Variables (Design Tokens)
+       ======================================== */
+    :root {
+      --accent: #E8752E;
+      --accent-light: #FB923C;
+      --bg-warm: #F5F0EB;
+      --bg-dark: #1A1A1A;
+      --bg-accent: #E8752E;
+      --text-primary: #1A1A1A;
+      --text-secondary: #3D3D3D;
+      --text-muted: #9E9E9E;
+      --text-white: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      --gradient-orange: linear-gradient(90deg, #F97316, #FB923C);
+      --gradient-blue: linear-gradient(90deg, #3B82F6, #60A5FA);
+      --gradient-purple: linear-gradient(90deg, #8B5CF6, #A78BFA);
+      --gradient-green: linear-gradient(90deg, #22C55E, #4ADE80);
+      --gradient-pink: linear-gradient(90deg, #EC4899, #F472B6);
+      --gradient-teal: linear-gradient(90deg, #14B8A6, #2DD4BF);
+      --compare-ceo-bg: linear-gradient(135deg, #A7F3D0, #6EE7B7);
+      --compare-ceo-color: #065F46;
+      --compare-delegate-bg: linear-gradient(135deg, #FED7AA, #FDBA74);
+      --compare-delegate-color: #9A3412;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #E0D8D0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+
+    /* ========================================
+       Slide Base
+       ======================================== */
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .slide.warm-light {
+      background: var(--bg-warm);
+      color: var(--text-primary);
+    }
+
+    .slide.warm-accent {
+      background: var(--bg-accent);
+      color: var(--text-primary);
+    }
+
+    .slide.dark {
+      background: var(--bg-dark);
+      color: var(--text-white);
+    }
+
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========================================
+       Components: Q Badge
+       ======================================== */
+    .q-badge {
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      border-radius: 12px;
+      color: var(--text-white);
+      font-size: 30px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Components: Page Number
+       ======================================== */
+    .page-num {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .slide.dark .page-num {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    /* ========================================
+       Components: Headline
+       ======================================== */
+    .headline {
+      font-size: 60px;
+      font-weight: 900;
+      line-height: 1.35;
+      color: var(--text-primary);
+      margin-bottom: 28px;
+      word-break: keep-all;
+    }
+
+    .slide.dark .headline {
+      color: var(--text-white);
+    }
+
+    .headline .accent {
+      color: var(--accent);
+    }
+
+    .slide.warm-accent .headline .accent {
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Body Text
+       ======================================== */
+    .body-text {
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      word-break: keep-all;
+    }
+
+    .body-text strong {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .body-text .accent {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .slide.dark .body-text {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .slide.dark .body-text strong {
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Tag / Badge
+       ======================================== */
+    .tag {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .tag.dark-bg {
+      background: rgba(0,0,0,0.15);
+      color: var(--text-primary);
+    }
+
+    .tag.accent-bg {
+      background: var(--accent);
+      color: var(--text-white);
+    }
+
+    .tag.light-bg {
+      background: rgba(232,117,46,0.12);
+      color: var(--accent);
+    }
+
+    .tag.white-bg {
+      background: rgba(255,255,255,0.15);
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Credit
+       ======================================== */
+    .credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .slide.warm-accent .credit {
+      color: rgba(26,26,26,0.4);
+    }
+
+    .slide.dark .credit {
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ========================================
+       Components: Terminal Code Block
+       ======================================== */
+    .terminal {
+      background: #2D2D2D;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .terminal-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .terminal-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: #FF5F57; }
+    .terminal-dot.yellow { background: #FEBC2E; }
+    .terminal-dot.green { background: #28C840; }
+
+    .terminal-title {
+      margin-left: 12px;
+      font-size: 22px;
+      color: #9E9E9E;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .terminal-body {
+      padding: 24px 28px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 24px;
+      line-height: 1.8;
+      color: #E0E0E0;
+    }
+
+    .terminal-body .key { color: #82AAFF; }
+    .terminal-body .value { color: #C3E88D; }
+    .terminal-body .comment { color: #6B7280; }
+    .terminal-body .error { color: #EF4444; }
+    .terminal-body .accent { color: #E8752E; }
+    .terminal-body .warn { color: #FBBF24; }
+
+    /* ========================================
+       Components: Color Bar Card
+       ======================================== */
+    .color-bar {
+      display: flex;
+      align-items: stretch;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      color: #FFFFFF;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .color-bar.orange  { background: var(--gradient-orange); }
+    .color-bar.blue    { background: var(--gradient-blue); }
+    .color-bar.purple  { background: var(--gradient-purple); }
+    .color-bar.green   { background: var(--gradient-green); }
+    .color-bar.pink    { background: var(--gradient-pink); }
+    .color-bar.teal    { background: var(--gradient-teal); }
+
+    .color-bar .bar-label {
+      flex: 0 0 200px;
+      padding: 20px 24px;
+      font-size: 36px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      background: rgba(0,0,0,0.1);
+    }
+
+    .color-bar .bar-content {
+      flex: 1;
+      padding: 20px 24px;
+      font-size: 28px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ========================================
+       Components: Compare Cards (Slide 4 custom)
+       ======================================== */
+    .compare-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .compare-card {
+      flex: 1;
+      border-radius: 16px;
+      padding: 36px;
+    }
+
+    .compare-card.ceo-area {
+      background: var(--compare-ceo-bg);
+      color: var(--compare-ceo-color);
+    }
+
+    .compare-card.delegate-area {
+      background: var(--compare-delegate-bg);
+      color: var(--compare-delegate-color);
+    }
+
+    .compare-label {
+      font-size: 26px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .compare-card.ceo-area .compare-label {
+      background: rgba(6,95,70,0.15);
+    }
+
+    .compare-card.delegate-area .compare-label {
+      background: rgba(154,52,18,0.15);
+    }
+
+    .compare-list-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .compare-list-item .bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .compare-card.ceo-area .bullet { background: #065F46; }
+    .compare-card.delegate-area .bullet { background: #9A3412; }
+
+    /* ========================================
+       Components: Insight Bar
+       ======================================== */
+    .insight-bar {
+      background: var(--gradient-orange);
+      border-radius: 14px;
+      padding: 24px 28px;
+      color: #FFFFFF;
+      font-size: 28px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      line-height: 1.5;
+    }
+
+    .insight-bar .icon {
+      font-size: 36px;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Utility
+       ======================================== */
+    .spacer { flex: 1; }
+    .mt-auto { margin-top: auto; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-20 { margin-bottom: 20px; }
+    .mb-24 { margin-bottom: 24px; }
+    .mb-28 { margin-bottom: 28px; }
+    .mb-32 { margin-bottom: 32px; }
+    .mb-40 { margin-bottom: 40px; }
+    .mb-48 { margin-bottom: 48px; }
+    .mb-56 { margin-bottom: 56px; }
+
+    /* ========================================
+       Divider
+       ======================================== */
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: rgba(255,255,255,0.2);
+      margin: 32px 0;
+    }
+
+    .divider.dark {
+      background: rgba(0,0,0,0.1);
+    }
+
+    /* ========================================
+       CTA Slide Specific
+       ======================================== */
+    .cta-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .cta-logo {
+      font-size: 80px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--text-primary);
+      margin-bottom: 20px;
+    }
+
+    .cta-sub {
+      font-size: 36px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 40px;
+      font-weight: 700;
+      padding: 24px 56px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .cta-handle {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 100px;
+      background: rgba(232,117,46,0.1);
+      color: var(--accent);
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    /* ========================================
+       Cover Specific
+       ======================================== */
+    .cover-headline {
+      font-size: 86px;
+      font-weight: 900;
+      line-height: 1.25;
+      color: var(--text-primary);
+      word-break: keep-all;
+      margin-bottom: 28px;
+    }
+
+    .cover-headline .white {
+      color: #FFFFFF;
+    }
+
+    .cover-sub {
+      font-size: 38px;
+      font-weight: 500;
+      color: rgba(26,26,26,0.7);
+      line-height: 1.6;
+    }
+
+    .cover-credit {
+      position: absolute;
+      bottom: 52px;
+      left: 60px;
+      font-size: 30px;
+      font-weight: 700;
+      color: rgba(26,26,26,0.35);
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       Visual Decoration
+       ======================================== */
+    .cover-visual {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 480px;
+      height: 480px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 50% 0 0 0;
+    }
+
+    .cover-visual-inner {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      width: 200px;
+      height: 200px;
+      border: 4px solid rgba(26,26,26,0.12);
+      border-radius: 50%;
+    }
+
+    /* ========================================
+       Dark Slide Specifics
+       ======================================== */
+    .dark-emotional {
+      font-size: 42px;
+      font-weight: 400;
+      line-height: 2.0;
+      color: rgba(255,255,255,0.6);
+      word-break: keep-all;
+    }
+
+    .dark-emotional strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .dark-accent-msg {
+      font-size: 44px;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SLIDE 01 — COVER (warm-accent)
+       ============================================================ -->
+  <div class="slide warm-accent" id="slide-01">
+    <div class="slide-inner">
+      <div class="tag dark-bg">초기 스타트업</div>
+
+      <div style="margin-top: 40px;">
+        <div class="cover-headline">
+          대표님,<br>
+          <span class="white">혼자 다 하지 마세요</span>
+        </div>
+        <div class="cover-sub">
+          "밤 11시에 인스타 만들고,<br>
+          아침에 투자자 미팅"
+        </div>
+      </div>
+
+      <!-- Decorative shape -->
+      <div class="cover-visual">
+        <div class="cover-visual-inner"></div>
+      </div>
+
+      <div class="cover-credit">brandrise</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 02 — 공감: 대표의 하루 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-02">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">02 / 06</div>
+      </div>
+
+      <div class="headline">
+        스타트업 대표의<br>
+        <span class="accent">하루를 아시나요?</span>
+      </div>
+
+      <!-- Terminal Code Block -->
+      <div class="terminal" style="margin-top: 20px;">
+        <div class="terminal-header">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <div class="terminal-title">ceo_daily.py</div>
+        </div>
+        <div class="terminal-body">
+          <span class="key">대표의_하루</span> = {<br>
+          &nbsp;&nbsp;<span class="key">"07:00"</span>: <span class="value">"이메일 확인 + 슬랙 답장"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"09:00"</span>: <span class="value">"투자자 미팅"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"11:00"</span>: <span class="value">"제품 개발 회의"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"14:00"</span>: <span class="value">"채용 면접"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"16:00"</span>: <span class="value">"고객 미팅"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"19:00"</span>: <span class="value">"인스타 콘텐츠 만들기"</span>, <span class="comment">// &larr; 여기서부터 마케팅</span><br>
+          &nbsp;&nbsp;<span class="key">"22:00"</span>: <span class="value">"블로그 글 쓰기"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"24:00"</span>: <span class="value">"광고 세팅..."</span>,<br>
+          &nbsp;&nbsp;<span class="comment">// 본업은 언제 하시나요?</span><br>
+          }
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 03 — 데이터: 번아웃 실태 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-03">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">03 / 06</div>
+      </div>
+
+      <div class="headline">
+        스타트업 대표 <span class="accent">72%</span>가<br>
+        번아웃을 경험합니다
+      </div>
+
+      <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 20px;">
+        <!-- Stat Card 1: Orange -->
+        <div class="color-bar orange">
+          <div class="bar-label">72%</div>
+          <div class="bar-content">번아웃 경험률</div>
+        </div>
+
+        <!-- Stat Card 2: Blue -->
+        <div class="color-bar blue">
+          <div class="bar-label">주 68시간</div>
+          <div class="bar-content">평균 근무 시간</div>
+        </div>
+
+        <!-- Stat Card 3: Purple -->
+        <div class="color-bar purple">
+          <div class="bar-label">37%</div>
+          <div class="bar-content">마케팅에 쓰는 시간 비율</div>
+        </div>
+
+        <!-- Stat Card 4: Pink -->
+        <div class="color-bar pink">
+          <div class="bar-label">0명</div>
+          <div class="bar-content">마케팅 전담 인력</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="insight-bar" style="margin-top: 40px;">
+        <div class="icon">!</div>
+        <div>본업에 집중해야 할 시간을 마케팅에 빼앗기고 있습니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 04 — 해결: 대표 영역 vs 위임 영역 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-04">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">A</div>
+        <div class="page-num">04 / 06</div>
+      </div>
+
+      <div class="headline">
+        대표가 해야 할 것 vs<br>
+        <span class="accent">위임해야 할 것</span>
+      </div>
+
+      <!-- Before/After Compare: CEO vs Delegate -->
+      <div class="compare-row" style="margin-top: 20px; flex: 1;">
+        <div class="compare-card ceo-area">
+          <div class="compare-label">대표의 영역</div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>비전과 방향 설정</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>핵심 고객 관계</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>제품 의사결정</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>투자 유치</span>
+          </div>
+        </div>
+        <div class="compare-card delegate-area">
+          <div class="compare-label">위임할 영역</div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>마케팅 전략 수립</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>콘텐츠 제작</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>광고 운영</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>데이터 분석</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top: 32px;">
+        <div class="icon">!</div>
+        <div>마케팅을 위임하면, 주 25시간을 본업에 돌릴 수 있습니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 05 — 클로징 감성 (dark)
+       ============================================================ -->
+  <div class="slide dark" id="slide-05">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="tag white-bg">brandrise</div>
+        <div class="page-num">05 / 06</div>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <div class="headline" style="font-size: 64px; margin-bottom: 48px;">
+          더 이상<br>
+          혼자 안 하셔도 됩니다.
+        </div>
+
+        <div class="dark-emotional mb-48">
+          대표님이 제품과 비전에 집중하는 동안,<br>
+          <strong>마케팅은 저희가 맡겠습니다.</strong><br><br>
+          밤 11시에 인스타 대신<br>
+          <strong>내일의 전략을 고민하세요.</strong>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="dark-accent-msg" style="margin-top: 32px;">
+          당신의 CMO 팀, brandrise
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 06 — CTA (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-06">
+    <div class="slide-inner">
+      <div class="cta-center">
+        <div class="tag light-bg mb-24">스타트업 전담 CMO 팀</div>
+
+        <div class="cta-logo">brandrise</div>
+
+        <div class="cta-button">무료 마케팅 진단</div>
+
+        <div class="cta-sub">
+          대표님이 마케팅에 쓰는 시간을<br>
+          절반으로 줄여드립니다
+        </div>
+
+        <div style="margin-top: 32px;">
+          <div class="cta-handle">@brandrise_kr</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>첫 마케터, 누굴 뽑아야 할까? — brandrise (R2-ocean-blue)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       R2 Ocean — Design Tokens
+       ======================================== */
+    :root {
+      --cover-bg: #2563EB;
+      --cover-text: #FFFFFF;
+      --cover-highlight: #BFDBFE;
+      --accent: #3B82F6;
+      --accent-dark: #1D4ED8;
+      --accent-light: #93C5FD;
+      --body-bg: #F8FAFC;
+      --body-text: #1A1A1A;
+      --body-secondary: #334155;
+      --body-muted: #94A3B8;
+      --card-bg: #FFFFFF;
+      --dark-bg: #0F172A;
+      --dark-text: #FFFFFF;
+      --dark-accent: #93C5FD;
+      --cta-button: #2563EB;
+      --cta-text: #FFFFFF;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      word-break: keep-all;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #CBD5E1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+      width: 1080px;
+      height: auto;
+    }
+
+    /* ========================================
+       Slide Base — 1080 × 1350 (4:5)
+       ======================================== */
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Subtle noise texture on cover */
+    .slide.cover-slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Ensure content is above overlay */
+    .slide > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .slide.body-light {
+      background: var(--body-bg);
+      color: var(--body-text);
+    }
+
+    .slide.deep-dark {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========================================
+       Components: Slide Header Row
+       ======================================== */
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 44px;
+    }
+
+    .page-num {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--body-muted);
+      white-space: nowrap;
+    }
+
+    .slide.deep-dark .page-num {
+      color: rgba(255,255,255,0.28);
+    }
+
+    /* ========================================
+       Components: Headline
+       ======================================== */
+    .headline {
+      font-size: 58px;
+      font-weight: 900;
+      line-height: 1.35;
+      color: var(--body-text);
+      margin-bottom: 28px;
+      word-break: keep-all;
+      text-align: center;
+    }
+
+    .headline .accent {
+      color: var(--accent);
+    }
+
+    .slide.deep-dark .headline {
+      color: var(--dark-text);
+    }
+
+    /* ========================================
+       Components: Sub-headline
+       ======================================== */
+    .sub-headline {
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--body-secondary);
+      line-height: 1.6;
+      word-break: keep-all;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    /* ========================================
+       Components: Credit
+       ======================================== */
+    .credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--body-muted);
+      z-index: 2;
+    }
+
+    .slide.deep-dark .credit {
+      color: rgba(255,255,255,0.18);
+    }
+
+    /* ========================================
+       COVER SLIDE
+       ======================================== */
+    .cover-bg {
+      width: 100%;
+      height: 100%;
+      background: #2563EB;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 60px;
+      text-align: center;
+    }
+
+    /* Large circle decorations */
+    .cover-bg .deco-circle-1 {
+      position: absolute;
+      top: -120px;
+      right: -120px;
+      width: 420px;
+      height: 420px;
+      border: 60px solid rgba(255,255,255,0.07);
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .cover-bg .deco-circle-2 {
+      position: absolute;
+      bottom: -80px;
+      left: -80px;
+      width: 300px;
+      height: 300px;
+      border: 44px solid rgba(255,255,255,0.05);
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    /* Subtle horizontal line texture stripe */
+    .cover-bg .deco-stripe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 48px,
+        rgba(255,255,255,0.02) 48px,
+        rgba(255,255,255,0.02) 50px
+      );
+      z-index: 1;
+    }
+
+    .cover-bg > * {
+      position: relative;
+      z-index: 3;
+    }
+
+    .cover-tag {
+      display: inline-block;
+      padding: 10px 28px;
+      border-radius: 100px;
+      font-size: 26px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 48px;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .cover-headline {
+      font-size: 76px;
+      font-weight: 900;
+      line-height: 1.25;
+      color: #FFFFFF;
+      word-break: keep-all;
+      margin-bottom: 36px;
+      text-align: center;
+    }
+
+    .cover-headline .highlight {
+      color: var(--cover-highlight);
+    }
+
+    .cover-sub {
+      font-size: 32px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      text-align: center;
+      word-break: keep-all;
+    }
+
+    .cover-credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.22);
+      z-index: 3;
+    }
+
+    /* ========================================
+       Components: Mistake Cards (Slide 2)
+       ======================================== */
+    .mistake-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 8px;
+    }
+
+    .mistake-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 32px 36px;
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    }
+
+    .mistake-num {
+      width: 52px;
+      height: 52px;
+      background: #EFF6FF;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .mistake-content {
+      flex: 1;
+    }
+
+    .mistake-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--body-text);
+      line-height: 1.3;
+      margin-bottom: 8px;
+      word-break: keep-all;
+    }
+
+    .mistake-desc {
+      font-size: 27px;
+      font-weight: 400;
+      color: var(--body-secondary);
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    /* ========================================
+       Components: Insight Bar
+       ======================================== */
+    .insight-bar {
+      background: var(--body-text);
+      border-radius: 14px;
+      padding: 24px 32px;
+      color: #FFFFFF;
+      font-size: 28px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    .insight-bar .icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    .slide.deep-dark .insight-bar {
+      background: rgba(255,255,255,0.08);
+    }
+
+    /* ========================================
+       Components: T-shape comparison (Slide 3)
+       ======================================== */
+    .compare-row {
+      display: flex;
+      gap: 24px;
+    }
+
+    .compare-card {
+      flex: 1;
+      border-radius: 18px;
+      padding: 36px 32px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .compare-card.recommended {
+      background: #2563EB;
+      color: #FFFFFF;
+    }
+
+    .compare-card.not-now {
+      background: var(--card-bg);
+      border: 2px solid #E2E8F0;
+      color: var(--body-text);
+    }
+
+    .compare-label {
+      font-size: 24px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 24px;
+      align-self: flex-start;
+      white-space: nowrap;
+    }
+
+    .compare-card.recommended .compare-label {
+      background: rgba(255,255,255,0.2);
+      color: #FFFFFF;
+    }
+
+    .compare-card.not-now .compare-label {
+      background: #F1F5F9;
+      color: var(--body-muted);
+    }
+
+    .compare-card-title {
+      font-size: 38px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 20px;
+      word-break: keep-all;
+    }
+
+    .compare-card.recommended .compare-card-title {
+      color: #FFFFFF;
+    }
+
+    .compare-card.not-now .compare-card-title {
+      color: var(--body-text);
+    }
+
+    .compare-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      font-size: 28px;
+      font-weight: 500;
+      line-height: 1.45;
+      word-break: keep-all;
+    }
+
+    .compare-bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 10px;
+    }
+
+    .compare-card.recommended .compare-point {
+      color: rgba(255,255,255,0.85);
+    }
+
+    .compare-card.recommended .compare-bullet {
+      background: rgba(255,255,255,0.6);
+    }
+
+    .compare-card.not-now .compare-point {
+      color: var(--body-muted);
+    }
+
+    .compare-card.not-now .compare-bullet {
+      background: #CBD5E1;
+    }
+
+    /* ========================================
+       Components: Interview Questions (Slide 4)
+       ======================================== */
+    .question-list {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+      margin-top: 8px;
+    }
+
+    .question-card {
+      background: var(--card-bg);
+      border-radius: 18px;
+      padding: 30px 36px;
+      border-left: 6px solid var(--accent);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    }
+
+    .question-label {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 10px;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    .question-text {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--body-text);
+      line-height: 1.35;
+      margin-bottom: 10px;
+      word-break: keep-all;
+    }
+
+    .question-why {
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--body-secondary);
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    /* ========================================
+       CLOSING Slide 5 — dark emotional
+       ======================================== */
+    .dark-emotional {
+      font-size: 44px;
+      font-weight: 400;
+      line-height: 1.9;
+      color: rgba(255,255,255,0.45);
+      word-break: keep-all;
+      text-align: center;
+    }
+
+    .dark-emotional strong {
+      color: #FFFFFF;
+      font-weight: 800;
+    }
+
+    .dark-accent-msg {
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--dark-accent);
+      line-height: 1.4;
+      word-break: keep-all;
+      text-align: center;
+    }
+
+    .divider {
+      width: 80px;
+      height: 3px;
+      background: rgba(255,255,255,0.12);
+      margin: 36px auto;
+    }
+
+    /* ========================================
+       CTA Slide 6
+       ======================================== */
+    .cta-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .cta-brand-badge {
+      display: inline-block;
+      padding: 12px 32px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.5);
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 48px;
+      white-space: nowrap;
+    }
+
+    .cta-headline {
+      font-size: 52px;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.35;
+      margin-bottom: 20px;
+      word-break: keep-all;
+    }
+
+    .cta-headline .cta-blue {
+      color: var(--dark-accent);
+    }
+
+    .cta-text {
+      font-size: 32px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+      margin-bottom: 52px;
+      word-break: keep-all;
+    }
+
+    .cta-text strong {
+      color: rgba(255,255,255,0.85);
+      font-weight: 600;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--cta-button);
+      color: var(--cta-text);
+      font-size: 38px;
+      font-weight: 800;
+      padding: 26px 64px;
+      border-radius: 16px;
+      margin-bottom: 28px;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .cta-handle {
+      display: inline-block;
+      padding: 12px 32px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.45);
+      font-size: 28px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    /* ========================================
+       Utility
+       ======================================== */
+    .spacer { flex: 1; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SLIDE 01 — COVER (Blue #2563EB, centered, tag)
+       ============================================================ -->
+  <div class="slide cover-slide" id="slide-01">
+    <div class="cover-bg">
+      <!-- Decorative circles -->
+      <div class="deco-circle-1"></div>
+      <div class="deco-circle-2"></div>
+      <!-- Subtle line texture -->
+      <div class="deco-stripe"></div>
+
+      <!-- Tag -->
+      <div class="cover-tag">brandrise real talk</div>
+
+      <!-- Main headline -->
+      <div class="cover-headline">
+        첫 마케터,<br>
+        <span class="highlight">누굴 뽑아야 할까?</span>
+      </div>
+
+      <!-- Sub copy -->
+      <div class="cover-sub">
+        초기 스타트업 마케터 채용의 진짜 기준
+      </div>
+
+      <div class="cover-credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 02 — 흔한 실수 3가지
+       ============================================================ -->
+  <div class="slide body-light" id="slide-02">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">02 / 06</div>
+      </div>
+
+      <div class="headline" style="font-size: 52px; margin-bottom: 12px;">
+        스타트업 대표가<br>
+        <span class="accent">마케터 채용에서 하는 실수</span>
+      </div>
+
+      <div class="sub-headline" style="margin-bottom: 32px; font-size: 28px;">
+        대부분 비슷한 실수를 반복합니다
+      </div>
+
+      <div class="mistake-list">
+        <!-- Mistake 1 -->
+        <div class="mistake-card">
+          <div class="mistake-num">1</div>
+          <div class="mistake-content">
+            <div class="mistake-title">"경력 3년 이상" 전문가만 찾는다</div>
+            <div class="mistake-desc">초기엔 세팅할 게 없어서 전문가가 떠나거나 능력을 발휘 못 합니다</div>
+          </div>
+        </div>
+
+        <!-- Mistake 2 -->
+        <div class="mistake-card">
+          <div class="mistake-num">2</div>
+          <div class="mistake-content">
+            <div class="mistake-title">한 분야 전문가를 첫 채용으로 뽑는다</div>
+            <div class="mistake-desc">콘텐츠만, SNS만 잘 하는 사람은 초기엔 맞지 않습니다</div>
+          </div>
+        </div>
+
+        <!-- Mistake 3 -->
+        <div class="mistake-card">
+          <div class="mistake-num">3</div>
+          <div class="mistake-content">
+            <div class="mistake-title">채용 전 마케팅 방향을 못 정한다</div>
+            <div class="mistake-desc">방향 없이 사람부터 뽑으면 채용된 사람도, 대표도 방황합니다</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 03 — T자형 마케터 vs 전문가
+       ============================================================ -->
+  <div class="slide body-light" id="slide-03">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">03 / 06</div>
+      </div>
+
+      <div class="headline" style="font-size: 52px; margin-bottom: 16px;">
+        <span class="accent">T자형 마케터</span> vs 전문가,<br>
+        초기엔?
+      </div>
+
+      <div class="sub-headline" style="margin-bottom: 28px; font-size: 27px;">
+        매출 0~10억 구간엔 T자형이 맞습니다
+      </div>
+
+      <div class="compare-row" style="flex: 1;">
+        <!-- T-shaped: RECOMMENDED -->
+        <div class="compare-card recommended">
+          <div class="compare-label">초기 추천</div>
+          <div class="compare-card-title">T자형<br>마케터</div>
+          <div class="compare-point">
+            <span class="compare-bullet"></span>
+            <span>콘텐츠 · 광고 · 분석 폭넓게 커버</span>
+          </div>
+          <div class="compare-point">
+            <span class="compare-bullet"></span>
+            <span>전략부터 실행까지 혼자 가능</span>
+          </div>
+          <div class="compare-point">
+            <span class="compare-bullet"></span>
+            <span>빠른 실험과 학습 루프</span>
+          </div>
+          <div class="compare-point">
+            <span class="compare-bullet"></span>
+            <span>채널 우선순위를 직접 판단</span>
+          </div>
+        </div>
+
+        <!-- Specialist: NOT NOW -->
+        <div class="compare-card not-now">
+          <div class="compare-label">나중에</div>
+          <div class="compare-card-title">채널<br>전문가</div>
+          <div class="compare-point">
+            <span class="compare-bullet"></span>
+            <span>한 채널에서 탁월한 성과</span>
+          </div>
+          <div class="compare-point">
+            <span class="compare-bullet"></span>
+            <span>팀이 갖춰진 뒤 최적화 단계</span>
+          </div>
+          <div class="compare-point">
+            <span class="compare-bullet"></span>
+            <span>방향이 정해진 환경에 맞음</span>
+          </div>
+          <div class="compare-point">
+            <span class="compare-bullet"></span>
+            <span>시리즈A 이후 고려 적합</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top: 28px;">
+        <div class="icon">!</div>
+        <div>첫 마케터는 스위스 군용 칼이어야 합니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 04 — 면접에서 꼭 물어야 할 3가지 질문
+       ============================================================ -->
+  <div class="slide body-light" id="slide-04">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">04 / 06</div>
+      </div>
+
+      <div class="headline" style="font-size: 52px; margin-bottom: 16px;">
+        면접에서<br>
+        <span class="accent">꼭 물어야 할 3가지</span>
+      </div>
+
+      <div class="sub-headline" style="margin-bottom: 28px; font-size: 27px;">
+        경력서엔 없는 것을 질문으로 확인하세요
+      </div>
+
+      <div class="question-list">
+        <!-- Q1 -->
+        <div class="question-card">
+          <div class="question-label">Q 01</div>
+          <div class="question-text">"예산 없이 트래픽 늘린 경험 있나요?"</div>
+          <div class="question-why">자원이 부족한 초기 환경에서 창의적으로 실행한 경험을 봅니다</div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question-card">
+          <div class="question-label">Q 02</div>
+          <div class="question-text">"실패한 캠페인에서 뭘 배웠나요?"</div>
+          <div class="question-why">실패를 데이터로 해석하는 태도가 있는지 확인합니다</div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question-card">
+          <div class="question-label">Q 03</div>
+          <div class="question-text">"우리 제품, 어떻게 알리겠어요?"</div>
+          <div class="question-why">현장 감각과 논리적 사고, 주도성을 함께 평가할 수 있습니다</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 05 — CLOSING (Dark #0F172A, emotional)
+       ============================================================ -->
+  <div class="slide deep-dark" id="slide-05">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num" style="color: rgba(255,255,255,0.25);">05 / 06</div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="dark-emotional">
+        스펙보다<br>
+        <strong>태도와 맥락 이해력</strong>이 중요하고,<br>
+        경력보다<br>
+        <strong>실행력과 오너십</strong>이 중요합니다.
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="dark-accent-msg">
+        사람 한 명이<br>브랜드의 방향을 바꿉니다.
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 06 — CTA (Dark theme, brandrise 소개 + 상담 유도)
+       ============================================================ -->
+  <div class="slide deep-dark" id="slide-06">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="display: inline-block; padding: 10px 28px; border-radius: 100px; background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.45); font-size: 26px; font-weight: 600;">brandrise</div>
+        <div class="page-num">06 / 06</div>
+      </div>
+
+      <div class="cta-center">
+        <div class="cta-headline">
+          채용 전에<br>
+          <span class="cta-blue">마케팅 방향</span>부터<br>
+          함께 잡아드립니다
+        </div>
+
+        <div class="cta-text">
+          brandrise는 <strong>초기 스타트업 전담</strong> 마케팅 파트너입니다.<br>
+          채용 기준 설계부터 온보딩까지 지원합니다.
+        </div>
+
+        <div class="cta-button">30분 무료 전략 상담</div>
+
+        <div style="margin-top: 12px;">
+          <div class="cta-handle">@brandrise_kr</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+</body>
+</html>
