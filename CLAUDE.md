@@ -20,6 +20,24 @@ MarketingOS는 스타트업 대상 마케팅/브랜딩 솔루션 서비스다. 1
 | (📋) 프로젝트 매니저 | `project-manager` | 일정, 산출물, 리소스 관리 |
 | (📊) 퍼포먼스 분석가 | `performance-analyst` | KPI, ROI, 대시보드, 리포팅 |
 
+## New Business 상담 준비 전담팀 (4명)
+
+| 에이전트 | 파일 | 역할 |
+|---------|------|------|
+| (🔎) 기업 프로파일러 | `company-profiler` | 회사·대표·시장 딥리서치, 브랜드/마케팅 성숙도 진단 |
+| (🧠) 니즈 분석가 | `needs-analyst` | SPIN+JTBD로 표면 고민→진짜 니즈 추출 |
+| (💼) 수주 전략가 | `deal-strategist` | 기회 적합도, 3-Tier 패키징, 클로징 전략 |
+| (🎤) 상담 코치 | `consultation-coach` | 60분 상담 흐름, 질문 스크립트, 대화 기술 |
+
+## Meta 광고 전담 팀 (4명)
+
+| 에이전트 | 파일 | 역할 |
+|---------|------|------|
+| (🎯) Meta 미디어바이어 | `meta-media-buyer` | 캠페인 구조, 타겟, 예산, 입찰 전략 |
+| (🎨) Meta 크리에이티브 PD | `meta-creative-pd` | 소재 기획, 카피, A/B 테스트 |
+| (📈) Meta 그로스 분석가 | `meta-growth-analyst` | 지표 분석, 퍼널 진단, 스케일링 |
+| (📋) Meta 어카운트 매니저 | `meta-account-manager` | 온보딩, 리포팅, 클라이언트 관리 |
+
 ## 워크플로우 커맨드
 
 | 커맨드 | 용도 |
@@ -31,6 +49,13 @@ MarketingOS는 스타트업 대상 마케팅/브랜딩 솔루션 서비스다. 1
 | `/content` | 콘텐츠 제작 (5단계) |
 | `/report` | 보고서 생성 (유형별) |
 | `/review` | 멀티에이전트 리뷰 (6명 순차 피드백) |
+| `/pre-meeting` | 사전 미팅 리서치 (3개 에이전트 병렬) |
+| `/new-biz-prep` | New Business 상담 준비 (4개 전담 에이전트 병렬, 컨설팅 수주 특화) |
+| `/post-meeting` | 상담 후 랩업 & 1차 제안 (내부 랩업 + 대표 전달용 써머리, 당일 발송) |
+| `/meta-onboard` | 신규 클라이언트 Meta 광고 온보딩 (5단계) |
+| `/meta-campaign` | Meta 캠페인 구조 자동 설계 (4단계) |
+| `/meta-report` | Meta 성과 보고서 생성 (일간/주간/월간) |
+| `/meta-optimize` | Meta 최적화 진단 (퍼널 → 에이전트별 액션) |
 
 ## 커뮤니케이션 원칙
 
@@ -45,13 +70,17 @@ MarketingOS는 스타트업 대상 마케팅/브랜딩 솔루션 서비스다. 1
 ```
 clients/
 └── {client-name}/
+    ├── pre-meeting-brief.md  # 사전 미팅 리서치 브리프
+    ├── new-biz-prep.md      # New Business 상담 준비 패키지 (수주 특화)
+    ├── post-meeting-wrap.md # 상담 후 랩업 (내부용 + 대표 전달용)
     ├── brief.md       # 클라이언트 브리프
     ├── research.md    # 시장 조사 결과
     ├── strategy.md    # 브랜드/마케팅 전략
     ├── proposals/     # 제안서
     ├── content/       # 콘텐츠 산출물
     ├── campaigns/     # 캠페인 기획
-    └── reports/       # 보고서
+    ├── reports/       # 보고서
+    └── meta/          # Meta 광고 (온보딩/캠페인/리포트/최적화)
 ```
 
 ## 작업 규칙
