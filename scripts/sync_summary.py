@@ -35,7 +35,7 @@ PROJECTS = {
     },
     "휴닉": {
         "row": 4,
-        "sheet_id": None,  # URL 미확보
+        "sheet_id": "1crkZXjTlFd01vUGoaXs3zpNqgZBLh-xZwpqPQEDHDUY",
         "month_offset": 1,
         "mode": "api_sync",
     },
