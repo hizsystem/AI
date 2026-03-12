@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>탭샵바 3월 콘텐츠 기획</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --black: #000000;
+    --white: #FFFFFF;
+    --blue: #156DFF;
+    --yellow: #FFC100;
+    --red: #F43131;
+    --gray: #888888;
+    --dark-gray: #1a1a1a;
+    --card-bg: #111111;
+    --coral: #E8654A;
+    --warm-beige: #D4A574;
+  }
+
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .deck { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 60px 80px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s ease;
+    overflow-y: auto; overflow-x: hidden;
+  }
+  .slide.active { opacity: 1; pointer-events: auto; }
+  .slide.dense {
+    justify-content: flex-start;
+    padding-top: 36px; padding-bottom: 80px;
+  }
+  .slide.dense h2 { font-size: 30px; margin-bottom: 14px; }
+  .slide.dense .content-hero { gap: 28px; margin-top: 10px; }
+  .slide.dense .content-meta { gap: 8px; margin-bottom: 10px; }
+  .slide.dense .meta-pill { font-size: 12px; padding: 4px 10px; }
+  .slide.dense .todo-list li { font-size: 14px; padding: 6px 0; }
+  .slide.dense .caption-preview { padding: 16px; font-size: 14px; line-height: 1.6; }
+  .slide.dense .ref-strip { margin-top: 12px; padding-top: 10px; }
+  .slide.dense .ref-img { width: 80px; height: 80px; }
+
+  .slide-number { position: absolute; top: 30px; right: 40px; font-size: 14px; color: var(--gray); font-weight: 500; }
+  .tag { display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--yellow); margin-bottom: 16px; }
+  h1 { font-size: 48px; font-weight: 800; line-height: 1.2; margin-bottom: 20px; }
+  h2 { font-size: 36px; font-weight: 700; line-height: 1.3; margin-bottom: 24px; }
+  h3 { font-size: 24px; font-weight: 700; margin-bottom: 16px; }
+  p, li { font-size: 20px; line-height: 1.6; color: #ccc; }
+  .subtitle { font-size: 22px; color: var(--gray); line-height: 1.5; max-width: 700px; }
+  .highlight { color: var(--yellow); }
+  .blue { color: var(--blue); }
+  .red { color: var(--red); }
+  .white { color: var(--white); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; margin-top: 20px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 20px; margin-top: 20px; }
+
+  .card { background: var(--card-bg); border-radius: 16px; padding: 28px; border: 1px solid #222; }
+  .card h3 { font-size: 20px; margin-bottom: 12px; }
+  .card p { font-size: 16px; color: #999; line-height: 1.5; }
+  .card .card-tag { font-size: 12px; font-weight: 600; color: var(--blue); margin-bottom: 8px; letter-spacing: 0.5px; }
+  .card-accent { border-left: 3px solid var(--yellow); }
+  .card-blue { border-left: 3px solid var(--blue); }
+  .card-red { border-left: 3px solid var(--red); }
+
+  ul { list-style: none; padding: 0; }
+  ul li::before { content: "\2192 "; color: var(--gray); }
+
+  /* ===== Instagram Mood Board Grid ===== */
+  .ig-profile {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 10px; padding: 8px 14px;
+    background: #0a0a0a; border-radius: 10px; border: 1px solid #222;
+  }
+  .ig-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--yellow), var(--red));
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 16px; color: var(--white);
+  }
+  .ig-info h4 { font-size: 14px; font-weight: 700; margin-bottom: 1px; }
+  .ig-info p { font-size: 11px; color: var(--gray); margin: 0; }
+  .ig-stats { display: flex; gap: 16px; margin-left: auto; }
+  .ig-stat { text-align: center; }
+  .ig-stat strong { font-size: 14px; display: block; color: var(--white); }
+  .ig-stat span { font-size: 10px; color: var(--gray); }
+
+  .ig-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .ig-cell {
+    aspect-ratio: 1;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .ig-cell:hover { opacity: 0.85; }
+  .ig-cell .ig-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 6px 8px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    font-size: 11px; color: rgba(255,255,255,0.9);
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .ig-cell:hover .ig-label { opacity: 1; }
+
+  /* ===== Color Palette ===== */
+  .color-bar { display: flex; gap: 12px; margin: 12px 0; }
+  .color-swatch { width: 40px; height: 40px; border-radius: 10px; border: 1px solid #333; }
+  .color-label { font-size: 11px; color: var(--gray); margin-top: 3px; text-align: center; }
+
+  /* ===== Benchmark Cards ===== */
+  .bench-card {
+    background: var(--card-bg); border-radius: 14px; padding: 20px;
+    border: 1px solid #222; transition: border-color 0.2s;
+  }
+  .bench-card:hover { border-color: #444; }
+  .bench-card a {
+    color: var(--white); text-decoration: none;
+    font-size: 16px; font-weight: 700;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .bench-card a:hover { color: var(--blue); }
+  .bench-card a .link-icon { font-size: 14px; color: var(--blue); }
+  .bench-card .followers { font-size: 12px; color: var(--gray); margin: 4px 0 10px; }
+  .bench-card .why { font-size: 14px; color: #999; line-height: 1.4; margin-bottom: 10px; }
+  .bench-card .example-tag {
+    font-size: 11px; font-weight: 600; color: var(--blue);
+    letter-spacing: 0.5px; margin-bottom: 6px; text-transform: uppercase;
+  }
+  .bench-card .example-desc { font-size: 13px; color: #777; line-height: 1.4; }
+  .bench-card-star { border: 1px solid rgba(255,193,0,0.3); }
+  .bench-card-star a { color: var(--yellow); }
+
+  /* ===== Calendar View ===== */
+  .calendar {
+    display: grid; grid-template-columns: repeat(7, 1fr);
+    gap: 2px; margin-top: 16px;
+    background: #1a1a1a; border-radius: 12px; overflow: hidden;
+    border: 1px solid #222;
+  }
+  .cal-header {
+    padding: 10px 4px; text-align: center;
+    font-size: 12px; font-weight: 600; color: var(--gray);
+    background: #111; letter-spacing: 0.5px;
+  }
+  .cal-header.sun { color: var(--red); }
+  .cal-day {
+    padding: 6px 5px; min-height: 64px;
+    background: #0a0a0a; position: relative;
+  }
+  .cal-day.empty { background: #050505; }
+  .cal-day .day-num {
+    font-size: 13px; font-weight: 600; color: #555; margin-bottom: 4px;
+  }
+  .cal-day.today .day-num { color: var(--blue); }
+  .cal-event {
+    font-size: 10px; font-weight: 600; padding: 3px 6px;
+    border-radius: 4px; margin-bottom: 2px;
+    line-height: 1.3; display: block;
+  }
+  .cal-event.upload { background: rgba(21,109,255,0.15); color: var(--blue); }
+  .cal-event.prep { background: rgba(255,193,0,0.12); color: var(--yellow); }
+  .cal-event.event { background: rgba(244,49,49,0.15); color: var(--red); }
+  .cal-event.story { background: rgba(255,255,255,0.06); color: #666; }
+
+  .cal-legend {
+    display: flex; gap: 20px; margin-top: 12px; padding-left: 4px;
+  }
+  .cal-legend span {
+    font-size: 12px; color: var(--gray);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .cal-legend .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+
+  /* ===== Content Detail ===== */
+  .content-hero { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; margin-top: 16px; }
+  .content-meta { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 16px; }
+  .meta-pill { background: #1a1a1a; padding: 6px 14px; border-radius: 20px; font-size: 14px; color: #aaa; }
+  .meta-pill.effort { color: var(--yellow); border: 1px solid rgba(255,193,0,0.3); background: rgba(255,193,0,0.08); }
+
+  .caption-preview {
+    background: #0a0a0a; border: 1px solid #222; border-radius: 12px;
+    padding: 24px; font-size: 16px; line-height: 1.7; color: #bbb; white-space: pre-line;
+  }
+  .caption-preview .ig-handle { color: var(--blue); }
+
+  .todo-list { margin-top: 16px; }
+  .todo-list li { font-size: 16px; padding: 8px 0; border-bottom: 1px solid #1a1a1a; color: #aaa; }
+  .todo-list li::before { content: "\2610 "; color: var(--gray); }
+
+  /* Reference Images Strip */
+  .ref-strip {
+    margin-top: 16px; padding-top: 12px;
+    border-top: 1px solid #1a1a1a;
+  }
+  .ref-strip h4 {
+    font-size: 13px; font-weight: 600; color: var(--gray);
+    letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .ref-imgs {
+    display: flex; gap: 8px;
+  }
+  .ref-img {
+    width: 100px; height: 100px; border-radius: 8px;
+    background-size: cover; background-position: center;
+    border: 1px solid #222; flex-shrink: 0;
+  }
+  .ref-img-label {
+    font-size: 11px; color: #555; margin-top: 4px; text-align: center;
+    max-width: 100px;
+  }
+
+  /* ===== DO/DON'T ===== */
+  .do-dont { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  .do-box, .dont-box { padding: 16px; border-radius: 10px; }
+  .do-box { background: rgba(21,109,255,0.08); border: 1px solid rgba(21,109,255,0.2); }
+  .dont-box { background: rgba(244,49,49,0.08); border: 1px solid rgba(244,49,49,0.2); }
+  .do-box h3 { color: var(--blue); font-size: 16px; }
+  .dont-box h3 { color: var(--red); font-size: 16px; }
+  .do-box li, .dont-box li { font-size: 14px; margin-bottom: 4px; padding-left: 4px; }
+  .do-box ul li::before { content: "\2713 "; color: var(--blue); }
+  .dont-box ul li::before { content: "\2715 "; color: var(--red); }
+
+  /* ===== Schedule ===== */
+  .schedule-grid { display: grid; grid-template-columns: 100px 1fr; gap: 0; margin-top: 20px; }
+  .sched-week { padding: 16px; font-size: 14px; font-weight: 700; color: var(--gray); border-right: 2px solid #222; display: flex; align-items: center; }
+  .sched-content { padding: 16px 24px; border-bottom: 1px solid #111; }
+  .sched-content h4 { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .sched-content p { font-size: 14px; color: var(--gray); }
+
+  /* ===== Timeline ===== */
+  .timeline { display: flex; gap: 0; margin-top: 24px; position: relative; }
+  .timeline::before { content: ''; position: absolute; top: 20px; left: 0; right: 0; height: 2px; background: #333; }
+  .tl-item { flex: 1; text-align: center; position: relative; padding-top: 44px; }
+  .tl-dot { width: 14px; height: 14px; border-radius: 50%; background: var(--blue); position: absolute; top: 14px; left: 50%; transform: translateX(-50%); border: 2px solid var(--black); }
+  .tl-dot.yellow { background: var(--yellow); }
+  .tl-dot.red { background: var(--red); }
+  .tl-date { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .tl-label { font-size: 13px; color: var(--gray); line-height: 1.4; }
+
+  /* ===== Navigation ===== */
+  .nav {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 16px; z-index: 100;
+    background: rgba(20,20,20,0.9); padding: 10px 24px;
+    border-radius: 40px; border: 1px solid #333; backdrop-filter: blur(10px);
+  }
+  .nav button {
+    background: none; border: 1px solid #444; color: var(--white);
+    width: 40px; height: 40px; border-radius: 50%; cursor: pointer;
+    font-size: 18px; display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .nav button:hover { background: var(--blue); border-color: var(--blue); }
+  .nav .page-info { font-size: 14px; color: var(--gray); min-width: 60px; text-align: center; }
+
+  .progress { position: fixed; top: 0; left: 0; height: 3px; background: var(--blue); transition: width 0.3s ease; z-index: 100; }
+
+  /* ===== Cover ===== */
+  .cover { text-align: center; justify-content: center; align-items: center; }
+  .cover h1 { font-size: 56px; margin-bottom: 16px; }
+  .cover .subtitle { max-width: 600px; margin: 0 auto; }
+  .logo-text { font-size: 14px; letter-spacing: 4px; color: var(--gray); margin-bottom: 32px; text-transform: uppercase; }
+  .cover-date { margin-top: 40px; font-size: 16px; color: var(--gray); }
+
+  /* ===== Discussion ===== */
+  .discuss-item { display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid #1a1a1a; }
+  .discuss-num { font-size: 24px; font-weight: 800; color: var(--blue); min-width: 36px; }
+  .discuss-body h4 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+  .discuss-body p { font-size: 15px; color: var(--gray); }
+
+  /* ===== Animations ===== */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .slide.active .anim { animation: fadeUp 0.5s ease forwards; }
+  .slide.active .anim-d1 { animation-delay: 0.1s; opacity: 0; }
+  .slide.active .anim-d2 { animation-delay: 0.2s; opacity: 0; }
+  .slide.active .anim-d3 { animation-delay: 0.3s; opacity: 0; }
+  .slide.active .anim-d4 { animation-delay: 0.4s; opacity: 0; }
+
+  /* ===== BI Alignment Note ===== */
+  .bi-note {
+    background: rgba(21,109,255,0.06); border: 1px solid rgba(21,109,255,0.15);
+    border-radius: 8px; padding: 10px 14px; margin-top: 10px;
+    font-size: 12px; color: var(--blue); line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="deck" id="deck">
+
+  <!-- SLIDE 0: Cover -->
+  <div class="slide cover active" data-slide="0">
+    <div class="logo-text">TAP SHOP BAR</div>
+    <h1>3월 인스타그램<br>콘텐츠 기획</h1>
+    <p class="subtitle">힘주지 않고, 공수 적게, 브랜드 톤 확립에 집중.<br>4개 콘텐츠로 "탭샵바 인스타는 이런 느낌이야"를 만드는 달.</p>
+    <p class="cover-date">2026. 03</p>
+  </div>
+
+  <!-- SLIDE 1: 이번 달 목표 -->
+  <div class="slide" data-slide="1">
+    <span class="slide-number">01</span>
+    <span class="tag">Goal</span>
+    <h2>이번 달 목표</h2>
+    <p class="subtitle" style="margin-bottom: 32px;">숫자(팔로워, 참여율)보다 <span class="highlight">톤 합의</span>가 더 중요한 달</p>
+    <div class="grid-3 anim anim-d2">
+      <div class="card card-accent">
+        <h3 class="highlight">톤 확립</h3>
+        <p>"탭샵바 피드는 이런 느낌이야"를 브랜드팀과 합의</p>
+      </div>
+      <div class="card card-accent">
+        <h3 class="highlight">4개 콘텐츠</h3>
+        <p>기존 소재 / 저공수 위주로 첫 달 부담 최소화</p>
+      </div>
+      <div class="card card-accent">
+        <h3 class="highlight">기준 세팅</h3>
+        <p>첫 피드 1장이 앞으로의 모든 콘텐츠 기준점이 됨</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: 무드보드 (REDESIGNED) -->
+  <div class="slide dense" data-slide="2" style="padding: 36px 60px 80px;">
+    <span class="slide-number">02</span>
+    <span class="tag">Mood Board</span>
+    <h2 style="margin-bottom: 12px;">비주얼 톤 방향</h2>
+    <p class="subtitle" style="margin-bottom: 16px; font-size: 18px;">"따뜻한 조명 아래, 누군가의 손에 든 와인 한 잔"</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 340px; gap: 28px; align-items: start;" class="anim anim-d1">
+      <!-- LEFT: Instagram Feed Grid -->
+      <div>
+        <div class="ig-profile">
+          <div class="ig-avatar">T</div>
+          <div class="ig-info">
+            <h4>@tapshopbar</h4>
+            <p>TAP SHOP BAR | 셀프 탭 와인바</p>
+          </div>
+          <div class="ig-stats">
+            <div class="ig-stat"><strong>12</strong><span>게시물</span></div>
+            <div class="ig-stat"><strong>-</strong><span>팔로워</span></div>
+            <div class="ig-stat"><strong>-</strong><span>팔로잉</span></div>
+          </div>
+        </div>
+        <div class="ig-grid">
+          <div class="ig-cell" style="background-image: url('https://images.unsplash.com/photo-1755023178115-6c2b98afb302?w=400&h=400&fit=crop&crop=center');">
+            <div class="ig-label">손에 든 와인잔, 따뜻한 조명</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=400&h=400&fit=crop&crop=center');">
+            <div class="ig-label">건배, 함께하는 순간</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://images.unsplash.com/photo-1772657356280-fefe4c350287?w=400&h=400&fit=crop&crop=center');">
+            <div class="ig-label">셀프 탭 클로즈업</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://images.unsplash.com/photo-1709166447842-764c0b1483c5?w=400&h=400&fit=crop&crop=center');">
+            <div class="ig-label">따뜻한 바 인테리어</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://images.unsplash.com/photo-1586124288020-1d7436afd010?w=400&h=400&fit=crop&crop=center');">
+            <div class="ig-label">와인 따르는 순간</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://images.unsplash.com/photo-1666632980177-6e1f0c0ec6a0?w=400&h=400&fit=crop&crop=center');">
+            <div class="ig-label">안주 + 와인 테이블</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://images.unsplash.com/photo-1474932322704-24cb9de516c2?w=400&h=400&fit=crop&crop=center');">
+            <div class="ig-label">바에서 대화하는 사람들</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://images.unsplash.com/photo-1584718068111-45d34a4784d8?w=400&h=400&fit=crop&crop=center');">
+            <div class="ig-label">와인잔 보케 라이트</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://the-edit.co.kr/wp-content/uploads/2018/05/DSC01951_main.jpg');">
+            <div class="ig-label">와인 무드 (the-edit)</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://the-edit.co.kr/porto/wp-content/uploads/2018/05/iphone8plusred_DSCF7600.jpg');">
+            <div class="ig-label">황금빛 와인 클로즈업</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://the-edit.co.kr/porto/wp-content/uploads/2018/05/iphone8plusred_DSC01752.jpg');">
+            <div class="ig-label">와인 + 디저트 페어링</div>
+          </div>
+          <div class="ig-cell" style="background-image: url('https://images.unsplash.com/photo-1589881133595-a3c085cb731d?w=400&h=400&fit=crop&crop=center');">
+            <div class="ig-label">와인 + 치즈보드</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Tone & Color Guide -->
+      <div>
+        <div class="card" style="margin-bottom: 12px; padding: 16px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="meta-pill" style="font-size:12px;">Warm & Cozy</span>
+            <span class="meta-pill" style="font-size:12px;">Human-first</span>
+            <span class="meta-pill" style="font-size:12px;">Casual & Real</span>
+            <span class="meta-pill" style="font-size:12px;">Close-up POV</span>
+            <span class="meta-pill" style="font-size:12px; border: 1px solid rgba(21,109,255,0.3); color: var(--blue);">Warm & Inviting</span>
+          </div>
+        </div>
+
+        <h3 style="font-size: 16px; margin-bottom: 8px;">컬러 무드</h3>
+        <div class="color-bar">
+          <div style="text-align:center"><div class="color-swatch" style="background: #000;"></div><div class="color-label">Black</div></div>
+          <div style="text-align:center"><div class="color-swatch" style="background: #D4875A;"></div><div class="color-label">Amber</div></div>
+          <div style="text-align:center"><div class="color-swatch" style="background: var(--coral);"></div><div class="color-label">Coral</div></div>
+          <div style="text-align:center"><div class="color-swatch" style="background: var(--warm-beige);"></div><div class="color-label">Beige</div></div>
+          <div style="text-align:center"><div class="color-swatch" style="background: var(--blue);"></div><div class="color-label">Blue</div></div>
+          <div style="text-align:center"><div class="color-swatch" style="background: var(--yellow);"></div><div class="color-label">Yellow</div></div>
+        </div>
+        <p style="font-size:12px; color: var(--gray); margin: 8px 0;">보정: 웜톤 +15~20% / 채도 UP / VSCO HB2</p>
+
+        <div class="do-dont">
+          <div class="do-box">
+            <h3>DO</h3>
+            <ul>
+              <li>손에 와인잔 들린 컷</li>
+              <li>따뜻한 매장 조명</li>
+              <li>대화하며 마시는 장면</li>
+              <li>1인칭 가까운 거리감</li>
+            </ul>
+          </div>
+          <div class="dont-box">
+            <h3>DON'T</h3>
+            <ul>
+              <li>보틀만 놓인 카탈로그</li>
+              <li>스튜디오/플래시 직사</li>
+              <li>빈 테이블, 무인 공간</li>
+              <li>정장, 과한 포즈</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="bi-note">
+          <strong>BI 정합:</strong> 전략 문서 "밝고 따뜻한 조명" 기준 반영. 매장의 자연스러운 조도를 살리되, 어둡고 무거운 와인셀러 느낌은 배제.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: 벤치마크 (REDESIGNED with links) -->
+  <div class="slide dense" data-slide="3" style="padding: 36px 60px 80px;">
+    <span class="slide-number">03</span>
+    <span class="tag">References</span>
+    <h2 style="margin-bottom: 16px;">벤치마크 계정</h2>
+    <div class="grid-4 anim anim-d1" style="margin-top: 8px;">
+      <div class="bench-card">
+        <a href="https://www.instagram.com/bluebottlekorea/" target="_blank">@bluebottlekorea <span class="link-icon">&nearr;</span></a>
+        <div class="followers">~70K followers</div>
+        <div class="why">미니멀 + 따뜻한 톤. "제품이 아닌 순간"을 보여주는 방식</div>
+        <div class="example-tag">참고 콘텐츠</div>
+        <div class="example-desc">매장 창가에 놓인 커피 한 잔, 자연광 활용한 감성 피드. 텍스트 최소화.</div>
+      </div>
+      <div class="bench-card">
+        <a href="https://www.instagram.com/cafe.onion/" target="_blank">@cafe.onion <span class="link-icon">&nearr;</span></a>
+        <div class="followers">~58K followers</div>
+        <div class="why">공간 자체가 콘텐츠. 텍스트 최소화</div>
+        <div class="example-tag">참고 콘텐츠</div>
+        <div class="example-desc">건축적 앵글로 공간 촬영, 사람과 공간이 어우러진 무드샷 위주.</div>
+      </div>
+      <div class="bench-card">
+        <a href="https://www.instagram.com/botabox/" target="_blank">@botabox <span class="link-icon">&nearr;</span></a>
+        <div class="followers">~13K followers</div>
+        <div class="why">와인을 "일상 음료"로 포지셔닝</div>
+        <div class="example-tag">참고 콘텐츠</div>
+        <div class="example-desc">피크닉, 바비큐 등 일상 속 와인. "같이 마시자" 톤의 밝은 아웃도어 촬영.</div>
+      </div>
+      <div class="bench-card bench-card-star">
+        <a href="https://www.instagram.com/domainela/" target="_blank">@domainela &#9733; <span class="link-icon">&nearr;</span></a>
+        <div class="followers">~16K followers</div>
+        <div class="why"><strong style="color:var(--yellow)">톤 레퍼런스 1순위.</strong> 오너/스태프 출연, 유머</div>
+        <div class="example-tag">참고 콘텐츠</div>
+        <div class="example-desc">스태프가 직접 와인 소개, 자연스러운 카메라 앞 대화. 편집 최소화 릴스.</div>
+      </div>
+    </div>
+    <h3 style="margin-top: 20px; font-size: 20px;">콘텐츠 유형별 참고</h3>
+    <div class="grid-3 anim anim-d3" style="margin-top: 8px;">
+      <div class="bench-card">
+        <a href="https://www.instagram.com/cafeknotted_kr/" target="_blank" style="font-size:14px;">@cafeknotted_kr <span class="link-icon">&nearr;</span></a>
+        <div class="followers">메뉴/신메뉴 소개</div>
+        <div class="example-desc">시즌 메뉴 티징, 브랜드 세계관 연결. 캐릭터 활용 콘텐츠.</div>
+      </div>
+      <div class="bench-card">
+        <a href="https://www.instagram.com/winefolly/" target="_blank" style="font-size:14px;">@winefolly <span class="link-icon">&nearr;</span></a>
+        <div class="followers">~510K | 와인 정보 캐러셀</div>
+        <div class="example-desc">깔끔한 인포그래픽으로 와인 상식 전달. 저장 유도 콘텐츠.</div>
+      </div>
+      <div class="bench-card">
+        <a href="https://www.instagram.com/speedboatbar/" target="_blank" style="font-size:14px;">@speedboatbar <span class="link-icon">&nearr;</span></a>
+        <div class="followers">~43K | UGC/현장감</div>
+        <div class="example-desc">"여기 가면 재밌겠다" 느낌의 현장 영상. 고객 참여형.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: 3월 캘린더 (REDESIGNED) -->
+  <div class="slide dense" data-slide="4" style="padding: 36px 60px 80px;">
+    <span class="slide-number">04</span>
+    <span class="tag">March Calendar</span>
+    <h2 style="margin-bottom: 8px;">3월 콘텐츠 캘린더</h2>
+    <p style="font-size: 15px; color: var(--gray); margin-bottom: 4px;"><span class="highlight">기존 소재 + 저공수</span> 위주 4건. 첫 달이니까 무리하지 않는다.</p>
+
+    <div class="calendar anim anim-d1">
+      <!-- Header -->
+      <div class="cal-header sun">SUN</div>
+      <div class="cal-header">MON</div>
+      <div class="cal-header">TUE</div>
+      <div class="cal-header">WED</div>
+      <div class="cal-header">THU</div>
+      <div class="cal-header">FRI</div>
+      <div class="cal-header">SAT</div>
+
+      <!-- Week 1: 3/1 ~ 3/7 -->
+      <div class="cal-day"><div class="day-num">1</div></div>
+      <div class="cal-day"><div class="day-num">2</div></div>
+      <div class="cal-day"><div class="day-num">3</div></div>
+      <div class="cal-day"><div class="day-num">4</div><span class="cal-event prep">기획 확정</span></div>
+      <div class="cal-day"><div class="day-num">5</div><span class="cal-event prep">무드보드 합의</span></div>
+      <div class="cal-day"><div class="day-num">6</div><span class="cal-event prep">매장 방문 촬영</span></div>
+      <div class="cal-day"><div class="day-num">7</div><span class="cal-event prep">영상 링크 수령</span></div>
+
+      <!-- Week 2: 3/8 ~ 3/14 -->
+      <div class="cal-day"><div class="day-num">8</div></div>
+      <div class="cal-day"><div class="day-num">9</div></div>
+      <div class="cal-day"><div class="day-num">10</div><span class="cal-event upload">#4 매장 무드</span><span class="cal-event" style="background:rgba(255,193,0,0.1);color:#b8860b;font-size:9px;">첫 피드!</span></div>
+      <div class="cal-day"><div class="day-num">11</div></div>
+      <div class="cal-day"><div class="day-num">12</div><span class="cal-event upload">#2 상암점 공지</span><span class="cal-event story">D-3 스토리</span></div>
+      <div class="cal-day"><div class="day-num">13</div><span class="cal-event story">D-2 스토리</span></div>
+      <div class="cal-day"><div class="day-num">14</div><span class="cal-event story">D-1 스토리</span></div>
+
+      <!-- Week 3: 3/15 ~ 3/21 -->
+      <div class="cal-day"><div class="day-num" style="color:var(--red);">15</div><span class="cal-event event">상암점 OPEN</span><span class="cal-event story">실시간 스토리</span></div>
+      <div class="cal-day"><div class="day-num">16</div></div>
+      <div class="cal-day"><div class="day-num">17</div><span class="cal-event upload">#1 강승윤 편</span></div>
+      <div class="cal-day"><div class="day-num">18</div></div>
+      <div class="cal-day"><div class="day-num">19</div></div>
+      <div class="cal-day"><div class="day-num">20</div></div>
+      <div class="cal-day"><div class="day-num">21</div></div>
+
+      <!-- Week 4: 3/22 ~ 3/28 -->
+      <div class="cal-day"><div class="day-num">22</div></div>
+      <div class="cal-day"><div class="day-num">23</div></div>
+      <div class="cal-day"><div class="day-num">24</div><span class="cal-event upload">#3 신메뉴</span></div>
+      <div class="cal-day"><div class="day-num">25</div></div>
+      <div class="cal-day"><div class="day-num">26</div></div>
+      <div class="cal-day"><div class="day-num">27</div></div>
+      <div class="cal-day"><div class="day-num">28</div></div>
+
+      <!-- Week 5: 3/29 ~ 3/31 -->
+      <div class="cal-day"><div class="day-num">29</div></div>
+      <div class="cal-day"><div class="day-num">30</div></div>
+      <div class="cal-day"><div class="day-num">31</div></div>
+      <div class="cal-day empty"></div>
+      <div class="cal-day empty"></div>
+      <div class="cal-day empty"></div>
+      <div class="cal-day empty"></div>
+    </div>
+
+    <div class="cal-legend">
+      <span><span class="dot" style="background: var(--blue);"></span> 피드 업로드</span>
+      <span><span class="dot" style="background: var(--yellow);"></span> 사전 준비</span>
+      <span><span class="dot" style="background: var(--red);"></span> 이벤트</span>
+      <span><span class="dot" style="background: #444;"></span> 스토리</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Content #4 매장 무드 (+ reference images) -->
+  <div class="slide dense" data-slide="5">
+    <span class="slide-number">05</span>
+    <span class="tag">Content #4 &mdash; 첫 번째 업로드</span>
+    <h2>매장 무드 <span class="highlight">(톤세팅용 첫 피드)</span></h2>
+    <div class="content-hero anim anim-d1">
+      <div>
+        <div class="content-meta">
+          <span class="meta-pill">피드 이미지 1장</span>
+          <span class="meta-pill">일상 와인</span>
+          <span class="meta-pill effort">공수 &#9733;&#9734;&#9734;&#9734;&#9734;</span>
+          <span class="meta-pill">3월 2주차</span>
+        </div>
+        <p style="font-size: 18px; color: #aaa; margin-bottom: 20px;">"사진 한 장으로 '여기 가보고 싶다' 만들기"</p>
+        <h3>비주얼 방향</h3>
+        <ul style="margin-bottom: 16px;">
+          <li>매장 조명 아래 와인잔이 들려있는 손</li>
+          <li>셀프 탭 앞에서 와인을 따르는 순간</li>
+          <li>테이블 위 안주+와인 함께 있는 장면</li>
+          <li><strong class="white">1인칭 시점</strong> (내가 그 자리에 앉아있는 느낌)</li>
+        </ul>
+        <div class="card card-accent" style="padding: 14px 18px;">
+          <p style="font-size: 14px; color: var(--yellow);">이 콘텐츠가 피드의 <strong>톤세팅</strong>. 브랜드팀과 "이 사진이 탭샵바 피드의 기준이다"를 합의하는 것이 목표.</p>
+        </div>
+        <!-- Reference Images -->
+        <div class="ref-strip">
+          <h4>레퍼런스 무드</h4>
+          <div class="ref-imgs">
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1755023178115-6c2b98afb302?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">웜톤 와인잔</div>
+            </div>
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1709166447842-764c0b1483c5?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">바 인테리어</div>
+            </div>
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1621644894301-cd6b2eaca610?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">여유로운 한 잔</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 12px;">캡션 시안</h3>
+        <div class="caption-preview" style="margin-bottom: 16px;">퇴근하고 한 잔.</div>
+        <p style="font-size: 14px; color: var(--gray); margin-bottom: 20px;">짧을수록 좋다. 사진이 말하게.</p>
+        <h3>대안 캡션</h3>
+        <div class="caption-preview" style="margin-bottom: 8px; padding: 16px;">수요일엔 와인.</div>
+        <div class="caption-preview" style="padding: 16px;">오늘 탭에서 제일 맛있었던 거.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Content #2 상암점 오픈 (+ reference images) -->
+  <div class="slide dense" data-slide="6">
+    <span class="slide-number">06</span>
+    <span class="tag">Content #2 &mdash; 두 번째 업로드</span>
+    <h2>상암점 오픈 공지 <span class="blue">3/15</span></h2>
+    <div class="content-hero anim anim-d1">
+      <div>
+        <div class="content-meta">
+          <span class="meta-pill">피드 이미지/캐러셀</span>
+          <span class="meta-pill">매장 & 브랜드</span>
+          <span class="meta-pill effort">공수 &#9733;&#9733;&#9734;&#9734;&#9734;</span>
+          <span class="meta-pill">3/12~13 업로드</span>
+        </div>
+        <p style="font-size: 18px; color: #aaa; margin-bottom: 20px;">"6번째 탭이 열립니다"</p>
+        <h3>제작 TO-DO</h3>
+        <ul class="todo-list">
+          <li>상암점 매장 사진 확보 (인테리어 or 시공현장)</li>
+          <li>디자인: TSB Black 배경 + 텍스트 오버레이</li>
+          <li>캡션 확정</li>
+          <li>스토리 카운트다운 (D-3, D-2, D-1)</li>
+        </ul>
+        <!-- Reference Images -->
+        <div class="ref-strip">
+          <h4>레퍼런스 무드</h4>
+          <div class="ref-imgs">
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1709166447842-764c0b1483c5?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">매장 인테리어</div>
+            </div>
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1716720882232-9fa4912f142d?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">바 선반 무드</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 12px;">캡션 시안 A (간결형)</h3>
+        <div class="caption-preview" style="margin-bottom: 16px;">6번째 탭이 열립니다.
+
+&#x1F4CD; 탭샵바 상암점
+&#x1F5D3; 3월 15일 (토) 오픈
+
+상암에서도 가볍게 탭, 오늘의 와인.
+
+#탭샵바 #상암점 #신규오픈</div>
+        <h3 style="margin-bottom: 12px;">캡션 시안 B (스토리텔링형)</h3>
+        <div class="caption-preview">동대문에서 시작해서,
+청계천, 도산, 여의도, 합정을 거쳐
+이번엔 상암.
+
+6번째 탭이 열립니다.
+
+&#x1F4CD; 탭샵바 상암점
+&#x1F5D3; 3.15 (토) OPEN</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Content #1 강승윤 (+ reference images) -->
+  <div class="slide dense" data-slide="7">
+    <span class="slide-number">07</span>
+    <span class="tag">Content #1 &mdash; 세 번째 업로드</span>
+    <h2>유튜브 강승윤 편 활용</h2>
+    <div class="content-hero anim anim-d1">
+      <div>
+        <div class="content-meta">
+          <span class="meta-pill">피드 이미지 or 릴스 15초</span>
+          <span class="meta-pill">매장 & 브랜드</span>
+          <span class="meta-pill effort">공수 &#9733;&#9734;&#9734;&#9734;&#9734;</span>
+          <span class="meta-pill">3월 3주차</span>
+        </div>
+        <p style="font-size: 18px; color: #aaa; margin-bottom: 20px;">"연예인도 탭 앞에 서면 그냥 사람"</p>
+        <h3>포인트</h3>
+        <ul style="margin-bottom: 16px;">
+          <li>합정점 장소 협찬 &rarr; 자연스러운 발견 느낌으로</li>
+          <li>과하게 밀지 않고 "여기 탭샵바네?" 톤</li>
+          <li>팬덤 유입 효과 기대</li>
+        </ul>
+        <h3>제작 TO-DO</h3>
+        <ul class="todo-list">
+          <li>브랜드팀에서 유튜브 영상 링크 수령</li>
+          <li>합정점 등장 구간 캡처 3-5장 or 15초 클립</li>
+          <li>출연자 언급 범위 확인 (브랜드팀)</li>
+          <li>스토리에 영상 링크 연동</li>
+        </ul>
+        <!-- Reference Images -->
+        <div class="ref-strip">
+          <h4>레퍼런스 무드</h4>
+          <div class="ref-imgs">
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1474932322704-24cb9de516c2?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">바에서 대화</div>
+            </div>
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1671116810289-302594443218?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">캐주얼 모임</div>
+            </div>
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1772657356280-fefe4c350287?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">셀프 탭</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 12px;">캡션 시안</h3>
+        <div class="caption-preview">합정점에 손님이 오셨더라고요 &#x1F377;
+
+(유튜브 채널명) 에서
+탭샵바 합정점이 등장했어요.
+
+셀프 탭 앞에 서면
+누구나 그냥 와인 좋아하는 사람.
+
+전체 영상 보러 가기 &#x1F446; (스토리 링크)
+
+#탭샵바 #합정점 #tapshopbar</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Content #3 신메뉴 (+ reference images) -->
+  <div class="slide dense" data-slide="8">
+    <span class="slide-number">08</span>
+    <span class="tag">Content #3 &mdash; 네 번째 업로드</span>
+    <h2>신메뉴 소개 캐러셀</h2>
+    <div class="content-hero anim anim-d1">
+      <div>
+        <div class="content-meta">
+          <span class="meta-pill">캐러셀 3~5장</span>
+          <span class="meta-pill">일상 와인 (메뉴)</span>
+          <span class="meta-pill effort">공수 &#9733;&#9733;&#9734;&#9734;&#9734;</span>
+          <span class="meta-pill">3월 4주차</span>
+        </div>
+        <p style="font-size: 18px; color: #aaa; margin-bottom: 20px;">"이번 달 탭샵바 테이블에 새로 올라온 것들"</p>
+        <h3 style="margin-top: 16px;">캐러셀 구성</h3>
+        <div style="margin-top: 8px; border-radius: 10px; border: 1px solid #222; overflow: hidden;">
+          <table style="width:100%; border-collapse:collapse;">
+            <tr><th style="background:#1a1a1a;padding:10px 16px;text-align:left;font-size:13px;font-weight:600;color:var(--gray);">장</th><th style="background:#1a1a1a;padding:10px 16px;text-align:left;font-size:13px;font-weight:600;color:var(--gray);">내용</th><th style="background:#1a1a1a;padding:10px 16px;text-align:left;font-size:13px;font-weight:600;color:var(--gray);">비주얼</th></tr>
+            <tr><td style="padding:10px 16px;font-size:15px;border-top:1px solid #1a1a1a;color:#ccc;"><strong class="highlight">1</strong></td><td style="padding:10px 16px;font-size:15px;border-top:1px solid #1a1a1a;color:#ccc;">표지 "새로 왔어요 &#x1F37D;"</td><td style="padding:10px 16px;font-size:15px;border-top:1px solid #1a1a1a;color:#ccc;">메뉴 전체 테이블 샷</td></tr>
+            <tr><td style="padding:10px 16px;font-size:15px;border-top:1px solid #1a1a1a;color:#ccc;"><strong class="white">2~4</strong></td><td style="padding:10px 16px;font-size:15px;border-top:1px solid #1a1a1a;color:#ccc;">신메뉴 각 소개</td><td style="padding:10px 16px;font-size:15px;border-top:1px solid #1a1a1a;color:#ccc;">사진 + 이름 + 한 줄 설명</td></tr>
+            <tr><td style="padding:10px 16px;font-size:15px;border-top:1px solid #1a1a1a;color:#ccc;"><strong class="blue">5</strong></td><td style="padding:10px 16px;font-size:15px;border-top:1px solid #1a1a1a;color:#ccc;">와인 페어링 + CTA</td><td style="padding:10px 16px;font-size:15px;border-top:1px solid #1a1a1a;color:#ccc;">"이 메뉴엔 이 와인"</td></tr>
+          </table>
+        </div>
+        <!-- Reference Images -->
+        <div class="ref-strip">
+          <h4>레퍼런스 무드</h4>
+          <div class="ref-imgs">
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1666632980177-6e1f0c0ec6a0?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">안주+와인 테이블</div>
+            </div>
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1589881133595-a3c085cb731d?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">치즈보드</div>
+            </div>
+            <div>
+              <div class="ref-img" style="background-image: url('https://images.unsplash.com/photo-1586124288020-1d7436afd010?w=200&h=200&fit=crop&crop=center');"></div>
+              <div class="ref-img-label">와인 클로즈업</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="margin-bottom: 12px;">캡션 시안</h3>
+        <div class="caption-preview">이번 달 탭샵바 테이블에
+새로 올라온 것들.
+
+저장해두고 다음에 시켜보세요 &#x1F446;
+
+어떤 메뉴가 가장 궁금해요?
+댓글로 알려주세요!
+
+#탭샵바 #신메뉴 #와인안주 #tapshopbar</div>
+        <h3 style="margin-top: 20px;">제작 TO-DO</h3>
+        <ul class="todo-list">
+          <li>메뉴 촬영본에서 신메뉴 사진 선별</li>
+          <li>캐러셀 디자인 (TSB 톤, Pretendard)</li>
+          <li>메뉴명(한/영) + 한 줄 설명 카피</li>
+          <li>페어링 와인 추천 (박창규 확인)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: 스케줄 -->
+  <div class="slide" data-slide="9">
+    <span class="slide-number">09</span>
+    <span class="tag">Schedule</span>
+    <h2>업로드 스케줄</h2>
+    <div class="schedule-grid anim anim-d1">
+      <div class="sched-week">2주차<br>3/10~</div>
+      <div class="sched-content">
+        <h4 style="color: var(--yellow);">#4 매장 무드</h4>
+        <p>톤세팅용 첫 피드. 이 사진이 기준이 됨.</p>
+      </div>
+      <div class="sched-week">2주차<br>3/12~13</div>
+      <div class="sched-content">
+        <h4 style="color: var(--blue);">#2 상암점 오픈 공지</h4>
+        <p>오픈 D-3~2. 스토리 카운트다운 병행.</p>
+      </div>
+      <div class="sched-week">3주차<br>3/17~</div>
+      <div class="sched-content">
+        <h4 style="color: var(--white);">#1 강승윤 편</h4>
+        <p>상암점 오픈 후 관심 몰릴 때. 브랜드 인지도 부스트.</p>
+      </div>
+      <div class="sched-week">4주차<br>3/24~</div>
+      <div class="sched-content">
+        <h4 style="color: var(--white);">#3 신메뉴 캐러셀</h4>
+        <p>저장 유도 콘텐츠. 캐러셀 특성상 알고리즘 유리.</p>
+      </div>
+    </div>
+    <div style="margin-top: 28px;">
+      <h3>스토리 (수시)</h3>
+      <div class="grid-3" style="margin-top: 8px;">
+        <div class="card" style="padding: 16px;">
+          <p style="font-size: 15px;">상암점 오픈 카운트다운<br>(D-3, D-2, D-1)</p>
+        </div>
+        <div class="card" style="padding: 16px;">
+          <p style="font-size: 15px;">매장 일상<br>(스태프 직접 촬영)</p>
+        </div>
+        <div class="card" style="padding: 16px;">
+          <p style="font-size: 15px;">강승윤 편<br>영상 링크 공유</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: 제작 타임라인 -->
+  <div class="slide" data-slide="10">
+    <span class="slide-number">10</span>
+    <span class="tag">Timeline</span>
+    <h2>제작 프로세스</h2>
+    <div class="timeline anim anim-d1">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">3/5</div>
+        <div class="tl-label">콘텐츠 기획 확정<br>무드보드 합의</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot yellow"></div>
+        <div class="tl-date">3/6</div>
+        <div class="tl-label">매장 방문<br>#4 소재 촬영</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">3/7</div>
+        <div class="tl-label">강승윤 편<br>영상 링크 수령</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot yellow"></div>
+        <div class="tl-date">3/10</div>
+        <div class="tl-label">#4 매장 무드<br><strong style="color:var(--yellow)">첫 피드 업로드</strong></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">3/12</div>
+        <div class="tl-label">#2 상암점<br>오픈 공지</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot red"></div>
+        <div class="tl-date">3/15</div>
+        <div class="tl-label">상암점 오픈<br>스토리 실시간</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">3/17</div>
+        <div class="tl-label">#1 강승윤 편<br>업로드</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-date">3/24</div>
+        <div class="tl-label">#3 신메뉴<br>캐러셀 업로드</div>
+      </div>
+    </div>
+    <div class="card card-accent anim anim-d3" style="margin-top: 40px; max-width: 600px;">
+      <p style="font-size: 16px; color: var(--yellow);">핵심: 3/6 매장 방문 촬영 &rarr; 3/10 첫 피드. 이 4일이 3월의 핵심 구간.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: 브랜드팀 논의 -->
+  <div class="slide" data-slide="11">
+    <span class="slide-number">11</span>
+    <span class="tag">Discussion</span>
+    <h2>브랜드팀 논의 포인트</h2>
+    <div class="anim anim-d1">
+      <div class="discuss-item">
+        <div class="discuss-num">1</div>
+        <div class="discuss-body">
+          <h4>무드보드 방향 동의 여부</h4>
+          <p>Warm & Cozy vs 더 밝고 경쾌한 방향?</p>
+        </div>
+      </div>
+      <div class="discuss-item">
+        <div class="discuss-num">2</div>
+        <div class="discuss-body">
+          <h4>강승윤 편 출연자 언급 범위</h4>
+          <p>이름 직접 언급 vs "손님이 오셨더라고요" 간접</p>
+        </div>
+      </div>
+      <div class="discuss-item">
+        <div class="discuss-num">3</div>
+        <div class="discuss-body">
+          <h4>상암점 오픈 사진 확보 가능 시점</h4>
+          <p>오픈 전 촬영 가능? 시공 현장 사진 활용?</p>
+        </div>
+      </div>
+      <div class="discuss-item">
+        <div class="discuss-num">4</div>
+        <div class="discuss-body">
+          <h4>신메뉴 공개 범위/시점</h4>
+          <p>3월 중 언제 신메뉴 런칭? 몇 종?</p>
+        </div>
+      </div>
+      <div class="discuss-item">
+        <div class="discuss-num">5</div>
+        <div class="discuss-body">
+          <h4>첫 피드 톤 기준 사진 합의</h4>
+          <p>매장 방문 촬영 후 함께 선정</p>
+        </div>
+      </div>
+      <div class="discuss-item">
+        <div class="discuss-num">6</div>
+        <div class="discuss-body">
+          <h4>캡션 톤 확인</h4>
+          <p>반말 혼용 OK? 이모지 사용 범위?</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+  <button id="prev" onclick="navigate(-1)">&larr;</button>
+  <span class="page-info" id="pageInfo">1 / 12</span>
+  <button id="next" onclick="navigate(1)">&rarr;</button>
+</nav>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const progress = document.getElementById('progress');
+  const pageInfo = document.getElementById('pageInfo');
+
+  function showSlide(n) {
+    slides.forEach(s => s.classList.remove('active'));
+    slides[n].classList.add('active');
+    progress.style.width = ((n / (total - 1)) * 100) + '%';
+    pageInfo.textContent = (n + 1) + ' / ' + total;
+  }
+
+  function navigate(dir) {
+    current = Math.max(0, Math.min(total - 1, current + dir));
+    showSlide(current);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); }
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+  });
+
+  showSlide(0);
+</script>
+
+</body>
+</html>
