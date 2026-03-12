@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>veggiet Instagram Moodboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --warm-beige: #E8DDD3;
+    --soft-green: #B5C4A1;
+    --terracotta: #C4703F;
+    --charcoal: #2C2C2C;
+    --off-white: #F5F1EC;
+    --light-gray: #D4CFC9;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', 'DM Sans', sans-serif;
+    background: var(--off-white);
+    color: var(--charcoal);
+    line-height: 1.6;
+  }
+
+  /* ─── COVER ─── */
+  .cover {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: var(--warm-beige);
+    text-align: center;
+    padding: 2rem;
+  }
+  .cover .brand-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    letter-spacing: -1px;
+    margin-bottom: 1rem;
+  }
+  .cover .subtitle {
+    font-size: 1.1rem;
+    color: var(--terracotta);
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+  }
+  .cover .concept {
+    font-size: 1.6rem;
+    font-weight: 300;
+    color: var(--charcoal);
+    max-width: 500px;
+    line-height: 1.8;
+  }
+  .cover .date {
+    margin-top: 3rem;
+    font-size: 0.85rem;
+    color: var(--light-gray);
+  }
+
+  /* ─── SECTIONS ─── */
+  .section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 2rem;
+  }
+  .section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .section-number {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--terracotta);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .section-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--charcoal);
+    margin-bottom: 0.5rem;
+  }
+  .section-subtitle {
+    font-size: 1rem;
+    color: #888;
+    font-weight: 300;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: var(--terracotta);
+    margin: 5rem auto;
+  }
+
+  /* ─── DIAGNOSIS ─── */
+  .diagnosis {
+    background: var(--charcoal);
+    color: var(--off-white);
+    padding: 5rem 2rem;
+  }
+  .diagnosis .section { padding: 0; }
+  .diagnosis .section-number { color: var(--terracotta); }
+  .diagnosis .section-title { color: var(--off-white); }
+  .diagnosis-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+  .diag-card {
+    padding: 2rem;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.05);
+  }
+  .diag-card .label {
+    font-size: 0.8rem;
+    color: var(--terracotta);
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+  .diag-card .current {
+    font-size: 1rem;
+    color: #999;
+    margin-bottom: 0.3rem;
+  }
+  .diag-card .arrow {
+    color: var(--terracotta);
+    font-size: 1.2rem;
+    margin: 0.3rem 0;
+  }
+  .diag-card .proposed {
+    font-size: 1.1rem;
+    color: var(--off-white);
+    font-weight: 500;
+  }
+
+  /* ─── MOOD KEYWORDS ─── */
+  .keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin: 3rem 0;
+  }
+  .keyword {
+    padding: 1rem 2rem;
+    border: 1px solid var(--light-gray);
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    background: white;
+    transition: all 0.3s;
+  }
+  .keyword:hover {
+    background: var(--warm-beige);
+    border-color: var(--warm-beige);
+  }
+
+  /* ─── COLOR PALETTE ─── */
+  .palette {
+    display: flex;
+    gap: 0;
+    border-radius: 16px;
+    overflow: hidden;
+    height: 200px;
+    margin: 3rem 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  }
+  .palette-color {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.2rem;
+    transition: flex 0.3s;
+    cursor: pointer;
+  }
+  .palette-color:hover { flex: 1.5; }
+  .palette-color .hex {
+    font-family: 'DM Sans', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    opacity: 0.7;
+  }
+  .palette-color .name {
+    font-size: 0.75rem;
+    opacity: 0.6;
+    margin-top: 0.2rem;
+  }
+
+  /* ─── TYPOGRAPHY ─── */
+  .type-demo {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem;
+    margin: 2rem 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .type-demo h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--charcoal);
+  }
+  .type-demo .body-text {
+    font-size: 1rem;
+    font-weight: 300;
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  .type-demo .accent {
+    font-size: 0.85rem;
+    color: var(--terracotta);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ─── CONTENT ARCHITECTURE ─── */
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+  .pillar-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    border-top: 4px solid var(--soft-green);
+  }
+  .pillar-card:nth-child(2) { border-top-color: var(--terracotta); }
+  .pillar-card:nth-child(3) { border-top-color: var(--warm-beige); }
+  .pillar-card .pillar-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .pillar-card .pillar-desc {
+    font-size: 0.9rem;
+    color: #888;
+    margin-bottom: 1.5rem;
+  }
+  .pillar-card .ratio {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--soft-green);
+    margin-bottom: 1rem;
+  }
+  .pillar-card:nth-child(2) .ratio { color: var(--terracotta); }
+  .pillar-card:nth-child(3) .ratio { color: var(--warm-beige); }
+  .series-item {
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .series-item:last-child { border-bottom: none; }
+  .series-name { font-weight: 500; font-size: 0.95rem; }
+  .series-format {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.8rem;
+    background: var(--off-white);
+    border-radius: 20px;
+    color: #888;
+  }
+
+  /* ─── SERIES DETAIL ─── */
+  .series-detail {
+    background: white;
+    border-radius: 16px;
+    padding: 3rem;
+    margin: 2rem 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .series-detail .series-tag {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: 1px;
+  }
+  .tag-routine { background: #E8F5E9; color: #2E7D32; }
+  .tag-know { background: #FFF3E0; color: #E65100; }
+  .tag-story { background: #F3E5F5; color: #6A1B9A; }
+
+  .series-detail h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .series-detail .desc {
+    color: #888;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+  }
+  .example-list {
+    list-style: none;
+    padding: 0;
+  }
+  .example-list li {
+    padding: 0.6rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+    color: #555;
+  }
+  .example-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--soft-green);
+    transform: translateY(-50%);
+  }
+
+  /* ─── MOOD IMAGES ─── */
+  .mood-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 200px;
+    gap: 8px;
+    margin: 3rem 0;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .mood-grid .mood-img {
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .mood-grid .mood-img:hover { transform: scale(1.02); z-index: 1; }
+  .mood-grid .mood-img.tall { grid-row: span 2; }
+  .mood-grid .mood-img.wide { grid-column: span 2; }
+  .mood-grid .mood-img .img-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.6));
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .mood-grid .mood-img:hover .img-label { opacity: 1; }
+
+  /* ─── REFERENCE LINKS ─── */
+  .ref-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .ref-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    text-decoration: none;
+    color: var(--charcoal);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: block;
+  }
+  .ref-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  .ref-card .ref-handle {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+  }
+  .ref-card .ref-why {
+    font-size: 0.85rem;
+    color: #888;
+    line-height: 1.5;
+  }
+  .ref-card .ref-steal {
+    margin-top: 0.8rem;
+    font-size: 0.8rem;
+    color: var(--terracotta);
+    font-weight: 500;
+  }
+
+  /* ─── DO/DONT ─── */
+  .dodont {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 3rem 0;
+  }
+  .do-card, .dont-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+  .do-card { border-left: 4px solid var(--soft-green); }
+  .dont-card { border-left: 4px solid #E57373; }
+  .do-card h4 { color: var(--soft-green); margin-bottom: 1rem; font-size: 1.1rem; }
+  .dont-card h4 { color: #E57373; margin-bottom: 1rem; font-size: 1.1rem; }
+  .do-card li, .dont-card li {
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #555;
+    list-style: none;
+  }
+
+  /* ─── CALENDAR ─── */
+  .calendar {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    margin: 3rem 0;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    overflow-x: auto;
+  }
+  .calendar table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .calendar th {
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--off-white);
+  }
+  .calendar td {
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #f5f5f5;
+  }
+  .cal-routine { color: #2E7D32; font-weight: 500; }
+  .cal-know { color: #E65100; font-weight: 500; }
+  .cal-story { color: #6A1B9A; font-weight: 500; }
+  .cal-format { font-size: 0.75rem; color: #aaa; display: block; margin-top: 0.2rem; }
+
+  /* ─── CARD NEWS PREVIEW ─── */
+  .card-preview {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding: 2rem 0;
+    margin: 2rem 0;
+  }
+  .card-slide {
+    min-width: 300px;
+    height: 380px;
+    border-radius: 12px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .card-slide.cover-slide {
+    background: var(--off-white);
+    border: 1px solid var(--light-gray);
+  }
+  .card-slide.body-slide {
+    background: white;
+    border: 1px solid #eee;
+  }
+  .card-slide.cta-slide {
+    background: var(--warm-beige);
+  }
+  .card-slide h3 {
+    font-size: 1.6rem;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  .card-slide p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.7;
+  }
+  .card-slide .card-tag {
+    font-size: 0.75rem;
+    color: var(--terracotta);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+  .card-slide .card-logo {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--soft-green);
+    font-weight: 700;
+    margin-top: auto;
+  }
+
+  /* ─── GRID RHYTHM ─── */
+  .ig-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    max-width: 450px;
+    margin: 2rem auto;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .ig-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+    padding: 0.5rem;
+    line-height: 1.3;
+  }
+
+  /* ─── FOOTER ─── */
+  .footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--charcoal);
+    color: #666;
+    font-size: 0.85rem;
+  }
+  .footer .brand {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1.5rem;
+    color: var(--off-white);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ─── COOLORS LINK ─── */
+  .palette-link {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 2rem;
+    background: var(--charcoal);
+    color: var(--off-white);
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background 0.3s;
+  }
+  .palette-link:hover { background: var(--terracotta); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .cover .brand-name { font-size: 2.5rem; }
+    .cover .concept { font-size: 1.2rem; }
+    .diagnosis-grid { grid-template-columns: 1fr; }
+    .pillar-grid { grid-template-columns: 1fr; }
+    .ref-grid { grid-template-columns: 1fr; }
+    .dodont { grid-template-columns: 1fr; }
+    .mood-grid { grid-template-columns: repeat(2, 1fr); }
+    .palette { height: 120px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ COVER ═══════════════ -->
+<div class="cover">
+  <div class="brand-name">veggiet</div>
+  <div class="subtitle">Instagram Moodboard</div>
+  <div class="concept">바쁜 하루 사이,<br>나를 위한 한 끼의 여유</div>
+  <div class="date">2026.03 | Channel Concept & Visual Direction</div>
+</div>
+
+<!-- ═══════════════ DIAGNOSIS ═══════════════ -->
+<div class="diagnosis">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">01 — Diagnosis</div>
+      <div class="section-title" style="color: var(--off-white);">현재 채널 진단</div>
+      <div class="section-subtitle" style="color: #888;">좋은 제품인데, 누가 왜 먹는지가 안 보인다</div>
+    </div>
+    <div class="diagnosis-grid">
+      <div class="diag-card">
+        <div class="label">컬러</div>
+        <div class="current">그린 일색 — 건강식품 매대 느낌</div>
+        <div class="arrow">↓</div>
+        <div class="proposed">웜 베이지 베이스 + 그린은 포인트로</div>
+      </div>
+      <div class="diag-card">
+        <div class="label">피사체</div>
+        <div class="current">제품 + 원재료 + 자연 — 사람이 없다</div>
+        <div class="arrow">↓</div>
+        <div class="proposed">사람 + 일상 장면 + 제품은 자연스럽게</div>
+      </div>
+      <div class="diag-card">
+        <div class="label">카피</div>
+        <div class="current">"Wellness" "Plant-Based" — 스펙 나열</div>
+        <div class="arrow">↓</div>
+        <div class="proposed">"바쁜 하루 사이, 한 끼의 여유" — 상황을 말한다</div>
+      </div>
+      <div class="diag-card">
+        <div class="label">콘텐츠 구조</div>
+        <div class="current">시리즈 없이 중구난방</div>
+        <div class="arrow">↓</div>
+        <div class="proposed">3 필러 × 6 시리즈 체계</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ MOOD KEYWORDS ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">02 — Mood Keywords</div>
+    <div class="section-title">무드 키워드</div>
+    <div class="section-subtitle">브랜드의 모든 비주얼 판단 기준</div>
+  </div>
+  <div class="keywords">
+    <span class="keyword">Effortless</span>
+    <span class="keyword">Warm Minimal</span>
+    <span class="keyword">Daily Ritual</span>
+    <span class="keyword">Real People</span>
+    <span class="keyword">Urban Nature</span>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ COLOR PALETTE ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">03 — Color Palette</div>
+    <div class="section-title">컬러 팔레트</div>
+    <div class="section-subtitle">웰니스에서 라이프스타일로</div>
+  </div>
+  <div class="palette">
+    <div class="palette-color" style="background: var(--warm-beige);">
+      <div class="hex" style="color: var(--charcoal);">#E8DDD3</div>
+      <div class="name" style="color: var(--charcoal);">Warm Beige</div>
+    </div>
+    <div class="palette-color" style="background: var(--soft-green);">
+      <div class="hex" style="color: white;">#B5C4A1</div>
+      <div class="name" style="color: white;">Soft Sage</div>
+    </div>
+    <div class="palette-color" style="background: var(--terracotta);">
+      <div class="hex" style="color: white;">#C4703F</div>
+      <div class="name" style="color: white;">Terracotta</div>
+    </div>
+    <div class="palette-color" style="background: var(--charcoal);">
+      <div class="hex" style="color: white;">#2C2C2C</div>
+      <div class="name" style="color: white;">Charcoal</div>
+    </div>
+    <div class="palette-color" style="background: var(--off-white); border: 1px solid #ddd;">
+      <div class="hex" style="color: var(--charcoal);">#F5F1EC</div>
+      <div class="name" style="color: var(--charcoal);">Off White</div>
+    </div>
+  </div>
+  <div style="text-align: center;">
+    <a href="https://coolors.co/E8DDD3-B5C4A1-C4703F-2C2C2C-F5F1EC" target="_blank" class="palette-link">Coolors.co에서 팔레트 편집하기 →</a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ TYPOGRAPHY ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">04 — Typography</div>
+    <div class="section-title">타이포그래피</div>
+  </div>
+  <div class="type-demo">
+    <div class="accent">VEGGIET — GOOD TO KNOW</div>
+    <h3>아침 거르는 사람,<br>대신 뭐 해?</h3>
+    <div class="body-text">바쁜 아침, 아무것도 안 먹는 것보다 식물성 프로틴 한 잔이<br>당신의 오전을 완전히 바꿀 수 있습니다.</div>
+    <div style="display: flex; gap: 2rem; flex-wrap: wrap; margin-top: 1rem;">
+      <div>
+        <div style="font-size: 0.75rem; color: #aaa; margin-bottom: 0.3rem;">한글 제목</div>
+        <div style="font-weight: 700; font-size: 1.1rem;">Noto Sans KR Bold</div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: #aaa; margin-bottom: 0.3rem;">한글 본문</div>
+        <div style="font-weight: 300; font-size: 1.1rem;">Noto Sans KR Light</div>
+      </div>
+      <div>
+        <div style="font-size: 0.75rem; color: #aaa; margin-bottom: 0.3rem;">영문</div>
+        <div style="font-family: 'DM Sans'; font-weight: 700; font-size: 1.1rem;">DM Sans Bold</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ MOOD IMAGES ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">05 — Visual Mood</div>
+    <div class="section-title">비주얼 무드</div>
+    <div class="section-subtitle">이런 느낌을 만든다</div>
+  </div>
+  <div class="mood-grid">
+    <div class="mood-img tall" style="background: linear-gradient(135deg, #E8DDD3, #D4C5B5); display:flex; align-items:center; justify-content:center;">
+      <a href="https://unsplash.com/s/photos/morning-routine" target="_blank" style="color: var(--charcoal); text-decoration: none; text-align:center; font-size: 0.85rem; padding: 1rem;">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">☀️</div>
+        Morning<br>Routine
+      </a>
+    </div>
+    <div class="mood-img" style="background: linear-gradient(135deg, #B5C4A1, #8FA67A); display:flex; align-items:center; justify-content:center;">
+      <a href="https://unsplash.com/s/photos/protein-shake" target="_blank" style="color: white; text-decoration: none; text-align:center; font-size: 0.85rem;">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🥤</div>
+        Protein<br>Shake
+      </a>
+    </div>
+    <div class="mood-img" style="background: linear-gradient(135deg, #C4703F, #A65C32); display:flex; align-items:center; justify-content:center;">
+      <a href="https://unsplash.com/s/photos/minimal-coffee" target="_blank" style="color: white; text-decoration: none; text-align:center; font-size: 0.85rem;">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">☕</div>
+        Minimal<br>Coffee
+      </a>
+    </div>
+    <div class="mood-img tall" style="background: linear-gradient(135deg, #F5F1EC, #E8DDD3); display:flex; align-items:center; justify-content:center;">
+      <a href="https://unsplash.com/s/photos/aesthetic-desk" target="_blank" style="color: var(--charcoal); text-decoration: none; text-align:center; font-size: 0.85rem;">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">💻</div>
+        Desk<br>Aesthetic
+      </a>
+    </div>
+    <div class="mood-img wide" style="background: linear-gradient(135deg, #D4CFC9, #B5B0A8); display:flex; align-items:center; justify-content:center;">
+      <a href="https://unsplash.com/s/photos/aesthetic-cafe" target="_blank" style="color: white; text-decoration: none; text-align:center; font-size: 0.85rem;">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🏙️</div>
+        Urban Cafe Lifestyle
+      </a>
+    </div>
+    <div class="mood-img" style="background: linear-gradient(135deg, #E8DDD3, #C4B49E); display:flex; align-items:center; justify-content:center;">
+      <a href="https://unsplash.com/s/photos/beige-aesthetic" target="_blank" style="color: var(--charcoal); text-decoration: none; text-align:center; font-size: 0.85rem;">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤎</div>
+        Warm<br>Beige
+      </a>
+    </div>
+  </div>
+  <p style="text-align: center; color: #aaa; font-size: 0.85rem;">각 블록 클릭 → Unsplash에서 무드에 맞는 이미지를 바로 찾을 수 있습니다</p>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ VISUAL PATTERN ANALYSIS (Manus) ═══════════════ -->
+<div class="diagnosis" style="background: #1a1a2e;">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">05.5 — Visual Pattern Analysis</div>
+      <div class="section-title" style="color: var(--off-white);">비주얼 패턴 분석</div>
+      <div class="section-subtitle" style="color: #888;">Manus 레퍼런스 분석 기반 — 성공하는 콘텐츠의 공통점</div>
+    </div>
+    <div class="diagnosis-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="diag-card">
+        <div class="label">레이아웃 원칙</div>
+        <div class="proposed" style="font-size: 1rem; line-height: 1.6;">
+          <strong>여백의 미</strong> — 화면 30% 이상 비워둬서 '여유'를 시각화<br><br>
+          <strong>오프 센터 구도</strong> — 제품을 정중앙이 아닌 측면/하단 배치. 광고 느낌 배제<br><br>
+          <strong>매거진 스타일</strong> — 감성 사진 위에 세리프+산세리프 혼용 타이포
+        </div>
+      </div>
+      <div class="diag-card">
+        <div class="label">성공 콘텐츠 3요소</div>
+        <div class="proposed" style="font-size: 1rem; line-height: 1.6;">
+          <strong style="color: var(--soft-green);">Authenticity</strong> — 스튜디오 컷보다 실제 사용하는 듯한 자연스러운 찰나 포착<br><br>
+          <strong style="color: var(--terracotta);">Utility</strong> — 예쁜 사진을 넘어, 일상에 적용 가능한 루틴이나 정보 제공<br><br>
+          <strong style="color: #E8DDD3;">Emotional Connection</strong> — 제품 기능보다 사용하는 '순간의 감정'과 '분위기'를 판매
+        </div>
+      </div>
+      <div class="diag-card">
+        <div class="label">시리즈별 핵심 비주얼</div>
+        <div class="proposed" style="font-size: 0.9rem; line-height: 1.7;">
+          <strong>오늘의 한 끼</strong> — 웜 베이지, 자연광, 45도 측면 구도<br>
+          <strong>루틴 레시피</strong> — 소프트 그린+웜 화이트, 수직 탑뷰, ASMR<br>
+          <strong>한 장 정리</strong> — 웜 베이지+테라코타, 중앙정렬, 여백<br>
+          <strong>솔직 리뷰</strong> — 리얼리티 톤, 브랜드 컬러 프레임<br>
+          <strong>TMI</strong> — Lo-fi 톤, 사무실/현장 배경<br>
+          <strong>Good Anywhere</strong> — 어반 그레이+웜 베이지, 광각
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ SERIES REFERENCES (Manus) ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">05.7 — Reference Board</div>
+    <div class="section-title">시리즈별 레퍼런스 보드</div>
+    <div class="section-subtitle">Manus 수집 — 시리즈별 5개씩 × 6개 시리즈</div>
+  </div>
+
+  <!-- 오늘의 한 끼 -->
+  <div class="series-detail">
+    <span class="series-tag tag-routine">시리즈 1</span>
+    <h3>오늘의 한 끼 — 레퍼런스</h3>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: 1.5rem;">
+      <div style="background: var(--warm-beige); border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Oatly Lookbook</div>
+        <div style="font-size: 0.75rem; color: #888;">웜 베이지 / 자연광 / 45도 측면</div>
+        <div style="font-size: 0.75rem; color: var(--terracotta); margin-top: 0.5rem;">제품이 '여유로운 시간'의 일부</div>
+      </div>
+      <div style="background: var(--warm-beige); border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Ritual Daily</div>
+        <div style="font-size: 0.75rem; color: #888;">소프트 화이트 / 탑뷰+아이레벨 혼용</div>
+        <div style="font-size: 0.75rem; color: var(--terracotta); margin-top: 0.5rem;">Daily Ritual 키워드 완벽 부합</div>
+      </div>
+      <div style="background: var(--warm-beige); border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Nonfiction Lifestyle</div>
+        <div style="font-size: 0.75rem; color: #888;">뉴트럴 톤 / 부드러운 그림자</div>
+        <div style="font-size: 0.75rem; color: var(--terracotta); margin-top: 0.5rem;">한국적 감성 라이프스타일 전환 사례</div>
+      </div>
+      <div style="background: var(--warm-beige); border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Osulloc Daily</div>
+        <div style="font-size: 0.75rem; color: #888;">소프트 그린 / 데스크테리어 조화</div>
+        <div style="font-size: 0.75rem; color: var(--terracotta); margin-top: 0.5rem;">바쁜 현대인의 책상 위 '쉼'</div>
+      </div>
+      <div style="background: var(--warm-beige); border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Moon Juice Vibes</div>
+        <div style="font-size: 0.75rem; color: #888;">테라코타 포인트 / 필름 텍스처</div>
+        <div style="font-size: 0.75rem; color: var(--terracotta); margin-top: 0.5rem;">Urban Nature + Effortless 결합</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 루틴 레시피 -->
+  <div class="series-detail">
+    <span class="series-tag tag-routine">시리즈 2</span>
+    <h3>루틴 레시피 — 레퍼런스</h3>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: 1.5rem;">
+      <div style="background: #E8F5E9; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Oatly Matcha Latte</div>
+        <div style="font-size: 0.75rem; color: #888;">소프트 그린+웜 화이트 / 수직 탑뷰</div>
+      </div>
+      <div style="background: #E8F5E9; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Ritual ASMR</div>
+        <div style="font-size: 0.75rem; color: #888;">클린 화이트 / ASMR 사운드 / 핸드모션</div>
+      </div>
+      <div style="background: #E8F5E9; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Smoothie Routine</div>
+        <div style="font-size: 0.75rem; color: #888;">웜 베이지 / 단색 배경 / 텍스트 오버레이</div>
+      </div>
+      <div style="background: #E8F5E9; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">3-Step Protein</div>
+        <div style="font-size: 0.75rem; color: #888;">소프트 그린 / 밝은 노출 / 직관적 자막</div>
+      </div>
+      <div style="background: #E8F5E9; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Minimal Beverage</div>
+        <div style="font-size: 0.75rem; color: #888;">내추럴 톤 / 슬로우 모션 / 재료 텍스처</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 한 장 정리 -->
+  <div class="series-detail">
+    <span class="series-tag tag-know">시리즈 3</span>
+    <h3>한 장 정리 — 레퍼런스</h3>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: 1.5rem;">
+      <div style="background: #FFF3E0; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Mental Health Carousel</div>
+        <div style="font-size: 0.75rem; color: #888;">웜 베이지+테라코타 / 중앙정렬 / 여백의 미</div>
+      </div>
+      <div style="background: #FFF3E0; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Wellness Info</div>
+        <div style="font-size: 0.75rem; color: #888;">소프트 그린 / 라인아트 / 산세리프체</div>
+      </div>
+      <div style="background: #FFF3E0; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Nutrition Tips</div>
+        <div style="font-size: 0.75rem; color: #888;">뉴트럴 톤 / 매거진 레이아웃</div>
+      </div>
+      <div style="background: #FFF3E0; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Sustainable Living</div>
+        <div style="font-size: 0.75rem; color: #888;">테라코타 / 미니멀 일러스트 / 종이 질감</div>
+      </div>
+      <div style="background: #FFF3E0; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem; margin-bottom: 0.5rem;">Healthy Habits</div>
+        <div style="font-size: 0.75rem; color: #888;">웜 화이트 / 아이콘 활용 / 파스텔 포인트</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 솔직 리뷰 + TMI + Good Anywhere -->
+  <div class="series-detail">
+    <span class="series-tag tag-know">시리즈 4</span>
+    <h3>솔직 리뷰 — 레퍼런스</h3>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: 1.5rem;">
+      <div style="background: #FFF8E1; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">UGC Product Review</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">리얼리티 톤 / 유저 보이스 / 로고 배치</div>
+      </div>
+      <div style="background: #FFF8E1; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Customer Feedback</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">웜 베이지 / 손글씨 폰트 / 오버레이</div>
+      </div>
+      <div style="background: #FFF8E1; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Real User Story</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">내추럴 톤 / 셀피 구도 / 브랜드 프레임</div>
+      </div>
+      <div style="background: #FFF8E1; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Community Love</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">폴라로이드 레이아웃 / 따뜻한 캡션</div>
+      </div>
+      <div style="background: #FFF8E1; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Honest Review Feed</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">브랜드 팔레트 / 정형화 템플릿 / 굵은 타이포</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="series-detail">
+    <span class="series-tag tag-story">시리즈 5</span>
+    <h3>베지어트 TMI — 레퍼런스</h3>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: 1.5rem;">
+      <div style="background: #F3E5F5; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">D2C Behind Lessons</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">Lo-fi 톤 / 사무실 배경 / 자막 스토리텔링</div>
+      </div>
+      <div style="background: #F3E5F5; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Office Vibes</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">생동감 컬러 / 핸드헬드 카메라 / 캐주얼 편집</div>
+      </div>
+      <div style="background: #F3E5F5; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Product Development</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">블루/그레이 포인트 / 사실적 조명 / 과정 중심</div>
+      </div>
+      <div style="background: #F3E5F5; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Team Routine</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">일상적 톤 / 카페·사무실 배경 / 친근한 나레이션</div>
+      </div>
+      <div style="background: #F3E5F5; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Brand Storytelling</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">웜 베이지 / 흑백 혼용 / 깊이 있는 캡션</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="series-detail">
+    <span class="series-tag tag-story">시리즈 6</span>
+    <h3>Good Anywhere — 레퍼런스</h3>
+    <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-top: 1.5rem;">
+      <div style="background: #EDE7F6; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Product in Context</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">어반 그레이+웜 베이지 / 광각 / 도시 소음</div>
+      </div>
+      <div style="background: #EDE7F6; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Park Lifestyle</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">소프트 그린 / 골든아워 자연광 / 아웃포커싱</div>
+      </div>
+      <div style="background: #EDE7F6; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Airport/Travel</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">뉴트럴 톤 / 공항 소품 활용 / 스냅 느낌</div>
+      </div>
+      <div style="background: #EDE7F6; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Workplace Wellness</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">모던 톤 / 스틸·우드 소재 / 제품 사이드 배치</div>
+      </div>
+      <div style="background: #EDE7F6; border-radius: 8px; padding: 1.2rem; text-align: center;">
+        <div style="font-weight: 700; font-size: 0.85rem;">Cafe Moment</div>
+        <div style="font-size: 0.75rem; color: #888; margin-top: 0.3rem;">웜 브라운 / 카페 인테리어 조화 / 따뜻한 조명</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ BENCHMARKS ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">06 — Benchmarks</div>
+    <div class="section-title">벤치마크 계정</div>
+    <div class="section-subtitle">클릭하면 바로 피드로 이동합니다</div>
+  </div>
+  <div class="ref-grid">
+    <a href="https://www.instagram.com/chamberlaincoffee/" target="_blank" class="ref-card">
+      <div class="ref-handle">@chamberlaincoffee</div>
+      <div class="ref-why">음료 회사로 위장한 라이프스타일 브랜드. 544K 팔로워.</div>
+      <div class="ref-steal">→ 제품이 일상에 녹아드는 방식</div>
+    </a>
+    <a href="https://www.instagram.com/oatly/" target="_blank" class="ref-card">
+      <div class="ref-handle">@oatly</div>
+      <div class="ref-why">식물성 음료를 유머로 풀어내는 글로벌 사례.</div>
+      <div class="ref-steal">→ 인간적이고 재미있는 카피 톤</div>
+    </a>
+    <a href="https://www.instagram.com/lailagohar/" target="_blank" class="ref-card">
+      <div class="ref-handle">@lailagohar</div>
+      <div class="ref-why">음식 × 아트. 미니멀 비주얼의 극치.</div>
+      <div class="ref-steal">→ 여백의 활용, 단순한 구도</div>
+    </a>
+    <a href="https://www.instagram.com/ritual/" target="_blank" class="ref-card">
+      <div class="ref-handle">@ritual</div>
+      <div class="ref-why">건강기능식품 → 라이프스타일 전환 성공.</div>
+      <div class="ref-steal">→ 깔끔한 인포그래픽, 사람+제품</div>
+    </a>
+    <a href="https://www.instagram.com/rawpress.kr/" target="_blank" class="ref-card">
+      <div class="ref-handle">@rawpress.kr</div>
+      <div class="ref-why">한국 식물성 음료 브랜드 톤 참고.</div>
+      <div class="ref-steal">→ 한국 시장 카피 톤, 유통 노출법</div>
+    </a>
+    <a href="https://www.instagram.com/marketkurly/" target="_blank" class="ref-card">
+      <div class="ref-handle">@marketkurly</div>
+      <div class="ref-why">한국 대표 라이프스타일 F&B 커머스.</div>
+      <div class="ref-steal">→ 카드뉴스 디자인, 한글 타이포</div>
+    </a>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ CONTENT ARCHITECTURE ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">07 — Content Architecture</div>
+    <div class="section-title">콘텐츠 아키텍처</div>
+    <div class="section-subtitle">3개 필러 × 6개 시리즈</div>
+  </div>
+  <div class="pillar-grid">
+    <div class="pillar-card">
+      <div class="ratio">40%</div>
+      <div class="pillar-name">MY ROUTINE</div>
+      <div class="pillar-desc">"이렇게 마시고 있어"</div>
+      <div class="series-item">
+        <span class="series-name">오늘의 한 끼</span>
+        <span class="series-format">이미지 · 주2회</span>
+      </div>
+      <div class="series-item">
+        <span class="series-name">루틴 레시피</span>
+        <span class="series-format">릴스 · 주1회</span>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="ratio">35%</div>
+      <div class="pillar-name">GOOD TO KNOW</div>
+      <div class="pillar-desc">"알면 좋은 것들"</div>
+      <div class="series-item">
+        <span class="series-name">한 장 정리</span>
+        <span class="series-format">카드뉴스 · 주1회</span>
+      </div>
+      <div class="series-item">
+        <span class="series-name">솔직 리뷰</span>
+        <span class="series-format">캐러셀 · 격주</span>
+      </div>
+    </div>
+    <div class="pillar-card">
+      <div class="ratio">25%</div>
+      <div class="pillar-name">VEGGIET STORY</div>
+      <div class="pillar-desc">"우리는 이런 브랜드야"</div>
+      <div class="series-item">
+        <span class="series-name">베지어트 TMI</span>
+        <span class="series-format">이미지 · 격주</span>
+      </div>
+      <div class="series-item">
+        <span class="series-name">Good Anywhere</span>
+        <span class="series-format">릴스/이미지 · 월2회</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ SERIES DETAIL ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">08 — Series Detail</div>
+    <div class="section-title">시리즈 상세</div>
+  </div>
+
+  <div class="series-detail">
+    <span class="series-tag tag-routine">MY ROUTINE</span>
+    <h3>오늘의 한 끼</h3>
+    <div class="desc">실제 일상에서 베지어트를 마시는 순간. 채널의 메인 엔진.</div>
+    <ul class="example-list">
+      <li>출근 전 5분, 이게 아침이야</li>
+      <li>점심 먹을 시간이 없을 때</li>
+      <li>운동 끝나고 샤워 전에</li>
+      <li>야근하다 출출할 때</li>
+    </ul>
+    <div style="margin-top: 1rem; padding: 1rem; background: var(--off-white); border-radius: 8px; font-size: 0.85rem; color: #888;">
+      📷 촬영 톤: 자연광 / 실제 공간 / 사람 부분컷(손, 반신) / 제품은 프레임 1/3 이하
+    </div>
+  </div>
+
+  <div class="series-detail">
+    <span class="series-tag tag-routine">MY ROUTINE</span>
+    <h3>루틴 레시피</h3>
+    <div class="desc">15-30초 릴스. 탑뷰 핸드모션. 3스텝 이내 완결.</div>
+    <ul class="example-list">
+      <li>말차 프로틴 + 오트밀크 = 카페 한 잔</li>
+      <li>블랙빈 프로틴 + 바나나 + 얼음 = 스무디볼</li>
+      <li>멀티그레인 + 그래놀라 토핑</li>
+    </ul>
+    <div style="margin-top: 1rem; padding: 1rem; background: var(--off-white); border-radius: 8px; font-size: 0.85rem; color: #888;">
+      🎬 포맷: 탑뷰 / 대리석 or 우드 배경 / ASMR 사운드 / 15초 이내
+    </div>
+  </div>
+
+  <div class="series-detail">
+    <span class="series-tag tag-know">GOOD TO KNOW</span>
+    <h3>한 장 정리</h3>
+    <div class="desc">저장하고 싶은 정보형 카드뉴스. 스펙이 아니라 일상 언어로.</div>
+    <ul class="example-list">
+      <li>아침 거르는 사람이 대신 할 수 있는 3가지</li>
+      <li>식물성 단백질, 뭐가 다른 건데?</li>
+      <li>편의점 조합 vs 프로틴 쉐이크 비교</li>
+      <li>운동 안 하는 사람도 단백질 필요한 이유</li>
+    </ul>
+  </div>
+
+  <div class="series-detail">
+    <span class="series-tag tag-know">GOOD TO KNOW</span>
+    <h3>솔직 리뷰</h3>
+    <div class="desc">실제 유저 후기를 콘텐츠로 가공. UGC 활용.</div>
+    <ul class="example-list">
+      <li>"3주 먹어본 후기" (유저 사진 + 코멘트)</li>
+      <li>맛 비교: 말차 vs 블랙빈 vs 멀티그레인</li>
+      <li>"처음엔 반신반의했는데…" 스토리형</li>
+    </ul>
+  </div>
+
+  <div class="series-detail">
+    <span class="series-tag tag-story">VEGGIET STORY</span>
+    <h3>베지어트 TMI</h3>
+    <div class="desc">브랜드 비하인드. 친구한테 얘기하듯. "사실은~" 톤.</div>
+    <ul class="example-list">
+      <li>왜 식물성이어야 했나 (창업자 시점)</li>
+      <li>올리브영에 들어가기까지</li>
+      <li>패키지 디자인, 이렇게 정해졌어</li>
+    </ul>
+  </div>
+
+  <div class="series-detail">
+    <span class="series-tag tag-story">VEGGIET STORY</span>
+    <h3>Good Anywhere (리뉴얼)</h3>
+    <div class="desc">기존 컨셉 유지 + 자연→도시 일상으로 전환.</div>
+    <ul class="example-list">
+      <li>Good Anywhere: 회의실 (회의 전 한 잔)</li>
+      <li>Good Anywhere: 카페 (카페에서 꺼내 마시는)</li>
+      <li>Good Anywhere: 비행기 (여행 중 간편식 대체)</li>
+      <li>Good Anywhere: 공원 (피크닉 대신 한 끼)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ CARD NEWS PREVIEW ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">09 — Card News Preview</div>
+    <div class="section-title">카드뉴스 시안</div>
+    <div class="section-subtitle">「한 장 정리」시리즈 예시 — 좌우 스크롤</div>
+  </div>
+  <div class="card-preview">
+    <div class="card-slide cover-slide">
+      <div class="card-tag">GOOD TO KNOW</div>
+      <h3>아침 거르는 사람,<br>대신 뭐 해?</h3>
+      <p style="color: #aaa; font-size: 0.85rem; margin-top: 0.5rem;">4장 중 1</p>
+      <div class="card-logo">veggiet</div>
+    </div>
+    <div class="card-slide body-slide">
+      <div class="card-tag">PROBLEM</div>
+      <h3 style="font-size: 1.2rem;">한국인 31%가<br>아침을 거릅니다</h3>
+      <p style="margin-top: 1rem;">"시간이 없어서"가 1위 이유.<br>하지만 공복 상태로 오전을 보내면<br>집중력이 30% 떨어진다는 연구 결과도.</p>
+      <div class="card-logo">veggiet</div>
+    </div>
+    <div class="card-slide body-slide">
+      <div class="card-tag">SOLUTION</div>
+      <h3 style="font-size: 1.2rem;">1분이면 충분한<br>3가지 대안</h3>
+      <div style="margin-top: 1rem;">
+        <p><strong style="color: var(--terracotta);">01</strong> 프로틴 쉐이크 한 잔 (30초)</p>
+        <p><strong style="color: var(--terracotta);">02</strong> 바나나 + 견과류 (1분)</p>
+        <p><strong style="color: var(--terracotta);">03</strong> 전날 만든 오버나이트 오츠</p>
+      </div>
+      <div class="card-logo">veggiet</div>
+    </div>
+    <div class="card-slide cta-slide">
+      <h3 style="font-size: 1.3rem;">내일 아침,<br>30초만 투자해봐.</h3>
+      <p style="margin-top: 1rem; color: var(--charcoal);">저장해두고 내일 해보기 📌</p>
+      <div class="card-logo">veggiet</div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ WEEKLY CALENDAR ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">10 — Weekly Schedule</div>
+    <div class="section-title">주간 콘텐츠 캘린더</div>
+    <div class="section-subtitle">주 5회 게시 · 월 20개 콘텐츠</div>
+  </div>
+  <div class="calendar">
+    <table>
+      <thead>
+        <tr>
+          <th>월</th>
+          <th>화</th>
+          <th>수</th>
+          <th>목</th>
+          <th>금</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <span class="cal-routine">오늘의 한 끼</span>
+            <span class="cal-format">이미지/캐러셀</span>
+          </td>
+          <td>
+            <span class="cal-know">한 장 정리</span>
+            <span class="cal-format">카드뉴스</span>
+          </td>
+          <td>
+            <span class="cal-routine">루틴 레시피</span>
+            <span class="cal-format">릴스</span>
+          </td>
+          <td>
+            <span class="cal-routine">오늘의 한 끼</span>
+            <span class="cal-format">이미지/캐러셀</span>
+          </td>
+          <td>
+            <span class="cal-know">솔직 리뷰</span>
+            <span class="cal-format">1주차</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="cal-routine">오늘의 한 끼</span>
+            <span class="cal-format">이미지/캐러셀</span>
+          </td>
+          <td>
+            <span class="cal-know">한 장 정리</span>
+            <span class="cal-format">카드뉴스</span>
+          </td>
+          <td>
+            <span class="cal-routine">루틴 레시피</span>
+            <span class="cal-format">릴스</span>
+          </td>
+          <td>
+            <span class="cal-routine">오늘의 한 끼</span>
+            <span class="cal-format">이미지/캐러셀</span>
+          </td>
+          <td>
+            <span class="cal-story">베지어트 TMI</span>
+            <span class="cal-format">2주차</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="cal-routine">오늘의 한 끼</span>
+            <span class="cal-format">이미지/캐러셀</span>
+          </td>
+          <td>
+            <span class="cal-know">한 장 정리</span>
+            <span class="cal-format">카드뉴스</span>
+          </td>
+          <td>
+            <span class="cal-routine">루틴 레시피</span>
+            <span class="cal-format">릴스</span>
+          </td>
+          <td>
+            <span class="cal-routine">오늘의 한 끼</span>
+            <span class="cal-format">이미지/캐러셀</span>
+          </td>
+          <td>
+            <span class="cal-story">Good Anywhere</span>
+            <span class="cal-format">3주차</span>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span class="cal-routine">오늘의 한 끼</span>
+            <span class="cal-format">이미지/캐러셀</span>
+          </td>
+          <td>
+            <span class="cal-know">한 장 정리</span>
+            <span class="cal-format">카드뉴스</span>
+          </td>
+          <td>
+            <span class="cal-routine">루틴 레시피</span>
+            <span class="cal-format">릴스</span>
+          </td>
+          <td>
+            <span class="cal-routine">오늘의 한 끼</span>
+            <span class="cal-format">이미지/캐러셀</span>
+          </td>
+          <td>
+            <span class="cal-know">솔직 리뷰</span>
+            <span class="cal-format">4주차</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ DO / DON'T ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">11 — Guidelines</div>
+    <div class="section-title">DO / DON'T</div>
+  </div>
+  <div class="dodont">
+    <div class="do-card">
+      <h4>DO</h4>
+      <ul>
+        <li>사람이 등장하는 일상 장면</li>
+        <li>출근길, 점심시간, 운동 후 등 상황 중심</li>
+        <li>"간편하다, 맛있다, 습관이다" 메시지</li>
+        <li>카드뉴스, 릴스 등 포맷 다양화</li>
+        <li>올리브영 입점을 자연스럽게 노출</li>
+        <li>유저 리뷰/후기를 콘텐츠로 활용</li>
+      </ul>
+    </div>
+    <div class="dont-card">
+      <h4>DON'T</h4>
+      <ul>
+        <li>제품만 단독 스튜디오 컷 반복</li>
+        <li>산, 계곡, 숲 등 자연 풍경 배경</li>
+        <li>"건강, 영양소, 단백질 몇g" 스펙 나열</li>
+        <li>제품 플랫레이만 반복</li>
+        <li>세일/할인 중심 프로모션 톤</li>
+        <li>브랜드가 일방적으로 말하는 톤</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════ FEED GRID RHYTHM ═══════════════ -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">12 — Feed Grid</div>
+    <div class="section-title">피드 그리드 리듬</div>
+    <div class="section-subtitle">9칸(3×3) 단위 시각적 리듬</div>
+  </div>
+  <div class="ig-grid">
+    <div class="ig-cell" style="background: var(--warm-beige); color: var(--charcoal);">사람+제품<br><small>오늘의 한 끼</small></div>
+    <div class="ig-cell" style="background: var(--terracotta);">카드뉴스<br><small>한 장 정리</small></div>
+    <div class="ig-cell" style="background: var(--charcoal);">릴스 커버<br><small>루틴 레시피</small></div>
+    <div class="ig-cell" style="background: var(--warm-beige); color: var(--charcoal);">사람+제품<br><small>오늘의 한 끼</small></div>
+    <div class="ig-cell" style="background: var(--soft-green); color: var(--charcoal);">제품 단독<br><small>올리브영</small></div>
+    <div class="ig-cell" style="background: var(--warm-beige); color: var(--charcoal);">사람+제품<br><small>오늘의 한 끼</small></div>
+    <div class="ig-cell" style="background: var(--terracotta);">카드뉴스<br><small>솔직 리뷰</small></div>
+    <div class="ig-cell" style="background: var(--charcoal);">릴스 커버<br><small>Good Anywhere</small></div>
+    <div class="ig-cell" style="background: #E8F5E9; color: var(--charcoal);">브랜드<br><small>TMI</small></div>
+  </div>
+  <div style="text-align: center; margin-top: 1.5rem; color: #888; font-size: 0.85rem;">
+    사람이 보이는 컷: 9칸 중 3-4칸 (1/3 이상) · 카드뉴스: 2칸 · 릴스: 2칸 · 브랜드: 1칸
+  </div>
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<div class="footer">
+  <div class="brand">veggiet</div>
+  <div>Instagram Moodboard by MarketingOS</div>
+  <div style="margin-top: 0.5rem;">2026.03</div>
+</div>
+
+</body>
+</html>
