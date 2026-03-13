@@ -9,7 +9,7 @@ interface MonthNavProps {
 function formatMonthLabel(month: string): string {
   const [year, m] = month.split("-");
   const monthNum = parseInt(m, 10);
-  return `${monthNum} / ${year.slice(2)}`;
+  return `${year}.${monthNum}`;
 }
 
 export default function MonthNav({
