@@ -1,0 +1,267 @@
+<h2>Design Section 2: 3개 탭 UI 레이아웃</h2>
+<p class="subtitle">각 탭을 클릭해서 레이아웃을 확인하세요</p>
+
+<style>
+  .tab-demo { margin-top: 16px; }
+  .tab-buttons { display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 0; }
+  .tab-btn {
+    padding: 10px 20px; font-size: 13px; font-weight: 600; cursor: pointer;
+    border: none; background: none; color: #9ca3af; border-bottom: 2px solid transparent;
+    margin-bottom: -2px; transition: all 0.2s;
+  }
+  .tab-btn.active { color: #16a34a; border-bottom-color: #16a34a; }
+  .tab-btn:hover:not(.active) { color: #6b7280; }
+  .tab-panel { display: none; padding: 20px; background: #fafafa; border-radius: 0 0 12px 12px; border: 1px solid #e5e7eb; border-top: none; }
+  .tab-panel.active { display: block; }
+  .mock-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; background: white; border-radius: 8px; margin-bottom: 16px;
+    border: 1px solid #e5e7eb;
+  }
+  .brand-switch {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; background: #dcfce7; border-radius: 8px; font-size: 13px; font-weight: 600; color: #16a34a;
+  }
+  .mock-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: #e5e7eb; border-radius: 8px; overflow: hidden; }
+  .mock-day { background: white; padding: 8px; min-height: 72px; font-size: 11px; }
+  .mock-day-num { font-weight: 600; font-size: 12px; color: #374151; margin-bottom: 4px; }
+  .mock-item { padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-bottom: 2px; border-left: 3px solid; }
+  .mock-day-header { background: #f9fafb; padding: 8px; text-align: center; font-size: 10px; font-weight: 700; color: #9ca3af; letter-spacing: 1px; }
+
+  .report-card { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e5e7eb; margin-bottom: 12px; }
+  .report-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .report-title { font-size: 15px; font-weight: 700; color: #111; }
+  .report-date { font-size: 12px; color: #9ca3af; }
+  .metrics-row { display: flex; gap: 12px; margin-bottom: 16px; }
+  .metric-box { flex: 1; background: #f9fafb; border-radius: 8px; padding: 12px; text-align: center; }
+  .metric-value { font-size: 20px; font-weight: 800; color: #111; }
+  .metric-label { font-size: 10px; color: #9ca3af; margin-top: 2px; }
+  .metric-change { font-size: 11px; margin-top: 2px; }
+  .metric-up { color: #16a34a; }
+  .metric-down { color: #ef4444; }
+  .coach-box { background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px 16px; border-radius: 0 8px 8px 0; margin-top: 12px; }
+  .coach-label { font-size: 10px; font-weight: 700; color: #16a34a; letter-spacing: 1px; margin-bottom: 4px; }
+  .coach-text { font-size: 13px; color: #374151; line-height: 1.6; }
+
+  .kpi-chart { background: white; border-radius: 12px; padding: 20px; border: 1px solid #e5e7eb; margin-bottom: 12px; }
+  .kpi-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+  .kpi-title { font-size: 15px; font-weight: 700; }
+  .kpi-target { font-size: 12px; color: #9ca3af; }
+  .bar-chart { display: flex; align-items: end; gap: 6px; height: 120px; padding: 0 8px; }
+  .bar-col { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px; }
+  .bar { width: 100%; border-radius: 4px 4px 0 0; transition: height 0.3s; }
+  .bar-label { font-size: 9px; color: #9ca3af; }
+  .target-line { width: 100%; border-top: 2px dashed #f59e0b; position: relative; margin-top: -60px; margin-bottom: 46px; }
+  .target-tag { position: absolute; right: 0; top: -18px; font-size: 9px; color: #f59e0b; font-weight: 600; }
+
+  .kpi-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .kpi-card { background: #f9fafb; border-radius: 8px; padding: 16px; text-align: center; }
+  .kpi-card-value { font-size: 24px; font-weight: 800; }
+  .kpi-card-label { font-size: 11px; color: #9ca3af; margin-top: 4px; }
+  .kpi-card-sub { font-size: 11px; margin-top: 4px; }
+</style>
+
+<!-- Mock Header -->
+<div class="mock-header">
+  <div style="display:flex; align-items:center; gap:12px;">
+    <div class="brand-switch">🌱 VEGGIET ▾</div>
+    <span style="font-size:11px; color:#9ca3af;">HUENIC × HIZ Dashboard</span>
+  </div>
+  <div style="font-size:12px; color:#9ca3af;">편집 모드</div>
+</div>
+
+<!-- Tabs -->
+<div class="tab-demo">
+  <div class="tab-buttons">
+    <button class="tab-btn active" onclick="showTab('calendar', this)">📅 캘린더</button>
+    <button class="tab-btn" onclick="showTab('report', this)">📊 주간 리포트</button>
+    <button class="tab-btn" onclick="showTab('kpi', this)">📈 KPI</button>
+  </div>
+
+  <!-- TAB 1: Calendar -->
+  <div id="tab-calendar" class="tab-panel active">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <div>
+        <span style="font-size:11px; font-weight:700; color:#16a34a; letter-spacing:2px;">APRIL 2026</span>
+        <div style="font-size:18px; font-weight:800; color:#111; margin-top:2px;">베지어트 콘텐츠 캘린더</div>
+      </div>
+      <div style="display:flex; gap:6px;">
+        <span style="padding:4px 8px; background:#dcfce7; border-radius:4px; font-size:10px; color:#16a34a;">무드보드</span>
+      </div>
+    </div>
+    <div class="mock-grid">
+      <div class="mock-day-header">SUN</div><div class="mock-day-header">MON</div><div class="mock-day-header">TUE</div><div class="mock-day-header">WED</div><div class="mock-day-header">THU</div><div class="mock-day-header">FRI</div><div class="mock-day-header">SAT</div>
+      <div class="mock-day" style="opacity:0.3"></div>
+      <div class="mock-day" style="opacity:0.3"></div>
+      <div class="mock-day" style="opacity:0.3"></div>
+      <div class="mock-day">
+        <div class="mock-day-num">1</div>
+        <div class="mock-item" style="background:#dcfce720; color:#16a34a; border-color:#16a34a;">프로틴바 레시피</div>
+      </div>
+      <div class="mock-day"><div class="mock-day-num">2</div></div>
+      <div class="mock-day">
+        <div class="mock-day-num">3</div>
+        <div class="mock-item" style="background:#dbeafe20; color:#3b82f6; border-color:#3b82f6;">브랜드 스토리</div>
+      </div>
+      <div class="mock-day"><div class="mock-day-num">4</div></div>
+      <div class="mock-day"><div class="mock-day-num">5</div></div>
+      <div class="mock-day">
+        <div class="mock-day-num">6</div>
+        <div class="mock-item" style="background:#fef3c720; color:#ca8a04; border-color:#ca8a04;">릴스: 언박싱</div>
+      </div>
+      <div class="mock-day">
+        <div class="mock-day-num">7</div>
+        <div class="mock-item" style="background:#fce7f320; color:#db2777; border-color:#db2777;">시딩 리그램</div>
+      </div>
+      <div class="mock-day">
+        <div class="mock-day-num">8</div>
+        <div class="mock-item" style="background:#dcfce720; color:#16a34a; border-color:#16a34a;">클렌즈 레시피</div>
+      </div>
+      <div class="mock-day"><div class="mock-day-num">9</div></div>
+      <div class="mock-day">
+        <div class="mock-day-num">10</div>
+        <div class="mock-item" style="background:#dbeafe20; color:#3b82f6; border-color:#3b82f6;">대표 인터뷰</div>
+      </div>
+      <div class="mock-day"><div class="mock-day-num">11</div></div>
+    </div>
+    <div style="margin-top:12px; display:flex; gap:16px; font-size:10px; color:#9ca3af;">
+      <span><span style="display:inline-block;width:8px;height:8px;background:#16a34a;border-radius:2px;margin-right:4px;"></span>레시피</span>
+      <span><span style="display:inline-block;width:8px;height:8px;background:#3b82f6;border-radius:2px;margin-right:4px;"></span>브랜딩</span>
+      <span><span style="display:inline-block;width:8px;height:8px;background:#ca8a04;border-radius:2px;margin-right:4px;"></span>릴스</span>
+      <span><span style="display:inline-block;width:8px;height:8px;background:#db2777;border-radius:2px;margin-right:4px;"></span>시딩</span>
+    </div>
+  </div>
+
+  <!-- TAB 2: Weekly Report -->
+  <div id="tab-report" class="tab-panel">
+    <div class="report-card">
+      <div class="report-header">
+        <div class="report-title">📊 주간 리포트 — W14</div>
+        <div class="report-date">2026.03.30 ~ 04.05</div>
+      </div>
+      <div class="metrics-row">
+        <div class="metric-box">
+          <div class="metric-value">8,361</div>
+          <div class="metric-label">팔로워</div>
+          <div class="metric-change metric-up">▲ +127 (1.5%)</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-value">3</div>
+          <div class="metric-label">발행 콘텐츠</div>
+          <div class="metric-change" style="color:#9ca3af;">피드 2, 릴스 1</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-value">4.2%</div>
+          <div class="metric-label">Engagement Rate</div>
+          <div class="metric-change metric-up">▲ +0.3%p</div>
+        </div>
+        <div class="metric-box">
+          <div class="metric-value">342</div>
+          <div class="metric-label">Top 좋아요</div>
+          <div class="metric-change" style="color:#9ca3af;">저장 89회</div>
+        </div>
+      </div>
+
+      <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:8px;">🏆 Top 콘텐츠</div>
+      <div style="display:flex; gap:12px; align-items:center; padding:12px; background:#f9fafb; border-radius:8px; margin-bottom:16px;">
+        <div style="width:48px;height:48px;background:#e5e7eb;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;">🥗</div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#111;">프로틴바 5분 레시피</div>
+          <div style="font-size:11px;color:#9ca3af;margin-top:2px;">좋아요 342 · 댓글 28 · 저장 89 · 공유 15</div>
+        </div>
+      </div>
+
+      <div class="coach-box">
+        <div class="coach-label">💬 COACH COMMENT</div>
+        <div class="coach-text">
+          이번 주 레시피 콘텐츠의 저장률이 매우 높습니다 (89회). 실용적인 콘텐츠에 대한 수요가 확인됐습니다.<br><br>
+          다음 주 릴스는 <strong>초반 3초에 완성된 요리를 먼저 보여주는 구조</strong>를 테스트해보세요. "Before→After"보다 "After→Process"가 이탈률이 낮습니다.
+        </div>
+      </div>
+
+      <div style="margin-top:16px;">
+        <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:8px;">📋 다음 주 플랜</div>
+        <div style="font-size:13px; color:#555; line-height:2;">
+          ☐ 월: 클렌즈 레시피 피드 (인국)<br>
+          ☐ 수: 브랜드 스토리 카드뉴스 (예랑)<br>
+          ☐ 금: 시딩 리그램 + 스토리 (예랑)
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:8px;">
+      <div style="padding:8px 16px; background:white; border:1px solid #e5e7eb; border-radius:8px; font-size:12px; color:#9ca3af; cursor:pointer;">← W13</div>
+      <div style="padding:8px 16px; background:white; border:1px solid #e5e7eb; border-radius:8px; font-size:12px; color:#9ca3af; cursor:pointer;">W15 →</div>
+    </div>
+  </div>
+
+  <!-- TAB 3: KPI -->
+  <div id="tab-kpi" class="tab-panel">
+    <div class="kpi-summary" style="margin-bottom:16px;">
+      <div class="kpi-card">
+        <div class="kpi-card-value" style="color:#111;">8,361</div>
+        <div class="kpi-card-label">현재 팔로워</div>
+        <div class="kpi-card-sub" style="color:#16a34a;">목표 20,000의 41.8%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-card-value" style="color:#111;">4.2%</div>
+        <div class="kpi-card-label">평균 ER</div>
+        <div class="kpi-card-sub" style="color:#16a34a;">업계 평균 2.1% 대비 ▲</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-card-value" style="color:#111;">28</div>
+        <div class="kpi-card-label">이번 달 콘텐츠</div>
+        <div class="kpi-card-sub" style="color:#9ca3af;">목표 10개 대비 초과 달성</div>
+      </div>
+    </div>
+
+    <div class="kpi-chart">
+      <div class="kpi-header">
+        <div class="kpi-title">📈 팔로워 추이</div>
+        <div class="kpi-target">목표: 20,000</div>
+      </div>
+      <div class="bar-chart">
+        <div class="bar-col"><div class="bar" style="height:30px; background:#bbf7d0;"></div><div class="bar-label">W10</div></div>
+        <div class="bar-col"><div class="bar" style="height:35px; background:#bbf7d0;"></div><div class="bar-label">W11</div></div>
+        <div class="bar-col"><div class="bar" style="height:42px; background:#bbf7d0;"></div><div class="bar-label">W12</div></div>
+        <div class="bar-col"><div class="bar" style="height:48px; background:#bbf7d0;"></div><div class="bar-label">W13</div></div>
+        <div class="bar-col"><div class="bar" style="height:56px; background:#86efac;"></div><div class="bar-label">W14</div></div>
+        <div class="bar-col"><div class="bar" style="height:60px; background:#4ade80;"></div><div class="bar-label">W15</div></div>
+        <div class="bar-col"><div class="bar" style="height:50px; background:#e5e7eb; border:2px dashed #d1d5db;"></div><div class="bar-label" style="color:#ca8a04;">W16</div></div>
+        <div class="bar-col"><div class="bar" style="height:50px; background:#e5e7eb; border:2px dashed #d1d5db;"></div><div class="bar-label" style="color:#ca8a04;">W17</div></div>
+      </div>
+      <div class="target-line"><span class="target-tag">— 목표선 20K</span></div>
+    </div>
+
+    <div class="kpi-chart">
+      <div class="kpi-header">
+        <div class="kpi-title">Engagement Rate 추이</div>
+        <div class="kpi-target">업계 평균: 2.1%</div>
+      </div>
+      <div class="bar-chart" style="height:80px;">
+        <div class="bar-col"><div class="bar" style="height:50px; background:#bfdbfe;"></div><div class="bar-label">W10</div></div>
+        <div class="bar-col"><div class="bar" style="height:45px; background:#bfdbfe;"></div><div class="bar-label">W11</div></div>
+        <div class="bar-col"><div class="bar" style="height:55px; background:#bfdbfe;"></div><div class="bar-label">W12</div></div>
+        <div class="bar-col"><div class="bar" style="height:48px; background:#bfdbfe;"></div><div class="bar-label">W13</div></div>
+        <div class="bar-col"><div class="bar" style="height:60px; background:#93c5fd;"></div><div class="bar-label">W14</div></div>
+        <div class="bar-col"><div class="bar" style="height:65px; background:#60a5fa;"></div><div class="bar-label">W15</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+
+<div style="margin-top:24px; padding:16px; background:#fffbeb; border:1px solid #fde68a; border-radius:8px;">
+  <p style="margin:0; font-size:13px; color:#92400e;">
+    💡 <strong>위 탭을 클릭해서 3개 화면을 모두 확인해보세요.</strong><br>
+    캘린더 탭은 기존 컴포넌트 재사용, 리포트와 KPI는 신규 개발입니다.
+  </p>
+</div>

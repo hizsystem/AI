@@ -1,0 +1,83 @@
+<h2>베지어트/빈커 브랜드 전환 — 어디에 놓을까요?</h2>
+<p class="subtitle">투트랙 운영을 위한 브랜드 스위처 위치</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>헤더 좌측 브랜드 스위처 (추천)</h3>
+      <p>로고 옆에 드롭다운으로 브랜드 전환. 탭은 공통.</p>
+      <div style="margin-top:12px; padding:16px; background:#f8fafc; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.8;">
+        ┌─────────────────────────────────────────┐<br>
+        │ 🌱 <span style="background:#dcfce7;padding:2px 6px;border-radius:4px;">VEGGIET ▾</span>&nbsp;&nbsp; [캘린더] [리포트] [KPI]&nbsp;&nbsp;&nbsp;│<br>
+        ├─────────────────────────────────────────┤<br>
+        │&nbsp; ┌──────────┐&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │&nbsp; │ 🌱 VEGGIET│ ← 클릭하면 드롭다운&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │&nbsp; │ 🫘 VINKER&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │&nbsp; └──────────┘&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │&nbsp;&nbsp;&nbsp; 선택한 브랜드의 캘린더 표시&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        └─────────────────────────────────────────┘
+      </div>
+      <div style="margin-top:8px;">
+        <span style="color:#16a34a; font-size:13px;">✓ 공간 효율적</span>&nbsp;&nbsp;
+        <span style="color:#16a34a; font-size:13px;">✓ 브랜드 컬러로 구분 가능</span>&nbsp;&nbsp;
+        <span style="color:#16a34a; font-size:13px;">✓ 탭 구조 그대로 유지</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>상단 브랜드 탭 + 하위 기능 탭</h3>
+      <p>최상단에 브랜드 탭, 그 아래에 기능 탭. 2단 구조.</p>
+      <div style="margin-top:12px; padding:16px; background:#f8fafc; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.8;">
+        ┌─────────────────────────────────────────┐<br>
+        │&nbsp; [🌱 VEGGIET]&nbsp;&nbsp; [🫘 VINKER]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │─────────────────────────────────────────│<br>
+        │&nbsp; [캘린더]&nbsp; [리포트]&nbsp; [KPI]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        ├─────────────────────────────────────────┤<br>
+        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │&nbsp;&nbsp;&nbsp; 콘텐츠 영역&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        └─────────────────────────────────────────┘
+      </div>
+      <div style="margin-top:8px;">
+        <span style="color:#16a34a; font-size:13px;">✓ 브랜드 구분 명확</span>&nbsp;&nbsp;
+        <span style="color:#16a34a; font-size:13px;">✓ 전환이 눈에 보임</span>&nbsp;&nbsp;
+        <span style="color:#ca8a04; font-size:13px;">△ 헤더가 높아짐 (탭 2줄)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>URL 분리 (/veggiet, /vinker)</h3>
+      <p>완전 별도 페이지. 각 브랜드가 독립적인 대시보드. 네비게이션에서 서로 링크.</p>
+      <div style="margin-top:12px; padding:16px; background:#f8fafc; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.8;">
+        /huenic/veggiet&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/huenic/vinker<br>
+        ┌──────────────────┐&nbsp;&nbsp; ┌──────────────────┐<br>
+        │ 🌱 VEGGIET&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp; │ 🫘 VINKER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │ <span style="color:#16a34a;">■■■■■</span> 초록 테마&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp; │ <span style="color:#6366f1;">■■■■■</span> 보라 테마&nbsp;&nbsp;&nbsp;│<br>
+        │ 캘린더/리포트/KPI&nbsp;│&nbsp;&nbsp; │ 캘린더/리포트/KPI&nbsp;│<br>
+        │ (국내 전략 중심)&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp; │ (해외 전략 중심)&nbsp;&nbsp;&nbsp;│<br>
+        └──────────────────┘&nbsp;&nbsp; └──────────────────┘
+      </div>
+      <div style="margin-top:8px;">
+        <span style="color:#16a34a; font-size:13px;">✓ 브랜드 완전 분리</span>&nbsp;&nbsp;
+        <span style="color:#16a34a; font-size:13px;">✓ 각 브랜드 테마 적용 가능</span>&nbsp;&nbsp;
+        <span style="color:#16a34a; font-size:13px;">✓ 공유 링크가 명확</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:24px; padding:16px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px;">
+  <p style="margin:0; font-size:14px;"><strong>추천: A (헤더 드롭다운)</strong> 또는 <strong>C (URL 분리)</strong></p>
+  <p style="margin:4px 0 0 0; font-size:13px; color:#555;">
+    A는 가장 심플하고 빠르게 구현 가능. C는 "베지어트 링크", "빈커 링크"를 각각 공유할 수 있어서 실무적으로 편리.
+    베지어트와 빈커가 톤앤매너/언어가 완전히 다르므로 C가 장기적으로 더 적합할 수 있습니다.
+  </p>
+</div>
