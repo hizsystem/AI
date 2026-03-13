@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #ECFDF5 0%, #FFFFFF 50%, #F0FDF4 100%);
+    color: #0F172A;
+}
+.slide { width: 1080px; height: 1080px; position: relative; }
+
+.logo {
+    position: absolute; top: 40px; right: 48px;
+    font-size: 22px; font-weight: 700; color: rgba(15,23,42,0.35); letter-spacing: 1px;
+}
+
+.content {
+    padding: 72px 64px; padding-bottom: 120px;
+    display: flex; flex-direction: column; justify-content: center;
+    height: 100%;
+}
+
+.tag {
+    display: inline-block;
+    font-size: 20px; font-weight: 600;
+    color: #16A34A; background: rgba(22,163,74,0.1);
+    padding: 8px 20px; border-radius: 100px;
+    margin-bottom: 28px; width: fit-content;
+}
+
+.hook {
+    font-size: 28px; font-weight: 400; color: #6B7280;
+    line-height: 1.5; margin-bottom: 16px;
+}
+
+.headline {
+    font-size: 54px; font-weight: 800; line-height: 1.3;
+    letter-spacing: -1.5px; margin-bottom: 12px; color: #0F172A;
+}
+.headline .hl { background: #BBF7D0; padding: 0 6px; border-radius: 4px; }
+
+.sub-headline {
+    font-size: 30px; font-weight: 600; color: #374151;
+    margin-bottom: 44px;
+}
+.sub-headline .hl { color: #16A34A; }
+
+/* 3개 뱃지 */
+.badges {
+    display: flex; gap: 20px; margin-bottom: 40px;
+}
+.badge {
+    flex: 1;
+    background: #FFFFFF;
+    border: 2px solid #BBF7D0;
+    border-radius: 16px;
+    padding: 28px 16px;
+    text-align: center;
+}
+.badge .icon {
+    font-size: 36px; margin-bottom: 12px;
+}
+.badge .label {
+    font-size: 22px; font-weight: 700; color: #16A34A;
+}
+.badge .detail {
+    font-size: 16px; color: #6B7280; margin-top: 4px;
+}
+
+.case-client {
+    font-size: 20px; color: #9CA3AF; text-align: center; margin-bottom: 36px;
+}
+
+.bottom-text {
+    text-align: center;
+}
+.bottom-text .line1 {
+    font-size: 30px; font-weight: 700; color: #374151;
+    margin-bottom: 8px;
+}
+.bottom-text .line2 {
+    font-size: 30px; font-weight: 700; color: #0F172A;
+}
+.bottom-text .line2 .green { color: #16A34A; }
+
+.cta-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 88px; background: #16A34A;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; font-weight: 700; color: #FFFFFF;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+    <div class="logo">brandrise</div>
+    <div class="content">
+        <div class="tag">올리브영 · 백화점 입점</div>
+
+        <div class="headline">
+            <span class="hl">런칭 1년</span> 만에
+        </div>
+        <div class="sub-headline">
+            백화점 3사 팝업 + <span class="hl">해외 어워드 수상</span>
+        </div>
+
+        <div class="badges">
+            <div class="badge">
+                <div class="icon">🏬</div>
+                <div class="label">백화점 3사</div>
+                <div class="detail">팝업스토어</div>
+            </div>
+            <div class="badge">
+                <div class="icon">🏆</div>
+                <div class="label">서울 5대</div>
+                <div class="detail">뷰티브랜드 선정</div>
+            </div>
+            <div class="badge">
+                <div class="icon">🌎</div>
+                <div class="label">Cosmoprof</div>
+                <div class="detail">Las Vegas 수상</div>
+            </div>
+        </div>
+
+        <div class="case-client">Client: 리솔츠 (웰니스 뷰티 브랜드)</div>
+
+        <div class="bottom-text">
+            <div class="line1">제품력만으로는 안 됩니다.</div>
+            <div class="line2"><span class="green">브랜드 스토리</span>가 열쇠입니다.</div>
+        </div>
+    </div>
+    <div class="cta-bar">입점 전략 무료 진단받기 →</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대표님, 메타 광고 직접 세팅하고 계세요? — Pain Series #1</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       Pain Series — Warm Theme + Orange Accent
+       ======================================== */
+    :root {
+      --cover-bg: #E8752E;
+      --cover-text: #1A1A1A;
+      --accent: #E8752E;
+      --accent-light: #F59E0B;
+      --body-bg: #F5F0EB;
+      --body-text: #1A1A1A;
+      --body-secondary: #3D3D3D;
+      --body-muted: #9E9E9E;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      --dark-bg: #1A1A1A;
+      --dark-text: #FFFFFF;
+      --dark-accent: #E8752E;
+      --cta-button: #E8752E;
+      --cta-text: #FFFFFF;
+      --compare-before-bg: linear-gradient(135deg, #FECACA, #FCA5A5);
+      --compare-before-color: #991B1B;
+      --compare-after-bg: linear-gradient(135deg, #A7F3D0, #6EE7B7);
+      --compare-after-color: #065F46;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: #D4CBC2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Themes */
+    .slide.cover-theme {
+      background-color: var(--cover-bg);
+      color: var(--cover-text);
+    }
+
+    .slide.body-theme {
+      background-color: var(--body-bg);
+      color: var(--body-text);
+    }
+
+    .slide.dark-theme {
+      background-color: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Q Badge */
+    .q-badge {
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      border-radius: 12px;
+      color: #FFFFFF;
+      font-size: 28px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* Page Number */
+    .page-num {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--body-muted);
+      position: absolute;
+      top: 56px;
+      right: 60px;
+    }
+    .dark-theme .page-num { color: rgba(255,255,255,0.4); }
+
+    /* Top Row */
+    .top-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    /* Headlines */
+    .headline {
+      font-size: 60px;
+      font-weight: 900;
+      line-height: 1.3;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+
+    .sub-headline {
+      font-size: 44px;
+      font-weight: 700;
+      line-height: 1.35;
+      margin-bottom: 20px;
+    }
+
+    .body-text {
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--body-secondary);
+    }
+    .dark-theme .body-text { color: #94A3B8; }
+
+    .highlight { color: var(--accent); font-weight: 700; }
+    .highlight-white { color: #FFFFFF; font-weight: 700; }
+    .bg-accent {
+      background: var(--accent);
+      color: #FFFFFF;
+      padding: 2px 10px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    /* Tag */
+    .tag {
+      display: inline-block;
+      font-size: 24px;
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 100px;
+      margin-bottom: 16px;
+    }
+
+    /* Credit */
+    .credit {
+      position: absolute;
+      bottom: 36px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--body-muted);
+    }
+    .dark-theme .credit { color: rgba(255,255,255,0.3); }
+    .cover-theme .credit { color: rgba(26,26,26,0.4); }
+
+    /* Checklist */
+    .checklist { margin-top: 32px; }
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      padding: 22px 28px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      margin-bottom: 12px;
+      box-shadow: var(--card-shadow);
+    }
+    .checklist-icon {
+      width: 40px;
+      height: 40px;
+      background: #EF4444;
+      border-radius: 10px;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+    .checklist-icon.green { background: #22C55E; }
+    .checklist-label {
+      flex: 1;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--body-text);
+    }
+    .checklist-time {
+      font-size: 26px;
+      font-weight: 700;
+      color: #EF4444;
+      font-family: 'Pretendard', monospace;
+    }
+    .checklist-time.green { color: #22C55E; }
+
+    /* Stat Grid */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: var(--card-shadow);
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 56px;
+      font-weight: 900;
+      color: #EF4444;
+      margin-bottom: 8px;
+    }
+    .stat-number.orange { color: var(--accent); }
+    .stat-label {
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--body-muted);
+    }
+
+    /* Compare Cards */
+    .compare-row {
+      display: flex;
+      gap: 20px;
+      margin-top: 32px;
+    }
+    .compare-card {
+      flex: 1;
+      border-radius: 16px;
+      padding: 32px 28px;
+    }
+    .compare-card.before {
+      background: var(--compare-before-bg);
+      color: var(--compare-before-color);
+    }
+    .compare-card.after {
+      background: var(--compare-after-bg);
+      color: var(--compare-after-color);
+    }
+    .compare-label {
+      font-size: 24px;
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    .compare-card.before .compare-label { background: rgba(239,68,68,0.15); }
+    .compare-card.after .compare-label { background: rgba(34,197,94,0.15); }
+    .compare-number {
+      font-size: 52px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .compare-desc {
+      font-size: 26px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    /* Insight Bar */
+    .insight-bar {
+      background: linear-gradient(90deg, #F97316, #FB923C);
+      border-radius: 14px;
+      padding: 28px 32px;
+      color: #FFFFFF;
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 28px;
+      line-height: 1.5;
+    }
+
+    /* CTA Button */
+    .cta-button {
+      display: inline-block;
+      background: var(--accent);
+      color: #FFFFFF;
+      padding: 24px 56px;
+      border-radius: 14px;
+      font-size: 32px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /* Cover specific */
+    .cover-visual {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 180px;
+      opacity: 0.15;
+    }
+
+    /* Series badge */
+    .series-badge {
+      display: inline-block;
+      background: rgba(0,0,0,0.12);
+      color: var(--cover-text);
+      font-size: 24px;
+      font-weight: 600;
+      padding: 10px 24px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .dark-theme .series-badge {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Dark theme cards */
+    .dark-theme .checklist-item {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .dark-theme .checklist-label { color: #FFFFFF; }
+
+    /* Process flow */
+    .process-flow {
+      margin-top: 32px;
+    }
+    .process-step {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+    .process-num {
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      border-radius: 50%;
+      color: #FFFFFF;
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-right: 20px;
+    }
+    .process-content {
+      flex: 1;
+      padding-top: 6px;
+    }
+    .process-title {
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--body-text);
+      margin-bottom: 4px;
+    }
+    .process-desc {
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--body-muted);
+    }
+    .process-line {
+      width: 2px;
+      height: 16px;
+      background: #D1D5DB;
+      margin-left: 21px;
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================
+       SLIDE 01 — COVER
+       ============================ -->
+  <div class="slide cover-theme">
+    <div class="slide-inner">
+      <div class="series-badge">대표님, 이거 직접 하고 계세요?  #1</div>
+
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div class="headline" style="font-size:68px; color:#1A1A1A; margin-bottom:24px;">
+          메타 광고,<br>
+          직접 세팅하고<br>
+          계세요?
+        </div>
+        <div class="body-text" style="font-size:34px; color:rgba(26,26,26,0.65);">
+          유튜브 보고 따라했는데 왜 안 되는지<br>
+          아시나요?
+        </div>
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 02 — 메타 광고를 하려면
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner">
+      <div class="top-row">
+        <div class="q-badge">!</div>
+      </div>
+      <div class="page-num">02 / 08</div>
+
+      <div class="sub-headline">
+        메타 광고를 하려면<br>
+        <span class="highlight">이걸 다 해야 합니다</span>
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-item">
+          <div class="checklist-icon">1</div>
+          <div class="checklist-label">페이스북 페이지 생성</div>
+          <div class="checklist-time">30분</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon">2</div>
+          <div class="checklist-label">비즈니스 포트폴리오 연결</div>
+          <div class="checklist-time">1시간</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon">3</div>
+          <div class="checklist-label">광고 관리자 세팅</div>
+          <div class="checklist-time">2시간</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon">4</div>
+          <div class="checklist-label">메타 픽셀 설치 & 전환 추적</div>
+          <div class="checklist-time">3시간+</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon">5</div>
+          <div class="checklist-label">맞춤 타겟 & 유사 타겟 설정</div>
+          <div class="checklist-time">2시간</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon">6</div>
+          <div class="checklist-label">크리에이티브 제작 & A/B 테스트</div>
+          <div class="checklist-time">5시간+</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon">7</div>
+          <div class="checklist-label">리타겟팅 캠페인 구성</div>
+          <div class="checklist-time">2시간</div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top:auto; margin-bottom:60px;">
+        합계: 최소 15시간+ (초보자 기준 30시간)
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 03 — 유튜브 따라했는데
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner">
+      <div class="top-row">
+        <div class="q-badge">!</div>
+      </div>
+      <div class="page-num">03 / 08</div>
+
+      <div class="sub-headline">
+        유튜브 보고 따라했는데<br>
+        <span class="highlight">이런 적 없으세요?</span>
+      </div>
+
+      <div class="body-text" style="margin-top:16px; margin-bottom:32px; font-size:30px;">
+        대표님들이 가장 많이 겪는 시행착오들
+      </div>
+
+      <div class="checklist">
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:#EF4444;">✕</div>
+          <div class="checklist-label">픽셀을 설치했는데 데이터가 안 잡혀요</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:#EF4444;">✕</div>
+          <div class="checklist-label">광고 승인이 자꾸 거절당해요</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:#EF4444;">✕</div>
+          <div class="checklist-label">타겟 설정이 맞는지 모르겠어요</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:#EF4444;">✕</div>
+          <div class="checklist-label">광고비만 나가고 전환이 0이에요</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="background:#EF4444;">✕</div>
+          <div class="checklist-label">ROAS가 뭔지 어디서 보는지 모르겠어요</div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top:auto; margin-bottom:60px;">
+        유튜브 영상은 "세팅"만 알려줍니다.<br>
+        실제 "성과"를 내는 건 전혀 다른 문제예요.
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 04 — 그 시간에 대표님은
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner">
+      <div class="top-row">
+        <div class="q-badge">?</div>
+      </div>
+      <div class="page-num">04 / 08</div>
+
+      <div class="sub-headline">
+        그 <span class="highlight">30시간</span> 동안<br>
+        대표님은 뭘 못하셨나요?
+      </div>
+
+      <div class="stat-grid" style="margin-top:40px;">
+        <div class="stat-card">
+          <div class="stat-number orange">30h</div>
+          <div class="stat-label">메타 광고 세팅에<br>쓴 시간</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color:#6B7280;">0h</div>
+          <div class="stat-label">제품 개선에<br>쓴 시간</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color:#6B7280;">0h</div>
+          <div class="stat-label">고객 미팅에<br>쓴 시간</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color:#EF4444;">50만+</div>
+          <div class="stat-label">잘못된 세팅으로<br>낭비한 광고비</div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top:auto; margin-bottom:60px;">
+        대표님의 시간은 광고 세팅이 아니라<br>
+        사업에 써야 합니다.
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 05 — Before / After
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner">
+      <div class="top-row">
+        <div class="q-badge" style="background:#22C55E;">→</div>
+      </div>
+      <div class="page-num">05 / 08</div>
+
+      <div class="sub-headline">
+        전문가에게 맡기면<br>
+        <span class="highlight">이렇게 달라집니다</span>
+      </div>
+
+      <div class="compare-row">
+        <div class="compare-card before">
+          <div class="compare-label">직접 하면</div>
+          <div class="compare-number">30h+</div>
+          <div class="compare-desc">
+            세팅만 30시간<br>
+            시행착오 반복<br>
+            성과 불확실<br>
+            광고비 낭비 위험
+          </div>
+        </div>
+        <div class="compare-card after">
+          <div class="compare-label">맡기면</div>
+          <div class="compare-number">2h</div>
+          <div class="compare-desc">
+            전문가 세팅 2시간<br>
+            검증된 프로세스<br>
+            데이터 기반 최적화<br>
+            ROAS 관리까지
+          </div>
+        </div>
+      </div>
+
+      <div class="body-text" style="margin-top:auto; margin-bottom:56px; text-align:center; font-size:30px; color:var(--body-muted);">
+        같은 예산, 완전히 다른 결과
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 06 — brandrise가 하는 방법
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner">
+      <div class="top-row">
+        <div class="q-badge" style="background:var(--accent);">✓</div>
+      </div>
+      <div class="page-num">06 / 08</div>
+
+      <div class="sub-headline">
+        brandrise는<br>
+        <span class="highlight">이렇게 세팅합니다</span>
+      </div>
+
+      <div class="process-flow">
+        <div class="process-step">
+          <div class="process-num">1</div>
+          <div class="process-content">
+            <div class="process-title">비즈니스 진단</div>
+            <div class="process-desc">타겟 고객 · 제품 · 경쟁사 분석</div>
+          </div>
+        </div>
+        <div class="process-line"></div>
+        <div class="process-step">
+          <div class="process-num">2</div>
+          <div class="process-content">
+            <div class="process-title">광고 계정 & 픽셀 세팅</div>
+            <div class="process-desc">전환 추적 · 맞춤 이벤트 · 데이터 검증</div>
+          </div>
+        </div>
+        <div class="process-line"></div>
+        <div class="process-step">
+          <div class="process-num">3</div>
+          <div class="process-content">
+            <div class="process-title">타겟 & 크리에이티브 설계</div>
+            <div class="process-desc">맞춤/유사 타겟 · A/B 테스트 소재 제작</div>
+          </div>
+        </div>
+        <div class="process-line"></div>
+        <div class="process-step">
+          <div class="process-num">4</div>
+          <div class="process-content">
+            <div class="process-title">캠페인 런칭 & 최적화</div>
+            <div class="process-desc">ROAS 모니터링 · 주간 리포트 · 지속 개선</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top:auto; margin-bottom:60px;">
+        대표님은 제품에 집중하세요.<br>
+        광고는 저희가 합니다.
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 07 — CLOSING (Dark)
+       ============================ -->
+  <div class="slide dark-theme">
+    <div class="slide-inner">
+      <div class="series-badge">대표님, 이거 직접 하고 계세요?  #1</div>
+      <div class="page-num">07 / 08</div>
+
+      <div style="flex:1; display:flex; flex-direction:column; justify-content:center;">
+        <div class="body-text" style="font-size:36px; color:#94A3B8; line-height:1.8; margin-bottom:40px;">
+          메타 광고 세팅,<br>
+          CRM 구축,<br>
+          블로그 SEO,<br>
+          체험단 운영,<br>
+          대시보드 관리...<br>
+        </div>
+
+        <div style="width:60px; height:3px; background:var(--dark-accent); margin-bottom:40px;"></div>
+
+        <div class="headline" style="font-size:54px; color:#FFFFFF; margin-bottom:20px;">
+          마케팅의 <span style="color:var(--dark-accent);">크고 작은 것들</span>,<br>
+          혼자 다 하려고 하지 마세요.
+        </div>
+
+        <div class="body-text" style="font-size:28px; color:#94A3B8;">
+          다음 편: CRM/고객 관리 — "고객 데이터, 엑셀로 관리하고 계세요?"
+        </div>
+      </div>
+
+      <div class="credit">brandrise</div>
+    </div>
+  </div>
+
+  <!-- ============================
+       SLIDE 08 — CTA
+       ============================ -->
+  <div class="slide body-theme">
+    <div class="slide-inner" style="align-items:center; justify-content:center; text-align:center;">
+      <div class="page-num">08 / 08</div>
+
+      <div style="width:88px; height:88px; background:var(--accent); border-radius:24px; display:flex; align-items:center; justify-content:center; margin-bottom:32px;">
+        <span style="font-size:44px; color:#FFFFFF; font-weight:900;">B</span>
+      </div>
+
+      <div class="headline" style="font-size:52px; text-align:center;">
+        복잡한 마케팅,<br>
+        <span class="highlight">전문가에게 맡기세요</span>
+      </div>
+
+      <div class="body-text" style="text-align:center; margin-bottom:40px; font-size:30px;">
+        무료 마케팅 성숙도 진단으로<br>
+        우리 브랜드에 가장 필요한 것부터 시작하세요.
+      </div>
+
+      <div class="cta-button">무료 진단 받기</div>
+
+      <div class="body-text" style="text-align:center; margin-top:24px; font-size:26px; color:var(--body-muted);">
+        start.brandrise.co.kr
+      </div>
+
+      <div class="credit" style="bottom:56px;">brandrise · @brandrise_mkt</div>
+    </div>
+  </div>
+
+</body>
+</html>

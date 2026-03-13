@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Pretendard', sans-serif;
+    background: #0A0A0A;
+    color: #FFFFFF;
+}
+.slide { width: 1080px; height: 1080px; position: relative; }
+
+.logo {
+    position: absolute; top: 40px; right: 48px;
+    font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 1px;
+    z-index: 10;
+}
+
+.content {
+    padding: 52px 64px;
+    padding-bottom: 96px;
+    display: flex; flex-direction: column;
+    height: 100%;
+}
+
+/* 태그 */
+.tag {
+    display: inline-block;
+    font-size: 18px; font-weight: 600;
+    color: #4ADE80; background: rgba(74,222,128,0.10);
+    padding: 8px 20px; border-radius: 100px;
+    margin-bottom: 24px; width: fit-content;
+}
+
+/* 메인 헤드라인 - 한 줄로 크게 */
+.headline {
+    font-size: 52px; font-weight: 900; line-height: 1.2;
+    letter-spacing: -2.5px;
+    margin-bottom: 16px;
+    white-space: nowrap;
+}
+.headline .green {
+    color: #4ADE80;
+}
+
+/* 서브 카피 - 리브랜딩 필요성 자극 */
+.sub-copy {
+    font-size: 24px; font-weight: 400; color: #6B7280;
+    line-height: 1.5;
+    margin-bottom: 36px;
+}
+
+/* Before / After 섹션 */
+.ba-section {
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    flex: 1;
+    min-height: 0;
+}
+
+.ba-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.ba-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.ba-label {
+    font-size: 14px; font-weight: 800;
+    letter-spacing: 3px;
+}
+.ba-label.before-l { color: #6B7280; }
+.ba-label.after-l { color: #4ADE80; }
+
+.ba-year {
+    font-size: 13px; font-weight: 500; color: #4B5563;
+}
+
+.ba-img-wrapper {
+    border-radius: 16px;
+    overflow: hidden;
+    flex: 1;
+    position: relative;
+}
+.ba-img-wrapper.before-w {
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.ba-img-wrapper.after-w {
+    border: 2px solid rgba(74,222,128,0.35);
+    box-shadow: 0 0 40px rgba(74,222,128,0.08);
+}
+.ba-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+/* After 이미지: 왼쪽 3개 제품 돋보이게 크랍 */
+.ba-img-wrapper.after-w img {
+    object-position: left center;
+}
+
+/* Before에 살짝 어둡게 */
+.ba-img-wrapper.before-w::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.2);
+    border-radius: 16px;
+}
+
+/* 화살표 */
+.arrow-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 44px;
+    padding-top: 28px;
+}
+.arrow-icon {
+    font-size: 36px;
+    color: #4ADE80;
+    font-weight: 300;
+}
+
+/* 하단 프로세스 */
+.process-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-top: 20px;
+}
+.process-step {
+    font-size: 16px; font-weight: 600; color: #9CA3AF;
+    padding: 0 4px;
+}
+.process-step.highlight {
+    color: #4ADE80;
+    font-weight: 700;
+}
+.process-arrow {
+    font-size: 14px; color: #4B5563;
+    padding: 0 12px;
+}
+
+/* CTA 바 */
+.cta-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(90deg, #16A34A 0%, #22C55E 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 700; color: #FFFFFF;
+    letter-spacing: -0.5px;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+    <div class="logo">brandrise</div>
+
+    <div class="content">
+        <div class="tag">브랜딩 성공사례</div>
+
+        <div class="headline">
+            리브랜딩 1년 만에 <span class="green">올리브베러</span> 입점
+        </div>
+
+        <div class="sub-copy">
+            좋은 제품인데 안 팔린다면, 브랜드를 의심하세요.
+        </div>
+
+        <!-- Before / After -->
+        <div class="ba-section">
+            <div class="ba-card">
+                <div class="ba-header">
+                    <div class="ba-label before-l">BEFORE</div>
+                    <div class="ba-year">리브랜딩 전</div>
+                </div>
+                <div class="ba-img-wrapper before-w">
+                    <img src="../assets/veggiet_before.jpg" alt="Before">
+                </div>
+            </div>
+
+            <div class="arrow-col">
+                <div class="arrow-icon">→</div>
+            </div>
+
+            <div class="ba-card">
+                <div class="ba-header">
+                    <div class="ba-label after-l">AFTER</div>
+                    <div class="ba-year">리브랜딩 후</div>
+                </div>
+                <div class="ba-img-wrapper after-w">
+                    <img src="../assets/veggiet_after.png" alt="After">
+                </div>
+            </div>
+        </div>
+
+        <div class="process-row">
+            <div class="process-step">브랜드 전략</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">리브랜딩</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step highlight">올리브베러 입점</div>
+        </div>
+    </div>
+
+    <div class="cta-bar">브랜드 리뉴얼 무료 진단받기 →</div>
+</div>
+</body>
+</html>

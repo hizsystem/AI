@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* ============================================================
+   brandrise 카드뉴스 시리즈 2
+   "투자금 받고 첫 3개월, 마케팅에 얼마 써야 할까"
+   캔버스: 1080 x 1440  |  테마: warm-light 기반
+   ============================================================ */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --accent: #E8752E;
+  --accent-light: #FB923C;
+  --bg-warm: #F5F0EB;
+  --bg-dark: #1A1A1A;
+  --text-primary: #1A1A1A;
+  --text-secondary: #3D3D3D;
+  --text-muted: #9E9E9E;
+  --card-bg: #FFFFFF;
+  --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+body {
+  font-family: 'Pretendard', -apple-system, sans-serif;
+  background: #E0DAD4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.slide {
+  width: 1080px;
+  height: 1440px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 40px;
+  flex-shrink: 0;
+}
+
+/* ── 배경 테마 ── */
+.slide.warm-light  { background: var(--bg-warm); color: var(--text-primary); }
+.slide.warm-accent { background: var(--accent);  color: var(--text-primary); }
+.slide.dark        { background: var(--bg-dark);  color: #FFFFFF; }
+
+/* ── 공통 콘텐츠 영역 ── */
+.slide-content {
+  padding: 56px 60px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* ── 크레딧 ── */
+.credit {
+  position: absolute;
+  bottom: 40px;
+  left: 0; right: 0;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+.dark .credit { color: rgba(255,255,255,0.3); }
+.warm-accent .credit { color: rgba(26,26,26,0.4); }
+
+/* ── 태그 배지 ── */
+.tag {
+  display: inline-block;
+  font-size: 28px;
+  font-weight: 600;
+  padding: 8px 20px;
+  border-radius: 100px;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+.warm-accent .tag {
+  color: var(--bg-dark);
+  background: rgba(0,0,0,0.12);
+}
+.warm-light .tag {
+  color: var(--accent);
+  background: rgba(232,117,46,0.12);
+}
+.dark .tag {
+  color: var(--accent);
+  background: rgba(232,117,46,0.15);
+}
+
+/* ── Q 배지 ── */
+.q-badge {
+  width: 48px; height: 48px;
+  background: var(--accent);
+  border-radius: 12px;
+  color: #FFFFFF;
+  font-size: 30px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── 페이지 번호 ── */
+.page-num {
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--text-muted);
+  position: absolute;
+  top: 56px;
+  right: 60px;
+}
+.dark .page-num { color: rgba(255,255,255,0.3); }
+
+/* ── 헤더 (Q배지 + 페이지) ── */
+.slide-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+/* ── 타이포그래피 ── */
+.headline {
+  font-size: 66px;
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: -1.5px;
+  margin-bottom: 24px;
+}
+
+.headline-lg {
+  font-size: 76px;
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: -2px;
+}
+
+.sub-headline {
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+.body-text {
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--text-secondary);
+}
+.dark .body-text { color: rgba(255,255,255,0.7); }
+
+.body-text strong {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.dark .body-text strong { color: #FFFFFF; }
+
+.accent { color: var(--accent) !important; font-weight: 700; }
+
+/* ── 터미널 코드 블록 ── */
+.terminal {
+  background: #2D2D2D;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.terminal-header {
+  padding: 16px 20px;
+  display: flex; align-items: center; gap: 8px;
+}
+.terminal-dot { width: 14px; height: 14px; border-radius: 50%; }
+.terminal-dot.red    { background: #FF5F57; }
+.terminal-dot.yellow { background: #FEBC2E; }
+.terminal-dot.green  { background: #28C840; }
+.terminal-title {
+  margin-left: 12px;
+  font-size: 22px; color: #9E9E9E;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+.terminal-body {
+  padding: 24px 28px;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 26px; line-height: 1.8;
+  color: #E0E0E0;
+}
+.terminal-body .key     { color: #82AAFF; }
+.terminal-body .value   { color: #C3E88D; }
+.terminal-body .comment { color: #6B7280; }
+.terminal-body .accent  { color: #E8752E; font-weight: 700; }
+
+/* ── 컬러 바 ── */
+.color-bar {
+  display: flex; align-items: center;
+  padding: 22px 28px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  color: #FFFFFF;
+  font-weight: 700;
+}
+.color-bar.orange  { background: linear-gradient(90deg, #F97316, #FB923C); }
+.color-bar.blue    { background: linear-gradient(90deg, #3B82F6, #60A5FA); }
+.color-bar.purple  { background: linear-gradient(90deg, #8B5CF6, #A78BFA); }
+.color-bar.green   { background: linear-gradient(90deg, #22C55E, #4ADE80); }
+.color-bar.pink    { background: linear-gradient(90deg, #EC4899, #F472B6); }
+.color-bar.teal    { background: linear-gradient(90deg, #14B8A6, #2DD4BF); }
+
+.color-bar .bar-name {
+  flex: 0 0 200px;
+  font-size: 30px;
+  font-weight: 800;
+}
+.color-bar .bar-role {
+  flex: 1;
+  font-size: 26px;
+  font-weight: 600;
+}
+.color-bar .bar-value {
+  font-size: 28px;
+  font-weight: 800;
+  background: rgba(0,0,0,0.15);
+  padding: 6px 16px;
+  border-radius: 8px;
+}
+
+/* ── Before/After 비교 카드 ── */
+.compare-row {
+  display: flex; gap: 20px;
+}
+.compare-card {
+  flex: 1;
+  border-radius: 16px;
+  padding: 32px 28px;
+}
+.compare-card.before {
+  background: linear-gradient(135deg, #FECACA, #FCA5A5);
+  color: #991B1B;
+}
+.compare-card.after {
+  background: linear-gradient(135deg, #A7F3D0, #6EE7B7);
+  color: #065F46;
+}
+.compare-label {
+  font-size: 22px; font-weight: 700;
+  padding: 4px 14px; border-radius: 6px;
+  display: inline-block; margin-bottom: 16px;
+}
+.compare-card.before .compare-label { background: rgba(153,27,27,0.12); }
+.compare-card.after .compare-label  { background: rgba(6,95,70,0.12); }
+.compare-number {
+  font-size: 60px; font-weight: 900;
+  margin-bottom: 8px;
+}
+.compare-desc {
+  font-size: 26px; font-weight: 500;
+  line-height: 1.5;
+}
+
+/* ── 인사이트 바 ── */
+.insight-bar {
+  background: linear-gradient(90deg, #F97316, #FB923C);
+  border-radius: 14px;
+  padding: 24px 28px;
+  color: #FFFFFF;
+  font-size: 30px; font-weight: 700;
+  display: flex; align-items: center; gap: 16px;
+  line-height: 1.5;
+}
+.insight-bar .icon { font-size: 38px; flex-shrink: 0; }
+
+/* ── 체크리스트 ── */
+.checklist-item {
+  display: flex; align-items: center;
+  padding: 22px 24px;
+  background: #FFFFFF;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.checklist-icon {
+  width: 36px; height: 36px;
+  background: var(--accent);
+  border-radius: 8px;
+  color: #FFFFFF;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 700;
+  margin-right: 16px;
+  flex-shrink: 0;
+}
+.checklist-label {
+  flex: 1;
+  font-size: 30px; font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+.checklist-value {
+  font-size: 26px; font-weight: 600;
+  color: var(--accent);
+  font-family: 'SF Mono', monospace;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+/* ── 감정 컬러바 ── */
+.emotion-bar {
+  display: flex;
+  height: 44px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.emotion-bar div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+/* ── 수평선 ── */
+.divider {
+  width: 60px;
+  height: 3px;
+  background: var(--accent);
+  margin: 32px 0;
+}
+.dark .divider { background: var(--accent); }
+
+/* ── 숫자 하이라이트 ── */
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.stat-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  text-align: center;
+}
+.stat-card .stat-number {
+  font-size: 56px;
+  font-weight: 900;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.stat-card .stat-label {
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ── CTA 버튼 ── */
+.cta-button {
+  display: inline-block;
+  background: var(--accent);
+  color: #FFFFFF;
+  font-size: 32px;
+  font-weight: 700;
+  padding: 20px 48px;
+  border-radius: 16px;
+  text-decoration: none;
+  margin-top: 20px;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ================================================================
+     SLIDE 01 — 커버 (warm-accent)
+     ================================================================ -->
+<div class="slide warm-accent" id="slide-01">
+  <div class="slide-content">
+    <div class="tag">brandrise insight</div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+      <div class="headline-lg" style="margin-bottom: 32px; line-height: 1.3;">
+        투자금 받고 첫 3개월,<br>
+        마케팅에 얼마<br>
+        써야 할까
+      </div>
+
+      <div style="font-size: 36px; font-weight: 500; color: rgba(26,26,26,0.7); line-height: 1.5;">
+        시드 라운드 이후 마케팅 예산 가이드
+      </div>
+    </div>
+
+    <!-- 하단 장식 바 -->
+    <div style="display: flex; gap: 8px; margin-bottom: 40px;">
+      <div style="flex: 3; height: 6px; background: rgba(0,0,0,0.2); border-radius: 3px;"></div>
+      <div style="flex: 2; height: 6px; background: rgba(0,0,0,0.12); border-radius: 3px;"></div>
+      <div style="flex: 1; height: 6px; background: rgba(0,0,0,0.06); border-radius: 3px;"></div>
+    </div>
+
+    <div class="credit">brandrise</div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SLIDE 02 — 상황 공감 (warm-light)
+     ================================================================ -->
+<div class="slide warm-light" id="slide-02">
+  <div class="slide-content">
+    <div class="slide-header">
+      <div class="q-badge">Q</div>
+      <div class="page-num">02 / 10</div>
+    </div>
+
+    <div class="headline" style="font-size: 56px; margin-bottom: 28px;">
+      "투자 받았는데,<br>마케팅에 얼마나<br>써야 하죠?"
+    </div>
+
+    <div class="body-text" style="margin-bottom: 40px;">
+      투자금이 들어온 순간,<br>
+      <strong>빠르게 성과를 내야 한다는 압박</strong>이 시작됩니다.<br><br>
+      예산은 생겼는데, 어디에 얼마를 써야 할지<br>
+      물어볼 데도 마땅치 않은 상황.
+    </div>
+
+    <!-- 감정 지도 컬러바 -->
+    <div style="margin-top: auto; margin-bottom: 80px;">
+      <div style="font-size: 26px; font-weight: 600; color: var(--text-muted); margin-bottom: 16px;">투자 직후 대표의 감정 지도</div>
+
+      <div style="margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="font-size: 26px; font-weight: 700;">조급함</span>
+          <span style="font-size: 22px; color: var(--text-muted);">경쟁사는 이미 앞서가는데</span>
+        </div>
+        <div style="height: 36px; background: #F5F0EB; border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06);">
+          <div style="width: 85%; height: 100%; background: linear-gradient(90deg, #EF4444, #F97316); border-radius: 8px; display: flex; align-items: center; padding-left: 16px; font-size: 22px; font-weight: 800; color: #FFF;">85%</div>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 14px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="font-size: 26px; font-weight: 700;">기대감</span>
+          <span style="font-size: 22px; color: var(--text-muted);">이제 제대로 해볼 수 있다</span>
+        </div>
+        <div style="height: 36px; background: #F5F0EB; border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06);">
+          <div style="width: 70%; height: 100%; background: linear-gradient(90deg, #F97316, #FBBF24); border-radius: 8px; display: flex; align-items: center; padding-left: 16px; font-size: 22px; font-weight: 800; color: #FFF;">70%</div>
+        </div>
+      </div>
+
+      <div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+          <span style="font-size: 26px; font-weight: 700;">불안함</span>
+          <span style="font-size: 22px; color: var(--text-muted);">돈 쓰고 실패할까 봐</span>
+        </div>
+        <div style="height: 36px; background: #F5F0EB; border-radius: 8px; overflow: hidden; border: 1px solid rgba(0,0,0,0.06);">
+          <div style="width: 60%; height: 100%; background: linear-gradient(90deg, #8B5CF6, #A78BFA); border-radius: 8px; display: flex; align-items: center; padding-left: 16px; font-size: 22px; font-weight: 800; color: #FFF;">60%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="credit">brandrise</div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SLIDE 03 — 현실 직시 (warm-light)
+     ================================================================ -->
+<div class="slide warm-light" id="slide-03">
+  <div class="slide-content">
+    <div class="slide-header">
+      <div class="q-badge">Q</div>
+      <div class="page-num">03 / 10</div>
+    </div>
+
+    <div class="headline" style="font-size: 52px; margin-bottom: 28px;">
+      대부분의 스타트업이<br>
+      <span class="accent">첫 3개월에 예산을 태웁니다</span>
+    </div>
+
+    <div class="body-text" style="margin-bottom: 40px;">
+      전략 없이 광고비만 쓰면<br>
+      <strong>돈만 나가고 고객은 안 옵니다.</strong><br>
+      시드 라운드 10곳 중 7곳이 반복하는 실수.
+    </div>
+
+    <!-- Before/After 비교 카드 -->
+    <div class="compare-row" style="margin-top: auto; margin-bottom: 80px;">
+      <div class="compare-card before">
+        <div class="compare-label">전략 없이 예산 사용</div>
+        <div class="compare-number" style="font-size: 50px;">3개월</div>
+        <div class="compare-desc">
+          광고비 1,500만원 소진<br>
+          유입 고객 120명<br>
+          전환율 0.8%<br>
+          <strong style="color: #991B1B;">CAC 125만원</strong>
+        </div>
+      </div>
+      <div class="compare-card after">
+        <div class="compare-label">전략 기반 예산 사용</div>
+        <div class="compare-number" style="font-size: 50px;">3개월</div>
+        <div class="compare-desc">
+          동일 예산 1,500만원<br>
+          유입 고객 890명<br>
+          전환율 3.2%<br>
+          <strong style="color: #065F46;">CAC 17만원</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="credit">brandrise</div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SLIDE 04 — 예산 배분 공식 (warm-light)
+     ================================================================ -->
+<div class="slide warm-light" id="slide-04">
+  <div class="slide-content">
+    <div class="slide-header">
+      <div class="q-badge">Q</div>
+      <div class="page-num">04 / 10</div>
+    </div>
+
+    <div class="headline" style="font-size: 52px; margin-bottom: 16px;">
+      시드 라운드 마케팅 예산,<br>
+      <span class="accent">이렇게 나누세요</span>
+    </div>
+
+    <div class="body-text" style="margin-bottom: 32px;">
+      투자금의 <strong class="accent">15-25%</strong>를 마케팅에 배분하세요.<br>
+      5억 투자 기준, 월 <strong>250-400만원</strong>이 적정합니다.
+    </div>
+
+    <!-- 예산 배분 바 차트 -->
+    <div style="margin-top: auto; margin-bottom: 80px;">
+      <div class="color-bar orange" style="margin-bottom: 14px;">
+        <div class="bar-name">브랜드 전략</div>
+        <div class="bar-role">포지셔닝, 메시징, 타겟 정의</div>
+        <div class="bar-value">35%</div>
+      </div>
+
+      <div class="color-bar blue" style="margin-bottom: 14px;">
+        <div class="bar-name">SNS/콘텐츠</div>
+        <div class="bar-role">채널 구축 + 콘텐츠 시스템</div>
+        <div class="bar-value">25%</div>
+      </div>
+
+      <div class="color-bar purple" style="margin-bottom: 14px;">
+        <div class="bar-name">퍼포먼스</div>
+        <div class="bar-role">메타, 구글 유료 광고</div>
+        <div class="bar-value">20%</div>
+      </div>
+
+      <div class="color-bar green">
+        <div class="bar-name">기타</div>
+        <div class="bar-role">PR, 이벤트, 제작비</div>
+        <div class="bar-value">20%</div>
+      </div>
+
+      <div style="margin-top: 20px; font-size: 26px; color: var(--text-muted); text-align: right;">
+        * 5억 투자 / 월 300만원 기준 (3개월 = 900만원)
+      </div>
+    </div>
+
+    <div class="credit">brandrise</div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SLIDE 05 — Month 1: 브랜드 전략 수립 (warm-light)
+     ================================================================ -->
+<div class="slide warm-light" id="slide-05">
+  <div class="slide-content">
+    <div class="slide-header">
+      <div class="q-badge">Q</div>
+      <div class="page-num">05 / 10</div>
+    </div>
+
+    <div style="display: inline-block; background: var(--accent); color: #FFF; font-size: 26px; font-weight: 800; padding: 6px 18px; border-radius: 8px; margin-bottom: 20px;">
+      MONTH 1
+    </div>
+
+    <div class="headline" style="font-size: 56px; margin-bottom: 28px;">
+      첫 1개월:<br>
+      <span class="accent">브랜드 전략 수립</span>
+    </div>
+
+    <div class="body-text" style="margin-bottom: 36px;">
+      광고부터 돌리지 마세요.<br>
+      <strong>먼저 "우리가 누구인지"부터 정의</strong>해야 합니다.
+    </div>
+
+    <!-- 체크리스트 -->
+    <div style="margin-top: auto; margin-bottom: 80px;">
+      <div class="checklist-item">
+        <div class="checklist-icon">1</div>
+        <div class="checklist-label">타겟 고객 페르소나 정의</div>
+        <div class="checklist-value">Week 1</div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-icon">2</div>
+        <div class="checklist-label">경쟁사 포지셔닝 맵 작성</div>
+        <div class="checklist-value">Week 1-2</div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-icon">3</div>
+        <div class="checklist-label">브랜드 메시지 & 톤앤매너</div>
+        <div class="checklist-value">Week 2-3</div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-icon">4</div>
+        <div class="checklist-label">핵심 채널 2-3개 선정</div>
+        <div class="checklist-value">Week 3</div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-icon">5</div>
+        <div class="checklist-label">KPI 설정 & 측정 체계 구축</div>
+        <div class="checklist-value">Week 4</div>
+      </div>
+    </div>
+
+    <div class="credit">brandrise</div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SLIDE 06 — Month 2: 콘텐츠 시스템 구축 (warm-light)
+     ================================================================ -->
+<div class="slide warm-light" id="slide-06">
+  <div class="slide-content">
+    <div class="slide-header">
+      <div class="q-badge">Q</div>
+      <div class="page-num">06 / 10</div>
+    </div>
+
+    <div style="display: inline-block; background: var(--accent); color: #FFF; font-size: 26px; font-weight: 800; padding: 6px 18px; border-radius: 8px; margin-bottom: 20px;">
+      MONTH 2
+    </div>
+
+    <div class="headline" style="font-size: 56px; margin-bottom: 28px;">
+      2개월차:<br>
+      <span class="accent">콘텐츠 시스템 구축</span>
+    </div>
+
+    <div class="body-text" style="margin-bottom: 36px;">
+      전략이 잡혔으면, <strong>콘텐츠를 시스템으로</strong> 만들 차례.<br>
+      대표 혼자 밤 11시에 인스타 만드는 건 이제 그만.
+    </div>
+
+    <!-- 터미널 코드 블록 -->
+    <div class="terminal" style="margin-top: auto; margin-bottom: 80px;">
+      <div class="terminal-header">
+        <div class="terminal-dot red"></div>
+        <div class="terminal-dot yellow"></div>
+        <div class="terminal-dot green"></div>
+        <div class="terminal-title">content-system.yml</div>
+      </div>
+      <div class="terminal-body">
+        <span class="comment"># 콘텐츠 시스템 구조</span><br><br>
+        <span class="key">channels</span>:<br>
+        &nbsp;&nbsp;- <span class="value">LinkedIn</span> <span class="comment"># 신뢰 구축, 주 3회</span><br>
+        &nbsp;&nbsp;- <span class="value">Instagram</span> <span class="comment"># 인지도, 주 2-4회</span><br>
+        &nbsp;&nbsp;- <span class="value">Newsletter</span> <span class="comment"># 리드 너처링, 주 1회</span><br><br>
+        <span class="key">content_mix</span>:<br>
+        &nbsp;&nbsp;<span class="key">pain_point</span>: <span class="accent">"40%"</span> <span class="comment"># 공감형</span><br>
+        &nbsp;&nbsp;<span class="key">how_to</span>: <span class="accent">"30%"</span> <span class="comment"># 실용형</span><br>
+        &nbsp;&nbsp;<span class="key">case_study</span>: <span class="accent">"20%"</span> <span class="comment"># 증거형</span><br>
+        &nbsp;&nbsp;<span class="key">brand_story</span>: <span class="value">"10%"</span> <span class="comment"># 브랜드</span><br><br>
+        <span class="key">posting_time</span>: <span class="value">"화~목 08:00"</span>
+      </div>
+    </div>
+
+    <div class="credit">brandrise</div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SLIDE 07 — Month 3: 퍼포먼스 마케팅 (warm-light)
+     ================================================================ -->
+<div class="slide warm-light" id="slide-07">
+  <div class="slide-content">
+    <div class="slide-header">
+      <div class="q-badge">Q</div>
+      <div class="page-num">07 / 10</div>
+    </div>
+
+    <div style="display: inline-block; background: var(--accent); color: #FFF; font-size: 26px; font-weight: 800; padding: 6px 18px; border-radius: 8px; margin-bottom: 20px;">
+      MONTH 3
+    </div>
+
+    <div class="headline" style="font-size: 56px; margin-bottom: 28px;">
+      3개월차:<br>
+      <span class="accent">퍼포먼스 마케팅 시작</span>
+    </div>
+
+    <div class="body-text" style="margin-bottom: 36px;">
+      브랜드 기반이 잡힌 후에 광고를 시작하세요.<br>
+      <strong>같은 광고비로 전환율이 3-4배</strong> 차이 납니다.
+    </div>
+
+    <!-- 3개월 타임라인 요약 -->
+    <div style="margin-bottom: 32px;">
+      <div class="checklist-item" style="border-left: 4px solid var(--accent);">
+        <div class="checklist-label">
+          <span style="font-weight: 800; color: var(--accent);">M1</span> 브랜드 전략 완료
+        </div>
+        <div class="checklist-value" style="color: #22C55E;">DONE</div>
+      </div>
+      <div class="checklist-item" style="border-left: 4px solid var(--accent);">
+        <div class="checklist-label">
+          <span style="font-weight: 800; color: var(--accent);">M2</span> 콘텐츠 시스템 가동
+        </div>
+        <div class="checklist-value" style="color: #22C55E;">DONE</div>
+      </div>
+      <div class="checklist-item" style="border-left: 4px solid var(--accent); background: rgba(232,117,46,0.08);">
+        <div class="checklist-label">
+          <span style="font-weight: 800; color: var(--accent);">M3</span> 유료 광고 + 스케일업
+        </div>
+        <div class="checklist-value">NOW</div>
+      </div>
+    </div>
+
+    <!-- 인사이트 바 -->
+    <div class="insight-bar" style="margin-top: auto; margin-bottom: 80px;">
+      <div class="icon">!</div>
+      <div>브랜드 없이 광고를 돌리면,<br>돈만 탑니다.</div>
+    </div>
+
+    <div class="credit">brandrise</div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SLIDE 08 — 숫자 증거 (warm-light)
+     ================================================================ -->
+<div class="slide warm-light" id="slide-08">
+  <div class="slide-content">
+    <div class="slide-header">
+      <div class="q-badge">Q</div>
+      <div class="page-num">08 / 10</div>
+    </div>
+
+    <div class="headline" style="font-size: 52px; margin-bottom: 28px;">
+      이 공식을 따른<br>
+      스타트업의 <span class="accent">3개월 후</span>
+    </div>
+
+    <div class="body-text" style="margin-bottom: 40px;">
+      전략 먼저, 실행은 그 다음.<br>
+      <strong>순서만 바꿔도 숫자가 달라집니다.</strong>
+    </div>
+
+    <!-- Before/After 숫자 비교 -->
+    <div style="margin-top: auto; margin-bottom: 80px;">
+      <div class="compare-row" style="margin-bottom: 16px;">
+        <div class="compare-card before" style="text-align: center;">
+          <div class="compare-label">Before</div>
+          <div class="compare-number">0.8%</div>
+          <div class="compare-desc">광고 전환율</div>
+        </div>
+        <div class="compare-card after" style="text-align: center;">
+          <div class="compare-label">After</div>
+          <div class="compare-number">3.2%</div>
+          <div class="compare-desc">광고 전환율</div>
+        </div>
+      </div>
+
+      <div class="compare-row" style="margin-bottom: 16px;">
+        <div class="compare-card before" style="text-align: center;">
+          <div class="compare-label">Before</div>
+          <div class="compare-number">125만</div>
+          <div class="compare-desc">고객 획득 비용 (CAC)</div>
+        </div>
+        <div class="compare-card after" style="text-align: center;">
+          <div class="compare-label">After</div>
+          <div class="compare-number">17만</div>
+          <div class="compare-desc">고객 획득 비용 (CAC)</div>
+        </div>
+      </div>
+
+      <div class="compare-row">
+        <div class="compare-card before" style="text-align: center;">
+          <div class="compare-label">Before</div>
+          <div class="compare-number">80%</div>
+          <div class="compare-desc">ROAS (광고 수익률)</div>
+        </div>
+        <div class="compare-card after" style="text-align: center;">
+          <div class="compare-label">After</div>
+          <div class="compare-number">340%</div>
+          <div class="compare-desc">ROAS (광고 수익률)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="credit">brandrise</div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SLIDE 09 — 클로징 (dark)
+     ================================================================ -->
+<div class="slide dark" id="slide-09">
+  <div class="slide-content">
+    <div class="tag" style="margin-bottom: 32px;">brandrise insight</div>
+    <div class="page-num">09 / 10</div>
+
+    <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+      <div class="headline-lg" style="color: #FFFFFF; margin-bottom: 24px; line-height: 1.35;">
+        투자금의 첫 3개월이<br>
+        전체 ROI를 결정합니다
+      </div>
+
+      <div class="body-text" style="margin-bottom: 48px; line-height: 1.8;">
+        전략 없이 빠르게 가는 것보다<br>
+        방향을 잡고 나아가는 것이<br>
+        결국 더 빠릅니다.
+      </div>
+
+      <div class="divider"></div>
+
+      <div style="font-size: 46px; font-weight: 800; color: var(--accent); margin-top: 32px; line-height: 1.5;">
+        첫 3개월의 전략,<br>
+        brandrise와 함께.
+      </div>
+    </div>
+
+    <div class="credit">brandrise</div>
+  </div>
+</div>
+
+<!-- ================================================================
+     SLIDE 10 — CTA (warm-light)
+     ================================================================ -->
+<div class="slide warm-light" id="slide-10">
+  <div class="slide-content" style="align-items: center; justify-content: center; text-align: center;">
+
+    <!-- 브랜드명 -->
+    <div style="font-size: 70px; font-weight: 900; letter-spacing: 2px; color: var(--text-primary); margin-bottom: 48px;">
+      brandrise
+    </div>
+
+    <!-- CTA 메시지 -->
+    <div style="font-size: 46px; font-weight: 700; color: var(--text-primary); line-height: 1.5; margin-bottom: 20px;">
+      무료 마케팅 예산 진단
+    </div>
+
+    <div class="body-text" style="margin-bottom: 48px; text-align: center;">
+      투자금을 마케팅에 어떻게 써야 할지<br>
+      30분 무료 진단으로 알려드립니다.
+    </div>
+
+    <!-- 구분선 -->
+    <div style="width: 60px; height: 3px; background: var(--accent); margin: 0 auto 48px;"></div>
+
+    <!-- 연락 정보 -->
+    <div style="display: flex; flex-direction: column; gap: 20px; align-items: center;">
+      <div style="background: #FFFFFF; border-radius: 14px; padding: 20px 48px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-size: 30px; font-weight: 600; color: var(--text-primary);">
+        brandrise.kr
+      </div>
+      <div style="background: #FFFFFF; border-radius: 14px; padding: 20px 48px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); font-size: 30px; font-weight: 600; color: var(--text-primary);">
+        @brandrise_kr
+      </div>
+      <div style="background: var(--accent); border-radius: 14px; padding: 20px 48px; font-size: 30px; font-weight: 700; color: #FFFFFF;">
+        DM으로 "예산진단" 보내주세요
+      </div>
+    </div>
+
+    <div class="credit" style="margin-top: auto;">brandrise</div>
+  </div>
+</div>
+
+</body>
+</html>

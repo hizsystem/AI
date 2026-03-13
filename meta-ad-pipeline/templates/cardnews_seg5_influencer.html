@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>인플루언서 마케팅, 돈만 날리는 이유 — brandrise (R3-Forest-HeroStat)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       R3-Forest — Design Tokens
+       ======================================== */
+    :root {
+      /* Cover */
+      --cover-bg: #16A34A;
+      --cover-text: #FFFFFF;
+      --cover-highlight: #BBF7D0;
+
+      /* Accent system */
+      --accent: #22C55E;
+      --accent-light: #4ADE80;
+      --accent-pale: #DCFCE7;
+      --accent-dark: #15803D;
+
+      /* Body */
+      --body-bg: #F0FDF4;
+      --body-text: #1A1A1A;
+      --body-secondary: #374151;
+      --body-muted: #6B7280;
+      --card-bg: #FFFFFF;
+      --border-color: #D1FAE5;
+
+      /* Dark closing slide */
+      --dark-bg: #052E16;
+      --dark-text: #FFFFFF;
+      --dark-accent: #4ADE80;
+
+      /* CTA slide */
+      --cta-bg: #14532D;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      word-break: keep-all;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #D1FAE5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+      width: 1080px;
+      height: auto;
+    }
+
+    /* ========================================
+       Slide Base — 1080 × 1350 (4:5 Meta)
+       ======================================== */
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Subtle noise texture on all slides */
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* All children above noise */
+    .slide > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .slide.body-light {
+      background: var(--body-bg);
+      color: var(--body-text);
+    }
+
+    .slide.deep-dark {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========================================
+       Components: Slide Header
+       ======================================== */
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 44px;
+    }
+
+    .page-num {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--body-muted);
+      white-space: nowrap;
+    }
+
+    .slide.deep-dark .page-num {
+      color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Brand badge top-left */
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-size: 24px;
+      font-weight: 700;
+      background: var(--accent-pale);
+      color: var(--accent-dark);
+      white-space: nowrap;
+    }
+
+    .slide.deep-dark .brand-badge {
+      background: rgba(74, 222, 128, 0.12);
+      color: var(--dark-accent);
+    }
+
+    /* ========================================
+       Components: Headline
+       ======================================== */
+    .headline {
+      font-size: 60px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: var(--body-text);
+      word-break: keep-all;
+    }
+
+    .headline .accent {
+      color: var(--accent-dark);
+    }
+
+    .headline .accent-bright {
+      color: var(--accent);
+    }
+
+    .slide.deep-dark .headline {
+      color: var(--dark-text);
+    }
+
+    /* ========================================
+       Components: Body Text
+       ======================================== */
+    .body-text {
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--body-secondary);
+      word-break: keep-all;
+    }
+
+    .body-text strong {
+      font-weight: 700;
+      color: var(--body-text);
+    }
+
+    .body-text .accent {
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+
+    /* ========================================
+       Components: Credit
+       ======================================== */
+    .credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--body-muted);
+      z-index: 5;
+    }
+
+    .slide.deep-dark .credit,
+    .slide-cover .credit {
+      color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* ========================================
+       COVER — Hero Stat Layout
+       ======================================== */
+    .slide-cover {
+      background: var(--cover-bg);
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Geometric texture elements */
+    .cover-geo-circle-1 {
+      position: absolute;
+      top: -120px;
+      right: -100px;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      z-index: 1;
+    }
+
+    .cover-geo-circle-2 {
+      position: absolute;
+      bottom: 180px;
+      left: -140px;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      z-index: 1;
+    }
+
+    .cover-geo-line {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 520px;
+      width: 1px;
+      background: rgba(255, 255, 255, 0.07);
+      z-index: 1;
+    }
+
+    /* Cover inner layout */
+    .cover-inner {
+      padding: 56px 60px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Tag pill */
+    .cover-tag {
+      display: inline-block;
+      padding: 10px 28px;
+      border-radius: 100px;
+      font-size: 26px;
+      font-weight: 700;
+      background: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 48px;
+      align-self: flex-start;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+
+    /* Hero Stat — the big number */
+    .hero-stat {
+      font-size: 220px;
+      font-weight: 900;
+      color: #FFFFFF;
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      margin-bottom: 0;
+      /* Subtle text shadow for depth */
+      text-shadow: 0 8px 40px rgba(0, 0, 0, 0.20);
+    }
+
+    .hero-stat-label {
+      font-size: 34px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.70);
+      margin-top: 8px;
+      margin-bottom: 44px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hero-stat-label::before {
+      content: '';
+      display: inline-block;
+      width: 36px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.40);
+      border-radius: 2px;
+    }
+
+    /* Cover headline */
+    .cover-headline {
+      font-size: 62px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: #FFFFFF;
+      word-break: keep-all;
+      margin-bottom: 28px;
+    }
+
+    .cover-headline .highlight {
+      color: var(--cover-highlight);
+    }
+
+    /* Cover sub */
+    .cover-sub {
+      font-size: 30px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.55);
+      line-height: 1.65;
+    }
+
+    /* Cover credit */
+    .cover-credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.25);
+      z-index: 3;
+    }
+
+    /* ========================================
+       Components: Pattern Cards (Slide 2)
+       ======================================== */
+    .pattern-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 36px;
+      flex: 1;
+    }
+
+    .pattern-card {
+      border-radius: 18px;
+      padding: 32px 36px;
+      display: flex;
+      align-items: flex-start;
+      gap: 28px;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border-color);
+    }
+
+    .pattern-num {
+      font-size: 48px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1.0;
+      flex-shrink: 0;
+      width: 64px;
+    }
+
+    .pattern-content {}
+
+    .pattern-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--body-text);
+      line-height: 1.25;
+      margin-bottom: 10px;
+      word-break: keep-all;
+    }
+
+    .pattern-desc {
+      font-size: 27px;
+      font-weight: 400;
+      color: var(--body-muted);
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+
+    /* ========================================
+       Components: Metric Cards (Slide 3)
+       ======================================== */
+    .metric-row {
+      display: flex;
+      gap: 20px;
+      margin-top: 28px;
+    }
+
+    .metric-card {
+      flex: 1;
+      border-radius: 18px;
+      padding: 36px 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border-color);
+    }
+
+    .metric-card.bad {
+      background: #FEF2F2;
+      border-color: #FECACA;
+    }
+
+    .metric-card.good {
+      background: #F0FDF4;
+      border-color: var(--accent);
+      border-width: 2px;
+    }
+
+    .metric-tag {
+      font-size: 22px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 100px;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .metric-card.bad .metric-tag {
+      background: #FEE2E2;
+      color: #DC2626;
+    }
+
+    .metric-card.good .metric-tag {
+      background: var(--accent-pale);
+      color: var(--accent-dark);
+    }
+
+    .metric-number {
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+    }
+
+    .metric-card.bad .metric-number {
+      color: #DC2626;
+    }
+
+    .metric-card.good .metric-number {
+      color: var(--accent-dark);
+    }
+
+    .metric-label {
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--body-text);
+      line-height: 1.35;
+      word-break: keep-all;
+    }
+
+    .metric-desc {
+      font-size: 23px;
+      font-weight: 400;
+      color: var(--body-muted);
+      line-height: 1.55;
+      word-break: keep-all;
+      margin-top: 6px;
+    }
+
+    /* ========================================
+       Components: Insight Bar
+       ======================================== */
+    .insight-bar {
+      background: var(--body-text);
+      border-radius: 14px;
+      padding: 26px 32px;
+      color: #FFFFFF;
+      font-size: 29px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    .insight-bar .icon {
+      width: 42px;
+      height: 42px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+      flex-shrink: 0;
+      color: #FFFFFF;
+    }
+
+    .insight-bar .accent-text {
+      color: var(--accent-light);
+    }
+
+    /* ========================================
+       Components: Framework Steps (Slide 4)
+       ======================================== */
+    .framework-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 32px;
+      flex: 1;
+    }
+
+    .step-row {
+      display: flex;
+      align-items: stretch;
+      border-radius: 16px;
+      overflow: hidden;
+      min-height: 120px;
+    }
+
+    .step-num-col {
+      flex: 0 0 100px;
+      background: var(--accent-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 44px;
+      font-weight: 900;
+      color: #FFFFFF;
+    }
+
+    .step-body {
+      flex: 1;
+      background: var(--card-bg);
+      border: 1.5px solid var(--border-color);
+      border-left: none;
+      padding: 24px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .step-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--body-text);
+      line-height: 1.25;
+      margin-bottom: 8px;
+      word-break: keep-all;
+    }
+
+    .step-detail {
+      font-size: 25px;
+      font-weight: 400;
+      color: var(--body-muted);
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    /* ========================================
+       SLIDE 5 — Closing Dark (Deep Forest)
+       ======================================== */
+    .closing-quote {
+      font-size: 56px;
+      font-weight: 900;
+      line-height: 1.4;
+      color: #FFFFFF;
+      word-break: keep-all;
+      margin-bottom: 40px;
+    }
+
+    .closing-quote .green {
+      color: var(--dark-accent);
+    }
+
+    .closing-body {
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 1.8;
+      color: rgba(255, 255, 255, 0.55);
+      word-break: keep-all;
+    }
+
+    .closing-body strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .divider-green {
+      width: 64px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin: 40px 0;
+    }
+
+    /* ========================================
+       SLIDE 6 — CTA (Forest dark + green btn)
+       ======================================== */
+    .cta-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .cta-brandmark {
+      width: 96px;
+      height: 96px;
+      border-radius: 24px;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      font-weight: 900;
+      color: #FFFFFF;
+      margin: 0 auto 36px;
+    }
+
+    .cta-title {
+      font-size: 52px;
+      font-weight: 900;
+      color: #FFFFFF;
+      margin-bottom: 16px;
+      word-break: keep-all;
+    }
+
+    .cta-sub {
+      font-size: 32px;
+      font-weight: 400;
+      line-height: 1.7;
+      color: rgba(255, 255, 255, 0.55);
+      margin-bottom: 56px;
+      word-break: keep-all;
+    }
+
+    .cta-sub strong {
+      color: rgba(255, 255, 255, 0.90);
+      font-weight: 600;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 38px;
+      font-weight: 800;
+      padding: 26px 64px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+
+    .cta-service-list {
+      display: flex;
+      gap: 16px;
+      margin-top: 36px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-service-pill {
+      padding: 10px 24px;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.50);
+      font-size: 26px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .cta-handle {
+      display: inline-block;
+      padding: 12px 30px;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.08);
+      color: rgba(255, 255, 255, 0.40);
+      font-size: 30px;
+      font-weight: 600;
+      margin-top: 24px;
+      white-space: nowrap;
+    }
+
+    /* ========================================
+       Utility
+       ======================================== */
+    .spacer { flex: 1; }
+
+    .mt-8  { margin-top:  8px; }
+    .mt-16 { margin-top: 16px; }
+    .mt-24 { margin-top: 24px; }
+    .mt-32 { margin-top: 32px; }
+    .mt-40 { margin-top: 40px; }
+    .mt-48 { margin-top: 48px; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SLIDE 01 — COVER (Hero Stat, R3 Forest Green)
+       ============================================================ -->
+  <div class="slide-cover" id="slide-01">
+
+    <!-- Geometric texture -->
+    <div class="cover-geo-circle-1"></div>
+    <div class="cover-geo-circle-2"></div>
+    <div class="cover-geo-line"></div>
+
+    <!-- Noise overlay -->
+    <div style="position:absolute;inset:0;opacity:0.03;background-image:url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\");background-size:256px 256px;pointer-events:none;z-index:3;"></div>
+
+    <div class="cover-inner">
+      <!-- Tag -->
+      <div class="cover-tag">brandrise real talk</div>
+
+      <!-- Hero Stat -->
+      <div class="hero-stat">72%</div>
+      <div class="hero-stat-label">인플루언서 마케팅 실패율</div>
+
+      <!-- Headline -->
+      <div class="cover-headline">
+        인플루언서 마케팅,<br>
+        <span class="highlight">돈만 날리는 이유</span>
+      </div>
+
+      <!-- Sub copy -->
+      <div class="cover-sub">
+        팔로워 수는 숫자일 뿐입니다
+      </div>
+    </div>
+
+    <div class="cover-credit">brandrise &middot; @brandrise_kr</div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 02 — 인플루언서 마케팅 실패의 3가지 패턴
+       ============================================================ -->
+  <div class="slide body-light" id="slide-02">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="brand-badge">스페셜리스트</div>
+        <div class="page-num">02 / 06</div>
+      </div>
+
+      <div class="headline">
+        인플루언서 마케팅<br>
+        실패의 <span class="accent">3가지 패턴</span>
+      </div>
+
+      <div class="pattern-list">
+
+        <div class="pattern-card">
+          <div class="pattern-num">01</div>
+          <div class="pattern-content">
+            <div class="pattern-title">팔로워 수만 보고 계약한다</div>
+            <div class="pattern-desc">100만 팔로워도 내 타겟이 없으면 광고비만 낭비됩니다. 구독자 구성이 먼저입니다.</div>
+          </div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-num">02</div>
+          <div class="pattern-content">
+            <div class="pattern-title">브리핑 없이 "자유롭게" 올려달라고 한다</div>
+            <div class="pattern-desc">가이드 없는 콘텐츠는 브랜드 메시지를 흩뜨립니다. 구체적인 방향이 필요합니다.</div>
+          </div>
+        </div>
+
+        <div class="pattern-card">
+          <div class="pattern-num">03</div>
+          <div class="pattern-content">
+            <div class="pattern-title">캠페인이 끝나면 추적하지 않는다</div>
+            <div class="pattern-desc">노출 수만 받고 끝냅니다. 링크 클릭, 전환, 매출까지 연결해야 ROI를 알 수 있습니다.</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 03 — 팔로워 수에 속지 마세요
+       ============================================================ -->
+  <div class="slide body-light" id="slide-03">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="brand-badge">스페셜리스트</div>
+        <div class="page-num">03 / 06</div>
+      </div>
+
+      <div class="headline">
+        팔로워 수에<br>
+        <span class="accent">속지 마세요</span>
+      </div>
+
+      <div class="body-text mt-24" style="color: var(--body-secondary);">
+        진짜 성과를 만드는 지표는 따로 있습니다
+      </div>
+
+      <!-- Bad metric -->
+      <div class="metric-row mt-32">
+        <div class="metric-card bad" style="flex: 1;">
+          <div class="metric-tag">허상 지표</div>
+          <div class="metric-number">100만</div>
+          <div class="metric-label">팔로워</div>
+          <div class="metric-desc">내 타겟이 포함되지 않으면 광고비만 사라집니다</div>
+        </div>
+      </div>
+
+      <!-- Good metrics -->
+      <div class="metric-row mt-20">
+        <div class="metric-card good">
+          <div class="metric-tag">핵심 지표</div>
+          <div class="metric-number" style="font-size: 60px;">3~5%</div>
+          <div class="metric-label">참여율<br><span style="white-space: nowrap;">(Engagement Rate)</span></div>
+          <div class="metric-desc">좋아요+댓글+저장÷팔로워<br>3% 이상이 기준선</div>
+        </div>
+        <div class="metric-card good">
+          <div class="metric-tag">핵심 지표</div>
+          <div class="metric-number" style="font-size: 60px;">20%+</div>
+          <div class="metric-label">도달율<br><span style="white-space: nowrap;">(Reach Rate)</span></div>
+          <div class="metric-desc">팔로워 중 실제 콘텐츠를 본 비율<br>구매 가능성과 직결됩니다</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="insight-bar mt-32">
+        <div class="icon">!</div>
+        <div>팔로워 1만 명의 <span class="accent-text">진짜 팬</span>이 100만 팔로워의 유령 계정보다 낫습니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 04 — ROI를 만드는 인플루언서 선정 프레임워크
+       ============================================================ -->
+  <div class="slide body-light" id="slide-04">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="brand-badge">스페셜리스트</div>
+        <div class="page-num">04 / 06</div>
+      </div>
+
+      <div class="headline">
+        ROI를 만드는<br>
+        <span class="accent">선정 프레임워크</span>
+      </div>
+
+      <div class="framework-steps">
+
+        <div class="step-row">
+          <div class="step-num-col">01</div>
+          <div class="step-body">
+            <div class="step-title">타겟 오디언스 겹침 확인</div>
+            <div class="step-detail">인플루언서 팔로워의 성별·연령·지역이 내 고객과 70% 이상 일치해야 합니다</div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-num-col">02</div>
+          <div class="step-body">
+            <div class="step-title">참여율 3% 이상 필터링</div>
+            <div class="step-detail">최근 게시물 10개 평균 참여율이 기준 이하면 아무리 팔로워가 많아도 패스</div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-num-col">03</div>
+          <div class="step-body">
+            <div class="step-title">콘텐츠 톤 & 브랜드 핏 검증</div>
+            <div class="step-detail">과거 협찬 포스팅의 댓글 반응 확인 — 부정 반응 비율이 높은 계정은 리스크입니다</div>
+          </div>
+        </div>
+
+        <div class="step-row">
+          <div class="step-num-col">04</div>
+          <div class="step-body">
+            <div class="step-title">성과 KPI 사전 합의</div>
+            <div class="step-detail">노출·클릭·전환 목표를 계약서에 명시하고, UTM 링크로 추적합니다</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 05 — Closing (Deep Forest Dark)
+       ============================================================ -->
+  <div class="slide deep-dark" id="slide-05">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="brand-badge">스페셜리스트</div>
+        <div class="page-num">05 / 06</div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="closing-quote">
+        마케팅은<br>
+        사람이 아니라<br>
+        <span class="green">시스템입니다</span>
+      </div>
+
+      <div class="divider-green"></div>
+
+      <div class="closing-body">
+        인플루언서 한 명에 기대는 마케팅은<br>
+        <strong>운에 기대는 마케팅</strong>입니다.<br><br>
+        선정 기준&nbsp;→ 브리핑&nbsp;→ 추적&nbsp;→ 분석&nbsp;→<br>
+        <strong>반복 가능한 구조</strong>를 만들어야<br>
+        비용이 자산이 됩니다.
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 06 — CTA (brandrise 소개 + 상담 유도)
+       ============================================================ -->
+  <div class="slide" id="slide-06" style="background: var(--cta-bg, #14532D);">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="brand-badge" style="background: rgba(74,222,128,0.12); color: var(--dark-accent);">brandrise</div>
+        <div class="page-num" style="color: rgba(255,255,255,0.3);">06 / 06</div>
+      </div>
+
+      <div class="cta-center">
+
+        <!-- Brandmark -->
+        <div class="cta-brandmark">B</div>
+
+        <div class="cta-title">brandrise</div>
+
+        <div class="cta-sub">
+          스타트업을 위한<br>
+          <strong>퍼포먼스 마케팅 파트너</strong>
+        </div>
+
+        <!-- Services -->
+        <div class="cta-service-list">
+          <div class="cta-service-pill">인플루언서 전략</div>
+          <div class="cta-service-pill">브랜드 포지셔닝</div>
+          <div class="cta-service-pill">퍼포먼스 마케팅</div>
+          <div class="cta-service-pill">GTM 설계</div>
+        </div>
+
+        <div style="margin-top: 52px;">
+          <div class="cta-button">무료 진단 상담 신청</div>
+        </div>
+
+        <div class="cta-handle">@brandrise_kr</div>
+
+      </div>
+
+      <div class="credit" style="color: rgba(255,255,255,0.2);">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+</body>
+</html>

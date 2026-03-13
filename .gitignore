@@ -1,7 +1,6 @@
 # Secrets
 .secrets/
-*.json
-!package.json
+.env
 
 # Python
 __pycache__/
@@ -14,3 +13,14 @@ venv/
 
 # OS
 .DS_Store
+
+# Binaries
+*.png
+*.jpg
+*.pptx
+
+# Dependencies
+node_modules/
+
+# Outputs (regeneratable)
+meta-ad-pipeline/outputs/

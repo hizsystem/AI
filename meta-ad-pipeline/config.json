@@ -1,0 +1,53 @@
+{
+  "project": "datarise Meta Ad Pipeline",
+  "version": "1.0.0",
+
+  "gemini": {
+    "model_text": "gemini-2.5-pro",
+    "model_image": "gemini-2.0-flash-exp-image-generation",
+    "temperature_text": 0.7,
+    "temperature_image": 0.8,
+    "max_tokens_text": 8192,
+    "api_key_env": "GEMINI_API_KEY"
+  },
+
+  "target": {
+    "persona": "청창사/신창사 졸업 대표 (30대, 기술 중심, 마케팅 초보)",
+    "pain_points": [
+      "제품은 있지만 마케팅을 모름",
+      "사업화 자금은 있지만 어디 쓸지 모름",
+      "대행사는 비싸고 프리랜서는 불안"
+    ],
+    "brand_tone": "실전적, 신뢰감, 스타트업 눈높이",
+    "core_message": "정부지원 졸업했는데, 마케팅은 아직 0점이라면",
+    "usp": "코칭 + 실행 하이브리드 (주간 케어 모델)"
+  },
+
+  "ad_spec": {
+    "carousel_count": 10,
+    "single_count": 2,
+    "thumbnail_count": 1,
+    "total_images": 13,
+    "carousel_size": "1080x1080",
+    "single_size": "1080x1080",
+    "thumbnail_size": "1080x1920"
+  },
+
+  "pipeline": {
+    "agents": [
+      {"id": 1, "name": "info_collector", "output": "01_product_info.json"},
+      {"id": 2, "name": "researcher", "output": "02_research.json"},
+      {"id": 3, "name": "copywriter", "output": "03_copy.json"},
+      {"id": 4, "name": "designer", "output": "04_design.json"},
+      {"id": 5, "name": "prompt_engineer", "output": "05_prompts.json"}
+    ]
+  },
+
+  "paths": {
+    "prompts_dir": "prompts",
+    "agents_dir": "agents",
+    "outputs_dir": "outputs",
+    "images_dir": "outputs/images",
+    "context_dir": "context"
+  }
+}

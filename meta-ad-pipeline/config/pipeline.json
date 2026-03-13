@@ -1,0 +1,57 @@
+{
+  "pipeline": {
+    "name": "brandrise Contents Pipeline",
+    "version": "1.0.0"
+  },
+
+  "slack": {
+    "channel_id": "D065GRKNT4M",
+    "channel_name": "Green 우성민 (self DM)",
+    "user_id": "U065YCRS9CH",
+    "workspace": "hizhq",
+    "notifications_enabled": true,
+    "confirmation_points": {
+      "after_research": {
+        "enabled": true,
+        "message_type": "direction_approval",
+        "description": "리서치 완료 → 방향성 승인"
+      },
+      "after_copy": {
+        "enabled": true,
+        "message_type": "copy_selection",
+        "description": "카피 완료 → 시안 선택"
+      },
+      "after_render": {
+        "enabled": true,
+        "message_type": "final_approval",
+        "description": "최종 렌더 → PNG 승인"
+      }
+    }
+  },
+
+  "gemini": {
+    "model": "gemini-2.0-flash-exp",
+    "imagen_model": "imagen-3.0-generate-002",
+    "env_file": ".env",
+    "env_key": "GEMINI_API_KEY"
+  },
+
+  "rendering": {
+    "engine": "playwright",
+    "viewport": { "width": 1080, "height": 1080 },
+    "wait_ms": 2500,
+    "font_load_wait_ms": 1500
+  },
+
+  "paths": {
+    "templates": "templates/",
+    "assets": "assets/",
+    "backgrounds": "outputs/backgrounds/",
+    "merged_html": "outputs/merged_html/",
+    "images": "outputs/images/",
+    "slides": "outputs/slides/",
+    "captions": "outputs/captions/",
+    "design_system": "design-system/",
+    "feedback": "feedback/feedback.md"
+  }
+}

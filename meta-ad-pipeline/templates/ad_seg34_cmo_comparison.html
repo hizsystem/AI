@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #0F172A 0%, #070B14 100%);
+    color: #FFFFFF;
+}
+.slide { width: 1080px; height: 1080px; position: relative; }
+
+.logo {
+    position: absolute; top: 40px; right: 48px;
+    font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 1px;
+    z-index: 10;
+}
+
+.tag {
+    position: absolute; top: 40px; left: 48px;
+    display: inline-block;
+    font-size: 18px; font-weight: 600;
+    color: #60A5FA; background: rgba(96,165,250,0.10);
+    padding: 8px 20px; border-radius: 100px;
+    z-index: 10;
+}
+
+/* 메인 비교 영역 */
+.comparison-area {
+    position: absolute;
+    top: 110px;
+    left: 0; right: 0;
+    display: flex; flex-direction: column;
+    align-items: center;
+    padding: 0 64px;
+}
+
+/* 상단 블록: CMO 채용 9개월 */
+.block-top {
+    display: flex; flex-direction: column;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.block-top .label {
+    font-size: 24px; font-weight: 600; color: #94A3B8;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.block-top .number {
+    font-size: 72px; font-weight: 900; color: #EF4444;
+    line-height: 1.1;
+    letter-spacing: -3px;
+    text-shadow: 0 0 40px rgba(239, 68, 68, 0.3), 0 0 80px rgba(239, 68, 68, 0.15);
+}
+
+/* vs 구분 */
+.vs {
+    font-size: 28px; font-weight: 600; color: #6B7280;
+    margin: 16px 0;
+    position: relative;
+}
+.vs::before,
+.vs::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 80px;
+    height: 1px;
+    background: rgba(107, 114, 128, 0.3);
+}
+.vs::before { right: calc(100% + 16px); }
+.vs::after { left: calc(100% + 16px); }
+
+/* 하단 블록: brandrise 2주 */
+.block-bottom {
+    display: flex; flex-direction: column;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.block-bottom .label {
+    font-size: 24px; font-weight: 600; color: #94A3B8;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.block-bottom .number {
+    font-size: 72px; font-weight: 900; color: #4ADE80;
+    line-height: 1.1;
+    letter-spacing: -3px;
+    text-shadow: 0 0 40px rgba(74, 222, 128, 0.3), 0 0 80px rgba(74, 222, 128, 0.15);
+}
+
+/* 구분선 */
+.divider {
+    position: absolute;
+    top: 580px;
+    left: 120px; right: 120px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.12) 70%, transparent 100%);
+}
+
+/* 서브카피 영역 */
+.subcopy-area {
+    position: absolute;
+    top: 620px;
+    left: 0; right: 0;
+    text-align: center;
+}
+
+.subcopy-main {
+    font-size: 32px; font-weight: 700; color: #FFFFFF;
+    line-height: 1.4;
+    letter-spacing: -1px;
+}
+
+.subcopy-highlight {
+    font-size: 32px; font-weight: 700; color: #E8752E;
+    line-height: 1.4;
+    letter-spacing: -1px;
+}
+
+/* 추가 정보 pills */
+.info-pills {
+    position: absolute;
+    top: 750px;
+    left: 0; right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.pill {
+    font-size: 16px; font-weight: 500; color: #94A3B8;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 12px 28px;
+    border-radius: 100px;
+}
+
+.pill-divider {
+    display: flex; align-items: center;
+    color: rgba(255,255,255,0.15);
+    font-size: 14px;
+}
+
+/* CTA 바 */
+.cta-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(90deg, #E8752E 0%, #D4621A 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 700; color: #FFFFFF;
+    letter-spacing: -0.5px;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+    <div class="tag">마케팅 리더십</div>
+    <div class="logo">brandrise</div>
+
+    <div class="comparison-area">
+        <!-- CMO 채용 9개월 -->
+        <div class="block-top">
+            <span class="label">CMO 채용</span>
+            <span class="number">9개월</span>
+        </div>
+
+        <!-- vs -->
+        <div class="vs">vs</div>
+
+        <!-- brandrise 2주 -->
+        <div class="block-bottom">
+            <span class="label">brandrise</span>
+            <span class="number">2주</span>
+        </div>
+    </div>
+
+    <!-- 구분선 -->
+    <div class="divider"></div>
+
+    <!-- 서브카피 -->
+    <div class="subcopy-area">
+        <div class="subcopy-main">CMO 1명 비용으로</div>
+        <div class="subcopy-highlight">CMO '팀'을 쓰세요.</div>
+    </div>
+
+    <!-- 추가 정보 pills -->
+    <div class="info-pills">
+        <div class="pill">전략 수립</div>
+        <div class="pill">실행 통합</div>
+        <div class="pill">성과 측정</div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-bar">무료 마케팅 진단 받기 &rarr;</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>창업 전에 이것만 검증하세요 — brandrise</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       CSS Variables (Design Tokens)
+       ======================================== */
+    :root {
+      --accent: #E8752E;
+      --accent-light: #FB923C;
+      --bg-warm: #F5F0EB;
+      --bg-dark: #1A1A1A;
+      --bg-accent: #E8752E;
+      --text-primary: #1A1A1A;
+      --text-secondary: #3D3D3D;
+      --text-muted: #9E9E9E;
+      --text-white: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      --gradient-orange: linear-gradient(90deg, #F97316, #FB923C);
+      --gradient-blue: linear-gradient(90deg, #3B82F6, #60A5FA);
+      --gradient-green: linear-gradient(90deg, #22C55E, #4ADE80);
+      --compare-before-bg: linear-gradient(135deg, #FECACA, #FCA5A5);
+      --compare-before-color: #991B1B;
+      --compare-after-bg: linear-gradient(135deg, #A7F3D0, #6EE7B7);
+      --compare-after-color: #065F46;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #E0D8D0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+
+    /* ========================================
+       Slide Base
+       ======================================== */
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .slide.warm-light {
+      background: var(--bg-warm);
+      color: var(--text-primary);
+    }
+
+    .slide.warm-accent {
+      background: var(--bg-accent);
+      color: var(--text-primary);
+    }
+
+    .slide.dark {
+      background: var(--bg-dark);
+      color: var(--text-white);
+    }
+
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========================================
+       Components: Q Badge
+       ======================================== */
+    .q-badge {
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      border-radius: 12px;
+      color: var(--text-white);
+      font-size: 30px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Components: Page Number
+       ======================================== */
+    .page-num {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .slide.dark .page-num {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    /* ========================================
+       Components: Headline
+       ======================================== */
+    .headline {
+      font-size: 60px;
+      font-weight: 900;
+      line-height: 1.35;
+      color: var(--text-primary);
+      margin-bottom: 28px;
+      word-break: keep-all;
+    }
+
+    .slide.dark .headline {
+      color: var(--text-white);
+    }
+
+    .headline .accent {
+      color: var(--accent);
+    }
+
+    .slide.warm-accent .headline .accent {
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Body Text
+       ======================================== */
+    .body-text {
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      word-break: keep-all;
+    }
+
+    .body-text strong {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .body-text .accent {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .slide.dark .body-text {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .slide.dark .body-text strong {
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Tag / Badge
+       ======================================== */
+    .tag {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .tag.dark-bg {
+      background: rgba(0,0,0,0.15);
+      color: var(--text-primary);
+    }
+
+    .tag.accent-bg {
+      background: var(--accent);
+      color: var(--text-white);
+    }
+
+    .tag.light-bg {
+      background: rgba(232,117,46,0.12);
+      color: var(--accent);
+    }
+
+    .tag.white-bg {
+      background: rgba(255,255,255,0.15);
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Credit
+       ======================================== */
+    .credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .slide.warm-accent .credit {
+      color: rgba(26,26,26,0.4);
+    }
+
+    .slide.dark .credit {
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ========================================
+       Components: Terminal Code Block
+       ======================================== */
+    .terminal {
+      background: #2D2D2D;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .terminal-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .terminal-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: #FF5F57; }
+    .terminal-dot.yellow { background: #FEBC2E; }
+    .terminal-dot.green { background: #28C840; }
+
+    .terminal-title {
+      margin-left: 12px;
+      font-size: 22px;
+      color: #9E9E9E;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .terminal-body {
+      padding: 24px 28px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 26px;
+      line-height: 1.8;
+      color: #E0E0E0;
+    }
+
+    .terminal-body .key { color: #82AAFF; }
+    .terminal-body .value { color: #C3E88D; }
+    .terminal-body .comment { color: #6B7280; }
+    .terminal-body .error { color: #EF4444; }
+    .terminal-body .accent { color: #E8752E; }
+    .terminal-body .warn { color: #FBBF24; }
+
+    /* ========================================
+       Components: Color Bar Card
+       ======================================== */
+    .color-bar {
+      display: flex;
+      align-items: stretch;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      color: #FFFFFF;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .color-bar.orange  { background: var(--gradient-orange); }
+    .color-bar.blue    { background: var(--gradient-blue); }
+    .color-bar.green   { background: var(--gradient-green); }
+
+    .color-bar .bar-label {
+      flex: 0 0 180px;
+      padding: 24px 24px;
+      font-size: 32px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      background: rgba(0,0,0,0.1);
+    }
+
+    .color-bar .bar-content {
+      flex: 1;
+      padding: 24px 24px;
+      font-size: 28px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ========================================
+       Components: Compare Cards
+       ======================================== */
+    .compare-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .compare-card {
+      flex: 1;
+      border-radius: 16px;
+      padding: 32px;
+    }
+
+    .compare-card.before {
+      background: var(--compare-before-bg);
+      color: var(--compare-before-color);
+    }
+
+    .compare-card.after {
+      background: var(--compare-after-bg);
+      color: var(--compare-after-color);
+    }
+
+    .compare-label {
+      font-size: 22px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .compare-card.before .compare-label {
+      background: rgba(153,27,27,0.15);
+    }
+
+    .compare-card.after .compare-label {
+      background: rgba(6,95,70,0.15);
+    }
+
+    .compare-title {
+      font-size: 36px;
+      font-weight: 900;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .compare-desc {
+      font-size: 28px;
+      font-weight: 500;
+      line-height: 1.7;
+    }
+
+    /* ========================================
+       Components: Checklist
+       ======================================== */
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      padding: 22px 28px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .checklist-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 10px;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 800;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+
+    .checklist-label {
+      flex: 1;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* ========================================
+       Utility
+       ======================================== */
+    .spacer { flex: 1; }
+    .mt-auto { margin-top: auto; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-20 { margin-bottom: 20px; }
+    .mb-24 { margin-bottom: 24px; }
+    .mb-28 { margin-bottom: 28px; }
+    .mb-32 { margin-bottom: 32px; }
+    .mb-40 { margin-bottom: 40px; }
+    .mb-48 { margin-bottom: 48px; }
+    .mb-56 { margin-bottom: 56px; }
+
+    /* ========================================
+       Divider
+       ======================================== */
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: rgba(255,255,255,0.2);
+      margin: 32px 0;
+    }
+
+    .divider.dark {
+      background: rgba(0,0,0,0.1);
+    }
+
+    /* ========================================
+       CTA Slide Specific
+       ======================================== */
+    .cta-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .cta-logo {
+      width: 120px;
+      height: 120px;
+      background: var(--accent);
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .cta-logo-text {
+      font-size: 48px;
+      font-weight: 900;
+      color: #FFFFFF;
+      letter-spacing: -1px;
+    }
+
+    .cta-brand {
+      font-size: 56px;
+      font-weight: 900;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .cta-sub {
+      font-size: 30px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 48px;
+      line-height: 1.65;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 36px;
+      font-weight: 700;
+      padding: 20px 56px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .cta-handle {
+      display: inline-block;
+      padding: 10px 28px;
+      border-radius: 100px;
+      background: rgba(232,117,46,0.1);
+      color: var(--accent);
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    /* ========================================
+       Cover Specific
+       ======================================== */
+    .cover-headline {
+      font-size: 80px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: var(--text-primary);
+      word-break: keep-all;
+      margin-bottom: 24px;
+    }
+
+    .cover-headline .white {
+      color: #FFFFFF;
+    }
+
+    .cover-sub {
+      font-size: 38px;
+      font-weight: 500;
+      color: rgba(26,26,26,0.7);
+      line-height: 1.6;
+    }
+
+    .cover-credit {
+      position: absolute;
+      bottom: 52px;
+      left: 60px;
+      font-size: 30px;
+      font-weight: 700;
+      color: rgba(26,26,26,0.35);
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       Visual Decoration
+       ======================================== */
+    .cover-visual {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 480px;
+      height: 480px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 50% 0 0 0;
+    }
+
+    .cover-visual-inner {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      width: 200px;
+      height: 200px;
+      border: 4px solid rgba(26,26,26,0.12);
+      border-radius: 50%;
+    }
+
+    /* ========================================
+       Dark Slide Specifics
+       ======================================== */
+    .dark-emotional {
+      font-size: 42px;
+      font-weight: 400;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.6);
+      word-break: keep-all;
+    }
+
+    .dark-emotional strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .dark-accent-msg {
+      display: inline-block;
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--accent);
+      border: 2px solid var(--accent);
+      border-radius: 12px;
+      padding: 14px 28px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SLIDE 01 — COVER (warm-accent)
+       ============================================================ -->
+  <div class="slide warm-accent" id="slide-01">
+    <div class="slide-inner">
+      <div class="tag dark-bg">예비창업</div>
+
+      <div style="margin-top: 40px;">
+        <div class="cover-headline">
+          아이디어가 좋다고<br>
+          창업하면 <span class="white">안 됩니다</span>
+        </div>
+        <div class="cover-sub">
+          창업 전, 이 3가지만 검증하세요
+        </div>
+      </div>
+
+      <!-- Decorative shape -->
+      <div class="cover-visual">
+        <div class="cover-visual-inner"></div>
+      </div>
+
+      <div class="cover-credit">brandrise</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 02 — 충격 데이터 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-02">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">02 / 07</div>
+      </div>
+
+      <div class="headline">
+        스타트업 10개 중 9개가<br>
+        <span class="accent">실패합니다</span>
+      </div>
+
+      <!-- Terminal Code Block -->
+      <div class="terminal" style="margin-top: 20px;">
+        <div class="terminal-header">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <div class="terminal-title">startup_failure.log</div>
+        </div>
+        <div class="terminal-body">
+          <span class="key">1년 내 폐업</span>: <span class="error">60%</span><br>
+          <span class="key">3년 내 폐업</span>: <span class="error">80%</span><br><br>
+          <span class="key">실패 원인 1위</span>: <span class="value">"시장이 원하지 않는 제품"</span> <span class="warn">(42%)</span><br>
+          <span class="key">실패 원인 2위</span>: <span class="value">"자금 소진"</span> <span class="warn">(29%)</span><br><br>
+          <span class="comment">// 대부분 "검증 없이 시작"해서 실패합니다.</span>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 03 — 검증 3가지 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-03">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">A</div>
+        <div class="page-num">03 / 07</div>
+      </div>
+
+      <div class="headline">
+        창업 전, 이 3가지를<br>
+        <span class="accent">검증하세요</span>
+      </div>
+
+      <div class="body-text mb-48">
+        아이디어의 가능성은 감이 아니라<br>
+        <strong>데이터로 확인하는 겁니다.</strong>
+      </div>
+
+      <!-- 3 Color Bar Cards -->
+      <div>
+        <div class="color-bar orange">
+          <div class="bar-label">1. 시장</div>
+          <div class="bar-content">이 문제를 겪는 사람이 충분한가?</div>
+        </div>
+        <div class="color-bar blue">
+          <div class="bar-label">2. 고객</div>
+          <div class="bar-content">돈을 낼 의향이 있는가?</div>
+        </div>
+        <div class="color-bar green">
+          <div class="bar-label">3. 수익모델</div>
+          <div class="bar-content">지속 가능한 구조인가?</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 04 — 검증 방법 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-04">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">04 / 07</div>
+      </div>
+
+      <div class="headline">
+        직장 다니면서<br>
+        <span class="accent">검증하는 법</span>
+      </div>
+
+      <div class="body-text mb-40">
+        퇴사 전에 할 수 있는 것들부터 시작하세요.<br>
+        <strong>주말과 퇴근 후 시간이면 충분합니다.</strong>
+      </div>
+
+      <!-- Checklist -->
+      <div>
+        <div class="checklist-item">
+          <div class="checklist-icon">&#10003;</div>
+          <div class="checklist-label">랜딩페이지 만들어서 사전등록 받기</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon">&#10003;</div>
+          <div class="checklist-label">타겟 10명에게 직접 인터뷰하기</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon">&#10003;</div>
+          <div class="checklist-label">최소 기능 제품(MVP)으로 유료 테스트</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon">&#10003;</div>
+          <div class="checklist-label">경쟁사 고객 리뷰 100개 분석하기</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon">&#10003;</div>
+          <div class="checklist-label">구글 트렌드로 수요 추이 확인하기</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 05 — Before/After (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-05">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">05 / 07</div>
+      </div>
+
+      <div class="headline">
+        <span class="accent">검증</span>의 차이
+      </div>
+
+      <div class="body-text mb-40">
+        같은 아이디어, 같은 열정.<br>
+        <strong>검증 여부가 결과를 가릅니다.</strong>
+      </div>
+
+      <!-- Before/After Compare Cards -->
+      <div class="compare-row">
+        <div class="compare-card before">
+          <div class="compare-label">BEFORE</div>
+          <div class="compare-title">검증 없이 창업</div>
+          <div class="compare-desc">
+            6개월 후 피봇<br><br>
+            투자금 소진<br><br>
+            팀 해체
+          </div>
+        </div>
+        <div class="compare-card after">
+          <div class="compare-label">AFTER</div>
+          <div class="compare-title">검증 후 창업</div>
+          <div class="compare-desc">
+            첫 달 유료 고객 확보<br><br>
+            투자 유치 성공<br><br>
+            PMF 도달
+          </div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 06 — 클로징 메시지 (dark)
+       ============================================================ -->
+  <div class="slide dark" id="slide-06">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="tag white-bg">brandrise</div>
+        <div class="page-num">06 / 07</div>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <div class="headline" style="font-size: 56px; margin-bottom: 40px;">
+          좋은 아이디어는 많습니다.<br>
+          <span class="accent">검증된 아이디어</span>는 드뭅니다.
+        </div>
+
+        <div class="dark-emotional mb-48">
+          직장에서 퇴사를 결심하기 전에,<br>
+          시장이 당신의 아이디어를<br>
+          <strong>기다리고 있는지 확인하세요.</strong><br><br>
+          그 확인을 도와드립니다.
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="dark-accent-msg" style="margin-top: 32px;">
+          창업 전 마케팅 전략 점검
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 07 — CTA (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-07">
+    <div class="slide-inner">
+      <div class="cta-center">
+        <div class="cta-logo">
+          <div class="cta-logo-text">br</div>
+        </div>
+
+        <div class="cta-brand">brandrise</div>
+
+        <div class="tag light-bg mb-24">예비창업자 전용</div>
+
+        <div class="cta-button">무료 창업 마케팅 진단</div>
+
+        <div class="cta-sub">
+          아이디어 검증부터 시장 진입 전략까지<br>
+          30분이면 방향이 보입니다
+        </div>
+
+        <div style="margin-top: 16px;">
+          <div class="cta-handle">@brandrise_kr</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+</body>
+</html>
