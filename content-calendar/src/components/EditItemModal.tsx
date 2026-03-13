@@ -226,13 +226,27 @@ export default function EditItemModal({
             <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
               포맷
             </label>
-            <input
-              type="text"
-              value={format}
-              onChange={(e) => setFormat(e.target.value)}
-              placeholder="릴스, 카드뉴스, 캐러셀, 단일 이미지..."
-              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
+            <div className="flex flex-wrap gap-2">
+              {[
+                { value: "영상(릴스)", label: "영상(릴스)" },
+                { value: "피드(캐러셀)", label: "피드(캐러셀)" },
+                { value: "피드(단일이미지)", label: "피드(단일이미지)" },
+                { value: "스토리(단일)", label: "스토리(단일)" },
+              ].map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  onClick={() => setFormat(format === opt.value ? "" : opt.value)}
+                  className={`px-3 py-1.5 rounded-lg text-sm font-medium border transition-colors ${
+                    format === opt.value
+                      ? "bg-gray-900 text-white border-gray-900"
+                      : "bg-white text-gray-600 border-gray-200 hover:border-gray-400"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Media Upload */}
