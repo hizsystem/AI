@@ -122,7 +122,8 @@
       "Bash(npx vercel:*)",
       "WebFetch(domain:goventureforum-odgp698hx-hizs-projects-5ae10ac2.vercel.app)",
       "Bash(cp -r /Users/wooseongmin/AI/.worktrees/new-business/meta-ad-pipeline /Users/wooseongmin/AI/.worktrees/meta-ads/meta-ad-pipeline)",
-      "Bash(cp -r /Users/wooseongmin/AI/.worktrees/new-business/docs/plans/2026-02-24-meta-ad-team-design.md /Users/wooseongmin/AI/.worktrees/meta-ads/meta-ad-pipeline/docs/ 2>/dev/null; mkdir -p /Users/wooseongmin/AI/.worktrees/meta-ads/meta-ad-pipeline/docs && cp /Users/wooseongmin/AI/.worktrees/new-business/docs/plans/2026-02-24-meta-ad-team-design.md /Users/wooseongmin/AI/.worktrees/meta-ads/meta-ad-pipeline/docs/)"
+      "Bash(cp -r /Users/wooseongmin/AI/.worktrees/new-business/docs/plans/2026-02-24-meta-ad-team-design.md /Users/wooseongmin/AI/.worktrees/meta-ads/meta-ad-pipeline/docs/ 2>/dev/null; mkdir -p /Users/wooseongmin/AI/.worktrees/meta-ads/meta-ad-pipeline/docs && cp /Users/wooseongmin/AI/.worktrees/new-business/docs/plans/2026-02-24-meta-ad-team-design.md /Users/wooseongmin/AI/.worktrees/meta-ads/meta-ad-pipeline/docs/)",
+      "Bash(git pull:*)"
     ]
   },
   "hooks": {
