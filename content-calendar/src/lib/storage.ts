@@ -8,6 +8,33 @@ const STATIC_DATA: Record<string, CalendarData> = {
   "tabshopbar:2026-03": march2026 as CalendarData,
 };
 
+export async function listMonths(client: string): Promise<string[]> {
+  const months = new Set<string>();
+
+  // Static data keys
+  for (const key of Object.keys(STATIC_DATA)) {
+    if (key.startsWith(`${client}:`)) {
+      months.add(key.split(":")[1]);
+    }
+  }
+
+  // Blob data
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const { blobs } = await list({ prefix: `calendar/${client}/`, limit: 100 });
+      for (const blob of blobs) {
+        // path: calendar/tabshopbar/2026-03.json
+        const match = blob.pathname.match(/(\d{4}-\d{2})\.json$/);
+        if (match) months.add(match[1]);
+      }
+    } catch (e) {
+      console.error("Blob list error:", e);
+    }
+  }
+
+  return Array.from(months).sort();
+}
+
 function blobPath(client: string, month: string): string {
   return `calendar/${client}/${month}.json`;
 }

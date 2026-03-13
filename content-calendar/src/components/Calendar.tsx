@@ -20,6 +20,7 @@ interface CalendarProps {
   onUpdateItem?: (id: string, updates: Partial<ContentItem>) => Promise<void>;
   onDeleteItem?: (id: string) => Promise<void>;
   onSaveCalendar?: (updates: Partial<CalendarData>) => Promise<void>;
+  onAddMonth?: () => void;
 }
 
 const DAY_LABELS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -42,6 +43,7 @@ export default function Calendar({
   onUpdateItem,
   onDeleteItem,
   onSaveCalendar,
+  onAddMonth,
 }: CalendarProps) {
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null);
   const [editingItem, setEditingItem] = useState<ContentItem | null | "new">(null);
@@ -408,13 +410,21 @@ export default function Calendar({
         </div>
 
         {/* Month Navigation */}
-        {allMonths.length > 1 && (
+        <div className="flex items-center justify-center gap-3">
           <MonthNav
             currentMonth={data.month}
             months={allMonths}
             onMonthChange={onMonthChange}
           />
-        )}
+          {editMode && onAddMonth && (
+            <button
+              onClick={onAddMonth}
+              className="px-3 py-1.5 rounded-lg text-xs font-medium text-gray-500 border border-dashed border-gray-300 hover:border-gray-400 hover:text-gray-700 transition-colors"
+            >
+              + 다음 달
+            </button>
+          )}
+        </div>
       </div>
 
       {/* View Modal (non-edit mode) */}
