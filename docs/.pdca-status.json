@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-12T12:24:51.171Z",
+  "lastUpdated": "2026-03-13T09:40:27.016Z",
   "activeFeatures": [
     ".claude",
     "scripts",
@@ -28,7 +28,11 @@
     "status",
     "toggle",
     "tmp",
-    "delete"
+    "delete",
+    "[month]",
+    "items",
+    "[id]",
+    "upload"
   ],
   "primaryFeature": ".claude",
   "features": {
@@ -54,9 +58,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-22T18:22:18.427Z",
-        "lastUpdated": "2026-03-12T12:24:51.170Z"
+        "lastUpdated": "2026-03-13T09:40:27.016Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/scripts/auto-commit-push.sh"
+      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/goventure-forum/goventureforum/scripts/sync-onoffmix-to-supabase.py"
     },
     "meta-ad-pipeline": {
       "phase": "do",
@@ -145,7 +149,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-08T02:27:24.544Z",
-        "lastUpdated": "2026-03-08T02:28:37.312Z"
+        "lastUpdated": "2026-03-13T06:30:49.099Z"
       },
       "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/tabshopbar/page.tsx"
     },
@@ -158,9 +162,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-08T02:27:34.061Z",
-        "lastUpdated": "2026-03-10T17:17:27.583Z"
+        "lastUpdated": "2026-03-13T06:30:39.983Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/components/MoodboardModal.tsx"
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/hooks/useCalendarData.ts"
     },
     "goventureforum": {
       "phase": "do",
@@ -382,6 +386,58 @@
         "lastUpdated": "2026-03-11T07:33:00.480Z"
       },
       "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/goventure-forum/goventureforum/src/app/api/admin/applicants/delete/route.ts"
+    },
+    "[month]": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-13T03:48:50.068Z",
+        "lastUpdated": "2026-03-13T03:48:50.068Z"
+      },
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar/[client]/[month]/route.ts"
+    },
+    "items": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-13T03:48:55.987Z",
+        "lastUpdated": "2026-03-13T03:48:55.987Z"
+      },
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar/[client]/[month]/items/route.ts"
+    },
+    "[id]": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-13T03:49:03.023Z",
+        "lastUpdated": "2026-03-13T03:49:03.023Z"
+      },
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar/[client]/[month]/items/[id]/route.ts"
+    },
+    "upload": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-03-13T06:28:10.510Z",
+        "lastUpdated": "2026-03-13T08:30:48.567Z"
+      },
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/upload/route.ts"
     }
   },
   "pipeline": {
@@ -392,7 +448,7 @@
   "session": {
     "startedAt": "2026-02-21T15:55:09.018Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-03-12T12:24:51.171Z"
+    "lastActivity": "2026-03-13T09:40:27.016Z"
   },
   "history": [
     {
@@ -1507,6 +1563,174 @@
     },
     {
       "timestamp": "2026-03-12T12:24:51.171Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T01:38:42.117Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T03:48:50.068Z",
+      "feature": "[month]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T03:48:55.987Z",
+      "feature": "items",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T03:49:03.023Z",
+      "feature": "[id]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T03:49:13.571Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T03:49:56.895Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T03:50:28.836Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T03:51:31.506Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T03:51:41.587Z",
+      "feature": "tabshopbar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:28:10.510Z",
+      "feature": "upload",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:28:23.036Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:28:35.878Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:29:01.168Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:29:46.790Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:29:56.653Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:30:02.176Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:30:05.943Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:30:09.899Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:30:20.888Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:30:27.336Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:30:34.537Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:30:39.983Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:30:44.929Z",
+      "feature": "tabshopbar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T06:30:49.099Z",
+      "feature": "tabshopbar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T08:30:48.567Z",
+      "feature": "upload",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T08:47:19.491Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T08:48:06.998Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-13T09:40:27.016Z",
       "feature": "scripts",
       "phase": "do",
       "action": "updated"

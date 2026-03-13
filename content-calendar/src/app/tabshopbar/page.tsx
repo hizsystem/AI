@@ -2,18 +2,51 @@
 
 import { useState } from "react";
 import Calendar from "@/components/Calendar";
-import { getCalendarData, getMonths } from "@/data/tabshopbar";
+import { useCalendarData } from "@/hooks/useCalendarData";
 
-const allMonths = getMonths();
+const CLIENT = "tabshopbar";
+const AVAILABLE_MONTHS = ["2026-03"];
 
 export default function TabshopbarCalendar() {
-  const [currentMonth, setCurrentMonth] = useState(allMonths[allMonths.length - 1]);
-  const data = getCalendarData(currentMonth);
+  const [currentMonth, setCurrentMonth] = useState(
+    AVAILABLE_MONTHS[AVAILABLE_MONTHS.length - 1]
+  );
+  const [editMode, setEditMode] = useState(false);
 
-  if (!data) {
+  const { data, loading, error, addItem, updateItem, deleteItem, saveCalendar } =
+    useCalendarData(CLIENT, currentMonth);
+
+  if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-        <p className="text-gray-400">No data for {currentMonth}</p>
+        <div className="flex items-center gap-3 text-gray-400">
+          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+            <circle
+              className="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              strokeWidth="4"
+            />
+            <path
+              className="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
+          </svg>
+          <span className="text-sm">캘린더 불러오는 중...</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !data) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <p className="text-gray-400">
+          {error || `No data for ${currentMonth}`}
+        </p>
       </div>
     );
   }
@@ -21,8 +54,14 @@ export default function TabshopbarCalendar() {
   return (
     <Calendar
       data={data}
-      allMonths={allMonths}
+      allMonths={AVAILABLE_MONTHS}
       onMonthChange={setCurrentMonth}
+      editMode={editMode}
+      onToggleEditMode={() => setEditMode((prev) => !prev)}
+      onAddItem={addItem}
+      onUpdateItem={updateItem}
+      onDeleteItem={deleteItem}
+      onSaveCalendar={saveCalendar}
     />
   );
 }
