@@ -73,7 +73,7 @@ export default function TabshopbarCalendar() {
     );
   }
 
-  if (!currentMonth || (error && !data)) {
+  if (!currentMonth || !data || (error && !data)) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <p className="text-gray-400">
@@ -85,7 +85,7 @@ export default function TabshopbarCalendar() {
 
   return (
     <Calendar
-      data={data!}
+      data={data}
       allMonths={months}
       onMonthChange={setCurrentMonth}
       editMode={editMode}

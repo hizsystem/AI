@@ -23,6 +23,10 @@ export function useCalendarData(
   const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
+    if (!client || !month) {
+      setLoading(false);
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
