@@ -13,12 +13,14 @@ interface ContentModalProps {
   item: ContentItem;
   category: Category;
   onClose: () => void;
+  onEdit?: (item: ContentItem) => void;
 }
 
 export default function ContentModal({
   item,
   category,
   onClose,
+  onEdit,
 }: ContentModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -57,14 +59,14 @@ export default function ContentModal({
       {/* Instagram-style container */}
       <div className="bg-white shadow-2xl flex max-w-[860px] w-full max-h-[80vh] overflow-hidden rounded">
         {/* Left: Media area */}
-        <div className="w-[420px] bg-gray-950 flex-shrink-0 flex items-center justify-center">
+        <div className="w-[420px] bg-gray-950 flex-shrink-0 flex items-center justify-center overflow-hidden">
           {overview.localVideo ? (
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-full flex items-center justify-center">
               <video
                 src={overview.localVideo}
                 poster={overview.images?.[0]}
                 controls
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 playsInline
               />
               <div className="absolute bottom-12 right-2 bg-black/80 text-white text-[10px] px-2.5 py-1 rounded-full pointer-events-none animate-pulse">
@@ -98,7 +100,7 @@ export default function ContentModal({
             <img
               src={overview.images[0]}
               alt={item.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain"
             />
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center gap-5">
@@ -125,12 +127,26 @@ export default function ContentModal({
             <div className="flex-1 min-w-0">
               <p className="text-[13px] font-semibold text-gray-900 leading-none">tap.shop.bar</p>
             </div>
-            <span
-              className="px-2 py-0.5 rounded text-[10px] font-medium text-white tracking-wide"
-              style={{ backgroundColor: category.color }}
-            >
-              {category.name}
-            </span>
+            <div className="flex items-center gap-2">
+              <span
+                className="px-2 py-0.5 rounded text-[10px] font-medium text-white tracking-wide"
+                style={{ backgroundColor: category.color }}
+              >
+                {category.name}
+              </span>
+              {onEdit && (
+                <button
+                  onClick={() => { onClose(); onEdit(item); }}
+                  className="w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors"
+                  title="수정"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Scrollable content */}

@@ -353,10 +353,10 @@ export default function Calendar({
                                     setSelectedItem(item);
                                   }
                                 }}
-                                className="w-full text-left group"
+                                className="w-full text-left group cursor-pointer"
                               >
                                 <div
-                                  className="px-1.5 py-0.5 rounded text-xs font-medium truncate transition-opacity group-hover:opacity-80"
+                                  className="px-1.5 py-1 rounded text-xs font-medium truncate transition-all duration-150 group-hover:-translate-y-px group-hover:shadow-sm group-active:translate-y-0 group-active:shadow-none"
                                   style={{
                                     backgroundColor: cat ? `${cat.color}18` : "#f3f4f6",
                                     color: cat?.color || "#6b7280",
@@ -423,11 +423,15 @@ export default function Calendar({
           item={selectedItem}
           category={categoryMap[selectedItem.category]}
           onClose={() => setSelectedItem(null)}
+          onEdit={(item) => {
+            setSelectedItem(null);
+            setEditingItem(item);
+          }}
         />
       )}
 
       {/* Edit Modal */}
-      {editingItem !== null && editMode && (
+      {editingItem !== null && (
         <EditItemModal
           item={editingItem === "new" ? null : editingItem}
           categories={contentCategories}
