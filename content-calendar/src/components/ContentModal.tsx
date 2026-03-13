@@ -59,7 +59,7 @@ export default function ContentModal({
       {/* Instagram-style container */}
       <div className="bg-white shadow-2xl flex max-w-[860px] w-full max-h-[80vh] overflow-hidden rounded">
         {/* Left: Media area */}
-        <div className="w-[420px] bg-gray-950 flex-shrink-0 flex items-center justify-center overflow-hidden">
+        <div className="w-[420px] max-h-[80vh] bg-gray-950 flex-shrink-0 flex items-center justify-center overflow-hidden">
           {overview.localVideo ? (
             <div className="relative w-full h-full flex items-center justify-center">
               <video
@@ -100,7 +100,7 @@ export default function ContentModal({
             <img
               src={overview.images[0]}
               alt={item.title}
-              className="w-full h-full object-contain"
+              className="w-full max-h-[80vh] object-contain"
             />
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center gap-5">
@@ -137,13 +137,14 @@ export default function ContentModal({
               {onEdit && (
                 <button
                   onClick={() => { onClose(); onEdit(item); }}
-                  className="w-7 h-7 rounded-full flex items-center justify-center text-gray-400 hover:text-blue-500 hover:bg-blue-50 transition-colors"
+                  className="px-2.5 py-1 rounded-md flex items-center gap-1.5 text-[11px] font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50 border border-gray-200 hover:border-blue-200 transition-colors"
                   title="수정"
                 >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
+                  수정
                 </button>
               )}
             </div>
