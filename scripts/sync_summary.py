@@ -38,6 +38,13 @@ PROJECTS = {
         "sheet_id": "1crkZXjTlFd01vUGoaXs3zpNqgZBLh-xZwpqPQEDHDUY",
         "month_offset": 1,
         "mode": "api_sync",
+        # 현대차 스타일 탭 구조 (정산 단위)
+        "rev_tab": "예상매출",       # 매출 탭명
+        "rev_total_row": 2,         # 합계 row 2
+        "rev_month_start_col": 1,   # B열 = index 1 (0-based)
+        "exp_tab": "예상지출",       # 지출 탭명
+        "exp_total_row": 9,         # 지출 합계 row 9
+        "exp_month_start_col": 2,   # C열 = index 2 (0-based)
     },
     "벤처리움": {
         "row": 5,
@@ -49,7 +56,11 @@ PROJECTS = {
 
 
 def read_project_data(client, project_name, config):
-    """프로젝트 시트에서 매출/지출 합계 데이터 읽기"""
+    """프로젝트 시트에서 매출/지출 합계 데이터 읽기
+
+    프로젝트별 탭 구조가 다를 수 있으므로 config에서 탭명/합계행/월시작열을 개별 지정.
+    기본값: 기존 구조 (2026 예상 매출/지출, 합계 row 2, 월 시작 col 1)
+    """
     if not config["sheet_id"]:
         print(f"  [{project_name}] 시트 ID 없음 — 건너뜀")
         return None, None
@@ -60,36 +71,53 @@ def read_project_data(client, project_name, config):
         print(f"  [{project_name}] 접근 실패: {e}")
         return None, None
 
-    # 매출 탭 합계행 (행2)
-    ws_rev = sh.worksheet("2026 예상 매출")
-    rev_row = ws_rev.row_values(2)
+    # 탭명/합계행/월시작열 — config에 없으면 기본값 사용
+    rev_tab = config.get("rev_tab", "2026 예상 매출")
+    rev_total_row = config.get("rev_total_row", 2)
+    rev_month_col = config.get("rev_month_start_col", 1)  # 0-based
 
-    # 지출 탭 합계행 (행2)
-    ws_exp = sh.worksheet("2026 예상 지출")
-    exp_row = ws_exp.row_values(2)
+    exp_tab = config.get("exp_tab", "2026 예상 지출")
+    exp_total_row = config.get("exp_total_row", 2)
+    exp_month_col = config.get("exp_month_start_col", 1)  # 0-based
 
-    # 12개월 값 추출 (1월~12월 매핑)
-    offset = config["month_offset"]
+    # 매출 탭
+    try:
+        ws_rev = sh.worksheet(rev_tab)
+        rev_row = ws_rev.row_values(rev_total_row)
+    except Exception as e:
+        print(f"  [{project_name}] 매출 탭 '{rev_tab}' 접근 실패: {e}")
+        rev_row = []
+
+    # 지출 탭
+    try:
+        ws_exp = sh.worksheet(exp_tab)
+        exp_row = ws_exp.row_values(exp_total_row)
+    except Exception as e:
+        print(f"  [{project_name}] 지출 탭 '{exp_tab}' 접근 실패: {e}")
+        exp_row = []
+
+    # 12개월 값 추출 (1월~12월)
     revenue = [0] * 12
     expense = [0] * 12
 
-    for month_idx in range(offset, 13):  # offset월~12월
-        col_in_source = month_idx - offset + 1  # 소스 시트 열 인덱스 (1-based, B=1)
-        target_idx = month_idx - 1  # 0-based 배열 인덱스
-
-        if col_in_source < len(rev_row):
-            val = str(rev_row[col_in_source]).replace(",", "")
+    for month_idx in range(12):  # 0=1월, 11=12월
+        # 매출: rev_month_col + month_idx
+        src_col = rev_month_col + month_idx
+        if src_col < len(rev_row):
+            val = str(rev_row[src_col]).replace(",", "")
             try:
-                revenue[target_idx] = int(float(val))
+                revenue[month_idx] = int(float(val))
             except ValueError:
-                revenue[target_idx] = 0
+                revenue[month_idx] = 0
 
-        if col_in_source < len(exp_row):
-            val = str(exp_row[col_in_source]).replace(",", "")
+        # 지출: exp_month_col + month_idx
+        src_col = exp_month_col + month_idx
+        if src_col < len(exp_row):
+            val = str(exp_row[src_col]).replace(",", "")
             try:
-                expense[target_idx] = int(float(val))
+                expense[month_idx] = int(float(val))
             except ValueError:
-                expense[target_idx] = 0
+                expense[month_idx] = 0
 
     return revenue, expense
 
