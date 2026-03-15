@@ -1,0 +1,24 @@
+# config.yaml.example
+# 복사 후 config.yaml로 이름 변경하여 사용
+# cp config.yaml.example config.yaml
+
+accounts:
+  brandrise:
+    ad_account_id: "act_XXXXXXXXX"
+    name: "브랜드라이즈"
+    daily_budget_alert: 50000
+  # client_a:
+  #   ad_account_id: "act_YYYYYYYYY"
+  #   name: "클라이언트 A"
+  #   daily_budget_alert: 100000
+
+slack:
+  webhook_url_env: "SLACK_WEBHOOK_URL"
+
+report:
+  time: "09:00"
+  metrics: [spend, impressions, clicks, ctr, cpc, cpm, conversions, cpa, roas]
+  alert_thresholds:
+    ctr_drop: 30          # CTR 전일 대비 N% 이상 하락 시 경고
+    cpa_spike: 50         # CPA 전일 대비 N% 이상 상승 시 경고
+    budget_under: 80      # 예산 소진율 N% 미만 시 경고 (underspend)

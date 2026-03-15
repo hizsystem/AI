@@ -24,3 +24,8 @@ node_modules/
 
 # Outputs (regeneratable)
 meta-ad-pipeline/outputs/
+
+# Meta Ads Automation
+scripts/meta/config.yaml
+data/
+logs/
