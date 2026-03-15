@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>브랜드라이즈 캐러셀 템플릿</title>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Pretendard', sans-serif;
+    background: #1a1a1a;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    padding: 60px;
+    justify-content: center;
+  }
+
+  .label {
+    width: 100%;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: -20px;
+  }
+
+  .section-title {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  /* === 캐러셀 표지 (Slide 1) === */
+  .slide {
+    width: 1080px;
+    height: 1350px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  /* 배경 이미지 플레이스홀더 */
+  .slide .bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #2a2a2a 0%, #444 100%);
+  }
+
+  .slide .bg-portrait {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 18px;
+    letter-spacing: 2px;
+  }
+
+  /* 하단 그라데이션 오버레이 */
+  .slide .gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+  }
+
+  /* 좌하단 헤드라인 텍스트 (mountain.chicken 스타일) */
+  .slide .headline {
+    position: absolute;
+    bottom: 80px;
+    left: 60px;
+    right: 60px;
+  }
+
+  .slide .headline h1 {
+    font-size: 86px;
+    font-weight: 800;
+    color: #FFFFFF;
+    line-height: 1.2;
+    letter-spacing: -2px;
+  }
+
+  /* 오렌지 액센트 라인 */
+  .slide .headline .accent-line {
+    width: 100px;
+    height: 6px;
+    background: #FF9500;
+    margin-bottom: 28px;
+    border-radius: 3px;
+  }
+
+  /* 캐러셀 인디케이터 (하단 점) */
+  .slide .indicators {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+  }
+
+  .slide .indicators .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+  }
+
+  .slide .indicators .dot.active {
+    background: #FF9500;
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* 상단 브랜드 태그 */
+  .slide .brand-tag {
+    position: absolute;
+    top: 40px;
+    left: 60px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slide .brand-tag .logo-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #FF9500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 900;
+    font-size: 20px;
+  }
+
+  .slide .brand-tag .brand-name {
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* 우상단 캐러셀 아이콘 */
+  .slide .carousel-icon {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    color: white;
+    font-size: 24px;
+    opacity: 0.8;
+  }
+
+  /* === Slide 2: 본문 슬라이드 === */
+  .slide.content-slide {
+    background: #F6F0EB;
+  }
+
+  .slide.content-slide .content-header {
+    position: absolute;
+    top: 80px;
+    left: 60px;
+    right: 60px;
+  }
+
+  .slide.content-slide .content-header .slide-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #FF9500;
+    color: white;
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 36px;
+  }
+
+  .slide.content-slide .content-header h2 {
+    font-size: 68px;
+    font-weight: 800;
+    color: #1a1a1a;
+    line-height: 1.25;
+    margin-bottom: 44px;
+  }
+
+  .slide.content-slide .content-body {
+    position: absolute;
+    top: 420px;
+    left: 60px;
+    right: 60px;
+  }
+
+  .slide.content-slide .content-body p {
+    font-size: 42px;
+    font-weight: 400;
+    color: #333;
+    line-height: 1.65;
+    margin-bottom: 28px;
+  }
+
+  .slide.content-slide .content-body .highlight {
+    color: #FF9500;
+    font-weight: 700;
+  }
+
+  .slide.content-slide .divider {
+    width: 100%;
+    height: 2px;
+    background: rgba(0,0,0,0.08);
+    margin: 30px 0;
+  }
+
+  .slide.content-slide .content-body blockquote {
+    border-left: 6px solid #FF9500;
+    padding-left: 36px;
+    margin: 44px 0;
+    font-size: 46px;
+    font-weight: 600;
+    color: #1a1a1a;
+    line-height: 1.45;
+    font-style: italic;
+  }
+
+  /* 하단 브랜드 바 */
+  .slide.content-slide .bottom-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: #FF9500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .slide.content-slide .bottom-bar span {
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* === Slide 3: 마지막 CTA 슬라이드 === */
+  .slide.cta-slide {
+    background: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .slide.cta-slide .cta-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: #FF9500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 900;
+    font-size: 56px;
+    margin-bottom: 56px;
+  }
+
+  .slide.cta-slide h2 {
+    font-size: 72px;
+    font-weight: 800;
+    color: white;
+    line-height: 1.25;
+    margin-bottom: 24px;
+    padding: 0 80px;
+  }
+
+  .slide.cta-slide .sub-text {
+    font-size: 38px;
+    color: #999;
+    margin-bottom: 64px;
+  }
+
+  .slide.cta-slide .cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px 72px;
+    background: #FF9500;
+    border-radius: 60px;
+    color: white;
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .slide.cta-slide .handle {
+    position: absolute;
+    bottom: 60px;
+    color: #666;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  /* === 그리드 프리뷰 (3x3) === */
+  .grid-preview {
+    width: 1080px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .grid-preview .grid-cell {
+    aspect-ratio: 1;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .grid-preview .grid-cell .bg {
+    position: absolute;
+    inset: 0;
+  }
+
+  .grid-preview .grid-cell .gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+  }
+
+  .grid-preview .grid-cell .cell-text {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    color: white;
+    font-size: 19px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .grid-preview .grid-cell .cell-accent {
+    width: 20px;
+    height: 3px;
+    background: #FF9500;
+    margin-bottom: 8px;
+    border-radius: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- 라벨 -->
+<p class="label">BRANDRISE CAROUSEL TEMPLATE</p>
+<p class="section-title">캐러셀 슬라이드별 템플릿</p>
+
+<!-- === SLIDE 1: 표지 (인물사진 + 헤드라인) === -->
+<div class="slide">
+  <div class="bg">
+    <div class="bg-portrait">PORTRAIT PHOTO HERE</div>
+  </div>
+  <div class="gradient-overlay"></div>
+
+  <div class="brand-tag">
+    <div class="logo-circle">B</div>
+    <span class="brand-name">BRANDRISE</span>
+  </div>
+
+  <div class="carousel-icon">▢▢</div>
+
+  <div class="headline">
+    <div class="accent-line"></div>
+    <h1>크리에이터 이코노미에<br>대한 환상과 단상</h1>
+  </div>
+
+  <div class="indicators">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</div>
+
+<!-- === SLIDE 2: 본문 슬라이드 === -->
+<div class="slide content-slide">
+  <div class="content-header">
+    <div class="slide-number">1</div>
+    <h2>크리에이터 이코노미의<br>현실</h2>
+  </div>
+
+  <div class="content-body">
+    <p>많은 사람들이 크리에이터 이코노미를 <span class="highlight">황금알을 낳는 거위</span>처럼 생각합니다.</p>
+
+    <div class="divider"></div>
+
+    <p>하지만 실제로는 상위 1%만이 의미 있는 수익을 만들어내고 있습니다.</p>
+
+    <blockquote>"진짜 가치는 콘텐츠가 아니라<br>시스템에 있습니다."</blockquote>
+  </div>
+
+  <div class="bottom-bar">
+    <span>@brandrise_kr</span>
+  </div>
+
+  <div class="indicators" style="bottom: 100px;">
+    <div class="dot"></div>
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+</div>
+
+<!-- === SLIDE 3: CTA 마지막 슬라이드 === -->
+<div class="slide cta-slide">
+  <div class="cta-logo">B</div>
+  <h2>더 많은 인사이트가<br>궁금하다면</h2>
+  <p class="sub-text">컨셉부터 운영까지 논스톱으로</p>
+  <div class="cta-button">DM으로 무료 상담 신청</div>
+  <span class="handle">@brandrise_kr</span>
+</div>
+
+<!-- 라벨 -->
+<p class="label" style="margin-top: 40px;">INSTAGRAM GRID PREVIEW</p>
+<p class="section-title">그리드 적용 프리뷰 (3x3)</p>
+
+<!-- === 그리드 프리뷰 === -->
+<div class="grid-preview">
+  <div class="grid-cell">
+    <div class="bg" style="background: linear-gradient(135deg, #3a2a1a, #2a2a2a);"></div>
+    <div class="gradient-overlay"></div>
+    <div class="cell-text">
+      <div class="cell-accent"></div>
+      크리에이터 이코노미에<br>대한 환상과 단상
+    </div>
+  </div>
+  <div class="grid-cell">
+    <div class="bg" style="background: linear-gradient(135deg, #2a2a3a, #1a1a2a);"></div>
+    <div class="gradient-overlay"></div>
+    <div class="cell-text">
+      <div class="cell-accent"></div>
+      예비창업패키지와<br>가짜 창업자에 대한 단상
+    </div>
+  </div>
+  <div class="grid-cell">
+    <div class="bg" style="background: linear-gradient(135deg, #2a3a2a, #1a2a1a);"></div>
+    <div class="gradient-overlay"></div>
+    <div class="cell-text">
+      <div class="cell-accent"></div>
+      압도적인 힘의 차이에도<br>절대 굴복하지 말게
+    </div>
+  </div>
+  <div class="grid-cell">
+    <div class="bg" style="background: linear-gradient(135deg, #3a3a2a, #2a2a1a);"></div>
+    <div class="gradient-overlay"></div>
+    <div class="cell-text">
+      <div class="cell-accent"></div>
+      여전히 가우뚱한<br>스타트업 아이디어
+    </div>
+  </div>
+  <div class="grid-cell">
+    <div class="bg" style="background: linear-gradient(135deg, #2a2a2a, #3a2a2a);"></div>
+    <div class="gradient-overlay"></div>
+    <div class="cell-text">
+      <div class="cell-accent"></div>
+      브랜드라이즈에 대한<br>어쩌면 거의 모든 것
+    </div>
+  </div>
+  <div class="grid-cell">
+    <div class="bg" style="background: linear-gradient(135deg, #1a2a3a, #2a3a3a);"></div>
+    <div class="gradient-overlay"></div>
+    <div class="cell-text">
+      <div class="cell-accent"></div>
+      내가 당신에게<br>절대 투자하지 않는 이유
+    </div>
+  </div>
+  <div class="grid-cell">
+    <div class="bg" style="background: linear-gradient(135deg, #3a2a2a, #2a1a1a);"></div>
+    <div class="gradient-overlay"></div>
+    <div class="cell-text">
+      <div class="cell-accent"></div>
+      두 얼굴의 창업자<br>혁신과 기망 그 어느 사이
+    </div>
+  </div>
+  <div class="grid-cell">
+    <div class="bg" style="background: linear-gradient(135deg, #2a2a2a, #1a1a1a);"></div>
+    <div class="gradient-overlay"></div>
+    <div class="cell-text">
+      <div class="cell-accent"></div>
+      내가 절대<br>투자하지 않는 창업자
+    </div>
+  </div>
+  <div class="grid-cell">
+    <div class="bg" style="background: linear-gradient(135deg, #2a3a3a, #1a2a2a);"></div>
+    <div class="gradient-overlay"></div>
+    <div class="cell-text">
+      <div class="cell-accent"></div>
+      당신의 창업은<br>왜 그리도 가벼운가
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

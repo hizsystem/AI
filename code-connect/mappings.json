@@ -1,0 +1,98 @@
+{
+  "_description": "Figma 컴포넌트 <-> 코드 컴포넌트 수동 매핑 (Pro 플랜 대안)",
+  "_note": "Code Connect는 Organization/Enterprise 플랜 필요. Pro 플랜에서는 이 파일로 매핑 관리",
+  "_usage": "MCP get_design_context로 코드 추출 시 이 매핑을 참조하여 프로젝트 스택에 맞게 변환",
+
+  "clients": {
+    "goventure-forum": {
+      "fileKey": "QflbuWc33xAjTFEMFoYsMM",
+      "components": [
+        {
+          "figmaNodeId": "95:3764",
+          "figmaName": "Instagram Grid",
+          "description": "3x3 Instagram 피드 그리드 레이아웃 (1080x1440 per cell)",
+          "codeFile": null,
+          "status": "figma-only"
+        },
+        {
+          "figmaNodeId": "99:9093",
+          "figmaName": "Instagram Post",
+          "description": "단일 Instagram 포스트 레이아웃",
+          "codeFile": null,
+          "status": "figma-only"
+        },
+        {
+          "figmaNodeId": "99:8871",
+          "figmaName": "Profile",
+          "description": "Instagram 프로필 카드",
+          "codeFile": null,
+          "status": "figma-only"
+        }
+      ]
+    },
+    "brandrise": {
+      "fileKey": "HQt806TYkb6A3RsxqLU12O",
+      "components": [
+        {
+          "figmaNodeId": "110:143",
+          "figmaName": "카드뉴스_타이틀장",
+          "description": "카드뉴스 첫 장 (시리즈 제목)",
+          "codeFile": null,
+          "status": "figma-only"
+        },
+        {
+          "figmaNodeId": "95:460",
+          "figmaName": "카드뉴스_세부 제목장",
+          "description": "카드뉴스 세부 제목 페이지",
+          "codeFile": null,
+          "status": "figma-only"
+        },
+        {
+          "figmaNodeId": "95:448",
+          "figmaName": "카드뉴스_내용장",
+          "description": "카드뉴스 본문 페이지",
+          "codeFile": null,
+          "status": "figma-only"
+        },
+        {
+          "figmaNodeId": "259:42",
+          "figmaName": "카드뉴스_10장 (마지막)",
+          "description": "카드뉴스 CTA 마지막 페이지 (4칸 그리드 + DM 상담)",
+          "codeFile": null,
+          "status": "figma-only"
+        },
+        {
+          "figmaNodeId": "203:162",
+          "figmaName": "상자 원본",
+          "description": "서비스 항목 카드 컴포넌트 (번호 + 제목 + 설명)",
+          "codeFile": null,
+          "status": "figma-only"
+        }
+      ]
+    },
+    "tapshopbar": {
+      "fileKey": "t0k5T8sgRdg2TS9DZ6vLIA",
+      "components": [
+        {
+          "figmaNodeId": "2:5",
+          "figmaName": "COVER",
+          "description": "프로젝트 커버 (로고 + 기간)",
+          "codeFile": null,
+          "status": "figma-only"
+        }
+      ]
+    },
+    "huenic": {
+      "fileKey": "YmMbJJEx3m8bJ0kpONDGyk",
+      "components": [
+        {
+          "figmaNodeId": "10:169",
+          "figmaName": "최종 무드",
+          "description": "Instagram 프로필 + 12칸 피드 그리드 무드보드",
+          "codeFile": null,
+          "status": "figma-only"
+        }
+      ]
+    }
+  }
+}
