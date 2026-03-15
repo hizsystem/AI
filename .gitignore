@@ -10,7 +10,7 @@ __pycache__/
 venv/
 
 # Git Worktrees
-.worktrees/
+.claude/worktrees/
 
 # OS
 .DS_Store
