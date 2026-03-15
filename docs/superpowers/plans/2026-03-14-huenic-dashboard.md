@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED: Use superpowers:subagent-driven-development (if subagents available) or superpowers:executing-plans to implement this plan. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 기존 content-calendar Next.js 앱에 `/huenic` 라우트를 추가하여 베지어트/빈커 브랜드 대시보드(캘린더, 주간 리포트, KPI) 구축
+**Goal:** 기존 content-calendar Next.js 앱에 `/huenic` 라우트를 추가하여 베지어트/빙커 브랜드 대시보드(캘린더, 주간 리포트, KPI) 구축
 
 **Architecture:** 기존 Calendar 컴포넌트를 카테고리 일반화 후 래핑, 신규 리포트/KPI 탭을 추가. URL query 기반 brand/tab 상태 관리. Vercel Blob Storage로 데이터 저장.
 
@@ -22,9 +22,9 @@
 | `src/data/huenic-seed/veggiet-2026-03.json` | 베지어트 캘린더 시드 데이터 |
 | `src/data/huenic-seed/veggiet-report-2026-W11.json` | 베지어트 주간 리포트 시드 |
 | `src/data/huenic-seed/veggiet-kpi-2026-03.json` | 베지어트 KPI 시드 |
-| `src/data/huenic-seed/vinker-2026-03.json` | 빈커 캘린더 시드 |
-| `src/data/huenic-seed/vinker-report-2026-W11.json` | 빈커 주간 리포트 시드 |
-| `src/data/huenic-seed/vinker-kpi-2026-03.json` | 빈커 KPI 시드 |
+| `src/data/huenic-seed/vinker-2026-03.json` | 빙커 캘린더 시드 |
+| `src/data/huenic-seed/vinker-report-2026-W11.json` | 빙커 주간 리포트 시드 |
+| `src/data/huenic-seed/vinker-kpi-2026-03.json` | 빙커 KPI 시드 |
 | `src/lib/huenic-storage.ts` | 리포트/KPI Blob read/write + 시드 폴백 |
 | `src/app/api/huenic/[brand]/reports/[week]/route.ts` | 주간 리포트 GET/PUT API |
 | `src/app/api/huenic/[brand]/kpi/[month]/route.ts` | KPI GET/PUT API |

@@ -3,9 +3,13 @@ import type { CalendarData } from "@/data/types";
 
 // Static JSON fallback for local dev / initial seed
 import march2026 from "@/data/tabshopbar/2026-03.json";
+import veggietMarch2026 from "@/data/huenic-seed/veggiet-2026-03.json";
+import vinkerMarch2026 from "@/data/huenic-seed/vinker-2026-03.json";
 
 const STATIC_DATA: Record<string, CalendarData> = {
   "tabshopbar:2026-03": march2026 as CalendarData,
+  "huenic-veggiet:2026-03": veggietMarch2026 as CalendarData,
+  "huenic-vinker:2026-03": vinkerMarch2026 as CalendarData,
 };
 
 function blobPath(client: string, month: string): string {

@@ -3,11 +3,11 @@
 > **Date**: 2026-03-14
 > **Status**: Draft
 > **Author**: 우성민 (Green) + Claude
-> **Client**: 휴닉(HUENIC) — 베지어트(VEGGIET) / 빈커(VINKER)
+> **Client**: 휴닉(HUENIC) — 베지어트(VEGGIET) / 빙커(VINKER)
 
 ## 1. Overview
 
-기존 `content-calendar` Next.js 앱에 `/huenic` 라우트를 추가하여, 휴닉팀과 공유하는 코칭용 대시보드를 구축한다. 베지어트(국내)와 빈커(해외) 두 브랜드를 헤더 드롭다운으로 전환하며, 캘린더 / 주간 리포트 / KPI 3개 탭으로 구성한다.
+기존 `content-calendar` Next.js 앱에 `/huenic` 라우트를 추가하여, 휴닉팀과 공유하는 코칭용 대시보드를 구축한다. 베지어트(국내)와 빙커(해외) 두 브랜드를 헤더 드롭다운으로 전환하며, 캘린더 / 주간 리포트 / KPI 3개 탭으로 구성한다.
 
 ### 목적
 
@@ -129,7 +129,7 @@ export interface LineChartProps {
 ```
 /huenic                           → 메인 (기본: brand=veggiet, tab=calendar)
 /huenic?brand=veggiet&tab=calendar → 베지어트 캘린더
-/huenic?brand=vinker&tab=report    → 빈커 주간 리포트
+/huenic?brand=vinker&tab=report    → 빙커 주간 리포트
 /huenic?brand=veggiet&tab=kpi      → 베지어트 KPI
 ```
 
@@ -139,11 +139,11 @@ export interface LineChartProps {
 
 ```
 calendar/huenic-veggiet/2026-03.json    → 캘린더 (월별) — 기존 storage.ts 패턴 준수
-calendar/huenic-vinker/2026-03.json     → 빈커 캘린더
+calendar/huenic-vinker/2026-03.json     → 빙커 캘린더
 huenic/veggiet/report-2026-W11.json     → 주간 리포트 (신규)
 huenic/veggiet/kpi-2026-03.json         → KPI (신규, 월별)
-huenic/vinker/report-2026-W11.json      → 빈커 주간 리포트
-huenic/vinker/kpi-2026-03.json          → 빈커 KPI
+huenic/vinker/report-2026-W11.json      → 빙커 주간 리포트
+huenic/vinker/kpi-2026-03.json          → 빙커 KPI
 ```
 
 - 캘린더 데이터는 기존 `storage.ts`의 `getCalendar()/saveCalendar()`를 client=`huenic-veggiet` 또는 `huenic-vinker`로 호출하여 재사용
@@ -158,9 +158,9 @@ src/data/huenic-seed/
 ├── veggiet-2026-03.json          → 캘린더 시드 (3월)
 ├── veggiet-report-2026-W11.json  → 주간 리포트 시드
 ├── veggiet-kpi-2026-03.json      → KPI 시드
-├── vinker-2026-03.json           → 빈커 캘린더 시드
-├── vinker-report-2026-W11.json   → 빈커 리포트 시드
-└── vinker-kpi-2026-03.json       → 빈커 KPI 시드
+├── vinker-2026-03.json           → 빙커 캘린더 시드
+├── vinker-report-2026-W11.json   → 빙커 리포트 시드
+└── vinker-kpi-2026-03.json       → 빙커 KPI 시드
 ```
 
 `huenic-storage.ts`에서 Blob 실패 시 시드 데이터로 폴백한다 (기존 `storage.ts`의 `STATIC_DATA` 패턴과 동일).
@@ -182,7 +182,7 @@ src/data/huenic-seed/
 
 - 헤더 좌측: 브랜드 드롭다운 (🌱 VEGGIET / 🫘 VINKER)
 - 헤더 우측: 3-탭 네비게이션
-- 브랜드 전환 시 헤더 accent color 변경 (베지어트: 초록, 빈커: 보라)
+- 브랜드 전환 시 헤더 accent color 변경 (베지어트: 초록, 빙커: 보라)
 
 ### 3.2 캘린더 탭
 
