@@ -32,6 +32,28 @@
       color: white; font-size: 13px; font-weight: 600;
       padding: 4px 16px; border-radius: 20px; white-space: nowrap;
     }
+    /* Admin mode */
+    .admin-bar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+      background: #262626; color: #fff; font-size: 13px;
+      padding: 8px 20px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .admin-bar button {
+      background: #4c6ef5; color: #fff; border: none; border-radius: 6px;
+      padding: 6px 14px; font-size: 12px; font-weight: 600; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .admin-bar button:hover { background: #3b5bdb; }
+    .admin-bar button.secondary { background: #404040; }
+    .admin-bar button.secondary:hover { background: #525252; }
+    body.admin-mode { padding-top: 44px; }
+    body.admin-mode [contenteditable="true"] {
+      outline: 1px dashed #bac8ff; outline-offset: 2px; border-radius: 4px;
+      transition: outline-color 0.15s;
+    }
+    body.admin-mode [contenteditable="true"]:focus {
+      outline: 2px solid #4c6ef5; background: #f0f4ff;
+    }
   </style>
 </head>
 <body class="bg-white text-neutral-800 antialiased">
@@ -229,7 +251,7 @@
             <p class="text-sm text-neutral-500">현재 상태를 정확히 파악하고, 집중해야 할 곳을 확정합니다</p>
           </div>
           <div class="text-left sm:text-right flex-shrink-0">
-            <p class="text-2xl font-bold text-neutral-900">80<span class="text-base font-medium text-neutral-400">만원</span></p>
+            <p class="text-2xl font-bold text-neutral-900">100<span class="text-base font-medium text-neutral-400">만원</span></p>
             <p class="text-xs text-neutral-400">1회 / 2주</p>
           </div>
         </div>
@@ -266,7 +288,7 @@
             <p class="text-sm text-neutral-500">진단부터 실행까지. 2개월 안에 눈에 보이는 성과를 만듭니다</p>
           </div>
           <div class="text-left sm:text-right flex-shrink-0">
-            <p class="text-2xl font-bold text-brand-600">월 150<span class="text-base font-medium text-neutral-400">만원</span></p>
+            <p class="text-2xl font-bold text-brand-600">월 200<span class="text-base font-medium text-neutral-400">만원</span></p>
             <p class="text-xs text-neutral-400">2개월 / 광고비 별도</p>
           </div>
         </div>
@@ -310,7 +332,7 @@
             <p class="text-sm text-neutral-500">전략 + 실행 + 콘텐츠 + 광고 운영까지 원스톱으로</p>
           </div>
           <div class="text-left sm:text-right flex-shrink-0">
-            <p class="text-2xl font-bold text-neutral-900">월 250<span class="text-base font-medium text-neutral-400">만원</span></p>
+            <p class="text-2xl font-bold text-neutral-900">월 300<span class="text-base font-medium text-neutral-400">만원</span></p>
             <p class="text-xs text-neutral-400">3개월~ / 광고비 별도</p>
           </div>
         </div>
@@ -369,12 +391,12 @@
           <tr class="border-b border-neutral-100">
             <td class="py-4 pr-4 text-neutral-600">월 투자 (서비스+광고)</td>
             <td class="text-center py-4 px-4 text-neutral-500">50만원</td>
-            <td class="text-center py-4 px-4 text-neutral-800 font-medium bg-brand-50/30">200만원</td>
+            <td class="text-center py-4 px-4 text-neutral-800 font-medium bg-brand-50/30">250만원</td>
           </tr>
           <tr class="border-b border-neutral-100">
             <td class="py-4 pr-4 text-neutral-600">3개월 총 투자</td>
             <td class="text-center py-4 px-4 text-neutral-500">150만원</td>
-            <td class="text-center py-4 px-4 text-neutral-800 font-medium bg-brand-50/30">600만원</td>
+            <td class="text-center py-4 px-4 text-neutral-800 font-medium bg-brand-50/30">750만원</td>
           </tr>
           <tr class="border-b border-neutral-100">
             <td class="py-4 pr-4 text-neutral-600">3개월 후 예상 월매출</td>
@@ -400,7 +422,7 @@
         <strong class="text-neutral-800">핵심은 금액이 아니라 구조입니다.</strong>
         현재 광고비 50만원으로 비누 월 800만원을 만들고 있다면, ROAS(광고수익률) 자체는 양호합니다.
         문제는 규모가 임계점 이하라 데이터가 쌓이지 않고, 최적화가 안 되는 것입니다.
-        히어로 제품에 집중하고 CRM을 세팅하면, 추가 투자 150만원 대비 500만원 이상의 매출 증가를 기대할 수 있습니다.
+        히어로 제품에 집중하고 CRM을 세팅하면, 추가 투자 200만원 대비 500만원 이상의 매출 증가를 기대할 수 있습니다.
       </p>
     </div>
 
@@ -538,6 +560,69 @@
       });
     }, { threshold: 0.1 });
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+
+  <!-- Admin Mode -->
+  <script>
+    (function() {
+      const isAdmin = new URLSearchParams(window.location.search).get('admin') === 'true';
+      if (!isAdmin) return;
+
+      document.body.classList.add('admin-mode');
+
+      // Admin bar
+      const bar = document.createElement('div');
+      bar.className = 'admin-bar';
+      bar.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="background:#4c6ef5;padding:2px 8px;border-radius:4px;font-weight:700;font-size:11px;letter-spacing:0.5px;">ADMIN</span>
+          <span style="color:#a3a3a3;">텍스트를 클릭하면 바로 수정할 수 있습니다</span>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="secondary" id="admin-reset">초기화</button>
+          <button id="admin-save">수정본 다운로드</button>
+        </div>
+      `;
+      document.body.prepend(bar);
+
+      // Make text elements editable
+      const editableSelectors = 'h1, h2, h3, p, span, td, th';
+      document.querySelectorAll(editableSelectors).forEach(el => {
+        // Skip admin bar elements, script contents, and structural-only elements
+        if (bar.contains(el)) return;
+        if (el.closest('.admin-bar')) return;
+        if (el.children.length > 2 && el.textContent.trim() === '') return;
+        // Only make leaf-ish text elements editable
+        const hasDirectText = Array.from(el.childNodes).some(n => n.nodeType === 3 && n.textContent.trim());
+        if (hasDirectText || el.children.length === 0) {
+          el.contentEditable = 'true';
+        }
+      });
+
+      // Save: download current HTML
+      document.getElementById('admin-save').addEventListener('click', () => {
+        // Remove admin artifacts before saving
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelector('.admin-bar')?.remove();
+        clone.querySelector('body').classList.remove('admin-mode');
+        clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+
+        const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+        const blob = new Blob([html], { type: 'text/html' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'proposal-sams-cabin-edited.html';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+
+      // Reset
+      document.getElementById('admin-reset').addEventListener('click', () => {
+        if (confirm('수정 사항을 모두 되돌리시겠습니까?')) {
+          window.location.reload();
+        }
+      });
+    })();
   </script>
 
 </body>
