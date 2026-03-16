@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고벤처포럼 인스타 #1 캐러셀 미리보기</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: #1a1a1a;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 60px;
+  }
+
+  h1 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .carousel-container {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1400px;
+  }
+
+  .slide-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .slide-label {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 1px;
+  }
+
+  /* 4:5 ratio = 1080x1350 → scaled to 270x337.5 */
+  .slide {
+    width: 270px;
+    height: 337px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 4px;
+  }
+
+  /* Slide 1: Cover */
+  .slide-1 {
+    background: #0A0A0A;
+  }
+  .slide-1 .sigh {
+    font-size: 72px;
+    font-weight: 900;
+    color: #fff;
+    opacity: 0.15;
+    position: absolute;
+    top: 60px;
+    letter-spacing: -2px;
+  }
+  .slide-1 .person-silhouette {
+    position: absolute;
+    top: 40px;
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.06) 0%, transparent 100%);
+    border-radius: 50%;
+  }
+  .slide-1 .main-text {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.5;
+    color: #fff;
+    z-index: 1;
+    margin-top: 60px;
+  }
+  .slide-1 .sub {
+    font-size: 12px;
+    color: #666;
+    margin-top: 16px;
+    z-index: 1;
+  }
+
+  /* Slide 2 */
+  .slide-2 {
+    background: #0A0A0A;
+  }
+  .slide-2 .text-main {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.7;
+    color: #ccc;
+  }
+  .slide-2 .highlight {
+    color: #FF3B30;
+    font-weight: 700;
+    font-size: 24px;
+  }
+
+  /* Slide 3 */
+  .slide-3 {
+    background: #0A0A0A;
+  }
+  .slide-3 .block {
+    margin-bottom: 28px;
+  }
+  .slide-3 .block:last-child {
+    margin-bottom: 0;
+  }
+  .slide-3 .text-sub {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #999;
+  }
+  .slide-3 .highlight {
+    color: #fff;
+    font-weight: 600;
+    font-size: 17px;
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* Slide 4 */
+  .slide-4 {
+    background: #0A0A0A;
+  }
+  .slide-4 .text-sub {
+    font-size: 15px;
+    color: #999;
+    line-height: 1.6;
+  }
+  .slide-4 .highlight {
+    color: #FF3B30;
+    font-weight: 700;
+    font-size: 20px;
+    display: block;
+    margin-top: 6px;
+    line-height: 1.5;
+  }
+
+  /* Slide 5: Transition */
+  .slide-5 {
+    background: linear-gradient(160deg, #0A0A0A 0%, #0d1b2a 40%, #1a0a2e 100%);
+  }
+  .slide-5::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(0,212,255,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .slide-5::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: -30px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(138,43,226,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .slide-5 .text-small {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.8;
+    z-index: 1;
+  }
+  .slide-5 .text-main {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.6;
+    margin-top: 24px;
+    z-index: 1;
+  }
+  .slide-5 .cta {
+    margin-top: 28px;
+    font-size: 13px;
+    color: #00D4FF;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    z-index: 1;
+    border: 1px solid rgba(0,212,255,0.3);
+    padding: 8px 20px;
+    border-radius: 20px;
+  }
+
+  /* Logo watermark */
+  .logo {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-size: 10px;
+    color: rgba(255,255,255,0.25);
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* Dots indicator */
+  .dots {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #444;
+  }
+  .dot.active {
+    background: #00D4FF;
+  }
+
+  /* Section divider */
+  .section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #333;
+    width: 100%;
+    max-width: 1400px;
+    text-align: center;
+  }
+
+  .caption-preview {
+    max-width: 500px;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 12px;
+    padding: 24px;
+    font-size: 14px;
+    line-height: 1.8;
+    color: #ccc;
+    white-space: pre-line;
+  }
+  .caption-preview .handle {
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .caption-preview .hashtags {
+    color: #4a9eff;
+    font-size: 13px;
+    margin-top: 12px;
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<h1>Instagram Carousel Preview &mdash; #1 Pain Point</h1>
+<p style="color:#666; font-size:13px; margin-top:-40px;">2026.03.17 발행 / 캐러셀 5장 / 4:5 비율</p>
+
+<div class="carousel-container">
+
+  <!-- Slide 1 -->
+  <div class="slide-wrapper">
+    <div class="slide slide-1">
+      <span class="logo">GVF</span>
+      <div class="sigh">하아...</div>
+      <div class="person-silhouette"></div>
+      <div class="main-text">이런 고민,<br>한 번쯤<br>해보셨나요?</div>
+      <div class="sub">GoVenture Forum</div>
+    </div>
+    <div class="slide-label">SLIDE 1 — 표지</div>
+    <div class="dots">
+      <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide-wrapper">
+    <div class="slide slide-2">
+      <span class="logo">GVF</span>
+      <div class="text-main">
+        제품은 만들었는데<br><br>
+        <span class="highlight">왜 팔리지 않는<br>걸까요?</span>
+      </div>
+    </div>
+    <div class="slide-label">SLIDE 2</div>
+    <div class="dots">
+      <div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide-wrapper">
+    <div class="slide slide-3">
+      <span class="logo">GVF</span>
+      <div class="block">
+        <span class="text-sub">정부지원사업에 합격했는데</span>
+        <span class="highlight">어떻게 성과를 만들어야 할지<br>막막하고,</span>
+      </div>
+      <div class="block">
+        <span class="text-sub">제품을 런칭했지만</span>
+        <span class="highlight">시장 반응이 없고</span>
+      </div>
+    </div>
+    <div class="slide-label">SLIDE 3</div>
+    <div class="dots">
+      <div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="slide-wrapper">
+    <div class="slide slide-4">
+      <span class="logo">GVF</span>
+      <div>
+        <span class="text-sub">마케팅을 해야 한다는 건 알지만</span>
+        <span class="highlight">무엇부터 해야 할지<br>모르겠는 상황</span>
+      </div>
+    </div>
+    <div class="slide-label">SLIDE 4</div>
+    <div class="dots">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- Slide 5 -->
+  <div class="slide-wrapper">
+    <div class="slide slide-5">
+      <span class="logo">GVF</span>
+      <div class="text-small">사실 이런 고민은<br>여러분만 겪는 문제가 아닙니다.</div>
+      <div class="text-main">같은 고민을 하는<br>사람들이 모이면<br>혼자서는 보지 못했던<br>것들이 보입니다.</div>
+      <div class="cta">3/31 고벤처포럼</div>
+    </div>
+    <div class="slide-label">SLIDE 5 — 전환</div>
+    <div class="dots">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section-title">캡션 미리보기</div>
+
+<div class="caption-preview">
+<span class="handle">goventureforum</span>
+스타트업을 운영하면서
+한 번쯤은 이런 생각, 해보셨을 겁니다.
+
+"제품은 좋은데, 왜 안 팔리지?"
+"마케팅을 해야 하는 건 알겠는데, 뭐부터?"
+
+혼자 고민하면 답이 안 보이는 것들,
+같은 고민을 하는 사람들이 모이면 다릅니다.
+
+이번 고벤처포럼에서는
+올리브영 뷰티 1위 브랜드를 만든 창업가의
+이야기를 직접 들을 수 있습니다.
+
+매출 정체기를 돌파한 브랜드 전략의 모든 것.
+현장에서 바로 쓸 수 있는 인사이트를 나눕니다.
+
+📍 2026. 3. 31 (화) 17:00
+📍 합정 Tap Shop Bar
+📍 참가비 10,000원 (식음료 포함)
+
+신청 → 링크 인 바이오
+<span class="hashtags">#고벤처포럼 #GoVentureForum #스타트업네트워킹 #스타트업마케팅 #스타트업브랜딩 #초기창업 #창업가모임 #브랜드전략 #매출정체기 #마케팅인사이트</span>
+</div>
+
+</body>
+</html>
