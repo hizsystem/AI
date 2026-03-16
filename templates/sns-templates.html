@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>HUENIC SNS Templates</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/filicudi-solid" rel="stylesheet">
+<style>
+  @font-face { font-family: 'Filicudi-Solid'; src: local('Filicudi-Solid'), local('FilicudiSolid'); }
+  .filicudi { font-family: 'Filicudi-Solid', 'Pretendard', sans-serif; text-transform: uppercase; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Pretendard', -apple-system, sans-serif; background: #F5F5F5; color: #1A1A1A; }
+
+  .page { width: 1440px; margin: 0 auto; padding: 80px 60px; }
+  h2 { font-size: 14px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; }
+  h3 { font-size: 36px; font-weight: 700; margin-bottom: 48px; }
+  .brand-section { margin-bottom: 80px; }
+
+  /* Template Grid */
+  .template-row { display: flex; gap: 32px; margin-bottom: 48px; }
+  .template-label { font-size: 13px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+
+  /* Instagram Post (1080x1080) scaled to 360x360 */
+  .ig-post {
+    width: 360px; height: 360px;
+    border-radius: 8px; overflow: hidden;
+    position: relative;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 32px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  /* Instagram Story (1080x1920) scaled to 270x480 */
+  .ig-story {
+    width: 270px; height: 480px;
+    border-radius: 12px; overflow: hidden;
+    position: relative;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  /* Instagram Carousel (1080x1350) scaled to 324x405 */
+  .ig-carousel {
+    width: 324px; height: 405px;
+    border-radius: 8px; overflow: hidden;
+    position: relative;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center; padding: 32px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+
+  .size-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: rgba(0,0,0,0.5); color: #fff;
+    font-size: 10px; padding: 4px 8px; border-radius: 4px;
+    font-family: 'SF Mono', monospace;
+  }
+
+  /* VEGGIET Templates */
+  .vgt-primary { background: #BCE494; }
+  .vgt-secondary { background: #F3EFDD; }
+  .vgt-brown { background: #BC8A7E; }
+  .vgt-dark { background: #0C0B0B; }
+
+  /* VINKER Templates */
+  .vnk-red { background: #F93822; }
+  .vnk-yellow { background: #FFC72C; }
+  .vnk-blue { background: #6CACE4; }
+  .vnk-green { background: #79C300; }
+  .vnk-beige { background: #F4E3C9; }
+
+  /* Template Typography */
+  .t-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 12px; }
+  .t-headline { font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+  .t-headline-sm { font-size: 22px; font-weight: 800; line-height: 1.2; margin-bottom: 12px; }
+  .t-body { font-size: 13px; font-weight: 500; line-height: 1.5; margin-bottom: 16px; }
+  .t-cta { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; padding: 10px 24px; border-radius: 100px; display: inline-block; }
+  .t-logo { font-size: 14px; font-weight: 700; letter-spacing: 4px; position: absolute; bottom: 20px; }
+  .t-product-zone { width: 100%; height: 40%; background: rgba(255,255,255,0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgba(0,0,0,0.3); margin-bottom: 16px; }
+
+  /* Divider */
+  .divider { height: 1px; background: #E0E0E0; margin: 60px 0; }
+
+  /* Spec table */
+  .spec-table { margin-top: 24px; }
+  .spec-table table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .spec-table th { text-align: left; padding: 8px 16px; background: #F0F0F0; font-weight: 600; }
+  .spec-table td { padding: 8px 16px; border-bottom: 1px solid #F0F0F0; }
+</style>
+</head>>
+<body>
+<div class="page">
+
+  <!-- ===== VEGGIET ===== -->
+  <div class="brand-section">
+    <h2>VEGGIET Templates</h2>
+    <h3>Instagram Feed / Story / Carousel</h3>
+
+    <!-- Feed Posts 1080x1080 -->
+    <div class="template-label">Feed Post (1080 x 1080)</div>
+    <div class="template-row">
+
+      <!-- Product Highlight -->
+      <div class="ig-post vgt-primary">
+        <span class="size-badge">1080x1080</span>
+        <div class="t-eyebrow" style="color: #0C0B0B;">100% Plant-Based</div>
+        <div class="t-product-zone">Product Photo Area</div>
+        <div class="t-headline" style="color: #0C0B0B; font-size: 22px;">Multi Grain<br>Protein Shake</div>
+        <div class="t-logo" style="color: #0C0B0B;">VEGGIET</div>
+      </div>
+
+      <!-- Lifestyle -->
+      <div class="ig-post vgt-secondary">
+        <span class="size-badge">1080x1080</span>
+        <div class="t-eyebrow" style="color: #BC8A7E;">Daily Ritual</div>
+        <div class="t-headline" style="color: #0C0B0B; font-size: 20px;">Good<br>Anywhere</div>
+        <div class="t-body" style="color: #666;">Lifestyle Photo Background</div>
+        <div class="t-logo" style="color: #0C0B0B;">VEGGIET</div>
+      </div>
+
+      <!-- Review/Quote -->
+      <div class="ig-post vgt-dark">
+        <span class="size-badge">1080x1080</span>
+        <div class="t-eyebrow" style="color: #BCE494;">Real Review</div>
+        <div class="t-headline-sm" style="color: #fff;">"I start my<br>every morning<br>with Veggiet"</div>
+        <div class="t-body" style="color: rgba(255,255,255,0.6);">@username</div>
+        <div class="t-logo" style="color: #BCE494;">VEGGIET</div>
+      </div>
+
+    </div>
+
+    <!-- Stories 1080x1920 -->
+    <div class="template-label">Story (1080 x 1920)</div>
+    <div class="template-row">
+
+      <div class="ig-story vgt-primary">
+        <span class="size-badge">1080x1920</span>
+        <div class="t-eyebrow" style="color: #0C0B0B;">New Flavor</div>
+        <div style="flex:1; display:flex; align-items:center; justify-content:center; width:100%;">
+          <div class="t-product-zone" style="height: 200px;">Product Photo</div>
+        </div>
+        <div class="t-headline-sm" style="color: #0C0B0B;">Cacao<br>Protein Shake</div>
+        <div class="t-cta" style="background: #0C0B0B; color: #BCE494; margin-top: 16px;">Shop Now</div>
+        <div class="t-logo" style="color: #0C0B0B;">VEGGIET</div>
+      </div>
+
+      <div class="ig-story vgt-brown" style="color: #fff;">
+        <span class="size-badge">1080x1920</span>
+        <div class="t-eyebrow" style="color: #F3EFDD;">Recipe</div>
+        <div style="flex:1; display:flex; align-items:center;">
+          <div class="t-headline" style="color: #fff; font-size: 24px;">3-Min<br>Morning<br>Smoothie<br>Bowl</div>
+        </div>
+        <div class="t-body" style="color: rgba(255,255,255,0.7);">Swipe up for recipe</div>
+        <div class="t-logo" style="color: #F3EFDD;">VEGGIET</div>
+      </div>
+
+      <div class="ig-story" style="background: #fff; border: 1px solid #E5E5E5;">
+        <span class="size-badge">1080x1920</span>
+        <div class="t-eyebrow" style="color: #BCE494;">Q&A</div>
+        <div style="flex:1; display:flex; align-items:center;">
+          <div class="t-headline" style="color: #0C0B0B; font-size: 20px;">What's your<br>favorite<br>flavor?</div>
+        </div>
+        <div style="width: 80%; height: 48px; border: 2px solid #BCE494; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #999;">Interactive Poll Area</div>
+        <div class="t-logo" style="color: #BCE494;">VEGGIET</div>
+      </div>
+
+    </div>
+
+    <!-- Carousel 1080x1350 -->
+    <div class="template-label">Carousel (1080 x 1350)</div>
+    <div class="template-row">
+
+      <div class="ig-carousel vgt-secondary">
+        <span class="size-badge">1080x1350</span>
+        <div class="t-eyebrow" style="color: #BC8A7E;">Card News</div>
+        <div class="t-headline" style="color: #0C0B0B; font-size: 24px;">Why<br>Plant-Based<br>Protein?</div>
+        <div class="t-body" style="color: #666;">Swipe for more</div>
+        <div style="display: flex; gap: 6px; margin-top: 8px;">
+          <div style="width: 24px; height: 4px; border-radius: 2px; background: #0C0B0B;"></div>
+          <div style="width: 8px; height: 4px; border-radius: 2px; background: #CDCDCD;"></div>
+          <div style="width: 8px; height: 4px; border-radius: 2px; background: #CDCDCD;"></div>
+          <div style="width: 8px; height: 4px; border-radius: 2px; background: #CDCDCD;"></div>
+        </div>
+        <div class="t-logo" style="color: #0C0B0B;">VEGGIET</div>
+      </div>
+
+      <div class="ig-carousel" style="background: linear-gradient(180deg, #BCE494 0%, #F3EFDD 100%);">
+        <span class="size-badge">1080x1350</span>
+        <div class="t-eyebrow" style="color: #0C0B0B;">Olive Young</div>
+        <div class="t-product-zone" style="height: 50%;">Product Display</div>
+        <div class="t-headline-sm" style="color: #0C0B0B;">Available at<br>Olive Young</div>
+        <div class="t-cta" style="background: #0C0B0B; color: #BCE494;">Find Store</div>
+        <div class="t-logo" style="color: #0C0B0B;">VEGGIET</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ===== VINKER ===== -->
+  <div class="brand-section">
+    <h2>VINKER Templates</h2>
+    <h3>Instagram Feed / Story / Carousel</h3>
+
+    <!-- Feed Posts -->
+    <div class="template-label">Feed Post (1080 x 1080)</div>
+    <div class="template-row">
+
+      <!-- Crispy Korean -->
+      <div class="ig-post vnk-red">
+        <span class="size-badge">1080x1080</span>
+        <div class="t-eyebrow filicudi" style="color: #FFC72C;">100% Plant-Based</div>
+        <div class="t-product-zone">Product Photo Area</div>
+        <div class="t-headline filicudi" style="color: #000; font-size: 20px;">Crispy Korean<br>Chicken</div>
+        <div class="t-logo filicudi" style="color: #FFC72C;">VINKER</div>
+      </div>
+
+      <!-- Original Strips -->
+      <div class="ig-post vnk-blue">
+        <span class="size-badge">1080x1080</span>
+        <div class="t-eyebrow filicudi" style="color: #fff;">100% Plant-Based</div>
+        <div class="t-product-zone">Product Photo Area</div>
+        <div class="t-headline filicudi" style="color: #000; font-size: 20px;">Original<br>Chicken Strips</div>
+        <div class="t-logo filicudi" style="color: #FFC72C;">VINKER</div>
+      </div>
+
+      <!-- Herb Salt -->
+      <div class="ig-post vnk-green">
+        <span class="size-badge">1080x1080</span>
+        <div class="t-eyebrow filicudi" style="color: #fff;">100% Plant-Based</div>
+        <div class="t-product-zone">Product Photo Area</div>
+        <div class="t-headline filicudi" style="color: #F93822; font-size: 20px;">Pulled Chicken<br>Herb Salt</div>
+        <div class="t-logo filicudi" style="color: #FFC72C;">VINKER</div>
+      </div>
+
+    </div>
+
+    <!-- Stories -->
+    <div class="template-label">Story (1080 x 1920)</div>
+    <div class="template-row">
+
+      <div class="ig-story vnk-red">
+        <span class="size-badge">1080x1920</span>
+        <div class="t-eyebrow" style="color: #FFC72C;">New Product</div>
+        <div style="flex:1; display:flex; align-items:center; justify-content:center; width:100%;">
+          <div class="t-product-zone" style="height: 200px;">Product Photo</div>
+        </div>
+        <div class="t-headline filicudi" style="color: #FFC72C; font-size: 28px;">Eat Your<br>Dream!</div>
+        <div class="t-cta filicudi" style="background: #FFC72C; color: #F93822; margin-top: 16px;">ORDER NOW</div>
+        <div class="t-logo filicudi" style="color: #FFC72C;">VINKER</div>
+      </div>
+
+      <div class="ig-story vnk-yellow">
+        <span class="size-badge">1080x1920</span>
+        <div class="t-eyebrow filicudi" style="color: #F93822;">Recipe</div>
+        <div style="flex:1; display:flex; align-items:center;">
+          <div class="t-headline filicudi" style="color: #00000A; font-size: 22px;">Plant-Based<br>Taco<br>Recipe</div>
+        </div>
+        <div class="t-body" style="color: rgba(0,0,0,0.5);">Swipe up for recipe</div>
+        <div class="t-logo filicudi" style="color: #F93822;">VINKER</div>
+      </div>
+
+      <div class="ig-story vnk-beige">
+        <span class="size-badge">1080x1920</span>
+        <div class="t-eyebrow filicudi" style="color: #F93822;">Find Us</div>
+        <div style="flex:1; display:flex; align-items:center;">
+          <div class="t-headline filicudi" style="color: #00000A; font-size: 20px;">Now Available<br>In Stores<br>Near You</div>
+        </div>
+        <div class="t-cta filicudi" style="background: #F93822; color: #FFC72C;">STORE LOCATOR</div>
+        <div class="t-logo filicudi" style="color: #F93822;">VINKER</div>
+      </div>
+
+    </div>
+
+    <!-- Carousel -->
+    <div class="template-label">Carousel (1080 x 1350)</div>
+    <div class="template-row">
+
+      <div class="ig-carousel vnk-red">
+        <span class="size-badge">1080x1350</span>
+        <div class="t-eyebrow filicudi" style="color: #FFC72C;">About</div>
+        <div class="t-headline filicudi" style="color: #FFC72C; font-size: 24px;">I'm<br>Plant-<br>Based</div>
+        <div class="t-body" style="color: rgba(255,255,255,0.7);">Swipe for more</div>
+        <div style="display: flex; gap: 6px; margin-top: 8px;">
+          <div style="width: 24px; height: 4px; border-radius: 2px; background: #FFC72C;"></div>
+          <div style="width: 8px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.3);"></div>
+          <div style="width: 8px; height: 4px; border-radius: 2px; background: rgba(255,255,255,0.3);"></div>
+        </div>
+        <div class="t-logo filicudi" style="color: #FFC72C;">VINKER</div>
+      </div>
+
+      <div class="ig-carousel vnk-yellow">
+        <span class="size-badge">1080x1350</span>
+        <div class="t-eyebrow filicudi" style="color: #F93822;">All Products</div>
+        <div class="t-product-zone" style="height: 50%;">3-Product Lineup</div>
+        <div class="t-headline-sm filicudi" style="color: #000;">The Full<br>Collection</div>
+        <div class="t-cta filicudi" style="background: #000; color: #FFC72C;">SHOP ALL</div>
+        <div class="t-logo filicudi" style="color: #F93822;">VINKER</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Spec Reference -->
+  <div class="brand-section">
+    <h2>Reference</h2>
+    <h3>Template Specifications</h3>
+
+    <div class="spec-table">
+      <table>
+        <tr>
+          <th>Format</th>
+          <th>Size (px)</th>
+          <th>Ratio</th>
+          <th>Usage</th>
+        </tr>
+        <tr>
+          <td>Instagram Feed</td>
+          <td>1080 x 1080</td>
+          <td>1:1</td>
+          <td>Product highlight, lifestyle, review</td>
+        </tr>
+        <tr>
+          <td>Instagram Carousel</td>
+          <td>1080 x 1350</td>
+          <td>4:5</td>
+          <td>Card news, product lineup, education</td>
+        </tr>
+        <tr>
+          <td>Instagram Story</td>
+          <td>1080 x 1920</td>
+          <td>9:16</td>
+          <td>New product, recipe, poll, CTA</td>
+        </tr>
+        <tr>
+          <td>Facebook Ad</td>
+          <td>1200 x 628</td>
+          <td>1.91:1</td>
+          <td>Link ads, awareness campaigns</td>
+        </tr>
+        <tr>
+          <td>Meta Story Ad</td>
+          <td>1080 x 1920</td>
+          <td>9:16</td>
+          <td>Full-screen vertical ads</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

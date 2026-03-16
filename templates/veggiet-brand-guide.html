@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>VEGGIET Brand Design Guideline v1.0</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Pretendard', -apple-system, sans-serif; background: #FAFAFA; color: #1A1A1A; }
+
+  /* Layout */
+  .page { width: 1440px; margin: 0 auto; }
+  .section { padding: 80px 120px; border-bottom: 1px solid #E5E5E5; }
+  .section:last-child { border-bottom: none; }
+
+  /* Cover */
+  .cover {
+    background: #BCE494;
+    height: 600px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+  }
+  .cover h1 { font-size: 72px; font-weight: 800; color: #0C0B0B; letter-spacing: -2px; margin-bottom: 16px; }
+  .cover .subtitle { font-size: 20px; color: #0C0B0B; opacity: 0.7; margin-bottom: 8px; }
+  .cover .version { font-size: 14px; color: #0C0B0B; opacity: 0.5; margin-top: 24px; }
+
+  /* Typography */
+  h2 { font-size: 14px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; }
+  h3 { font-size: 36px; font-weight: 700; margin-bottom: 48px; }
+  h4 { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #333; }
+  p { font-size: 15px; line-height: 1.7; color: #666; }
+
+  /* Color Swatches */
+  .color-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 48px; }
+  .color-card { border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .color-swatch { height: 160px; }
+  .color-info { padding: 20px; }
+  .color-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .color-label { font-size: 12px; color: #999; margin-bottom: 12px; }
+  .color-values { font-size: 12px; color: #666; line-height: 1.8; font-family: 'SF Mono', 'Menlo', monospace; }
+
+  /* Product Colors */
+  .product-row { display: flex; gap: 24px; margin-bottom: 32px; align-items: center; }
+  .product-pair { display: flex; border-radius: 12px; overflow: hidden; flex: 1; height: 100px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .product-pair > div { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+  .product-label { width: 180px; font-size: 15px; font-weight: 600; flex-shrink: 0; }
+
+  /* Typography Section */
+  .type-row { display: flex; align-items: baseline; gap: 48px; padding: 32px 0; border-bottom: 1px solid #F0F0F0; }
+  .type-role { width: 160px; flex-shrink: 0; }
+  .type-role .role { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 2px; }
+  .type-role .family { font-size: 14px; font-weight: 600; margin-top: 4px; }
+  .type-sample { flex: 1; }
+
+  /* Logo Section */
+  .logo-rules { display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .logo-rule { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .logo-rule .rule-title { font-size: 13px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; }
+  .logo-rule .rule-desc { font-size: 15px; line-height: 1.6; color: #333; }
+
+  /* Package */
+  .pkg-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .pkg-card { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-align: center; }
+  .pkg-card .pkg-color { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 16px; }
+  .pkg-card h4 { margin-bottom: 8px; }
+  .pkg-card .specs { font-size: 13px; color: #999; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Cover -->
+  <div class="cover section">
+    <div class="subtitle">Brand Design Standard Manual</div>
+    <h1>VEGGIET</h1>
+    <div class="subtitle">100% Plant-Based Protein Shake</div>
+    <div class="version">V1.0 (2024) | Produced by FRONTKIT</div>
+  </div>
+
+  <!-- Colors -->
+  <div class="section">
+    <h2>Color System</h2>
+    <h3>Brand Colors</h3>
+
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="color-swatch" style="background: #BCE494;"></div>
+        <div class="color-info">
+          <div class="color-name">Veggiet Green</div>
+          <div class="color-label">PRIMARY</div>
+          <div class="color-values">
+            PANTONE 7486C<br>
+            CMYK 28 / 0 / 58 / 0<br>
+            RGB 188 / 225 / 148<br>
+            HEX #BCE494
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #F3EFDD;"></div>
+        <div class="color-info">
+          <div class="color-name">Veggiet Yellow</div>
+          <div class="color-label">SECONDARY</div>
+          <div class="color-values">
+            PANTONE 9064C<br>
+            CMYK 3 / 4 / 31 / 0<br>
+            RGB 243 / 239 / 221<br>
+            HEX #F3EFDD
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #BC8A7E;"></div>
+        <div class="color-info">
+          <div class="color-name">Veggiet Brown</div>
+          <div class="color-label">SECONDARY</div>
+          <div class="color-values">
+            PANTONE 7613C<br>
+            CMYK 24 / 48 / 56 / 0<br>
+            RGB 188 / 138 / 126<br>
+            HEX #BC8A7E
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #EBD7CF;"></div>
+        <div class="color-info">
+          <div class="color-name">Veggiet Ivory</div>
+          <div class="color-label">SECONDARY</div>
+          <div class="color-values">
+            PANTONE 9242U<br>
+            CMYK 3 / 27 / 37 / 0<br>
+            RGB 235 / 215 / 207<br>
+            HEX #EBD7CF
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #A5ACB0;"></div>
+        <div class="color-info">
+          <div class="color-name">Veggiet Gray</div>
+          <div class="color-label">SECONDARY</div>
+          <div class="color-values">
+            PANTONE 2162C<br>
+            CMYK 15 / 6 / 6 / 35<br>
+            RGB 165 / 172 / 176<br>
+            HEX #A5ACB0
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #0C0B0B;"></div>
+        <div class="color-info">
+          <div class="color-name">Black</div>
+          <div class="color-label">NEUTRAL</div>
+          <div class="color-values">
+            CMYK 0 / 0 / 0 / 98<br>
+            RGB 12 / 11 / 11<br>
+            HEX #0C0B0B
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4>Product Series Color Guide</h4>
+    <div class="product-row">
+      <div class="product-label">Multi Grain</div>
+      <div class="product-pair">
+        <div style="background: #BCE494; color: #0C0B0B;">Green #BCE494</div>
+        <div style="background: #F3EFDD; color: #0C0B0B;">Yellow #F3EFDD</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <div class="product-label">Cacao</div>
+      <div class="product-pair">
+        <div style="background: #BC8A7E; color: #fff;">Brown #BC8A7E</div>
+        <div style="background: #EBD7CF; color: #0C0B0B;">Ivory #EBD7CF</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <div class="product-label">Real Black Bean</div>
+      <div class="product-pair">
+        <div style="background: #A5ACB0; color: #fff;">Gray #A5ACB0</div>
+        <div style="background: #D1D5D6; color: #0C0B0B;">Charcoal #D1D5D6</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="section">
+    <h2>Typography</h2>
+    <h3>Typefaces</h3>
+
+    <div class="type-row">
+      <div class="type-role">
+        <div class="role">Logo</div>
+        <div class="family">Agenda One Compressed</div>
+      </div>
+      <div class="type-sample">
+        <div style="font-size: 48px; font-weight: 500; letter-spacing: -1px;">VEGGIET</div>
+        <p style="margin-top: 8px; font-size: 13px; color: #999;">Medium | Custom logo typeface only</p>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-role">
+        <div class="role">Title / Product</div>
+        <div class="family">GT America Md</div>
+      </div>
+      <div class="type-sample">
+        <div style="font-size: 36px; font-weight: 500;">100% Plant based!</div>
+        <div style="font-size: 24px; font-weight: 500; margin-top: 4px;">Multi Grain Protein Shake</div>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-role">
+        <div class="role">Body Bold</div>
+        <div class="family">Pretendard Bold</div>
+      </div>
+      <div class="type-sample">
+        <div style="font-size: 20px; font-weight: 700;">100% Plant based! Multi Grain Protein Shake</div>
+      </div>
+    </div>
+
+    <div class="type-row" style="border-bottom: none;">
+      <div class="type-role">
+        <div class="role">Body</div>
+        <div class="family">Pretendard Medium</div>
+      </div>
+      <div class="type-sample">
+        <div style="font-size: 20px; font-weight: 500;">100% Plant based! Multi Grain Protein Shake</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logo Rules -->
+  <div class="section">
+    <h2>Logo</h2>
+    <h3>Usage Rules</h3>
+
+    <div class="logo-rules">
+      <div class="logo-rule">
+        <div class="rule-title">Clear Space</div>
+        <div class="rule-desc">
+          Width = V<br>
+          Maintain V spacing on all sides.<br>
+          No elements may enter the clear space zone.
+        </div>
+      </div>
+      <div class="logo-rule">
+        <div class="rule-title">Minimum Size</div>
+        <div class="rule-desc">
+          Print: 15mm minimum width<br>
+          Smaller sizes compromise brand recognition.
+        </div>
+      </div>
+      <div class="logo-rule">
+        <div class="rule-title">Light Background</div>
+        <div class="rule-desc">
+          Use standard logo (Veggiet Green or Grayscale).<br>
+          Background brightness 0-50%.
+        </div>
+      </div>
+      <div class="logo-rule">
+        <div class="rule-title">Dark Background</div>
+        <div class="rule-desc">
+          Use white version.<br>
+          Background brightness 50-100%.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Package -->
+  <div class="section">
+    <h2>Package</h2>
+    <h3>Product Line Specs</h3>
+
+    <div class="pkg-grid">
+      <div class="pkg-card">
+        <div class="pkg-color" style="background: #BCE494;"></div>
+        <h4>Multi Grain</h4>
+        <p>314 x 164mm</p>
+        <div class="specs">4-color print, coated paper 180g</div>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-color" style="background: #BC8A7E;"></div>
+        <h4>Cacao</h4>
+        <p>314 x 164mm</p>
+        <div class="specs">4-color print, coated paper 180g</div>
+      </div>
+      <div class="pkg-card">
+        <div class="pkg-color" style="background: #A5ACB0;"></div>
+        <h4>Real Black Bean</h4>
+        <p>314 x 164mm</p>
+        <div class="specs">4-color print, coated paper 180g</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

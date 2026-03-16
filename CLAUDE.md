@@ -123,6 +123,83 @@ figma-studio/
 - 다페이지 인쇄물: InDesign 병행
 - 정밀 타이포그래피: Illustrator 병행
 
+## Design System Rules (Figma MCP 참조용)
+
+이 섹션은 `generate_figma_design`, `get_design_context` 등 Figma MCP 도구가 디자인 생성 시 자동 참조하는 브랜드 규칙이다.
+
+### 토큰 정의
+
+디자인 토큰은 `brand-assets/huenic/tokens.json`에 정의되어 있다.
+멀티 브랜드 구조로, `brands.veggiet`(국내)과 `brands.vinker`(해외)를 분리 관리한다.
+
+### VEGGIET 브랜드 규칙
+
+**컬러 시스템:**
+- Primary: `#BCE494` (Veggiet Green, PANTONE 7486C)
+- 제품별 컬러 페어링:
+  - 곡물맛: Green `#BCE494` + Yellow `#F3EFDD`
+  - 카카오: Brown `#BC8A7E` + Ivory `#EBD7CF`
+  - 서리태: Gray `#A5ACB0` + Charcoal `#D1D5D6`
+- 확장 제품 시 Product Series Color Guide 규정 준수
+
+**타이포그래피:**
+- 로고: Agenda One Compressed Medium (커스텀, 텍스트 사용 금지)
+- 타이틀/제품명: GT America Md
+- 본문 강조: Pretendard Bold
+- 본문: Pretendard Medium
+
+**로고 규정:**
+- 최소 여백: 로고 너비(V) 기준 상하좌우 V
+- 최소 크기: 인쇄 15mm
+- 밝은 배경: 기본형 / 어두운 배경: 화이트 버전
+- 형태 변형, 비율 변경, 자의적 해석 금지
+
+**패키지:** 314x164mm, 4도 인쇄, 유포지 180g
+
+### VINKER 브랜드 규칙
+
+**컬러 시스템:**
+- Primary: `#F93822` (Vinker Red) + `#FFC72C` (Vinker Yellow)
+- Sub: `#6CACE4` (Blue) / `#79C300` (Green) / `#F4E3C9` (Beige)
+- Neutral: `#00000A` (Black)
+- 제품별 컬러 페어링:
+  - Crispy Korean Chicken: Red `#F93822` + Yellow `#FFC72C`
+  - Original Chicken Strips: Blue `#6CACE4` + Yellow `#FFC72C`
+  - Pulled Chicken Herb Salt: Green `#79C300` + Yellow `#FFC72C`
+- 웹: 배경 `#FCEDD5` (cream), `#FFFFFF` (white)
+
+**타이포그래피:**
+- 타이틀: Filicudi-Solid (항상 UPPERCASE)
+- 본문 강조: Pretendard Variable SemiBold (첫 글자 대문자)
+- 본문: Pretendard Variable Medium (첫 글자 대문자)
+
+**로고 규정:**
+- 3요소 구조: Character Element + Frame + Wordmark
+- 변형: 기본형 / 응용형A / 응용형B
+- 최소 크기: 인쇄 15mm, 웹 50px
+- 최소 여백: 로고 높이(V) 기준 상하좌우 V
+- 사용 금지: 형태/비율/간격/색상 임의 변경, 요소 제거, 그래픽 추가
+
+**SNS 소재 컬러 조합:**
+- Crispy Korean: 배경 `#F93822` + 폰트 `#000000`
+- Original Strips: 배경 `#6CACE4` + 폰트 `#000000`
+- Herb Salt: 배경 `#79C300` + 폰트 `#F93822`
+
+**사진 보정 규칙:**
+- 텍스쳐 강화, 붉은 채도 높게, 반짝이는 윤기 추가
+- 배경 제거 시 외곽 최대한 유지, 흰색 경계부 주변색으로 보정
+- 그림자: Gaussian Blur 160.0, K54 gray, opacity multiply
+
+**패키지:** 175x220mm
+
+### 공통 규칙
+
+1. 디자인 생성 시 반드시 해당 브랜드의 전용 색상만 사용
+2. 로고는 가이드라인 규정 외 변형 절대 금지
+3. Pretendard는 두 브랜드 공통 본문 서체
+4. 인쇄물은 CMYK 값 기준, 디지털은 RGB/HEX 값 기준
+5. 베지어트 = 한국어(+영문 혼용), 빈커 = 영어 기본
+
 ## 커뮤니케이션 원칙
 
 1. **한국어 기본**: 모든 산출물은 한국어로 작성한다

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>VINKER Brand Identity Standard Manual v1.0</title>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+<link href="https://fonts.cdnfonts.com/css/filicudi-solid" rel="stylesheet">
+<style>
+  @font-face { font-family: 'Filicudi-Solid'; src: local('Filicudi-Solid'), local('FilicudiSolid'); }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Pretendard', -apple-system, sans-serif; background: #FAFAFA; color: #1A1A1A; }
+  .filicudi { font-family: 'Filicudi-Solid', 'Pretendard', sans-serif; text-transform: uppercase; }
+
+  .page { width: 1440px; margin: 0 auto; }
+  .section { padding: 80px 120px; border-bottom: 1px solid #E5E5E5; }
+  .section:last-child { border-bottom: none; }
+
+  /* Cover */
+  .cover {
+    background: #F93822;
+    height: 600px;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+  }
+  .cover h1 { font-family: 'Filicudi-Solid', 'Pretendard', sans-serif; font-size: 72px; font-weight: 800; color: #FFC72C; letter-spacing: 8px; text-transform: uppercase; margin-bottom: 16px; }
+  .cover .subtitle { font-size: 20px; color: #fff; opacity: 0.9; margin-bottom: 8px; }
+  .cover .tagline { font-family: 'Filicudi-Solid', 'Pretendard', sans-serif; font-size: 28px; font-weight: 700; color: #FFC72C; margin-top: 16px; letter-spacing: 4px; }
+  .cover .version { font-size: 14px; color: #fff; opacity: 0.5; margin-top: 24px; }
+
+  h2 { font-size: 14px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; }
+  h3 { font-size: 36px; font-weight: 700; margin-bottom: 48px; }
+  h4 { font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #333; }
+  p { font-size: 15px; line-height: 1.7; color: #666; }
+
+  /* Color */
+  .color-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 48px; }
+  .color-card { border-radius: 16px; overflow: hidden; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .color-swatch { height: 160px; }
+  .color-info { padding: 20px; }
+  .color-name { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .color-label { font-size: 12px; color: #999; margin-bottom: 12px; }
+  .color-values { font-size: 12px; color: #666; line-height: 1.8; font-family: 'SF Mono', 'Menlo', monospace; }
+
+  /* Products */
+  .product-row { display: flex; gap: 24px; margin-bottom: 32px; align-items: center; }
+  .product-pair { display: flex; border-radius: 12px; overflow: hidden; flex: 1; height: 100px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .product-pair > div { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+  .product-label { width: 240px; flex-shrink: 0; font-size: 15px; font-weight: 600; }
+
+  /* Type */
+  .type-row { display: flex; align-items: baseline; gap: 48px; padding: 32px 0; border-bottom: 1px solid #F0F0F0; }
+  .type-role { width: 200px; flex-shrink: 0; }
+  .type-role .role { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 2px; }
+  .type-role .family { font-size: 14px; font-weight: 600; margin-top: 4px; }
+  .type-sample { flex: 1; }
+
+  /* Logo */
+  .logo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 48px; }
+  .logo-card { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-align: center; }
+  .logo-card .card-title { font-size: 13px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+  .logo-card .card-desc { font-size: 14px; color: #333; line-height: 1.6; }
+
+  /* Rules Grid */
+  .rules-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+  .rule-item { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .rule-num { font-size: 12px; font-weight: 700; color: #F93822; margin-bottom: 8px; }
+  .rule-text { font-size: 13px; color: #333; line-height: 1.5; }
+
+  /* SNS */
+  .sns-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .sns-card { border-radius: 16px; overflow: hidden; height: 320px; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 40px; }
+  .sns-card .product-name { font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 16px; }
+  .sns-card .tagline-text { font-size: 48px; font-weight: 800; text-transform: uppercase; line-height: 1.1; }
+  .sns-card .color-spec { font-size: 11px; margin-top: 24px; opacity: 0.7; }
+
+  /* Photo */
+  .photo-rules { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+  .photo-rule { background: #fff; border-radius: 16px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .photo-rule .rule-title { font-size: 13px; font-weight: 600; color: #F93822; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 16px; }
+  .photo-rule ul { list-style: none; }
+  .photo-rule li { font-size: 14px; color: #333; line-height: 1.8; padding-left: 16px; position: relative; }
+  .photo-rule li::before { content: ""; position: absolute; left: 0; top: 10px; width: 6px; height: 6px; border-radius: 50%; background: #F93822; }
+
+  /* Web Colors */
+  .web-colors { display: flex; gap: 16px; margin-top: 24px; }
+  .web-color { flex: 1; height: 80px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Cover -->
+  <div class="cover section">
+    <div class="subtitle">Brand Identity Standard Manual</div>
+    <h1>VINKER</h1>
+    <div class="subtitle">100% Plant-Based Chicken</div>
+    <div class="tagline">EAT YOUR DREAM!</div>
+    <div class="version">V1.0 (2024) | Produced by FRONTKIT</div>
+  </div>
+
+  <!-- Colors -->
+  <div class="section">
+    <h2>Color System</h2>
+    <h3>Brand Colors</h3>
+
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="color-swatch" style="background: #F93822;"></div>
+        <div class="color-info">
+          <div class="color-name">Vinker Red</div>
+          <div class="color-label">PRIMARY</div>
+          <div class="color-values">
+            PANTONE Bright Red C<br>
+            CMYK 0 / 90 / 100 / 0<br>
+            RGB 249 / 56 / 34<br>
+            HEX #F93822
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #FFC72C;"></div>
+        <div class="color-info">
+          <div class="color-name">Vinker Yellow</div>
+          <div class="color-label">PRIMARY</div>
+          <div class="color-values">
+            PANTONE 123 C<br>
+            CMYK 0 / 16 / 90 / 0<br>
+            RGB 255 / 199 / 44<br>
+            HEX #FFC72C
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #6CACE4;"></div>
+        <div class="color-info">
+          <div class="color-name">Vinker Blue</div>
+          <div class="color-label">SUB</div>
+          <div class="color-values">
+            PANTONE 284 C<br>
+            CMYK 54 / 19 / 0 / 0<br>
+            RGB 108 / 172 / 228<br>
+            HEX #6CACE4
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #79C300;"></div>
+        <div class="color-info">
+          <div class="color-name">Vinker Green</div>
+          <div class="color-label">SUB</div>
+          <div class="color-values">
+            PANTONE 3561 C<br>
+            CMYK 50 / 0 / 100 / 0<br>
+            RGB 121 / 195 / 0<br>
+            HEX #79C300
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #F4E3C9;"></div>
+        <div class="color-info">
+          <div class="color-name">Vinker Beige</div>
+          <div class="color-label">SUB</div>
+          <div class="color-values">
+            PANTONE 9181C<br>
+            CMYK 0 / 7 / 17 / 0<br>
+            RGB 252 / 237 / 213<br>
+            HEX #F4E3C9
+          </div>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-swatch" style="background: #00000A;"></div>
+        <div class="color-info">
+          <div class="color-name">Vinker Black</div>
+          <div class="color-label">NEUTRAL</div>
+          <div class="color-values">
+            PANTONE BLACK 3C<br>
+            CMYK 20 / 0 / 0 / 100<br>
+            RGB 0 / 0 / 10<br>
+            HEX #00000A
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4>Product Series Color Pairing</h4>
+    <div class="product-row">
+      <div class="product-label">Crispy Korean Chicken</div>
+      <div class="product-pair">
+        <div style="background: #F93822; color: #FFC72C;">Red #F93822</div>
+        <div style="background: #FFC72C; color: #0C0B0B;">Yellow #FFC72C</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <div class="product-label">Original Chicken Strips</div>
+      <div class="product-pair">
+        <div style="background: #6CACE4; color: #fff;">Blue #6CACE4</div>
+        <div style="background: #FFC72C; color: #0C0B0B;">Yellow #FFC72C</div>
+      </div>
+    </div>
+    <div class="product-row">
+      <div class="product-label">Pulled Chicken Herb Salt</div>
+      <div class="product-pair">
+        <div style="background: #79C300; color: #fff;">Green #79C300</div>
+        <div style="background: #FFC72C; color: #0C0B0B;">Yellow #FFC72C</div>
+      </div>
+    </div>
+
+    <h4 style="margin-top: 48px;">Web Colors</h4>
+    <div class="web-colors">
+      <div class="web-color" style="background: #F93822; color: #fff;">#F93822</div>
+      <div class="web-color" style="background: #FFC72C; color: #000;">#FFC72C</div>
+      <div class="web-color" style="background: #FCEDD5; color: #000;">#FCEDD5</div>
+      <div class="web-color" style="background: #FFFFFF; color: #000; border: 1px solid #E5E5E5;">#FFFFFF</div>
+      <div class="web-color" style="background: #00000A; color: #fff;">#00000A</div>
+    </div>
+  </div>
+
+  <!-- Typography -->
+  <div class="section">
+    <h2>Typography</h2>
+    <h3>Typefaces</h3>
+
+    <div class="type-row">
+      <div class="type-role">
+        <div class="role">Title / Slogan</div>
+        <div class="family">Filicudi-Solid</div>
+      </div>
+      <div class="type-sample">
+        <div class="filicudi" style="font-size: 48px; font-weight: 400; letter-spacing: 2px;">I'M 100% PLANT-BASED</div>
+        <p style="margin-top: 8px; font-size: 13px; color: #999;">Always UPPERCASE</p>
+      </div>
+    </div>
+
+    <div class="type-row">
+      <div class="type-role">
+        <div class="role">Body Bold</div>
+        <div class="family">Pretendard Variable SemiBold</div>
+      </div>
+      <div class="type-sample">
+        <div style="font-size: 20px; font-weight: 600;">Our dream of wellness food that is both healthy and delicious.</div>
+        <p style="margin-top: 8px; font-size: 13px; color: #999;">First letter capitalized</p>
+      </div>
+    </div>
+
+    <div class="type-row" style="border-bottom: none;">
+      <div class="type-role">
+        <div class="role">Body</div>
+        <div class="family">Pretendard Variable Medium</div>
+      </div>
+      <div class="type-sample">
+        <div style="font-size: 20px; font-weight: 500;">Our dream of wellness food that is both healthy and delicious, Vinker's special dishes are waiting for you.</div>
+        <p style="margin-top: 8px; font-size: 13px; color: #999;">First letter capitalized</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Logo -->
+  <div class="section">
+    <h2>Logo</h2>
+    <h3>Structure & Rules</h3>
+
+    <div class="logo-grid">
+      <div class="logo-card">
+        <div class="card-title">Structure</div>
+        <div class="card-desc">
+          A. Character Element<br>
+          B. Frame<br>
+          C. Wordmark<br><br>
+          3 elements form the complete logo
+        </div>
+      </div>
+      <div class="logo-card">
+        <div class="card-title">Variants</div>
+        <div class="card-desc">
+          Basic Type<br>
+          Application Type A<br>
+          Application Type B<br><br>
+          No arbitrary modifications
+        </div>
+      </div>
+      <div class="logo-card">
+        <div class="card-title">Minimum Size</div>
+        <div class="card-desc">
+          Print: 15mm<br>
+          Web: 50px<br><br>
+          Clear space: Height(V) on all sides
+        </div>
+      </div>
+    </div>
+
+    <h4>Incorrect Usage (Prohibited)</h4>
+    <div class="rules-grid">
+      <div class="rule-item">
+        <div class="rule-num">01</div>
+        <div class="rule-text">Do not modify shape arbitrarily</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">02</div>
+        <div class="rule-text">Do not change proportion ratio</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">03</div>
+        <div class="rule-text">Do not add external graphics</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">04</div>
+        <div class="rule-text">Do not modify spacing</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">05</div>
+        <div class="rule-text">Do not change expression method</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">06</div>
+        <div class="rule-text">Do not remove elements</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">07</div>
+        <div class="rule-text">Do not use non-standard colors</div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">08</div>
+        <div class="rule-text">Do not use different colors per element</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SNS Guide -->
+  <div class="section">
+    <h2>SNS</h2>
+    <h3>Social Post Color Combinations</h3>
+
+    <div class="sns-grid">
+      <div class="sns-card" style="background: #F93822;">
+        <div class="product-name" style="color: #FFC72C;">Crispy Korean Chicken</div>
+        <div class="tagline-text filicudi" style="color: #000;">EAT YOUR DREAM!</div>
+        <div class="color-spec" style="color: #fff;">BG #F93822 / Font #000000</div>
+      </div>
+      <div class="sns-card" style="background: #6CACE4;">
+        <div class="product-name filicudi" style="color: #fff;">Original Chicken Strips</div>
+        <div class="tagline-text filicudi" style="color: #000;">EAT YOUR DREAM!</div>
+        <div class="color-spec" style="color: #fff;">BG #6CACE4 / Font #000000</div>
+      </div>
+      <div class="sns-card" style="background: #79C300;">
+        <div class="product-name filicudi" style="color: #fff;">Pulled Chicken Herb Salt</div>
+        <div class="tagline-text filicudi" style="color: #F93822;">EAT YOUR DREAM!</div>
+        <div class="color-spec" style="color: #fff;">BG #79C300 / Font #F93822</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Photo Editing -->
+  <div class="section">
+    <h2>Photography</h2>
+    <h3>Photo Editing Rules</h3>
+
+    <div class="photo-rules">
+      <div class="photo-rule">
+        <div class="rule-title">Retouching</div>
+        <ul>
+          <li>Enhance texture visibility</li>
+          <li>Increase red saturation for appetite appeal</li>
+          <li>Add glossy shine highlights</li>
+          <li>Adjust brightness to preserve texture detail</li>
+        </ul>
+      </div>
+      <div class="photo-rule">
+        <div class="rule-title">Background Removal</div>
+        <ul>
+          <li>Preserve maximum edge detail</li>
+          <li>Do not crop edges excessively</li>
+          <li>Blend white boundaries with surrounding colors</li>
+          <li>Maintain natural appearance</li>
+        </ul>
+      </div>
+      <div class="photo-rule">
+        <div class="rule-title">Shadow</div>
+        <ul>
+          <li>Fill shape with K54 gray</li>
+          <li>Gaussian Blur: Radius 160.0</li>
+          <li>Transform > Warp mode to shape naturally</li>
+          <li>Apply with Opacity > Multiply blend</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Package -->
+  <div class="section">
+    <h2>Package</h2>
+    <h3>Product Packaging</h3>
+
+    <div class="logo-grid">
+      <div class="logo-card" style="border-top: 6px solid #F93822;">
+        <div class="card-title">Crispy Korean Chicken</div>
+        <div class="card-desc">
+          175 x 220mm<br>
+          Primary: Vinker Red + Yellow<br>
+          PANTONE Bright Red C + 123 C
+        </div>
+      </div>
+      <div class="logo-card" style="border-top: 6px solid #6CACE4;">
+        <div class="card-title">Original Chicken Strips</div>
+        <div class="card-desc">
+          175 x 220mm<br>
+          Primary: Vinker Blue + Yellow<br>
+          PANTONE 284 C + 123 C
+        </div>
+      </div>
+      <div class="logo-card" style="border-top: 6px solid #79C300;">
+        <div class="card-title">Pulled Chicken Herb Salt</div>
+        <div class="card-desc">
+          175 x 220mm<br>
+          Primary: Vinker Green + Yellow<br>
+          PANTONE 3561 C + 123 C
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
