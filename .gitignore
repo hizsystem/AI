@@ -11,3 +11,6 @@ venv/
 
 # OS
 .DS_Store
+content/node_modules/
+content/package-lock.json
+content/package.json
