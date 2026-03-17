@@ -63,15 +63,37 @@ def get_account(account_key: str, config_path: Path | None = None) -> "AdAccount
     return AdAccount(account_id)
 
 
-def validate_token() -> bool:
-    """토큰 유효성 검사 (/me API 호출)."""
+def validate_token(config_path: Path | None = None) -> dict:
+    """토큰 유효성 검사. 성공 시 {'valid': True, 'user': ...}, 실패 시 {'valid': False, 'error': ...}."""
     try:
         token = _get_token()
-    except EnvironmentError:
-        return False
+    except EnvironmentError as e:
+        return {"valid": False, "error": str(e)}
+
+    # 1차: /me 엔드포인트 (일반 유저 토큰 + 시스템 유저 토큰 모두 지원)
     resp = requests.get(
         "https://graph.facebook.com/v21.0/me",
         params={"access_token": token},
         timeout=10,
     )
-    return resp.status_code == 200
+    if resp.status_code == 200:
+        data = resp.json()
+        return {"valid": True, "user": data.get("name", ""), "user_id": data.get("id", "")}
+
+    # 2차: 광고 계정 직접 접근으로 폴백
+    try:
+        config = load_config(config_path)
+        first_account = next(iter(config["accounts"].values()))
+        account_id = first_account["ad_account_id"]
+        resp2 = requests.get(
+            f"https://graph.facebook.com/v21.0/{account_id}",
+            params={"access_token": token, "fields": "name,account_status"},
+            timeout=10,
+        )
+        if resp2.status_code == 200:
+            data = resp2.json()
+            return {"valid": True, "user": f"account:{data.get('name', '')}", "user_id": account_id}
+    except Exception:
+        pass
+
+    return {"valid": False, "error": resp.json().get("error", {}).get("message", "Unknown error")}
