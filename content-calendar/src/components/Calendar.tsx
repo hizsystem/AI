@@ -21,11 +21,10 @@ interface CalendarProps {
   onDeleteItem?: (id: string) => Promise<void>;
   onSaveCalendar?: (updates: Partial<CalendarData>) => Promise<void>;
   onAddMonth?: () => void;
+  logo?: { src: string; alt: string };
 }
 
 const DAY_LABELS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
-const CONTENT_CATEGORIES = new Set(["place", "pairing", "scene", "new-menu", "monthly-tap", "collab"]);
 
 const STATUS_CONFIG: Record<ContentStatus, { label: string; bg: string; text: string }> = {
   planning: { label: "기획", bg: "bg-gray-100", text: "text-gray-500" },
@@ -44,6 +43,7 @@ export default function Calendar({
   onDeleteItem,
   onSaveCalendar,
   onAddMonth,
+  logo = { src: '', alt: '' },
 }: CalendarProps) {
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null);
   const [editingItem, setEditingItem] = useState<ContentItem | null | "new">(null);
@@ -63,7 +63,7 @@ export default function Calendar({
   }, [data.categories]);
 
   const contentCategories = useMemo(
-    () => data.categories.filter((cat) => CONTENT_CATEGORIES.has(cat.id)),
+    () => data.categories,
     [data.categories]
   );
 
@@ -92,15 +92,16 @@ export default function Calendar({
   }, [data.month]);
 
   const itemsByDate = useMemo(() => {
+    const validCategories = new Set(data.categories.map((c) => c.id));
     const map: Record<number, ContentItem[]> = {};
     for (const item of data.items) {
-      if (!CONTENT_CATEGORIES.has(item.category)) continue;
+      if (!validCategories.has(item.category)) continue;
       const day = parseInt(item.date.split("-")[2], 10);
       if (!map[day]) map[day] = [];
       map[day].push(item);
     }
     return map;
-  }, [data.items]);
+  }, [data.items, data.categories]);
 
   const today = new Date();
   const isCurrentMonth =
@@ -254,9 +255,15 @@ export default function Calendar({
                 </span>
               </button>
             )}
-            {/* TSB Logo */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/tsb-logo.png" alt="TAP SHOP BAR" className="h-12 w-12 rounded-lg" />
+            {/* Logo */}
+            {logo.src ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src={logo.src} alt={logo.alt} className="h-12 w-12 rounded-lg" />
+            ) : (
+              <span className="h-12 flex items-center px-2 rounded-lg bg-gray-900 text-white text-xs font-bold tracking-wider">
+                {logo.alt}
+              </span>
+            )}
           </div>
         </div>
 
@@ -431,12 +438,14 @@ export default function Calendar({
       {selectedItem && !editMode && (
         <ContentModal
           item={selectedItem}
-          category={categoryMap[selectedItem.category]}
+          category={categoryMap[selectedItem.category] || { id: "", name: "기타", color: "#888" }}
           onClose={() => setSelectedItem(null)}
           onEdit={(item) => {
             setSelectedItem(null);
             setEditingItem(item);
           }}
+          logo={logo}
+          accountName={logo.alt}
         />
       )}
 

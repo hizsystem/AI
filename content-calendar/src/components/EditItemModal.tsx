@@ -10,6 +10,7 @@ interface EditItemModalProps {
   onSave: (item: ContentItem) => void;
   onDelete?: (id: string) => void;
   onClose: () => void;
+  clientId?: string;
 }
 
 const STATUS_OPTIONS: { value: ContentStatus; label: string }[] = [
@@ -25,6 +26,7 @@ export default function EditItemModal({
   onSave,
   onDelete,
   onClose,
+  clientId = "default",
 }: EditItemModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -62,7 +64,7 @@ export default function EditItemModal({
   async function uploadFile(file: File): Promise<string> {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("client", "tabshopbar");
+    formData.append("client", clientId);
     const res = await fetch("/api/upload", { method: "POST", body: formData });
     if (!res.ok) throw new Error("Upload failed");
     const { url } = await res.json();
@@ -387,7 +389,7 @@ export default function EditItemModal({
               type="text"
               value={mentions}
               onChange={(e) => setMentions(e.target.value)}
-              placeholder="@tap.shop.bar"
+              placeholder="@계정명"
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>

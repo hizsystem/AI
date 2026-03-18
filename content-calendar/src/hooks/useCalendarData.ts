@@ -31,11 +31,11 @@ export function useCalendarData(
     setError(null);
     try {
       const res = await fetch(`/api/calendar/${client}/${month}`);
-      if (!res.ok) throw new Error("Failed to fetch");
+      if (!res.ok) throw new Error("데이터를 불러올 수 없습니다");
       const json = await res.json();
       setData(json);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Unknown error");
+      setError(e instanceof Error ? e.message : "알 수 없는 오류가 발생했습니다");
     } finally {
       setLoading(false);
     }

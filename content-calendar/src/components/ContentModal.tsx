@@ -14,6 +14,8 @@ interface ContentModalProps {
   category: Category;
   onClose: () => void;
   onEdit?: (item: ContentItem) => void;
+  logo?: { src: string; alt: string };
+  accountName?: string;
 }
 
 export default function ContentModal({
@@ -21,6 +23,8 @@ export default function ContentModal({
   category,
   onClose,
   onEdit,
+  logo = { src: "", alt: "" },
+  accountName = "",
 }: ContentModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
 
@@ -122,10 +126,12 @@ export default function ContentModal({
 
           {/* Profile header */}
           <div className="flex items-center gap-3 px-5 py-3.5 border-b border-gray-100">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/tsb-logo.png" alt="TSB" className="w-8 h-8 rounded-full" />
+            {logo.src && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={logo.src} alt={logo.alt} className="w-8 h-8 rounded-full" />
+            )}
             <div className="flex-1 min-w-0">
-              <p className="text-[13px] font-semibold text-gray-900 leading-none">tap.shop.bar</p>
+              {accountName && <p className="text-[13px] font-semibold text-gray-900 leading-none">{accountName}</p>}
             </div>
             <div className="flex items-center gap-2">
               <span
