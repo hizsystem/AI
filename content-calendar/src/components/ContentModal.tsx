@@ -59,14 +59,14 @@ export default function ContentModal({
       {/* Instagram-style container */}
       <div className="bg-white shadow-2xl flex max-w-[860px] w-full max-h-[80vh] overflow-hidden rounded">
         {/* Left: Media area */}
-        <div className="w-[420px] max-h-[80vh] bg-gray-950 flex-shrink-0 flex items-center justify-center overflow-hidden">
+        <div className="w-[420px] bg-gray-950 flex-shrink-0 flex items-center justify-center overflow-hidden self-stretch">
           {overview.localVideo ? (
             <div className="relative w-full h-full flex items-center justify-center">
               <video
                 src={overview.localVideo}
                 poster={overview.images?.[0]}
                 controls
-                className="w-full h-full object-contain"
+                className="max-w-full max-h-[80vh] object-contain"
                 playsInline
               />
               <div className="absolute bottom-12 right-2 bg-black/80 text-white text-[10px] px-2.5 py-1 rounded-full pointer-events-none animate-pulse">
@@ -100,7 +100,7 @@ export default function ContentModal({
             <img
               src={overview.images[0]}
               alt={item.title}
-              className="w-full max-h-[80vh] object-contain"
+              className="max-w-full max-h-[80vh] object-contain"
             />
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center gap-5">
