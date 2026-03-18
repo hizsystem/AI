@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HIZ Weekly Briefing</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #0a0a0a;
+    color: #f5f5f5;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .deck { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 120px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+    pointer-events: none;
+    text-align: center;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  /* ── Slide 1: 시장의 종말 ── */
+  .slide-1 {
+    background: linear-gradient(135deg, #1a0a0a 0%, #0a0a0a 100%);
+  }
+  .slide-1 h2 {
+    font-size: 52px;
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -1px;
+  }
+  .slide-1 h2 .red { color: #ef4444; }
+  .slide-1 .sub {
+    margin-top: 48px;
+    font-size: 18px;
+    color: #666;
+    font-weight: 400;
+  }
+
+  /* ── Slide 2: 시장 현실 ── */
+  .slide-2 {
+    background: #0a0a0a;
+    text-align: left;
+    align-items: flex-start;
+    padding-left: 140px;
+  }
+  .slide-2 .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ef4444;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 32px;
+  }
+  .slide-2 h2 {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.3;
+    max-width: 800px;
+    letter-spacing: -1px;
+    margin-bottom: 40px;
+  }
+  .slide-2 .companies {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+  .slide-2 .company-tag {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fca5a5;
+  }
+  .slide-2 .bottom-text {
+    font-size: 20px;
+    color: #999;
+    line-height: 1.8;
+    max-width: 700px;
+  }
+  .slide-2 .bottom-text strong { color: #ef4444; font-weight: 700; }
+
+  /* ── Slide 3: 네슬레 ── */
+  .slide-3 { background: #0a0a0a; }
+  .slide-3 .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f59e0b;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 32px;
+  }
+  .slide-3 h2 {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -0.5px;
+  }
+  .slide-3 .strike-list {
+    margin-top: 48px;
+    display: flex;
+    gap: 20px;
+  }
+  .slide-3 .strike-item {
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    padding: 16px 32px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fbbf24;
+    text-decoration: line-through;
+    text-decoration-color: rgba(239, 68, 68, 0.7);
+    text-decoration-thickness: 2px;
+  }
+  .slide-3 .warning {
+    margin-top: 48px;
+    font-size: 22px;
+    color: #999;
+    font-weight: 500;
+    line-height: 1.6;
+  }
+
+  /* ── Slide 4: 히즈는 이미 준비하고 있다 ── */
+  .slide-4 {
+    background: linear-gradient(135deg, #0a0a1a 0%, #0a1a0a 100%);
+    text-align: left;
+    align-items: flex-start;
+    padding-left: 140px;
+  }
+  .slide-4 .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6ee7b7;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 32px;
+  }
+  .slide-4 h2 {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.5px;
+    max-width: 800px;
+    margin-bottom: 20px;
+  }
+  .slide-4 h2 .accent { color: #6ee7b7; }
+  .slide-4 .direction-text {
+    font-size: 22px;
+    color: #aaa;
+    line-height: 1.8;
+    max-width: 700px;
+    margin-bottom: 40px;
+  }
+  .slide-4 .direction-text strong { color: #f5f5f5; font-weight: 700; }
+  .slide-4 .insight-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 780px;
+  }
+  .slide-4 .insight-card {
+    background: rgba(110, 231, 183, 0.06);
+    border: 1px solid rgba(110, 231, 183, 0.15);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: left;
+  }
+  .slide-4 .insight-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #6ee7b7;
+    margin-bottom: 8px;
+  }
+  .slide-4 .insight-card p {
+    font-size: 14px;
+    color: #aaa;
+    line-height: 1.6;
+  }
+
+  /* ── Slide 5: 선점하려면 ── */
+  .slide-5 {
+    background: #0a0a0a;
+    text-align: left;
+    align-items: flex-start;
+    padding-left: 140px;
+  }
+  .slide-5 .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #818cf8;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 32px;
+  }
+  .slide-5 h2 {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    max-width: 800px;
+    line-height: 1.3;
+  }
+  .slide-5 h2 .accent { color: #818cf8; }
+  .slide-5 .body-text {
+    font-size: 20px;
+    color: #999;
+    line-height: 1.8;
+    max-width: 700px;
+    margin-bottom: 40px;
+  }
+  .slide-5 .body-text strong { color: #f5f5f5; font-weight: 700; }
+  .slide-5 .role-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    max-width: 700px;
+  }
+  .slide-5 .role-card {
+    background: rgba(129, 140, 248, 0.06);
+    border: 1px solid rgba(129, 140, 248, 0.15);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+  }
+  .slide-5 .role-card h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #c7d2fe;
+    margin-bottom: 8px;
+  }
+  .slide-5 .role-card p {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.5;
+  }
+
+  /* ── Slide 6: 이미 움직이고 있다 ── */
+  .slide-6 {
+    background: linear-gradient(135deg, #0a0a1a 0%, #1a0a1a 100%);
+    text-align: left;
+    align-items: flex-start;
+    padding-left: 140px;
+  }
+  .slide-6 .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f59e0b;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 32px;
+  }
+  .slide-6 h2 {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 40px;
+    line-height: 1.3;
+  }
+  .slide-6 .fact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 760px;
+  }
+  .slide-6 .fact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px 28px;
+    background: rgba(245, 158, 11, 0.04);
+    border: 1px solid rgba(245, 158, 11, 0.12);
+    border-radius: 12px;
+  }
+  .slide-6 .fact-icon {
+    font-size: 24px;
+    min-width: 32px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .slide-6 .fact-text {
+    font-size: 17px;
+    color: #ccc;
+    line-height: 1.6;
+  }
+  .slide-6 .fact-text strong {
+    color: #fbbf24;
+    font-weight: 700;
+  }
+
+  /* ── Slide 7: 2시간 사례 ── */
+  .slide-7 {
+    background: #0a0a0a;
+    text-align: left;
+    align-items: flex-start;
+    padding: 60px 100px 50px 140px;
+    justify-content: flex-start;
+    padding-top: 70px;
+  }
+  .slide-7 .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #818cf8;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+  }
+  .slide-7 h2 {
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+  }
+  .slide-7 h2 .time { color: #818cf8; }
+  .slide-7 .subtitle {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 24px;
+  }
+  .slide-7 .task-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 14px;
+    max-width: 860px;
+  }
+  .slide-7 .task-card {
+    background: rgba(129, 140, 248, 0.06);
+    border: 1px solid rgba(129, 140, 248, 0.15);
+    border-radius: 12px;
+    padding: 18px;
+  }
+  .slide-7 .task-card .task-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #c7d2fe;
+    margin-bottom: 6px;
+  }
+  .slide-7 .task-card .task-desc {
+    font-size: 12px;
+    color: #888;
+    line-height: 1.5;
+  }
+  .slide-7 .ref-section {
+    margin-top: 24px;
+    display: flex;
+    gap: 20px;
+    max-width: 860px;
+    width: 100%;
+  }
+  .slide-7 .ref-card {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 20px;
+    overflow: hidden;
+  }
+  .slide-7 .ref-card .ref-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+  }
+  .slide-7 .ref-card .threads-post {
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1.6;
+  }
+  .slide-7 .ref-card .threads-post .handle {
+    font-weight: 700;
+    color: #f5f5f5;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .slide-7 .ref-card .threads-post .highlight {
+    color: #818cf8;
+    font-weight: 600;
+  }
+  .slide-7 .ref-card .terminal {
+    background: #111;
+    border-radius: 8px;
+    padding: 14px;
+    font-family: 'SF Mono', 'Menlo', monospace;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #aaa;
+  }
+  .slide-7 .ref-card .terminal .green { color: #6ee7b7; }
+  .slide-7 .ref-card .terminal .yellow { color: #fbbf24; }
+  .slide-7 .ref-card .terminal .dim { color: #555; }
+  .slide-7 .anyone {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #818cf8;
+  }
+
+  /* ── Slide 8: 위클리 ── */
+  .slide-8 {
+    background: #0a0a0a;
+    text-align: left;
+    align-items: flex-start;
+    padding-left: 140px;
+  }
+  .slide-8 .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #6ee7b7;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 32px;
+  }
+  .slide-8 h2 {
+    font-size: 44px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .slide-8 h2 .accent { color: #6ee7b7; }
+  .slide-8 .promise {
+    font-size: 20px;
+    color: #999;
+    line-height: 1.7;
+    max-width: 650px;
+    margin-bottom: 36px;
+  }
+  .slide-8 .agenda-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 700px;
+  }
+  .slide-8 .agenda-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 18px 24px;
+    background: rgba(110, 231, 183, 0.04);
+    border: 1px solid rgba(110, 231, 183, 0.1);
+    border-radius: 12px;
+  }
+  .slide-8 .agenda-num {
+    font-size: 24px;
+    font-weight: 800;
+    color: #6ee7b7;
+    min-width: 32px;
+  }
+  .slide-8 .agenda-text h4 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+  .slide-8 .agenda-text p {
+    font-size: 14px;
+    color: #888;
+    line-height: 1.5;
+  }
+  .slide-8 .name-vote {
+    margin-top: 28px;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    font-size: 15px;
+    color: #888;
+  }
+  .slide-8 .name-vote strong { color: #ccc; }
+
+  /* ── Slide 9: 클로징 ── */
+  .slide-9 {
+    background: linear-gradient(135deg, #0a1a0a 0%, #0a0a0a 100%);
+  }
+  .slide-9 h2 {
+    font-size: 44px;
+    font-weight: 800;
+    line-height: 1.6;
+    letter-spacing: -0.5px;
+    max-width: 850px;
+  }
+  .slide-9 h2 .accent { color: #6ee7b7; }
+  .slide-9 h2 .dim { color: #555; }
+  .slide-9 .cta {
+    margin-top: 56px;
+    padding: 20px 48px;
+    background: rgba(110, 231, 183, 0.12);
+    border: 1px solid rgba(110, 231, 183, 0.3);
+    border-radius: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #6ee7b7;
+  }
+  .slide-9 .sub {
+    margin-top: 32px;
+    font-size: 16px;
+    color: #555;
+  }
+
+  /* ── Navigation ── */
+  .nav {
+    position: fixed;
+    bottom: 40px;
+    right: 60px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    z-index: 100;
+  }
+  .nav button {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.05);
+    color: #ccc;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav button:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(255,255,255,0.4);
+  }
+  .page-indicator {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    min-width: 50px;
+    text-align: center;
+  }
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: #6ee7b7;
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="deck" id="deck">
+
+  <!-- ━━ 1. 시장의 종말 ━━ -->
+  <div class="slide slide-1 active" data-index="0">
+    <h2>
+      마케터와 에이전시의 시대는<br>
+      <span class="red">끝나가고 있다.</span>
+    </h2>
+    <div class="sub">2026. 3. 17 &nbsp;|&nbsp; HIZ 전체 브리핑</div>
+  </div>
+
+  <!-- ━━ 2. 시장 현실 ━━ -->
+  <div class="slide slide-2" data-index="1">
+    <div class="label">Market Reality</div>
+    <h2>이미 대기업은<br>움직였다.</h2>
+    <div class="companies">
+      <div class="company-tag">현대</div>
+      <div class="company-tag">CJ</div>
+      <div class="company-tag">삼성</div>
+    </div>
+    <div class="bottom-text">
+      내부 인프라에 AI를 풀세팅한 상황.<br>
+      움직이는 수준이 아니라,<br>
+      <strong>효율과 효과가 증명</strong>되어 더 박차를 가하는 중.<br><br>
+      이미 정답을 가지고 있으니까.<br>
+      에이전시를 쓸 이유가 사라지고 있다.
+    </div>
+  </div>
+
+  <!-- ━━ 3. 네슬레 ━━ -->
+  <div class="slide slide-3" data-index="2">
+    <div class="label">This Is Real</div>
+    <h2>네슬레가 전면 도입하면?</h2>
+    <div class="strike-list">
+      <div class="strike-item">돌체구스토</div>
+      <div class="strike-item">일루마</div>
+      <div class="strike-item">스타벅스앳홈</div>
+    </div>
+    <div class="warning">
+      남의 이야기가 아니다.<br>
+      우리한테 직접 일어날 수 있는 일.
+    </div>
+  </div>
+
+  <!-- ━━ 4. 히즈는 이미 준비하고 있다 ━━ -->
+  <div class="slide slide-4" data-index="3">
+    <div class="label">Our Direction</div>
+    <h2>히즈는 이미<br>준비하고 있다.</h2>
+    <div class="direction-text">
+      기존 시장이 죽어가고 있기 때문에,<br>
+      우리는 <strong>새로운 시장</strong>으로 간다.<br>
+      그것이 <strong>뉴비즈니스</strong>다.
+    </div>
+    <div class="insight-grid">
+      <div class="insight-card">
+        <h4>스타트업 액셀러레이터</h4>
+        <p>초기 창업자의 브랜드를<br>뾰족하게 만들어주는 것.<br>이것이 우리의 새로운 역할.</p>
+      </div>
+      <div class="insight-card">
+        <h4>AI가 대체할 수 없는 것</h4>
+        <p>"이렇게 하면 안 된다"를<br>정확히 진단하는 경험치.<br>이건 도구가 줄 수 없다.</p>
+      </div>
+      <div class="insight-card">
+        <h4>이미 반응이 오고 있다</h4>
+        <p>다양한 대표님들과 직접 상담하면서<br>진짜 니즈와 신뢰 포인트가<br>선명해지는 중.</p>
+      </div>
+      <div class="insight-card">
+        <h4>시행착오도 자산이다</h4>
+        <p>어디서 빛날지 계속 찾는 중이지만,<br>그 과정 자체가<br>우리의 경쟁력을 만들고 있다.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━ 5. 회사 전체가 뛰고 있다 ━━ -->
+  <div class="slide slide-5" data-index="4">
+    <div class="label">Already Moving</div>
+    <h2>뉴비즈니스를 선점하려면,<br><span class="accent">AI 최적화</span>가 되어야 한다.</h2>
+    <div class="body-text">
+      이상학 부회장님이 계속 오시는 이유.<br>
+      <strong>뉴비즈니스에 박차를 가하기 위해서.</strong><br>
+      히즈의 가능성을 믿고 있기 때문에.
+    </div>
+    <div class="role-grid">
+      <div class="role-card">
+        <h4>리더들의 챌린지</h4>
+        <p>매일, 매주 도전 과제를 받고<br>전력으로 뛰고 있다</p>
+      </div>
+      <div class="role-card">
+        <h4>3월 목표</h4>
+        <p>뉴비즈니스 상담<br><strong style="color:#818cf8;font-size:20px;">100건</strong></p>
+      </div>
+      <div class="role-card">
+        <h4>현재 진행 중</h4>
+        <p>상담이 계속 들어오고 있다.<br>지금 이 순간에도.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━ 6. 그래서 우리 각자가 갖춰야 할 것 ━━ -->
+  <div class="slide slide-6" data-index="5">
+    <div class="label">What We Need</div>
+    <h2>그래서 우리 각자가<br>갖춰야 할 것.</h2>
+    <div class="fact-list">
+      <div class="fact-item">
+        <div class="fact-icon">&#9632;</div>
+        <div class="fact-text">
+          어느 순간 줄 서서 들어오는 클라이언트를<br>
+          우리가 소화해내려면,<br>
+          지금부터 <strong>전문화 + 효율화</strong>를 갖춰야 한다.
+        </div>
+      </div>
+      <div class="fact-item">
+        <div class="fact-icon">&#9632;</div>
+        <div class="fact-text">
+          마케터든 디자이너든,<br>
+          <strong>구성하고 설계할 수 있는 기획자</strong>가 되어야 한다.<br>
+          데이터 기반으로 판단하고 의사결정할 수 있는 사람.
+        </div>
+      </div>
+      <div class="fact-item">
+        <div class="fact-icon">&#9632;</div>
+        <div class="fact-text">
+          그리고 그 위에 <strong>AI를 얹어야 한다.</strong><br>
+          실무력에 AI를 더하면 능력자가 된다.<br>
+          그 능력자들이 크루로 움직이면, 대체 불가능해진다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ━━ 7. 2시간 사례 ━━ -->
+  <div class="slide slide-7" data-index="6">
+    <div class="label">Proof of Concept</div>
+    <h2>일요일, 카페, <span class="time">2시간.</span></h2>
+    <div class="subtitle">4개의 아젠다를 병렬로 진행했습니다.</div>
+    <div class="task-grid">
+      <div class="task-card">
+        <div class="task-name">휴닉 콘텐츠 관리</div>
+        <div class="task-desc">무드보드, 캘린더, KPI 트래킹 관리 서버 구축</div>
+      </div>
+      <div class="task-card">
+        <div class="task-name">메타 광고 자동화</div>
+        <div class="task-desc">AI 레퍼런스 보고 바로 자동화 세팅 착수</div>
+      </div>
+      <div class="task-card">
+        <div class="task-name">피그마 브랜드 에셋</div>
+        <div class="task-desc">Claude Code + Figma 연결, 에셋 자동 생성</div>
+      </div>
+      <div class="task-card">
+        <div class="task-name">블로그 25개 글</div>
+        <div class="task-desc">타겟 맞춤 작성 + 노션 자동 업로드 완성</div>
+      </div>
+    </div>
+    <div class="ref-section">
+      <div class="ref-card">
+        <div class="ref-label">Meta 광고 자동화</div>
+        <div class="threads-post">
+          <span class="handle">ai.yeongseon</span>
+          월급 30만원으로 퍼포먼스 마케터 1명 채용 완료<br><br>
+          1. 캠페인 직접 생성 및 셋팅<br>
+          2. 성과 및 효율 측정<br>
+          3. 메타 광고 집행<br>
+          4. 성과 비교<br><br>
+          <span class="highlight">클로드코드로 메타 퍼포 광고 자동화 완료!</span><br>
+          <span style="color:#666">퍼포먼스 마케터 이제 없어도 될 듯...</span>
+        </div>
+      </div>
+      <div class="ref-card">
+        <div class="ref-label">블로그 병렬 제작</div>
+        <div class="terminal">
+          <span class="dim">* Sauteed for 6m 30s</span><br>
+          <span class="yellow">&#10095;</span> 이어서 계속 해줘.<br><br>
+          <span class="green">&#9679;</span> 2 agents launched<br>
+          <span class="dim">&nbsp;&nbsp;&#9492;&#9472;</span> 블로그 12번 제작 <span class="dim">Running...</span><br>
+          <span class="dim">&nbsp;&nbsp;&#9492;&#9472;</span> 블로그 13번 제작 <span class="dim">Running...</span><br><br>
+          <span class="green">&#9679;</span> 12/13/15번 병렬 제작 중!<br><br>
+          <span class="dim">&nbsp;#12</span> 성수 팝업 3일간 방문자 2,000명<br>
+          <span class="dim">&nbsp;#13</span> 5년 된 패키지를 바꿨더니 매출 40%<br>
+          <span class="dim">&nbsp;#15</span> 캐릭터 하나로 팔로워 5,000명
+        </div>
+      </div>
+    </div>
+    <div class="anyone">이건 누구나 할 수 있고, 저보다 더 잘할 수 있습니다.</div>
+  </div>
+
+  <!-- ━━ 8. 위클리 — 상향평준화 ━━ -->
+  <div class="slide slide-8" data-index="7">
+    <div class="label">Action Plan</div>
+    <h2>위클리를 시작하자.</h2>
+    <div class="promise">
+      나 혼자 AI랑 친한 것보다,<br>
+      그런 사람들이 크루로 움직이는 조직이 이긴다.<br>
+      집단으로 상향평준화한다. 전원을 능력자로 만든다.
+    </div>
+    <div class="agenda-list">
+      <div class="agenda-item">
+        <div class="agenda-num">1</div>
+        <div class="agenda-text">
+          <h4>한 주간의 AI 활용 공유</h4>
+          <p>노력한 점, 개선한 점, 만들어본 것들을 자유롭게</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-num">2</div>
+        <div class="agenda-text">
+          <h4>병목 지점 같이 고민</h4>
+          <p>풀리지 않는 부분을 꺼내놓고 함께 해결</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-num">3</div>
+        <div class="agenda-text">
+          <h4>서로 레슨</h4>
+          <p>더 효율적인 방법, 새로운 도구, 다른 접근법을 나누기</p>
+        </div>
+      </div>
+    </div>
+    <div class="name-vote">
+      <strong>이 모임의 이름을 같이 정해봐요</strong> &mdash; 레슨런? 위클리 싱크? AI 크루?
+    </div>
+  </div>
+
+  <!-- ━━ 9. 클로징 ━━ -->
+  <div class="slide slide-9" data-index="8">
+    <h2>
+      실무력에 AI를 더하면<br>
+      <span class="accent">능력자</span>가 된다.<br><br>
+      <span class="dim">그 능력자들이 크루로 움직이면,</span><br>
+      <span class="accent">대체 불가능해진다.</span>
+    </h2>
+    <div class="cta">오늘부터 하나라도 써보고, 다음 위클리에서 나누자.</div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <button id="prevBtn" onclick="navigate(-1)">&#8592;</button>
+  <div class="page-indicator" id="pageIndicator">1 / 9</div>
+  <button id="nextBtn" onclick="navigate(1)">&#8594;</button>
+</div>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const progressBar = document.getElementById('progressBar');
+  const pageIndicator = document.getElementById('pageIndicator');
+
+  function showSlide(index) {
+    slides.forEach(s => s.classList.remove('active'));
+    slides[index].classList.add('active');
+    progressBar.style.width = ((index + 1) / total * 100) + '%';
+    pageIndicator.textContent = (index + 1) + ' / ' + total;
+  }
+
+  function navigate(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < total) {
+      current = next;
+      showSlide(current);
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+      e.preventDefault();
+      navigate(1);
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+      e.preventDefault();
+      navigate(-1);
+    }
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+  });
+
+  showSlide(0);
+</script>
+
+</body>
+</html>
