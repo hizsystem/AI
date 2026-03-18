@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XTeer SNS 컨설팅 — 서비스 범위 및 견적 | BRANDRISE</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" rel="stylesheet">
+<style>
+  :root {
+    --bg: #faf6f1;
+    --bg-warm: #f5efe8;
+    --card: #ffffff;
+    --text: #1a1a1a;
+    --text-sub: #555555;
+    --text-muted: #999999;
+    --border: #e8e0d6;
+    --border-light: #f0ebe4;
+    --orange: #e8652b;
+    --orange-light: rgba(232, 101, 43, 0.08);
+    --orange-soft: #f0854d;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    font-size: 15px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  @media print {
+    body { font-size: 11pt; }
+    .cover { min-height: auto; padding: 60px; }
+  }
+
+  .container { max-width: 800px; margin: 0 auto; padding: 0 40px; }
+
+  /* ── Cover ── */
+  .cover {
+    min-height: 50vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 60px;
+    background: var(--text);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    border: 1px solid rgba(232, 101, 43, 0.15);
+    border-radius: 50%;
+  }
+  .cover-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange-soft);
+    margin-bottom: 32px;
+    font-weight: 500;
+  }
+  .cover h1 {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 10px;
+    letter-spacing: -0.3px;
+  }
+  .cover h1 span { color: var(--orange-soft); }
+  .cover-sub {
+    font-size: 16px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 40px;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 40px;
+    font-size: 13px;
+  }
+  .cover-meta-item label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 2px;
+  }
+  .cover-meta-item span {
+    color: rgba(255,255,255,0.8);
+    font-weight: 500;
+  }
+
+  /* ── Section ── */
+  section { padding: 48px 0; }
+  section + section { border-top: 1px solid var(--border); }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 6px;
+    letter-spacing: -0.2px;
+  }
+  h2 + .desc {
+    font-size: 14px;
+    color: var(--text-sub);
+    margin-bottom: 32px;
+  }
+
+  /* ── Action items ── */
+  .action-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 20px 0;
+  }
+  .action-item {
+    background: var(--card);
+    border-radius: 8px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+  }
+  .action-item .ai-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--orange);
+    margin-bottom: 4px;
+  }
+  .action-item .ai-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .action-item .ai-output {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  /* ── Timeline ── */
+  .timeline-bar {
+    display: flex;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 56px;
+  }
+  .tbar-seg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  .tbar-seg .tbar-week {
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .tbar-seg .tbar-label {
+    font-size: 11px;
+    opacity: 0.85;
+  }
+  .timeline-desc {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── Quote box ── */
+  .quote-box {
+    border: 2px solid var(--text);
+    border-radius: 12px;
+    padding: 32px;
+    margin: 24px 0;
+    position: relative;
+    background: var(--card);
+  }
+  .quote-badge {
+    position: absolute;
+    top: -11px;
+    left: 32px;
+    background: var(--text);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 14px;
+    border-radius: 16px;
+    letter-spacing: 0.5px;
+  }
+  .quote-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .quote-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .quote-price {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--orange);
+  }
+  .quote-price-sub {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+  .quote-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .quote-detail label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+  .quote-detail span {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* ── Next steps ── */
+  .next-steps {
+    display: flex;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  .ns-item {
+    flex: 1;
+    text-align: center;
+    padding: 20px 12px;
+    background: var(--card);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .ns-num {
+    width: 28px; height: 28px;
+    background: var(--text);
+    color: #fff;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .ns-item .ns-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .ns-item .ns-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* ── Footer ── */
+  .footer {
+    padding: 36px 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    margin-top: 20px;
+  }
+  .footer-brand {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .footer-info {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 2;
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ COVER ═══ -->
+<div class="cover">
+  <div class="cover-label">Service Scope & Quotation</div>
+  <h1>HYUNDAI <span>XTeer</span><br>SNS 컨설팅 견적 제안</h1>
+  <p class="cover-sub">서비스 범위, 진행 방식, 견적 안내</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>To</label>
+      <span>HD현대오일뱅크 윤활유Mobility팀</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>From</label>
+      <span>BRANDRISE</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Date</label>
+      <span>2026. 03</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ═══ 서비스 범위 ═══ -->
+<section>
+  <div class="section-label">Service Scope</div>
+  <h2>서비스 범위</h2>
+  <p class="desc">BRANDRISE가 수행하는 역할과 산출물입니다.</p>
+
+  <div style="font-size:13px; font-weight:600; color:var(--orange); letter-spacing:1px; margin-bottom:10px;">MONTH 1 — 전략 셋업</div>
+  <div class="action-grid">
+    <div class="action-item">
+      <div class="ai-num">01</div>
+      <div class="ai-title">SNS 채널 진단 + 경쟁사 벤치마크</div>
+      <div class="ai-output">XTeer 현황 + ZIC/Kixx/S-OIL + 해외 딜러 비교 리포트</div>
+    </div>
+    <div class="action-item">
+      <div class="ai-num">02</div>
+      <div class="ai-title">인스타그램 포지셔닝 전략</div>
+      <div class="ai-output">타겟, 톤앤보이스, 콘텐츠 방향, 게시 전략 기획서</div>
+    </div>
+    <div class="action-item">
+      <div class="ai-num">03</div>
+      <div class="ai-title">SNS 디자인 가이드라인</div>
+      <div class="ai-output">그리드, 컬러, 타이포, 템플릿 3종, Do & Don't</div>
+    </div>
+    <div class="action-item">
+      <div class="ai-num">04</div>
+      <div class="ai-title">콘텐츠 기획</div>
+      <div class="ai-output">콘텐츠 캘린더 + 카피 방향 + 레퍼런스</div>
+    </div>
+  </div>
+
+  <div style="font-size:13px; font-weight:600; color:var(--orange); letter-spacing:1px; margin: 28px 0 10px;">매월 — 운영 지원</div>
+  <div class="action-grid">
+    <div class="action-item">
+      <div class="ai-num">05</div>
+      <div class="ai-title">월간 콘텐츠 기획</div>
+      <div class="ai-output">콘텐츠 캘린더 + 카피 방향 + 레퍼런스</div>
+    </div>
+    <div class="action-item">
+      <div class="ai-num">06</div>
+      <div class="ai-title">콘텐츠 리뷰 + 피드백</div>
+      <div class="ai-output">내부 제작 콘텐츠 사전 검수 (월 8건)</div>
+    </div>
+    <div class="action-item">
+      <div class="ai-num">07</div>
+      <div class="ai-title">월간 성과 리뷰</div>
+      <div class="ai-output">KPI 점검 + 전략 조정 + 다음 달 방향</div>
+    </div>
+    <div class="action-item">
+      <div class="ai-num">08</div>
+      <div class="ai-title">정기 미팅 2회</div>
+      <div class="ai-output">화상 1h × 2회 (기획 공유 + 성과 리뷰)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 진행 방식 ═══ -->
+<section>
+  <div class="section-label">Process</div>
+  <h2>진행 방식</h2>
+  <p class="desc">첫 달에 전략을 셋업하고, 이후 매월 운영을 함께 합니다.</p>
+
+  <div class="timeline-bar">
+    <div class="tbar-seg" style="width:33%; background:var(--text);">
+      <span class="tbar-week">Month 1</span>
+      <span class="tbar-label">전략 셋업 + 가이드라인</span>
+    </div>
+    <div class="tbar-seg" style="width:33%; background:var(--orange);">
+      <span class="tbar-week">Month 2</span>
+      <span class="tbar-label">운영 안착</span>
+    </div>
+    <div class="tbar-seg" style="width:34%; background:var(--orange-soft);">
+      <span class="tbar-week">Month 3+</span>
+      <span class="tbar-label">성과 최적화</span>
+    </div>
+  </div>
+  <div class="timeline-desc">
+    <span>← 전략 수립 + 가이드라인 납품 →</span>
+    <span>← 매월 기획 · 리뷰 · 전략 조정 →</span>
+  </div>
+
+  <p style="font-size:13px; color:var(--text-sub); margin-top:20px;">
+    전략 설계 후 1회로 끝나는 것이 아니라, 매월 콘텐츠 기획과 성과 리뷰를 함께 진행합니다.
+  </p>
+</section>
+
+<!-- ═══ 견적 ═══ -->
+<section>
+  <div class="section-label">Quotation</div>
+  <h2>견적</h2>
+
+  <div class="quote-box">
+    <div class="quote-badge">월간 리테이너</div>
+    <div class="quote-row">
+      <div class="quote-title">SNS 전략 + 운영 지원</div>
+      <div class="quote-price">500만원<span class="quote-price-sub">/월 (VAT 별도)</span></div>
+    </div>
+    <div class="quote-details">
+      <div class="quote-detail">
+        <label>최소 계약</label>
+        <span>3개월</span>
+      </div>
+      <div class="quote-detail">
+        <label>월간 산출물</label>
+        <span>콘텐츠 기획 + 리뷰 + 정기 미팅 2회</span>
+      </div>
+      <div class="quote-detail">
+        <label>결제</label>
+        <span>월 선결제</span>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">
+    첫 달에 전략 셋업(진단, 포지셔닝, 가이드라인)을 포함하여 진행합니다.
+  </p>
+</section>
+
+<!-- ═══ 다음 단계 ═══ -->
+<section>
+  <div class="section-label">Next</div>
+  <h2>다음 단계</h2>
+
+  <div class="next-steps">
+    <div class="ns-item">
+      <div class="ns-num">1</div>
+      <div class="ns-title">견적 검토</div>
+      <div class="ns-desc">범위, 조건 확인</div>
+    </div>
+    <div class="ns-item">
+      <div class="ns-num">2</div>
+      <div class="ns-title">세부 협의</div>
+      <div class="ns-desc">범위 조정, 결제 조건</div>
+    </div>
+    <div class="ns-item">
+      <div class="ns-num">3</div>
+      <div class="ns-title">착수 → 킥오프</div>
+      <div class="ns-desc">합의 후 D+2 미팅</div>
+    </div>
+  </div>
+
+  <p style="font-size:13px; color:var(--text-sub); text-align:center; margin-top:16px;">
+    내부 품의에 필요한 자료가 있으시면 맞춤으로 준비해 드리겠습니다.
+  </p>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<div class="footer">
+  <div class="footer-brand">BRANDRISE</div>
+  <div class="footer-info">
+    brandrise@hizpeople.com<br>
+    Instagram @brandrise_kr
+  </div>
+</div>
+
+</div>
+</body>
+</html>
