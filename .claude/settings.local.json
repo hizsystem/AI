@@ -101,7 +101,8 @@
       "WebFetch(domain:doc-0k-c0-sheets.googleusercontent.com)",
       "Bash(git worktree:*)",
       "Bash(date:*)",
-      "mcp__plugin_slack_slack__slack_schedule_message"
+      "mcp__plugin_slack_slack__slack_schedule_message",
+      "Bash(which vercel:*)"
     ]
   },
   "hooks": {
