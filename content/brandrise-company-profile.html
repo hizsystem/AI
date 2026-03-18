@@ -10,16 +10,17 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --black: #111111;
-    --dark: #1a1a1a;
-    --dark-card: #222222;
-    --gray: #888888;
-    --light-gray: #cccccc;
-    --white: #f5f5f5;
-    --pure-white: #ffffff;
+    --black: #faf6f1;
+    --dark: #f5efe8;
+    --dark-card: #ffffff;
+    --gray: #999999;
+    --light-gray: #555555;
+    --white: #1a1a1a;
+    --pure-white: #111111;
     --orange: #e8652b;
-    --orange-soft: #f0854d;
+    --orange-soft: #d45a24;
     --blue: #2b5ce8;
+    --border: #e0d8cf;
   }
 
   html { font-size: 16px; scroll-behavior: smooth; }
@@ -49,7 +50,7 @@
   }
 
   /* ── Page Divider ── */
-  .page + .page { border-top: 1px solid #2a2a2a; }
+  .page + .page { border-top: 1px solid var(--border); }
 
   /* ── Typography ── */
   .page-label {
@@ -103,7 +104,7 @@
     align-items: center;
     text-align: center;
     padding: 80px 40px;
-    background: linear-gradient(180deg, #111 0%, #0a0a0a 100%);
+    background: linear-gradient(180deg, var(--black) 0%, var(--dark) 100%);
   }
 
   .cover-logo {
@@ -129,7 +130,7 @@
     display: inline-block;
     margin-top: 48px;
     padding: 10px 28px;
-    border: 1px solid #333;
+    border: 1px solid var(--border);
     border-radius: 100px;
     font-size: 0.85rem;
     color: var(--light-gray);
@@ -148,7 +149,8 @@
     background: var(--dark-card);
     border-radius: 16px;
     padding: 32px 28px;
-    border: 1px solid #2a2a2a;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
 
   .problem-card .num {
@@ -169,7 +171,7 @@
   .problem-bottom {
     margin-top: 48px;
     padding: 36px;
-    background: linear-gradient(135deg, #1e1e1e 0%, #161616 100%);
+    background: linear-gradient(135deg, #f0e9e0 0%, #ede5db 100%);
     border-radius: 16px;
     border-left: 4px solid var(--orange);
     text-align: center;
@@ -193,7 +195,8 @@
     background: var(--dark-card);
     border-radius: 16px;
     padding: 40px 32px;
-    border: 1px solid #2a2a2a;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
     position: relative;
     overflow: hidden;
   }
@@ -236,7 +239,7 @@
     padding: 8px 0;
     color: var(--light-gray);
     font-size: 0.95rem;
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid var(--border);
   }
 
   .why-list li:last-child { border-bottom: none; }
@@ -275,7 +278,7 @@
     padding: 28px 24px;
     border-radius: 12px;
     background: var(--dark-card);
-    border: 1px solid #2a2a2a;
+    border: 1px solid var(--border);
   }
 
   .belief-card .wrong {
@@ -304,9 +307,12 @@
     background: var(--dark-card);
     border-radius: 16px;
     padding: 36px 28px;
-    border: 1px solid #2a2a2a;
-    transition: border-color 0.3s;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    transition: border-color 0.3s, box-shadow 0.3s;
   }
+
+  .service-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
 
   .service-card:hover { border-color: var(--orange); }
 
@@ -337,7 +343,7 @@
   .service-detail {
     margin-top: 12px;
     padding-top: 12px;
-    border-top: 1px solid #2a2a2a;
+    border-top: 1px solid var(--border);
   }
 
   .service-detail li {
@@ -366,7 +372,7 @@
     padding: 32px 20px;
     background: var(--dark-card);
     border-radius: 16px;
-    border: 1px solid #2a2a2a;
+    border: 1px solid var(--border);
     position: relative;
   }
 
@@ -397,7 +403,7 @@
     margin-top: 32px;
     text-align: center;
     padding: 24px;
-    border: 1px dashed #333;
+    border: 1px dashed var(--border);
     border-radius: 12px;
   }
 
@@ -422,7 +428,7 @@
     color: var(--gray);
     margin-bottom: 20px;
     padding-bottom: 8px;
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid var(--border);
   }
 
   .portfolio-items {
@@ -435,7 +441,7 @@
     background: var(--dark-card);
     border-radius: 12px;
     padding: 24px;
-    border: 1px solid #2a2a2a;
+    border: 1px solid var(--border);
   }
 
   .portfolio-item h4 {
@@ -459,7 +465,7 @@
   .portfolio-item .result {
     margin-top: 10px;
     padding-top: 10px;
-    border-top: 1px solid #2a2a2a;
+    border-top: 1px solid var(--border);
     font-size: 0.85rem;
     font-weight: 600;
     color: var(--orange);
@@ -478,7 +484,7 @@
     border-radius: 12px;
     padding: 24px 16px;
     text-align: center;
-    border: 1px solid #2a2a2a;
+    border: 1px solid var(--border);
     font-size: 0.85rem;
     font-weight: 500;
     color: var(--light-gray);
@@ -501,7 +507,8 @@
     background: var(--dark-card);
     border-radius: 20px;
     padding: 48px 40px;
-    border: 1px solid #2a2a2a;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
   }
 
   .team-info h3 {
@@ -531,7 +538,7 @@
     padding: 6px 0;
     font-size: 0.85rem;
     color: var(--light-gray);
-    border-bottom: 1px solid #2a2a2a;
+    border-bottom: 1px solid var(--border);
   }
 
   .team-career li:last-child { border-bottom: none; }
@@ -560,7 +567,7 @@
   /* ── P10: CTA ── */
   .cta-page {
     text-align: center;
-    background: linear-gradient(180deg, var(--black) 0%, #0d0d0d 100%);
+    background: linear-gradient(180deg, var(--dark) 0%, var(--black) 100%);
   }
 
   .cta-page h2 {
@@ -620,7 +627,7 @@
   .cta-footer {
     margin-top: 60px;
     padding-top: 24px;
-    border-top: 1px solid #222;
+    border-top: 1px solid var(--border);
     font-size: 0.75rem;
     color: var(--gray);
   }
@@ -651,9 +658,10 @@
     body { background: white; color: #111; }
     .problem-card, .service-card, .why-card, .belief-card,
     .step, .portfolio-item, .logo-item, .team-card {
-      background: #f9f9f9;
+      background: #fafafa;
       border-color: #ddd;
     }
+    .cover { background: white; }
   }
 </style>
 </head>
@@ -926,22 +934,22 @@
     <h2>글로벌 브랜드부터 스타트업까지,<br><span class="highlight">함께 성장해온 파트너들.</span></h2>
 
     <div class="logo-grid">
-      <div class="logo-item">하이네켄<br><span style="font-size:0.7rem;color:#555">Heineken</span></div>
-      <div class="logo-item">CJ제일제당<br><span style="font-size:0.7rem;color:#555">CJ CheilJedang</span></div>
-      <div class="logo-item">네슬레<br><span style="font-size:0.7rem;color:#555">Nestle</span></div>
-      <div class="logo-item">아모레퍼시픽<br><span style="font-size:0.7rem;color:#555">Amorepacific</span></div>
-      <div class="logo-item">NC<br><span style="font-size:0.7rem;color:#555">NCSoft</span></div>
-      <div class="logo-item">현대백화점그룹<br><span style="font-size:0.7rem;color:#555">Hyundai Dept.</span></div>
-      <div class="logo-item">ETUDE<br><span style="font-size:0.7rem;color:#555">에뛰드</span></div>
-      <div class="logo-item">MISSHA<br><span style="font-size:0.7rem;color:#555">미샤</span></div>
-      <div class="logo-item">정몽구재단<br><span style="font-size:0.7rem;color:#555">CMK Foundation</span></div>
-      <div class="logo-item">현대글로비스<br><span style="font-size:0.7rem;color:#555">Hyundai Glovis</span></div>
-      <div class="logo-item">스타벅스앳홈<br><span style="font-size:0.7rem;color:#555">Starbucks at Home</span></div>
-      <div class="logo-item">요기요<br><span style="font-size:0.7rem;color:#555">Yogiyo</span></div>
-      <div class="logo-item">ReSaltZ<br><span style="font-size:0.7rem;color:#555">프리미엄 웰니스</span></div>
-      <div class="logo-item">VEGGIET<br><span style="font-size:0.7rem;color:#555">식물성 푸드테크</span></div>
-      <div class="logo-item">WEETAMIN<br><span style="font-size:0.7rem;color:#555">건강기능식품</span></div>
-      <div class="logo-item">CheckVO<br><span style="font-size:0.7rem;color:#555">체크보</span></div>
+      <div class="logo-item">하이네켄<br><span style="font-size:0.7rem;color:#999">Heineken</span></div>
+      <div class="logo-item">CJ제일제당<br><span style="font-size:0.7rem;color:#999">CJ CheilJedang</span></div>
+      <div class="logo-item">네슬레<br><span style="font-size:0.7rem;color:#999">Nestle</span></div>
+      <div class="logo-item">아모레퍼시픽<br><span style="font-size:0.7rem;color:#999">Amorepacific</span></div>
+      <div class="logo-item">NC<br><span style="font-size:0.7rem;color:#999">NCSoft</span></div>
+      <div class="logo-item">현대백화점그룹<br><span style="font-size:0.7rem;color:#999">Hyundai Dept.</span></div>
+      <div class="logo-item">ETUDE<br><span style="font-size:0.7rem;color:#999">에뛰드</span></div>
+      <div class="logo-item">MISSHA<br><span style="font-size:0.7rem;color:#999">미샤</span></div>
+      <div class="logo-item">정몽구재단<br><span style="font-size:0.7rem;color:#999">CMK Foundation</span></div>
+      <div class="logo-item">현대글로비스<br><span style="font-size:0.7rem;color:#999">Hyundai Glovis</span></div>
+      <div class="logo-item">스타벅스앳홈<br><span style="font-size:0.7rem;color:#999">Starbucks at Home</span></div>
+      <div class="logo-item">요기요<br><span style="font-size:0.7rem;color:#999">Yogiyo</span></div>
+      <div class="logo-item">ReSaltZ<br><span style="font-size:0.7rem;color:#999">프리미엄 웰니스</span></div>
+      <div class="logo-item">VEGGIET<br><span style="font-size:0.7rem;color:#999">식물성 푸드테크</span></div>
+      <div class="logo-item">WEETAMIN<br><span style="font-size:0.7rem;color:#999">건강기능식품</span></div>
+      <div class="logo-item">CheckVO<br><span style="font-size:0.7rem;color:#999">체크보</span></div>
     </div>
 
     <p class="logo-count">외 다수 프로젝트</p>
