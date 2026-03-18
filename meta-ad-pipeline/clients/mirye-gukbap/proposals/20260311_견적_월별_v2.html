@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>미례국밥 3개월 마케팅 견적서</title>
+<style>
+  :root {
+    --brand: #FF9500;
+    --brand-light: #FFF8F0;
+    --m1: #FF9500;
+    --m2: #FF6B35;
+    --m3: #E53E3E;
+    --gray-50: #FAFAFA;
+    --gray-100: #F5F5F5;
+    --gray-200: #E5E5E5;
+    --gray-300: #D4D4D4;
+    --gray-500: #737373;
+    --gray-600: #525252;
+    --gray-700: #404040;
+    --gray-800: #262626;
+    --gray-900: #171717;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--gray-100);
+    color: var(--gray-900);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+
+  /* ── Header ── */
+  .header { margin-bottom: 40px; }
+  .header h1 { font-size: 26px; font-weight: 800; margin-bottom: 6px; }
+  .header .sub { color: var(--gray-500); font-size: 14px; }
+
+  /* ── Overview ── */
+  .overview {
+    background: white;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .overview h2 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--brand);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+  }
+  .overview ul { list-style: none; }
+  .overview li {
+    padding: 5px 0;
+    font-size: 14px;
+    color: var(--gray-700);
+    line-height: 1.7;
+  }
+  .overview li::before {
+    content: '•';
+    color: var(--brand);
+    font-weight: 700;
+    margin-right: 8px;
+  }
+
+  /* ── Month Tabs ── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+  }
+  .tab {
+    flex: 1;
+    padding: 16px 12px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 14px;
+    transition: all 0.25s;
+    border: none;
+    background: var(--gray-200);
+    color: var(--gray-500);
+  }
+  .tab.active { background: white; color: var(--gray-900); box-shadow: 0 -2px 0 var(--brand) inset; }
+  .tab .t-label { font-size: 11px; font-weight: 500; display: block; opacity: 0.6; margin-bottom: 1px; }
+  .tab .t-name { display: block; }
+  .tab .t-price { font-size: 11px; display: block; margin-top: 1px; opacity: 0.7; }
+  .tab[data-m="1"].active { box-shadow: 0 -3px 0 var(--m1) inset; }
+  .tab[data-m="2"].active { box-shadow: 0 -3px 0 var(--m2) inset; }
+  .tab[data-m="3"].active { box-shadow: 0 -3px 0 var(--m3) inset; }
+
+  /* ── Month Panel ── */
+  .panel {
+    display: none;
+    background: white;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    overflow: hidden;
+  }
+  .panel.active { display: block; }
+
+  /* ── Section ── */
+  .section { border-bottom: 1px solid var(--gray-200); }
+  .section:last-of-type { border-bottom: none; }
+
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 20px 28px 6px;
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--gray-900);
+  }
+  .section-note {
+    font-size: 12px;
+    color: var(--gray-500);
+    font-weight: 500;
+    max-width: 50%;
+    text-align: right;
+  }
+
+  /* ── Table ── */
+  .tbl {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .tbl thead th {
+    padding: 8px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    color: var(--gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid var(--gray-200);
+    background: var(--gray-50);
+  }
+  .tbl thead th.r { text-align: right; }
+  .tbl thead th.c { text-align: center; }
+
+  .tbl td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-100);
+    vertical-align: top;
+  }
+  .tbl td.name {
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--gray-800);
+    min-width: 150px;
+  }
+  .tbl td.desc {
+    color: var(--gray-600);
+    font-size: 12.5px;
+    line-height: 1.5;
+  }
+  .tbl td.c { text-align: center; color: var(--gray-500); white-space: nowrap; }
+  .tbl td.r {
+    text-align: right;
+    font-weight: 700;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    color: var(--gray-800);
+  }
+  .tbl td .incl {
+    display: inline-block;
+    background: var(--brand-light);
+    color: var(--brand);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 4px;
+    margin-right: 4px;
+  }
+
+  /* ── Deliverables ── */
+  .deliv {
+    padding: 12px 28px;
+    background: var(--gray-50);
+  }
+  .deliv-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gray-500);
+    margin-bottom: 6px;
+  }
+  .deliv-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .deliv-tags span {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 500;
+    background: white;
+    color: var(--gray-600);
+    border: 1px solid var(--gray-200);
+  }
+
+  /* ── Subtotal ── */
+  .sub-row {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 40px;
+    padding: 12px 28px;
+    border-top: 1px solid var(--gray-200);
+  }
+  .sub-row .label { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; }
+  .sub-row .val { font-size: 16px; font-weight: 800; color: var(--gray-900); }
+
+  /* ── Month Total ── */
+  .month-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 28px;
+    border-top: 2px solid var(--gray-900);
+  }
+  .month-total .label { font-size: 15px; font-weight: 800; }
+  .month-total .val { font-size: 24px; font-weight: 800; }
+  .panel[data-m="1"] .month-total .val { color: var(--m1); }
+  .panel[data-m="2"] .month-total .val { color: var(--m2); }
+  .panel[data-m="3"] .month-total .val { color: var(--m3); }
+
+  /* ── Grand Total ── */
+  .grand {
+    margin-top: 24px;
+    background: var(--gray-900);
+    border-radius: 12px;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+  }
+  .grand .left { }
+  .grand .title { font-size: 16px; font-weight: 700; }
+  .grand .detail { font-size: 12px; opacity: 0.5; margin-top: 2px; }
+  .grand .amount { font-size: 32px; font-weight: 800; }
+
+  /* ── Notes ── */
+  .notes {
+    margin-top: 16px;
+    background: white;
+    border-radius: 12px;
+    padding: 20px 28px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  }
+  .notes h3 { font-size: 13px; font-weight: 700; color: var(--gray-500); margin-bottom: 12px; }
+  .note-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--gray-100);
+    font-size: 13px;
+  }
+  .note-row:last-child { border-bottom: none; }
+  .note-row .n-name { font-weight: 600; }
+  .note-row .n-detail { color: var(--gray-500); font-size: 12px; }
+  .note-row .n-val { font-weight: 700; color: var(--gray-500); }
+  .note-row .n-val.included { color: var(--brand); font-weight: 800; }
+
+  .footer { text-align: center; margin-top: 32px; color: var(--gray-300); font-size: 12px; }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; }
+    .wrap { max-width: 100%; padding: 0; }
+    .tabs { display: none; }
+    .panel { display: block !important; border: 1px solid #ddd; margin-bottom: 20px; border-radius: 8px; box-shadow: none; page-break-inside: avoid; }
+    .grand, .notes { box-shadow: none; border: 1px solid #ddd; }
+  }
+  @media (max-width: 640px) {
+    .tbl td.desc { max-width: 200px; }
+    .section-head { flex-direction: column; gap: 4px; }
+    .section-note { max-width: 100%; text-align: left; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <h1>미례국밥 3개월 마케팅 견적서</h1>
+    <div class="sub">2026-03-11 | 브랜드라이즈 | 월 500만원 × 3개월</div>
+  </div>
+
+  <!-- Overview -->
+  <div class="overview">
+    <h2>파트너십 개요</h2>
+    <ul>
+      <li>네이버플레이스·인스타그램·블로그 3채널에 집중하여 "노출 → 유입 → 재방문" 마케팅 구조를 3개월간 구축</li>
+      <li>무가 씨딩 인플루언서 30명(릴스 30개)과 매장 붐업 콘텐츠로 인스타그램 노출을 선점하고, 네이버플레이스 최적화와 블로그 리뷰 축적으로 검색 전환까지 연결</li>
+      <li>메타 광고비 월 50만원 포함, 릴스 도달·전환 광고를 병행하여 오가닉 콘텐츠의 도달을 증폭</li>
+      <li>1개월 채널 셋업 및 전략 수립 → 2개월 콘텐츠 확산 및 리뷰 축적 → 3개월 검색 상위 안착 및 퍼포먼스 최적화</li>
+      <li>계속적인 외주 의존이 아닌, 3개월 후 자체 운영이 가능한 가이드·콘텐츠 자산·다음 분기 전략 제안까지 납품</li>
+    </ul>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <div class="tab active" data-m="1" onclick="show(1)">
+      <span class="t-label">MONTH 1</span>
+      <span class="t-name">Set-up</span>
+      <span class="t-price">500만원</span>
+    </div>
+    <div class="tab" data-m="2" onclick="show(2)">
+      <span class="t-label">MONTH 2</span>
+      <span class="t-name">Scale-up</span>
+      <span class="t-price">500만원</span>
+    </div>
+    <div class="tab" data-m="3" onclick="show(3)">
+      <span class="t-label">MONTH 3</span>
+      <span class="t-name">Optimize</span>
+      <span class="t-price">500만원</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ MONTH 1 ═══════════ -->
+  <div class="panel active" data-m="1" id="m1">
+
+    <!-- Section 1 -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">1) 채널 전략 & 기반 셋업</div>
+        <div class="section-note">1개월차 집중 / 3개월 운영의 기반이 되는 전략 자산 구축</div>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>구분</th><th>항목</th><th class="c">단가</th><th class="c">기준</th><th class="c">수량</th><th class="r">합계</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">인스타그램 채널 전략 수립</td>
+            <td class="desc">채널 컨셉, 비주얼 무드보드, 레퍼런스 계정 리스트업, 피드 가이드라인, Figma 템플릿</td>
+            <td class="c">120만</td><td class="c">1회</td><td class="c">1</td><td class="r">120만</td>
+          </tr>
+          <tr>
+            <td class="name">네이버플레이스 풀 셋업</td>
+            <td class="desc">전 항목 점검, 키워드 세팅 10~15개, 메뉴판 정비, 대표 사진·소개란, 스마트콜·인스타 연동</td>
+            <td class="c">80만</td><td class="c">1회</td><td class="c">1</td><td class="r">80만</td>
+          </tr>
+          <tr>
+            <td class="name">블로그 세팅 + 샘플 5편</td>
+            <td class="desc">블로그 개설·디자인, 시리즈 기획(사장님 우당탕일기 / 리뷰로 먹고 살아요 / 많이들 궁금해하는), 샘플 5편 직접 작성</td>
+            <td class="c">100만</td><td class="c">1회</td><td class="c">1</td><td class="r">100만</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="deliv">
+        <div class="deliv-label">>> 납품물</div>
+        <div class="deliv-tags">
+          <span>인스타 채널 전략서</span><span>무드보드</span><span>Figma 템플릿</span><span>피드 가이드라인</span><span>플레이스 셋업 완료</span><span>블로그 5편</span><span>키워드 전략서</span>
+        </div>
+      </div>
+      <div class="sub-row">
+        <span class="label">소 계</span>
+        <span class="val">300만</span>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">2) 인플루언서 씨딩 & 광고</div>
+        <div class="section-note">릴스 10개 + 도달 광고로 첫 노출 확보</div>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>구분</th><th>항목</th><th class="c">단가</th><th class="c">기준</th><th class="c">수량</th><th class="r">합계</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">무가 씨딩 1차 (10명)</td>
+            <td class="desc">인플루언서 선정, 바이럴 포인트 가이드 제작, 방문 일정 코디, 릴스 QC</td>
+            <td class="c">120만</td><td class="c">월</td><td class="c">1</td><td class="r">120만</td>
+          </tr>
+          <tr>
+            <td class="name">메타 광고 세팅·운영</td>
+            <td class="desc"><span class="incl">광고비 50만 포함</span>+ 초기 세팅 30만 (계정·픽셀 세팅, 릴스 도달 광고, 서울 2030 타겟팅)</td>
+            <td class="c">80만</td><td class="c">월</td><td class="c">1</td><td class="r">80만</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="deliv">
+        <div class="deliv-label">>> 납품물</div>
+        <div class="deliv-tags">
+          <span>바이럴 가이드</span><span>릴스 10개</span><span>주간 광고 리포트</span>
+        </div>
+      </div>
+      <div class="sub-row">
+        <span class="label">소 계</span>
+        <span class="val">200만</span>
+      </div>
+    </div>
+
+    <div class="month-total">
+      <span class="label">MONTH 1 합계</span>
+      <span class="val">500만원</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ MONTH 2 ═══════════ -->
+  <div class="panel" data-m="2" id="m2">
+
+    <!-- Section 1 -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">1) 인스타그램 콘텐츠 & 씨딩</div>
+        <div class="section-note">릴스 누적 20개 + 매장 붐업 시리즈 본격 가동</div>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>구분</th><th>항목</th><th class="c">단가</th><th class="c">기준</th><th class="c">수량</th><th class="r">합계</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">무가 씨딩 2차 (10명)</td>
+            <td class="desc">1차 성과 분석 반영, 가이드 개선, 2차 인플루언서 선정·코디·릴스 QC</td>
+            <td class="c">120만</td><td class="c">월</td><td class="c">1</td><td class="r">120만</td>
+          </tr>
+          <tr>
+            <td class="name">인스타 콘텐츠 기획·제작</td>
+            <td class="desc">매장 붐업 콘텐츠(줄서기·매장 활기·돼지우동 클로즈업), 콘텐츠 캘린더, 해시태그 전략</td>
+            <td class="c">100만</td><td class="c">월</td><td class="c">1</td><td class="r">100만</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="deliv">
+        <div class="deliv-label">>> 납품물</div>
+        <div class="deliv-tags">
+          <span>릴스 누적 20개</span><span>바이럴 가이드(개선판)</span><span>월간 콘텐츠 캘린더</span>
+        </div>
+      </div>
+      <div class="sub-row">
+        <span class="label">소 계</span>
+        <span class="val">220만</span>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">2) 블로그 & 체험단</div>
+        <div class="section-note">블로그 리뷰 20편+ 확보 / 내부 작성 전환</div>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>구분</th><th>항목</th><th class="c">단가</th><th class="c">기준</th><th class="c">수량</th><th class="r">합계</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">블로그 콘텐츠 기획·가이드</td>
+            <td class="desc">시리즈별 콘텐츠 기획, 작성 가이드 제공 (내부 작성 전환)</td>
+            <td class="c">50만</td><td class="c">월</td><td class="c">1</td><td class="r">50만</td>
+          </tr>
+          <tr>
+            <td class="name">블로그 체험단 1차 (10~15팀)</td>
+            <td class="desc">블로그 리뷰 볼륨 확보, 체험단 모집·관리·QC</td>
+            <td class="c">80만</td><td class="c">회</td><td class="c">1</td><td class="r">80만</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="deliv">
+        <div class="deliv-label">>> 납품물</div>
+        <div class="deliv-tags">
+          <span>블로그 작성 가이드</span><span>블로그 리뷰 20편+</span>
+        </div>
+      </div>
+      <div class="sub-row">
+        <span class="label">소 계</span>
+        <span class="val">130만</span>
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">3) 네이버플레이스 관리 & 광고</div>
+        <div class="section-note">검색 순위 상승 + 경쟁 분석 + 광고 최적화</div>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>구분</th><th>항목</th><th class="c">단가</th><th class="c">기준</th><th class="c">수량</th><th class="r">합계</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">네이버플레이스 관리</td>
+            <td class="desc">리뷰 응대 가이드, 키워드 순위 추적, 인스타·블로그·당근 교차 링크 관리</td>
+            <td class="c">50만</td><td class="c">월</td><td class="c">1</td><td class="r">50만</td>
+          </tr>
+          <tr>
+            <td class="name">경쟁 매장 비교 분석</td>
+            <td class="desc">같은 상권 국밥집 3곳 네이버플레이스 비교 리포트</td>
+            <td class="c">50만</td><td class="c">1회</td><td class="c">1</td><td class="r">50만</td>
+          </tr>
+          <tr>
+            <td class="name">메타 광고 운영·최적화</td>
+            <td class="desc"><span class="incl">광고비 50만 포함</span>릴스 광고 증폭, 타겟 세분화, 소재별 A/B 테스트</td>
+            <td class="c">50만</td><td class="c">월</td><td class="c">1</td><td class="r">50만</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="deliv">
+        <div class="deliv-label">>> 납품물</div>
+        <div class="deliv-tags">
+          <span>경쟁 분석 리포트</span><span>키워드 순위 리포트</span><span>주간 광고 리포트</span>
+        </div>
+      </div>
+      <div class="sub-row">
+        <span class="label">소 계</span>
+        <span class="val">150만</span>
+      </div>
+    </div>
+
+    <div class="month-total">
+      <span class="label">MONTH 2 합계</span>
+      <span class="val">500만원</span>
+    </div>
+  </div>
+
+  <!-- ═══════════ MONTH 3 ═══════════ -->
+  <div class="panel" data-m="3" id="m3">
+
+    <!-- Section 1 -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">1) 인스타그램 콘텐츠 & 씨딩</div>
+        <div class="section-note">릴스 누적 30개 달성 + 자체 운영 전환</div>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>구분</th><th>항목</th><th class="c">단가</th><th class="c">기준</th><th class="c">수량</th><th class="r">합계</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">무가 씨딩 3차 (10명)</td>
+            <td class="desc">릴스 누적 30개 달성, 성과 좋은 인플루언서 재협업 포함</td>
+            <td class="c">120만</td><td class="c">월</td><td class="c">1</td><td class="r">120만</td>
+          </tr>
+          <tr>
+            <td class="name">인스타 콘텐츠 기획·제작</td>
+            <td class="desc">매장 붐업 콘텐츠 + 4개월차 이후 자체 운영용 콘텐츠 캘린더 납품</td>
+            <td class="c">100만</td><td class="c">월</td><td class="c">1</td><td class="r">100만</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="deliv">
+        <div class="deliv-label">>> 납품물</div>
+        <div class="deliv-tags">
+          <span>릴스 누적 30개</span><span>자체 운영 콘텐츠 캘린더</span>
+        </div>
+      </div>
+      <div class="sub-row">
+        <span class="label">소 계</span>
+        <span class="val">220만</span>
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">2) 블로그 & 체험단</div>
+        <div class="section-note">블로그 리뷰 누적 40편+ 달성</div>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>구분</th><th>항목</th><th class="c">단가</th><th class="c">기준</th><th class="c">수량</th><th class="r">합계</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">블로그 콘텐츠 기획·가이드</td>
+            <td class="desc">시리즈별 콘텐츠 기획, 자체 운영 가이드 납품</td>
+            <td class="c">50만</td><td class="c">월</td><td class="c">1</td><td class="r">50만</td>
+          </tr>
+          <tr>
+            <td class="name">블로그 체험단 2차 (10~15팀)</td>
+            <td class="desc">블로그 리뷰 누적 40편+ 달성, 체험단 모집·관리·QC</td>
+            <td class="c">80만</td><td class="c">회</td><td class="c">1</td><td class="r">80만</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="deliv">
+        <div class="deliv-label">>> 납품물</div>
+        <div class="deliv-tags">
+          <span>블로그 리뷰 40편+</span><span>리뷰 관리 가이드</span>
+        </div>
+      </div>
+      <div class="sub-row">
+        <span class="label">소 계</span>
+        <span class="val">130만</span>
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section">
+      <div class="section-head">
+        <div class="section-title">3) 네이버플레이스 & 광고 & 풀 리포트</div>
+        <div class="section-note">성과 분석 + 자체 운영 가이드 납품</div>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>구분</th><th>항목</th><th class="c">단가</th><th class="c">기준</th><th class="c">수량</th><th class="r">합계</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="name">네이버플레이스 관리</td>
+            <td class="desc">리뷰 관리 가이드 납품, 키워드 순위 리포트, 리뷰 유도 POP 제안</td>
+            <td class="c">50만</td><td class="c">월</td><td class="c">1</td><td class="r">50만</td>
+          </tr>
+          <tr>
+            <td class="name">메타 광고 운영 + 풀 리포트</td>
+            <td class="desc"><span class="incl">광고비 50만 포함</span>+ 풀 리포트 50만 (전 채널 성과 분석, 자체 운영 가이드, 다음 분기 전략 제안)</td>
+            <td class="c">100만</td><td class="c">월</td><td class="c">1</td><td class="r">100만</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="deliv">
+        <div class="deliv-label">>> 납품물</div>
+        <div class="deliv-tags">
+          <span>3개월 풀 성과 리포트</span><span>자체 운영 가이드</span><span>다음 분기 제안서</span>
+        </div>
+      </div>
+      <div class="sub-row">
+        <span class="label">소 계</span>
+        <span class="val">150만</span>
+      </div>
+    </div>
+
+    <div class="month-total">
+      <span class="label">MONTH 3 합계</span>
+      <span class="val">500만원</span>
+    </div>
+  </div>
+
+  <!-- Grand Total -->
+  <div class="grand">
+    <div class="left">
+      <div class="title">합계 (광고비 포함, 3개월)</div>
+      <div class="detail">MONTH 1 Set-up 500만 + MONTH 2 Scale-up 500만 + MONTH 3 Optimize 500만</div>
+    </div>
+    <div class="amount">1,500만원</div>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes">
+    <h3>참고 사항</h3>
+    <div class="note-row">
+      <div>
+        <div class="n-name">메타 광고비</div>
+        <div class="n-detail">월 50만원 서비스비에 포함 (첫달 세팅비 +30만)</div>
+      </div>
+      <div class="n-val included">포함</div>
+    </div>
+    <div class="note-row">
+      <div>
+        <div class="n-name">무가 씨딩 음식 원가</div>
+        <div class="n-detail">인플루언서 1인당 1~2인분, 30명 기준</div>
+      </div>
+      <div class="n-val">미례국밥 부담</div>
+    </div>
+    <div class="note-row">
+      <div>
+        <div class="n-name">체험단 음식 원가</div>
+        <div class="n-detail">10~15팀 × 2회</div>
+      </div>
+      <div class="n-val">미례국밥 부담</div>
+    </div>
+  </div>
+
+  <div class="footer">브랜드라이즈 | 2026-03-11</div>
+</div>
+
+<script>
+function show(m) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.tab[data-m="${m}"]`).classList.add('active');
+  document.getElementById(`m${m}`).classList.add('active');
+}
+</script>
+</body>
+</html>

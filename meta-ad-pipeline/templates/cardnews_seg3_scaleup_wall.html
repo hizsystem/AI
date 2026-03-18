@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>매출 10억의 벽 — brandrise (R4-night-purple-editorial)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       R4-night-purple-editorial — Design Tokens
+       ======================================== */
+    :root {
+      /* Cover */
+      --cover-bg: #7C3AED;
+      --cover-bg-deep: #6D28D9;
+      --cover-text: #FFFFFF;
+      --cover-tag-bg: rgba(255,255,255,0.14);
+      --cover-tag-text: #DDD6FE;
+      --cover-highlight: #DDD6FE;
+
+      /* Accent */
+      --accent: #8B5CF6;
+      --accent-light: #A78BFA;
+      --accent-pale: rgba(139,92,246,0.12);
+
+      /* Body */
+      --body-bg: #FAF5FF;
+      --body-text: #1A1A1A;
+      --body-secondary: #3D3D3D;
+      --body-muted: #9E9E9E;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 1px 3px rgba(139,92,246,0.08), 0 1px 8px rgba(0,0,0,0.04);
+      --card-border: 1px solid rgba(139,92,246,0.1);
+
+      /* Dark / Closing */
+      --dark-bg: #1E1B4B;
+      --dark-bg-mid: #2D2874;
+      --dark-text: #FFFFFF;
+      --dark-accent: #A78BFA;
+      --dark-muted: rgba(255,255,255,0.45);
+
+      /* Gradients */
+      --gradient-cover: linear-gradient(145deg, #7C3AED 0%, #6D28D9 60%, #4C1D95 100%);
+      --gradient-purple: linear-gradient(90deg, #7C3AED, #A78BFA);
+      --gradient-violet: linear-gradient(90deg, #8B5CF6, #C4B5FD);
+      --gradient-blue: linear-gradient(90deg, #3B82F6, #60A5FA);
+      --gradient-teal: linear-gradient(90deg, #0D9488, #2DD4BF);
+      --gradient-amber: linear-gradient(90deg, #D97706, #FBBF24);
+      --gradient-rose: linear-gradient(90deg, #BE185D, #FB7185);
+
+      /* Compare */
+      --compare-before-bg: linear-gradient(135deg, #FECACA, #FCA5A5);
+      --compare-before-color: #991B1B;
+      --compare-after-bg: linear-gradient(135deg, #C4B5FD, #DDD6FE);
+      --compare-after-color: #4C1D95;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Global: prevent mid-word Korean breaks on all text elements */
+    p, div, span, li, h1, h2, h3, h4, h5, h6 {
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #2D1B69;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+      padding: 48px 24px;
+      width: 1080px;
+      height: auto;
+    }
+
+    /* ========================================
+       Slide Base — 1080 x 1350 (4:5 ratio)
+       ======================================== */
+    .slide {
+      width: 1080px;
+      height: 1350px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Theme: Cover (vivid purple, left-aligned)
+       ======================================== */
+    .slide.cover-theme {
+      background: var(--gradient-cover);
+      color: var(--cover-text);
+    }
+
+    /* Subtle noise texture overlay on cover */
+    .slide.cover-theme::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 80% 20%, rgba(167,139,250,0.25) 0%, transparent 50%),
+        radial-gradient(circle at 10% 80%, rgba(76,29,149,0.4) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(109,40,217,0.6) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* Dot grid texture on cover */
+    .slide.cover-theme::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    /* ========================================
+       Theme: Body (near-white, purple tint)
+       ======================================== */
+    .slide.body-theme {
+      background-color: var(--body-bg);
+      background-image: radial-gradient(circle, rgba(139,92,246,0.12) 1px, transparent 1px);
+      background-size: 32px 32px;
+      color: var(--body-text);
+    }
+
+    /* ========================================
+       Theme: Dark (deep indigo-navy)
+       ======================================== */
+    .slide.dark-theme {
+      background-color: var(--dark-bg);
+      background-image:
+        radial-gradient(circle at 75% 15%, rgba(139,92,246,0.2) 0%, transparent 45%),
+        radial-gradient(circle at 20% 85%, rgba(76,29,149,0.3) 0%, transparent 40%),
+        radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: auto, auto, 32px 32px;
+      color: var(--dark-text);
+    }
+
+    /* ========================================
+       Slide Inner
+       ======================================== */
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      z-index: 1;
+    }
+
+    /* ========================================
+       Component: Slide Header
+       ======================================== */
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 44px;
+    }
+
+    /* ========================================
+       Component: Number Badge (accent icon)
+       ======================================== */
+    .num-badge {
+      width: 52px;
+      height: 52px;
+      background: var(--accent);
+      border-radius: 14px;
+      color: #FFFFFF;
+      font-size: 26px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .body-theme .num-badge {
+      background: var(--accent);
+    }
+
+    /* ========================================
+       Component: Page Number
+       ======================================== */
+    .page-num {
+      font-size: 24px;
+      font-weight: 500;
+      color: var(--body-muted);
+      letter-spacing: 0.5px;
+    }
+
+    .dark-theme .page-num {
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ========================================
+       Component: Tag / Badge
+       ======================================== */
+    .tag {
+      display: inline-block;
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .tag.cover-tag {
+      background: var(--cover-tag-bg);
+      color: var(--cover-tag-text);
+      border: 1px solid rgba(255,255,255,0.15);
+      letter-spacing: 0.5px;
+    }
+
+    .tag.body-tag {
+      background: var(--accent-pale);
+      color: var(--accent);
+    }
+
+    .tag.dark-tag {
+      background: rgba(167,139,250,0.15);
+      color: var(--dark-accent);
+    }
+
+    /* ========================================
+       Component: Cover Layout (left-aligned)
+       ======================================== */
+    .cover-layout {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+    }
+
+    .cover-eyebrow {
+      margin-bottom: 32px;
+    }
+
+    .cover-rule {
+      width: 56px;
+      height: 3px;
+      background: rgba(255,255,255,0.35);
+      border: none;
+      margin-bottom: 40px;
+    }
+
+    .cover-headline {
+      font-size: 86px;
+      font-weight: 900;
+      line-height: 1.2;
+      color: var(--cover-text);
+      word-break: keep-all;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+
+    .cover-headline .hl {
+      color: var(--cover-highlight);
+    }
+
+    .cover-sub {
+      font-size: 36px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.62);
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+
+    /* ========================================
+       Component: Headline (body slides)
+       ======================================== */
+    .headline {
+      font-size: 70px;
+      font-weight: 900;
+      line-height: 1.25;
+      color: var(--body-text);
+      margin-bottom: 28px;
+      word-break: keep-all;
+    }
+
+    .dark-theme .headline {
+      color: var(--dark-text);
+    }
+
+    .headline .accent {
+      color: var(--accent);
+    }
+
+    .dark-theme .headline .accent {
+      color: var(--dark-accent);
+    }
+
+    /* ========================================
+       Component: Body Text
+       ======================================== */
+    .body-text {
+      font-size: 34px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--body-secondary);
+      word-break: keep-all;
+    }
+
+    .body-text strong {
+      font-weight: 700;
+      color: var(--body-text);
+    }
+
+    .body-text .accent {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .dark-theme .body-text {
+      color: rgba(255,255,255,0.65);
+    }
+
+    .dark-theme .body-text strong {
+      color: var(--dark-text);
+    }
+
+    /* ========================================
+       Component: Section Label (slim eyebrow)
+       ======================================== */
+    .section-label {
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    /* ========================================
+       Component: Left-bar Cards (accent left border)
+       ======================================== */
+    .lbar-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border-left: 5px solid var(--accent);
+      padding: 28px 30px;
+      margin-bottom: 16px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .lbar-card .lbar-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: var(--body-text);
+      margin-bottom: 8px;
+      line-height: 1.3;
+      word-break: keep-all;
+    }
+
+    .lbar-card .lbar-desc {
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--body-secondary);
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+
+    .lbar-card.alt { border-left-color: var(--accent-light); }
+    .lbar-card.alt2 { border-left-color: #6366F1; }
+
+    /* ========================================
+       Component: Color Bar (gradient pill)
+       ======================================== */
+    .color-bar {
+      display: flex;
+      align-items: stretch;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      color: #FFFFFF;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .color-bar.purple  { background: var(--gradient-purple); }
+    .color-bar.violet  { background: var(--gradient-violet); }
+    .color-bar.blue    { background: var(--gradient-blue); }
+    .color-bar.teal    { background: var(--gradient-teal); }
+    .color-bar.amber   { background: var(--gradient-amber); }
+    .color-bar.rose    { background: var(--gradient-rose); }
+
+    .color-bar .bar-label {
+      flex: 0 0 200px;
+      padding: 28px 24px;
+      font-size: 30px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      background: rgba(0,0,0,0.12);
+      word-break: keep-all;
+    }
+
+    .color-bar .bar-content {
+      flex: 1;
+      padding: 28px 28px;
+      font-size: 28px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    /* ========================================
+       Component: Checklist Item
+       ======================================== */
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 24px 28px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      margin-bottom: 14px;
+      box-shadow: var(--card-shadow);
+      border: var(--card-border);
+    }
+
+    .checklist-icon {
+      width: 42px;
+      height: 42px;
+      background: var(--accent);
+      border-radius: 12px;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      margin-right: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .checklist-label {
+      flex: 1;
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--body-text);
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    .checklist-sub {
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--body-muted);
+      margin-top: 4px;
+      word-break: keep-all;
+    }
+
+    /* ========================================
+       Component: Channel Row (table-like)
+       ======================================== */
+    .channel-row {
+      display: flex;
+      align-items: center;
+      padding: 22px 28px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      margin-bottom: 14px;
+      box-shadow: var(--card-shadow);
+      border: var(--card-border);
+      gap: 20px;
+    }
+
+    .channel-badge {
+      flex: 0 0 120px;
+      height: 44px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      color: #FFFFFF;
+    }
+
+    .channel-badge.purple { background: var(--gradient-purple); }
+    .channel-badge.blue   { background: var(--gradient-blue); }
+    .channel-badge.teal   { background: var(--gradient-teal); }
+    .channel-badge.amber  { background: var(--gradient-amber); }
+
+    .channel-name {
+      flex: 0 0 170px;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--body-text);
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .channel-role {
+      flex: 1;
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--body-secondary);
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    /* ========================================
+       Component: Trap Card (warning style)
+       ======================================== */
+    .trap-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 2px solid rgba(139,92,246,0.2);
+      padding: 30px 32px;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trap-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: var(--gradient-purple);
+    }
+
+    .trap-num {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--accent-light);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .trap-title {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--body-text);
+      margin-bottom: 8px;
+      line-height: 1.3;
+      word-break: keep-all;
+    }
+
+    .trap-desc {
+      font-size: 26px;
+      font-weight: 400;
+      color: var(--body-secondary);
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    /* ========================================
+       Component: Insight Bar
+       ======================================== */
+    .insight-bar {
+      background: var(--gradient-purple);
+      border-radius: 14px;
+      padding: 26px 30px;
+      color: #FFFFFF;
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      word-break: keep-all;
+    }
+
+    .insight-bar .icon {
+      font-size: 32px;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Component: Dark Slide Text Styles
+       ======================================== */
+    .dark-lead {
+      font-size: 50px;
+      font-weight: 400;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.6);
+      word-break: keep-all;
+    }
+
+    .dark-lead strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .dark-quote {
+      font-size: 58px;
+      font-weight: 900;
+      color: var(--dark-accent);
+      line-height: 1.35;
+      word-break: keep-all;
+      margin-top: 32px;
+    }
+
+    .dark-quote .white {
+      color: #FFFFFF;
+    }
+
+    .dark-divider {
+      width: 56px;
+      height: 3px;
+      background: rgba(167,139,250,0.3);
+      margin: 36px 0;
+    }
+
+    /* ========================================
+       Component: CTA Section
+       ======================================== */
+    .cta-box {
+      background: rgba(167,139,250,0.1);
+      border: 1px solid rgba(167,139,250,0.2);
+      border-radius: 24px;
+      padding: 44px 40px;
+    }
+
+    .cta-brand {
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--dark-accent);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+    }
+
+    .cta-desc {
+      font-size: 30px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      margin-bottom: 40px;
+      word-break: keep-all;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--gradient-purple);
+      color: #FFFFFF;
+      font-size: 36px;
+      font-weight: 700;
+      padding: 22px 52px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .cta-service-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+
+    .cta-service-list li {
+      background: rgba(139,92,246,0.15);
+      border: 1px solid rgba(139,92,246,0.25);
+      color: var(--dark-accent);
+      font-size: 24px;
+      font-weight: 600;
+      padding: 8px 20px;
+      border-radius: 100px;
+    }
+
+    .cta-handle {
+      display: inline-block;
+      padding: 12px 32px;
+      border-radius: 100px;
+      background: rgba(167,139,250,0.15);
+      color: var(--dark-accent);
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    /* ========================================
+       Component: Credit
+       ======================================== */
+    .credit {
+      position: absolute;
+      bottom: 36px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--body-muted);
+    }
+
+    .cover-theme .credit {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .dark-theme .credit {
+      color: rgba(255,255,255,0.22);
+    }
+
+    /* ========================================
+       Utility
+       ======================================== */
+    .spacer { flex: 1; }
+    .mb-8  { margin-bottom: 8px; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-20 { margin-bottom: 20px; }
+    .mb-24 { margin-bottom: 24px; }
+    .mb-28 { margin-bottom: 28px; }
+    .mb-32 { margin-bottom: 32px; }
+    .mb-40 { margin-bottom: 40px; }
+    .mb-48 { margin-bottom: 48px; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SLIDE 01 — COVER
+       Purple bg #7C3AED · left-aligned · tag "brandrise real talk"
+       ============================================================ -->
+  <div class="slide cover-theme" id="slide-01">
+    <div class="slide-inner">
+
+      <!-- Top: brand wordmark -->
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="font-size: 28px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 1px;">brandrise</div>
+        <div style="font-size: 22px; font-weight: 500; color: rgba(255,255,255,0.3);">Seg. 3 · 성장기업</div>
+      </div>
+
+      <!-- Main content: left-aligned, centered vertically -->
+      <div class="cover-layout">
+
+        <!-- Eyebrow tag -->
+        <div class="cover-eyebrow">
+          <span class="tag cover-tag">brandrise real talk</span>
+        </div>
+
+        <!-- Horizontal rule -->
+        <hr class="cover-rule">
+
+        <!-- Main headline -->
+        <div class="cover-headline">
+          매출 10억의 벽,<br>
+          <span class="hl">뭐가 막고 있나?</span>
+        </div>
+
+        <!-- Sub text -->
+        <div class="cover-sub">
+          10억→30억 스케일업 앞에 선<br>
+          성장기업 대표님께
+        </div>
+
+      </div>
+
+      <!-- Decorative circle bottom-right -->
+      <div style="
+        position: absolute;
+        bottom: -80px;
+        right: -80px;
+        width: 380px;
+        height: 380px;
+        border-radius: 50%;
+        background: rgba(255,255,255,0.04);
+        border: 2px solid rgba(255,255,255,0.06);
+        pointer-events: none;
+        z-index: 0;
+      "></div>
+      <div style="
+        position: absolute;
+        bottom: 40px;
+        right: 40px;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 1.5px solid rgba(255,255,255,0.1);
+        pointer-events: none;
+        z-index: 0;
+      "></div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 02 — "10억까지는 대표의 영업력으로 가능합니다"
+       현실 진단 · body-theme · left-aligned editorial
+       ============================================================ -->
+  <div class="slide body-theme" id="slide-02">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="num-badge">01</div>
+        <div class="page-num">02 / 07</div>
+      </div>
+
+      <div class="section-label">현실 진단</div>
+      <div class="headline">
+        10억까지는<br>
+        대표의 영업력으로<br>
+        <span class="accent">가능합니다</span>
+      </div>
+
+      <div class="body-text mb-40">
+        그리고 그게 <strong>문제의 시작</strong>입니다.
+      </div>
+
+      <!-- Three left-bar cards -->
+      <div>
+        <div class="lbar-card">
+          <div class="lbar-title">0 → 5억 구간</div>
+          <div class="lbar-desc">대표 인맥 + 소개 영업 + 발품으로 충분</div>
+        </div>
+        <div class="lbar-card alt">
+          <div class="lbar-title">5 → 10억 구간</div>
+          <div class="lbar-desc">광고 조금 + 콘텐츠 조금 + 대표 직접 영업 병행</div>
+        </div>
+        <div class="lbar-card alt2">
+          <div class="lbar-title">10억 → 그 이상?</div>
+          <div class="lbar-desc">대표 혼자는 <strong style="color: var(--accent);">절대로 불가능한 구조</strong>가 필요</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="insight-bar">
+        <div class="icon">!</div>
+        <div>10억까지의 방법으로 30억을 만들 수 없습니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 03 — "10억 넘으려면 바꿔야 할 3가지"
+       시스템 / 채널 / 조직 · body-theme
+       ============================================================ -->
+  <div class="slide body-theme" id="slide-03">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="num-badge">02</div>
+        <div class="page-num">03 / 07</div>
+      </div>
+
+      <div class="section-label">스케일업 조건</div>
+      <div class="headline">
+        10억 넘으려면<br>
+        바꿔야 할<br>
+        <span class="accent">3가지</span>
+      </div>
+
+      <div class="body-text mb-36">
+        노력의 문제가 아닙니다.<br>
+        <strong>구조의 문제입니다.</strong>
+      </div>
+
+      <!-- Color Bar Cards: 시스템, 채널, 조직 -->
+      <div>
+        <div class="color-bar purple">
+          <div class="bar-label">① 시스템</div>
+          <div class="bar-content">대표 결재 없이 굴러가는 마케팅 프로세스</div>
+        </div>
+        <div class="color-bar violet">
+          <div class="bar-label">② 채널</div>
+          <div class="bar-content">영업 1채널 의존 탈피, 복수 유입 경로 확보</div>
+        </div>
+        <div class="color-bar blue">
+          <div class="bar-label">③ 조직</div>
+          <div class="bar-content">실행 담당자 또는 파트너, 대표는 방향만 설정</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="insight-bar" style="background: var(--gradient-violet);">
+        <div class="icon">!</div>
+        <div>3가지 중 하나라도 빠지면 30억 벽은 무너지지 않습니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 04 — "마케팅 채널 다각화가 답입니다"
+       채널별 역할 정리 · body-theme
+       ============================================================ -->
+  <div class="slide body-theme" id="slide-04">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="num-badge">03</div>
+        <div class="page-num">04 / 07</div>
+      </div>
+
+      <div class="section-label">채널 전략</div>
+      <div class="headline">
+        마케팅 채널<br>
+        다각화가<br>
+        <span class="accent">답입니다</span>
+      </div>
+
+      <div class="body-text mb-32">
+        채널마다 역할이 다릅니다.<br>
+        <strong>섞지 말고 구분해야 합니다.</strong>
+      </div>
+
+      <!-- Channel Role Table -->
+      <div>
+        <div class="channel-row">
+          <div class="channel-badge purple">META</div>
+          <div class="channel-name">메타 광고</div>
+          <div class="channel-role">신규 타겟에게 브랜드 노출 &amp; 즉각 전환</div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-badge blue">검색</div>
+          <div class="channel-name"><span style="white-space: nowrap;">네이버/구글</span></div>
+          <div class="channel-role">구매 의도 있는 고객 포착 &amp; 하단 퍼널</div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-badge teal">콘텐츠</div>
+          <div class="channel-name"><span style="white-space: nowrap;">블로그/SNS</span></div>
+          <div class="channel-role">브랜드 신뢰 축적 &amp; 유기적 유입 자산화</div>
+        </div>
+        <div class="channel-row">
+          <div class="channel-badge amber">이메일</div>
+          <div class="channel-name"><span style="white-space: nowrap;">CRM/뉴스레터</span></div>
+          <div class="channel-role">기존 고객 재구매 &amp; LTV 극대화</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 05 — "성장기업이 빠지는 가장 큰 함정"
+       모든 걸 대표가 하는 구조 · body-theme
+       ============================================================ -->
+  <div class="slide body-theme" id="slide-05">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="num-badge">04</div>
+        <div class="page-num">05 / 07</div>
+      </div>
+
+      <div class="section-label">성장의 함정</div>
+      <div class="headline">
+        성장기업이 빠지는<br>
+        <span class="accent">가장 큰 함정</span>
+      </div>
+
+      <div class="body-text mb-32">
+        바로 <strong>"모든 걸 대표가 하는 구조"</strong>입니다.
+      </div>
+
+      <!-- Trap Cards -->
+      <div>
+        <div class="trap-card">
+          <div class="trap-num">함정 01</div>
+          <div class="trap-title">마케팅 전략도 대표가 직접 결정</div>
+          <div class="trap-desc">대표의 시간이 가장 비싼 자원인데, 카피 문구를 직접 고치고 있다면?</div>
+        </div>
+        <div class="trap-card">
+          <div class="trap-num">함정 02</div>
+          <div class="trap-title">채널이 늘어도 전략 없이 운영</div>
+          <div class="trap-desc">인스타, 블로그, 유튜브를 동시에 하면서 방향 없이 분산 소진</div>
+        </div>
+        <div class="trap-card">
+          <div class="trap-num">함정 03</div>
+          <div class="trap-title">데이터는 쌓이는데 해석이 없음</div>
+          <div class="trap-desc">광고 수치는 있지만 "왜 안 되는지"를 아무도 설명 못 함</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 06 — CLOSING
+       "10억은 노력, 30억은 구조의 싸움" · dark-theme #1E1B4B
+       ============================================================ -->
+  <div class="slide dark-theme" id="slide-06">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="tag dark-tag">brandrise</div>
+        <div class="page-num">06 / 07</div>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+
+        <div class="dark-lead mb-40">
+          열심히 해서 10억까지 왔습니다.<br>
+          <strong>대단한 일입니다.</strong><br><br>
+          그런데 그 다음 구간은<br>
+          <strong>열심히로는 안 됩니다.</strong>
+        </div>
+
+        <div class="dark-divider"></div>
+
+        <div class="dark-quote">
+          <span class="white">10억은 노력,</span><br>
+          <span style="white-space: nowrap;">30억은 구조의 싸움입니다</span>
+        </div>
+
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 07 — CTA
+       brandrise 소개 + 상담 유도 · dark-theme
+       ============================================================ -->
+  <div class="slide dark-theme" id="slide-07">
+    <div class="slide-inner">
+
+      <div class="slide-header">
+        <div class="tag dark-tag">brandrise real talk</div>
+        <div class="page-num">07 / 07</div>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+
+        <div class="cta-box">
+          <div class="cta-brand">brandrise</div>
+
+          <div class="cta-desc">
+            성장기업 전담 마케팅 파트너.<br>
+            전략 설계부터 채널 운영까지,<br>
+            대표님의 CMO팀 역할을 합니다.
+          </div>
+
+          <!-- Service tags -->
+          <ul class="cta-service-list">
+            <li>브랜드 전략</li>
+            <li>퍼포먼스 마케팅</li>
+            <li>콘텐츠 시스템</li>
+            <li>GTM 설계</li>
+          </ul>
+
+          <div style="margin-bottom: 20px;">
+            <div class="cta-button">무료 스케일업 진단 받기</div>
+          </div>
+
+          <div>
+            <div class="cta-handle">@brandrise_kr</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+</body>
+</html>

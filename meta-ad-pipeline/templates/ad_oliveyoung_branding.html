@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Pretendard', sans-serif;
+    background: #0A0A0A;
+    color: #FFFFFF;
+}
+.slide { width: 1080px; height: 1080px; position: relative; }
+
+.logo {
+    position: absolute; top: 40px; right: 48px;
+    font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 1px;
+    z-index: 10;
+}
+
+.content {
+    padding: 52px 64px;
+    padding-bottom: 96px;
+    display: flex; flex-direction: column;
+    height: 100%;
+}
+
+.tag {
+    display: inline-block;
+    font-size: 18px; font-weight: 600;
+    color: #4ADE80; background: rgba(74,222,128,0.10);
+    padding: 8px 20px; border-radius: 100px;
+    margin-bottom: 24px; width: fit-content;
+}
+
+.headline {
+    font-size: 46px; font-weight: 900; line-height: 1.2;
+    letter-spacing: -2.5px;
+    margin-bottom: 8px;
+}
+.headline .green { color: #4ADE80; }
+.headline .big-num {
+    font-size: 84px; font-weight: 900;
+    color: #4ADE80;
+    letter-spacing: -4px;
+    line-height: 1.0;
+}
+
+.sub-copy {
+    font-size: 24px; font-weight: 400; color: #6B7280;
+    line-height: 1.5;
+    margin-bottom: 40px;
+}
+.sub-copy strong { color: #FFFFFF; font-weight: 600; }
+
+/* 중앙 비주얼: 실패 vs 성공 */
+.compare-section {
+    flex: 1;
+    display: flex;
+    gap: 20px;
+    align-items: stretch;
+}
+
+.compare-card {
+    flex: 1;
+    border-radius: 20px;
+    padding: 32px 28px;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+}
+.compare-card.fail {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.compare-card.success {
+    background: rgba(74,222,128,0.04);
+    border: 2px solid rgba(74,222,128,0.25);
+    box-shadow: 0 0 40px rgba(74,222,128,0.06);
+}
+
+.compare-header {
+    font-size: 15px; font-weight: 800; letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+.compare-header.fail-h { color: #EF4444; }
+.compare-header.success-h { color: #4ADE80; }
+
+.compare-list {
+    list-style: none;
+    display: flex; flex-direction: column;
+    gap: 14px;
+    flex: 1;
+}
+.compare-list li {
+    font-size: 18px; font-weight: 500;
+    display: flex; align-items: flex-start; gap: 10px;
+    line-height: 1.4;
+}
+.compare-list li .icon { flex-shrink: 0; font-size: 16px; }
+.compare-card.fail .compare-list li { color: #9CA3AF; }
+.compare-card.success .compare-list li { color: #E2E8F0; }
+
+.compare-result {
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    font-size: 20px; font-weight: 800;
+    text-align: center;
+}
+.compare-card.fail .compare-result { color: #EF4444; }
+.compare-card.success .compare-result { color: #4ADE80; }
+
+/* 하단 프로세스 */
+.process-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    margin-top: 24px;
+}
+.process-step {
+    font-size: 16px; font-weight: 600; color: #9CA3AF;
+    padding: 0 4px;
+}
+.process-step.highlight {
+    color: #4ADE80; font-weight: 700;
+}
+.process-arrow {
+    font-size: 14px; color: #4B5563;
+    padding: 0 12px;
+}
+
+/* CTA 바 */
+.cta-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: linear-gradient(90deg, #16A34A 0%, #22C55E 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 700; color: #FFFFFF;
+    letter-spacing: -0.5px;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+    <div class="logo">brandrise</div>
+
+    <div class="content">
+        <div class="tag">올리브영 입점 전략</div>
+
+        <div class="headline">
+            브랜딩 없이 올리브영 입점?<br>
+            <span class="big-num">99%</span><span class="green">가 탈락합니다</span>
+        </div>
+
+        <div class="sub-copy">
+            MD가 보는 건 제품이 아니라 <strong>'브랜드'</strong>입니다.
+        </div>
+
+        <div class="compare-section">
+            <div class="compare-card fail">
+                <div class="compare-header fail-h">WITHOUT BRANDING</div>
+                <ul class="compare-list">
+                    <li><span class="icon">✕</span> 제품만 좋으면 될 줄 알았다</li>
+                    <li><span class="icon">✕</span> 패키지 디자인 대충 외주</li>
+                    <li><span class="icon">✕</span> 브랜드 스토리 없음</li>
+                    <li><span class="icon">✕</span> SNS 팔로워 200명</li>
+                </ul>
+                <div class="compare-result">→ MD 미팅 탈락</div>
+            </div>
+
+            <div class="compare-card success">
+                <div class="compare-header success-h">WITH BRANDING</div>
+                <ul class="compare-list">
+                    <li><span class="icon">✓</span> 명확한 브랜드 포지셔닝</li>
+                    <li><span class="icon">✓</span> 전문 패키지 + 비주얼 시스템</li>
+                    <li><span class="icon">✓</span> 브랜드 스토리 + 타겟 정의</li>
+                    <li><span class="icon">✓</span> SNS 콘텐츠 시스템 가동</li>
+                </ul>
+                <div class="compare-result">→ 입점 성공 + 매대 확보</div>
+            </div>
+        </div>
+
+        <div class="process-row">
+            <div class="process-step">브랜드 전략</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">패키지 리뉴얼</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">SNS 구축</div>
+            <div class="process-arrow">→</div>
+            <div class="process-step highlight">올리브영 입점</div>
+        </div>
+    </div>
+
+    <div class="cta-bar">입점 성공 브랜딩 전략 받기 →</div>
+</div>
+</body>
+</html>

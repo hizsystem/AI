@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>브랜딩, 지금 해야 할까? — brandrise (R4-night-editorial)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       R4-night-editorial — Design Tokens
+       ======================================== */
+    :root {
+      --cover-bg: #7C3AED;
+      --cover-text: #FFFFFF;
+      --cover-highlight: #C4B5FD;
+      --accent: #8B5CF6;
+      --accent-light: #A78BFA;
+      --body-bg: #FAF5FF;
+      --body-text: #1A1A1A;
+      --body-secondary: #334155;
+      --body-muted: #9CA3AF;
+      --card-bg: #FFFFFF;
+      --dark-bg: #1E1B4B;
+      --dark-text: #FFFFFF;
+      --dark-accent: #A78BFA;
+      --cta-button: #8B5CF6;
+      --cta-text: #FFFFFF;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #D4D4D4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+
+    /* ========================================
+       Slide Base
+       ======================================== */
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Clean texture — no noise overlay */
+
+    /* Ensure content is above any potential overlay */
+    .slide > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .slide.body-light {
+      background: var(--body-bg);
+      color: var(--body-text);
+    }
+
+    .slide.deep-dark {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========================================
+       Components: Page Number
+       ======================================== */
+    .page-num {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--body-muted);
+    }
+
+    .slide.deep-dark .page-num {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    /* ========================================
+       Components: Headline
+       ======================================== */
+    .headline {
+      font-size: 60px;
+      font-weight: 900;
+      line-height: 1.35;
+      color: var(--body-text);
+      margin-bottom: 28px;
+      word-break: keep-all;
+    }
+
+    .slide.deep-dark .headline {
+      color: var(--dark-text);
+    }
+
+    .headline .accent {
+      color: var(--accent);
+    }
+
+    /* ========================================
+       Components: Body Text
+       ======================================== */
+    .body-text {
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--body-secondary);
+      word-break: keep-all;
+    }
+
+    .body-text strong {
+      font-weight: 700;
+      color: var(--body-text);
+    }
+
+    .body-text .accent {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .slide.deep-dark .body-text {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .slide.deep-dark .body-text strong {
+      color: var(--dark-text);
+    }
+
+    /* ========================================
+       Components: Credit
+       ======================================== */
+    .credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--body-muted);
+      z-index: 2;
+    }
+
+    .slide.deep-dark .credit {
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ========================================
+       COVER: Editorial Layout
+       ======================================== */
+    .cover-editorial {
+      width: 100%;
+      height: 100%;
+      background: var(--cover-bg);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 60px;
+    }
+
+    /* Quarter-circle deco at bottom-right */
+    .cover-editorial .quarter-circle {
+      position: absolute;
+      bottom: -100px;
+      right: -100px;
+      width: 360px;
+      height: 360px;
+      border: 50px solid rgba(255,255,255,0.08);
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .cover-tag {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-size: 26px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.15);
+      color: var(--cover-text);
+      margin-bottom: 40px;
+      align-self: flex-start;
+    }
+
+    .cover-headline {
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: var(--cover-text);
+      word-break: keep-all;
+      margin-bottom: 32px;
+      text-align: left;
+    }
+
+    .cover-headline .highlight {
+      color: var(--cover-highlight);
+    }
+
+    .cover-sub {
+      font-size: 30px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.65;
+      text-align: left;
+    }
+
+    .cover-credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.25);
+      z-index: 2;
+    }
+
+    /* ========================================
+       Components: Color Bar (Purple gradients)
+       ======================================== */
+    .color-bar {
+      display: flex;
+      align-items: stretch;
+      border-radius: 14px;
+      color: #FFFFFF;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .color-bar.purple-vivid {
+      background: linear-gradient(90deg, #7C3AED, #8B5CF6);
+    }
+
+    .color-bar.purple-medium {
+      background: linear-gradient(90deg, #8B5CF6, #A78BFA);
+    }
+
+    .color-bar.purple-light {
+      background: linear-gradient(90deg, #A78BFA, #C4B5FD);
+    }
+
+    .color-bar .bar-label {
+      flex: 0 0 220px;
+      padding: 20px 24px;
+      font-size: 36px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      background: rgba(0,0,0,0.15);
+    }
+
+    .color-bar .bar-content {
+      flex: 1;
+      padding: 20px 24px;
+      font-size: 28px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ========================================
+       Components: Checklist
+       ======================================== */
+    .checklist {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .checklist-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 28px 32px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+
+    .check-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .check-icon svg {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: #FFFFFF;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .checklist-text {
+      font-size: 32px;
+      font-weight: 600;
+      color: var(--body-text);
+      line-height: 1.5;
+    }
+
+    /* ========================================
+       Components: Compare Cards
+       ======================================== */
+    .compare-row {
+      display: flex;
+      gap: 24px;
+    }
+
+    .compare-card {
+      flex: 1;
+      border-radius: 16px;
+      padding: 36px;
+    }
+
+    .compare-card.do-now {
+      background: var(--card-bg);
+      border: 2px solid var(--accent);
+      color: var(--body-text);
+    }
+
+    .compare-card.not-yet {
+      background: var(--card-bg);
+      border: 2px solid #E5E7EB;
+      color: var(--body-text);
+    }
+
+    .compare-label {
+      font-size: 26px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+
+    .compare-card.do-now .compare-label {
+      background: var(--accent);
+      color: #FFFFFF;
+    }
+
+    .compare-card.not-yet .compare-label {
+      background: #F3F4F6;
+      color: var(--body-muted);
+    }
+
+    .compare-list-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .compare-list-item .bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .compare-card.do-now .bullet {
+      background: var(--accent);
+    }
+
+    .compare-card.not-yet .bullet {
+      background: #D1D5DB;
+    }
+
+    .compare-card.not-yet .compare-list-item {
+      color: var(--body-muted);
+    }
+
+    /* ========================================
+       Components: Before / After
+       ======================================== */
+    .ba-row {
+      display: flex;
+      gap: 24px;
+    }
+
+    .ba-card {
+      flex: 1;
+      border-radius: 16px;
+      padding: 36px;
+    }
+
+    .ba-card.before {
+      background: #F3F4F6;
+      color: var(--body-secondary);
+    }
+
+    .ba-card.after {
+      background: var(--accent);
+      color: #FFFFFF;
+    }
+
+    .ba-label {
+      font-size: 26px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 28px;
+    }
+
+    .ba-card.before .ba-label {
+      background: #E5E7EB;
+      color: var(--body-muted);
+    }
+
+    .ba-card.after .ba-label {
+      background: rgba(255,255,255,0.2);
+      color: #FFFFFF;
+    }
+
+    .ba-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 0;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .ba-item .bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .ba-card.before .bullet {
+      background: #9CA3AF;
+    }
+
+    .ba-card.after .bullet {
+      background: rgba(255,255,255,0.6);
+    }
+
+    /* ========================================
+       Components: Insight Bar
+       ======================================== */
+    .insight-bar {
+      background: var(--body-text);
+      border-radius: 14px;
+      padding: 24px 28px;
+      color: #FFFFFF;
+      font-size: 28px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      line-height: 1.5;
+    }
+
+    .insight-bar .icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Dark Slide Emotional
+       ======================================== */
+    .dark-emotional {
+      font-size: 42px;
+      font-weight: 400;
+      line-height: 2.0;
+      color: rgba(255,255,255,0.5);
+      word-break: keep-all;
+    }
+
+    .dark-emotional strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .dark-accent-msg {
+      font-size: 44px;
+      font-weight: 800;
+      color: var(--dark-accent);
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: rgba(255,255,255,0.15);
+      margin: 32px 0;
+    }
+
+    /* ========================================
+       CTA Slide (Dark theme)
+       ======================================== */
+    .cta-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .cta-text {
+      font-size: 40px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      margin-bottom: 56px;
+      word-break: keep-all;
+    }
+
+    .cta-text strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--cta-button);
+      color: var(--cta-text);
+      font-size: 40px;
+      font-weight: 700;
+      padding: 24px 56px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .cta-handle {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 100px;
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    /* ========================================
+       Utility
+       ======================================== */
+    .spacer { flex: 1; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SLIDE 01 — COVER (Editorial: left-aligned, quarter-circle deco)
+       ============================================================ -->
+  <div class="slide" id="slide-01" style="background: none;">
+    <div class="cover-editorial">
+      <!-- Quarter-circle deco at bottom-right -->
+      <div class="quarter-circle"></div>
+
+      <div class="cover-tag">초기 스타트업</div>
+
+      <div class="cover-headline">
+        PMF도 못 찾았는데<br>
+        브랜딩이<br>
+        <span class="highlight">사치인가요?</span>
+      </div>
+
+      <div class="cover-sub">
+        초기 스타트업 브랜딩의 진짜 타이밍
+      </div>
+
+      <div class="cover-credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 02 — 브랜딩 ≠ 로고 디자인 (body-light, color bars)
+       ============================================================ -->
+  <div class="slide body-light" id="slide-02">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">02 / 06</div>
+      </div>
+
+      <div class="headline">
+        브랜딩 ≠ <span class="accent">로고 디자인</span>
+      </div>
+
+      <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 20px;">
+        <!-- Bar 1: Vivid purple -->
+        <div class="color-bar purple-vivid">
+          <div class="bar-label">포지셔닝</div>
+          <div class="bar-content">우리가 누구인지 정의</div>
+        </div>
+
+        <!-- Bar 2: Medium purple -->
+        <div class="color-bar purple-medium">
+          <div class="bar-label">메시징</div>
+          <div class="bar-content">고객에게 어떻게 말할지</div>
+        </div>
+
+        <!-- Bar 3: Light purple -->
+        <div class="color-bar purple-light">
+          <div class="bar-label">비주얼</div>
+          <div class="bar-content">이건 마지막 단계</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="insight-bar" style="margin-top: 40px;">
+        <div class="icon">!</div>
+        <div>브랜딩의 본질은 보이는 것이 아니라, 말하는 것입니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 03 — 이 시점이면 브랜딩이 필요합니다 (body-light, checklist)
+       ============================================================ -->
+  <div class="slide body-light" id="slide-03">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">03 / 06</div>
+      </div>
+
+      <div class="headline">
+        이 시점이면<br>
+        <span class="accent">브랜딩이 필요합니다</span>
+      </div>
+
+      <div class="checklist" style="margin-top: 32px;">
+        <div class="checklist-item">
+          <div class="check-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="checklist-text">PMF를 어느 정도 찾았다</div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="check-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="checklist-text">경쟁사와 차별화가 안 된다고 느낀다</div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="check-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="checklist-text">가격 말고 다른 이유로 선택받고 싶다</div>
+        </div>
+
+        <div class="checklist-item">
+          <div class="check-icon">
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
+          <div class="checklist-text">채용에서 '이 회사 뭐하는 곳?'<br>질문을 받는다</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="insight-bar" style="margin-top: 40px;">
+        <div class="icon">!</div>
+        <div>2개 이상 해당되면, 브랜딩 타이밍입니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 04 — 초기에 할 수 있는 것 vs 아직 아닌 것 (body-light, compare)
+       ============================================================ -->
+  <div class="slide body-light" id="slide-04">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">04 / 06</div>
+      </div>
+
+      <div class="headline">
+        초기에 할 수 있는 것 vs<br>
+        <span class="accent">아직 아닌 것</span>
+      </div>
+
+      <!-- Compare Cards -->
+      <div class="compare-row" style="margin-top: 20px; flex: 1;">
+        <!-- DO NOW -->
+        <div class="compare-card do-now">
+          <div class="compare-label">DO NOW</div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>포지셔닝 정리</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>핵심 메시지 1줄</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>톤앤매너 가이드</span>
+          </div>
+        </div>
+
+        <!-- NOT YET -->
+        <div class="compare-card not-yet">
+          <div class="compare-label">NOT YET</div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>CI/BI 리뉴얼</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>브랜드 영상</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>대규모 브랜드 캠페인</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top: 32px;">
+        <div class="icon">!</div>
+        <div>작은 것부터 시작하면, 비용 없이도 브랜딩은 가능합니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 05 — 브랜딩을 시작한 스타트업 (body-light, Before/After)
+       ============================================================ -->
+  <div class="slide body-light" id="slide-05">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">05 / 06</div>
+      </div>
+
+      <div class="headline">
+        브랜딩을 시작한<br>
+        <span class="accent">스타트업</span>
+      </div>
+
+      <!-- Before / After Cards -->
+      <div class="ba-row" style="margin-top: 20px; flex: 1;">
+        <!-- BEFORE -->
+        <div class="ba-card before">
+          <div class="ba-label">BEFORE</div>
+          <div class="ba-item">
+            <span class="bullet"></span>
+            <span>가격으로만 경쟁</span>
+          </div>
+          <div class="ba-item">
+            <span class="bullet"></span>
+            <span>이탈률 40%</span>
+          </div>
+          <div class="ba-item">
+            <span class="bullet"></span>
+            <span>채용 어필 불가</span>
+          </div>
+        </div>
+
+        <!-- AFTER -->
+        <div class="ba-card after">
+          <div class="ba-label">AFTER</div>
+          <div class="ba-item">
+            <span class="bullet"></span>
+            <span>가치 기반 가격</span>
+          </div>
+          <div class="ba-item">
+            <span class="bullet"></span>
+            <span>이탈률 15%</span>
+          </div>
+          <div class="ba-item">
+            <span class="bullet"></span>
+            <span>인재가 먼저 찾아옴</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top: 32px;">
+        <div class="icon">!</div>
+        <div>브랜딩은 비용이 아니라, 성장의 지렛대입니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 06 — CTA (Dark theme)
+       ============================================================ -->
+  <div class="slide deep-dark" id="slide-06">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="display: inline-block; padding: 10px 24px; border-radius: 100px; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); font-size: 28px; font-weight: 600;">brandrise</div>
+        <div class="page-num">06 / 06</div>
+      </div>
+
+      <div class="cta-center">
+        <div class="cta-text">
+          아직 브랜딩을 시작하지 않으셨다면,<br>
+          <strong>지금이 가장 빠른 타이밍입니다.</strong>
+        </div>
+
+        <div class="cta-button">30분 전략 상담 신청</div>
+
+        <div style="margin-top: 32px;">
+          <div class="cta-handle">@brandrise_kr</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+</body>
+</html>

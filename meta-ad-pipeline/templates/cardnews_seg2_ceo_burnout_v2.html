@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대표님, 혼자 다 하지 마세요 — brandrise (R5-mono-split)</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       R5-mono-split — Design Tokens
+       ======================================== */
+    :root {
+      --cover-bg: #1A1A1A;
+      --cover-text: #FFFFFF;
+      --cover-highlight: #E8752E;
+      --accent: #E8752E;
+      --accent-light: #FB923C;
+      --body-bg: #F5F5F5;
+      --body-text: #1A1A1A;
+      --body-secondary: #525252;
+      --body-muted: #A3A3A3;
+      --card-bg: #FFFFFF;
+      --dark-bg: #0A0A0A;
+      --dark-text: #FFFFFF;
+      --dark-accent: #E8752E;
+      --cta-button: #1A1A1A;
+      --cta-text: #FFFFFF;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #D4D4D4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+
+    /* ========================================
+       Slide Base
+       ======================================== */
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Noise texture overlay on ALL slides */
+    .slide::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Ensure content is above noise */
+    .slide > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .slide.body-light {
+      background: var(--body-bg);
+      color: var(--body-text);
+    }
+
+    .slide.deep-dark {
+      background: var(--dark-bg);
+      color: var(--dark-text);
+    }
+
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========================================
+       Components: Q Badge
+       ======================================== */
+    .q-badge {
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      border-radius: 12px;
+      color: #FFFFFF;
+      font-size: 30px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Components: Page Number
+       ======================================== */
+    .page-num {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--body-muted);
+    }
+
+    .slide.deep-dark .page-num {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    /* ========================================
+       Components: Headline
+       ======================================== */
+    .headline {
+      font-size: 60px;
+      font-weight: 900;
+      line-height: 1.35;
+      color: var(--body-text);
+      margin-bottom: 28px;
+      word-break: keep-all;
+    }
+
+    .slide.deep-dark .headline {
+      color: var(--dark-text);
+    }
+
+    .headline .accent {
+      color: var(--accent);
+    }
+
+    /* ========================================
+       Components: Body Text
+       ======================================== */
+    .body-text {
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--body-secondary);
+      word-break: keep-all;
+    }
+
+    .body-text strong {
+      font-weight: 700;
+      color: var(--body-text);
+    }
+
+    .body-text .accent {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .slide.deep-dark .body-text {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .slide.deep-dark .body-text strong {
+      color: var(--dark-text);
+    }
+
+    /* ========================================
+       Components: Credit
+       ======================================== */
+    .credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--body-muted);
+      z-index: 2;
+    }
+
+    .slide.deep-dark .credit {
+      color: rgba(255,255,255,0.2);
+    }
+
+    /* ========================================
+       COVER: Split Layout
+       ======================================== */
+    .cover-split {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .cover-left {
+      width: 540px;
+      background: #1A1A1A;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Large decorative accent element in left half */
+    .cover-left-deco {
+      width: 120px;
+      height: 120px;
+      border: 4px solid rgba(232,117,46,0.3);
+      border-radius: 50%;
+      position: relative;
+    }
+
+    .cover-left-deco::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 50%;
+      opacity: 0.6;
+    }
+
+    /* Orange vertical divider bar */
+    .cover-divider-bar {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--accent);
+      z-index: 3;
+    }
+
+    .cover-right {
+      width: 540px;
+      background: #252525;
+      padding: 80px 56px 80px 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+
+    .cover-tag {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-size: 26px;
+      font-weight: 600;
+      background: rgba(232,117,46,0.15);
+      color: var(--accent);
+      margin-bottom: 40px;
+      align-self: flex-start;
+    }
+
+    .cover-headline {
+      font-size: 60px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: #FFFFFF;
+      word-break: keep-all;
+      margin-bottom: 32px;
+    }
+
+    .cover-headline .highlight {
+      color: var(--cover-highlight);
+    }
+
+    .cover-sub {
+      font-size: 30px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.65;
+      font-style: italic;
+    }
+
+    .cover-credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.2);
+      z-index: 2;
+    }
+
+    /* ========================================
+       Components: Terminal Code Block (mono-styled)
+       ======================================== */
+    .terminal {
+      background: #1A1A1A;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #333333;
+    }
+
+    .terminal-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #111111;
+    }
+
+    .terminal-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    /* Mono-styled dots: shades of gray + one orange */
+    .terminal-dot.red { background: #666666; }
+    .terminal-dot.yellow { background: #999999; }
+    .terminal-dot.green { background: var(--accent); }
+
+    .terminal-title {
+      margin-left: 12px;
+      font-size: 22px;
+      color: #666666;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .terminal-body {
+      padding: 24px 28px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 24px;
+      line-height: 1.8;
+      color: #D4D4D4;
+    }
+
+    .terminal-body .key { color: #82AAFF; }
+    .terminal-body .value { color: var(--accent); }
+    .terminal-body .comment { color: #555555; }
+
+    /* ========================================
+       Components: Mono Color Bar
+       ======================================== */
+    .color-bar {
+      display: flex;
+      align-items: stretch;
+      border-radius: 14px;
+      color: #FFFFFF;
+      font-weight: 700;
+      overflow: hidden;
+    }
+
+    .color-bar.mono-orange {
+      background: linear-gradient(90deg, #E8752E, #FB923C);
+    }
+
+    .color-bar.mono-dark {
+      background: linear-gradient(90deg, #404040, #525252);
+    }
+
+    .color-bar.mono-medium {
+      background: linear-gradient(90deg, #6B7280, #9CA3AF);
+    }
+
+    .color-bar.mono-black {
+      background: linear-gradient(90deg, #1A1A1A, #333333);
+    }
+
+    .color-bar .bar-label {
+      flex: 0 0 200px;
+      padding: 20px 24px;
+      font-size: 36px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      background: rgba(0,0,0,0.15);
+    }
+
+    .color-bar .bar-content {
+      flex: 1;
+      padding: 20px 24px;
+      font-size: 28px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ========================================
+       Components: Insight Bar (mono version)
+       ======================================== */
+    .insight-bar {
+      background: var(--body-text);
+      border-radius: 14px;
+      padding: 24px 28px;
+      color: #FFFFFF;
+      font-size: 28px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      line-height: 1.5;
+    }
+
+    .insight-bar .icon {
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Components: Compare Cards (Mono style)
+       ======================================== */
+    .compare-row {
+      display: flex;
+      gap: 24px;
+    }
+
+    .compare-card {
+      flex: 1;
+      border-radius: 16px;
+      padding: 36px;
+    }
+
+    .compare-card.ceo-area {
+      background: var(--body-bg);
+      border: 2px solid #D4D4D4;
+      color: var(--body-text);
+    }
+
+    .compare-card.delegate-area {
+      background: var(--body-text);
+      color: #FFFFFF;
+      border-left: 4px solid var(--accent);
+    }
+
+    .compare-label {
+      font-size: 26px;
+      font-weight: 700;
+      padding: 8px 18px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+
+    .compare-card.ceo-area .compare-label {
+      background: #E5E5E5;
+      color: var(--body-text);
+    }
+
+    .compare-card.delegate-area .compare-label {
+      background: var(--accent);
+      color: #FFFFFF;
+    }
+
+    .compare-list-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      font-size: 30px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .compare-list-item .bullet {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .compare-card.ceo-area .bullet {
+      background: #737373;
+    }
+
+    .compare-card.delegate-area .bullet {
+      background: var(--accent);
+    }
+
+    /* ========================================
+       Dark Slide (Slide 05 — deep black)
+       ======================================== */
+    .dark-emotional {
+      font-size: 42px;
+      font-weight: 400;
+      line-height: 2.0;
+      color: rgba(255,255,255,0.5);
+      word-break: keep-all;
+    }
+
+    .dark-emotional strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .dark-accent-msg {
+      font-size: 44px;
+      font-weight: 800;
+      color: var(--dark-accent);
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: rgba(255,255,255,0.15);
+      margin: 32px 0;
+    }
+
+    /* ========================================
+       CTA Slide (Mono Style)
+       ======================================== */
+    .cta-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .cta-tag {
+      display: inline-block;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-size: 28px;
+      font-weight: 600;
+      background: #E5E5E5;
+      color: var(--body-secondary);
+      margin-bottom: 24px;
+    }
+
+    .cta-logo {
+      font-size: 80px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      color: var(--body-text);
+      margin-bottom: 20px;
+    }
+
+    .cta-sub {
+      font-size: 36px;
+      font-weight: 500;
+      color: var(--body-secondary);
+      margin-bottom: 48px;
+      line-height: 1.6;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--cta-button);
+      color: var(--cta-text);
+      font-size: 40px;
+      font-weight: 700;
+      padding: 24px 56px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+
+    .cta-handle {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 100px;
+      background: #1A1A1A;
+      color: #FFFFFF;
+      font-size: 30px;
+      font-weight: 600;
+    }
+
+    /* ========================================
+       Utility
+       ======================================== */
+    .spacer { flex: 1; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SLIDE 01 — COVER (Split Layout: left-right)
+       ============================================================ -->
+  <div class="slide" id="slide-01" style="background: none;">
+    <div class="cover-split">
+      <!-- LEFT HALF: solid black with decorative element -->
+      <div class="cover-left">
+        <div class="cover-left-deco"></div>
+        <!-- Orange vertical divider bar -->
+        <div class="cover-divider-bar"></div>
+      </div>
+
+      <!-- RIGHT HALF: slightly lighter dark with content -->
+      <div class="cover-right">
+        <div class="cover-tag">초기 스타트업</div>
+
+        <div class="cover-headline">
+          대표님,<br>
+          <span class="highlight">혼자 다 하지<br>마세요</span>
+        </div>
+
+        <div class="cover-sub">
+          "밤 11시에 인스타 만들고,<br>
+          아침에 투자자 미팅"
+        </div>
+      </div>
+    </div>
+
+    <!-- Credit spanning full width -->
+    <div class="cover-credit">brandrise &middot; @brandrise_kr</div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 02 — 공감: 대표의 하루 (body-light, mono terminal)
+       ============================================================ -->
+  <div class="slide body-light" id="slide-02">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">02 / 06</div>
+      </div>
+
+      <div class="headline">
+        스타트업 대표의<br>
+        <span class="accent">하루를 아시나요?</span>
+      </div>
+
+      <!-- Terminal Code Block (mono-styled) -->
+      <div class="terminal" style="margin-top: 20px;">
+        <div class="terminal-header">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <div class="terminal-title">ceo_daily.py</div>
+        </div>
+        <div class="terminal-body">
+          <span class="key">대표의_하루</span> = {<br>
+          &nbsp;&nbsp;<span class="key">"07:00"</span>: <span class="value">"이메일 확인 + 슬랙 답장"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"09:00"</span>: <span class="value">"투자자 미팅"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"11:00"</span>: <span class="value">"제품 개발 회의"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"14:00"</span>: <span class="value">"채용 면접"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"16:00"</span>: <span class="value">"고객 미팅"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"19:00"</span>: <span class="value">"인스타 콘텐츠 만들기"</span>, <span class="comment">// &larr; 여기서부터 마케팅</span><br>
+          &nbsp;&nbsp;<span class="key">"22:00"</span>: <span class="value">"블로그 글 쓰기"</span>,<br>
+          &nbsp;&nbsp;<span class="key">"24:00"</span>: <span class="value">"광고 세팅..."</span>,<br>
+          &nbsp;&nbsp;<span class="comment">// 본업은 언제 하시나요?</span><br>
+          }
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 03 — 데이터: 번아웃 실태 (body-light, mono bars)
+       ============================================================ -->
+  <div class="slide body-light" id="slide-03">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">03 / 06</div>
+      </div>
+
+      <div class="headline">
+        스타트업 대표 <span class="accent">72%</span>가<br>
+        번아웃을 경험합니다
+      </div>
+
+      <div style="margin-top: 32px; display: flex; flex-direction: column; gap: 20px;">
+        <!-- Stat Card 1: Orange (accent pop) -->
+        <div class="color-bar mono-orange">
+          <div class="bar-label">72%</div>
+          <div class="bar-content">번아웃 경험률</div>
+        </div>
+
+        <!-- Stat Card 2: Dark gray -->
+        <div class="color-bar mono-dark">
+          <div class="bar-label">주 68시간</div>
+          <div class="bar-content">평균 근무 시간</div>
+        </div>
+
+        <!-- Stat Card 3: Medium gray -->
+        <div class="color-bar mono-medium">
+          <div class="bar-label">37%</div>
+          <div class="bar-content">마케팅에 쓰는 시간 비율</div>
+        </div>
+
+        <!-- Stat Card 4: Near-black -->
+        <div class="color-bar mono-black">
+          <div class="bar-label">0명</div>
+          <div class="bar-content">마케팅 전담 인력</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <div class="insight-bar" style="margin-top: 40px;">
+        <div class="icon">!</div>
+        <div>본업에 집중해야 할 시간을 마케팅에 빼앗기고 있습니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 04 — 해결: 대표 영역 vs 위임 영역 (body-light, mono cards)
+       ============================================================ -->
+  <div class="slide body-light" id="slide-04">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">A</div>
+        <div class="page-num">04 / 06</div>
+      </div>
+
+      <div class="headline">
+        대표가 해야 할 것 vs<br>
+        <span class="accent">위임해야 할 것</span>
+      </div>
+
+      <!-- Compare Cards: Mono style -->
+      <div class="compare-row" style="margin-top: 20px; flex: 1;">
+        <!-- CEO Area: light card with border -->
+        <div class="compare-card ceo-area">
+          <div class="compare-label">대표의 영역</div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>비전과 방향 설정</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>핵심 고객 관계</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>제품 의사결정</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>투자 유치</span>
+          </div>
+        </div>
+
+        <!-- Delegate Area: dark card with orange border -->
+        <div class="compare-card delegate-area">
+          <div class="compare-label">위임할 영역</div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>마케팅 전략 수립</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>콘텐츠 제작</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>광고 운영</span>
+          </div>
+          <div class="compare-list-item">
+            <span class="bullet"></span>
+            <span>데이터 분석</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight-bar" style="margin-top: 32px;">
+        <div class="icon">!</div>
+        <div>마케팅을 위임하면, 주 25시간을 본업에 돌릴 수 있습니다</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 05 — 클로징 감성 (deep-dark #0A0A0A)
+       ============================================================ -->
+  <div class="slide deep-dark" id="slide-05">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="display: inline-block; padding: 10px 24px; border-radius: 100px; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); font-size: 28px; font-weight: 600;">brandrise</div>
+        <div class="page-num">05 / 06</div>
+      </div>
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <div class="headline" style="font-size: 64px; margin-bottom: 48px;">
+          더 이상<br>
+          혼자 안 하셔도 됩니다.
+        </div>
+
+        <div class="dark-emotional" style="margin-bottom: 48px;">
+          대표님이 제품과 비전에 집중하는 동안,<br>
+          <strong>마케팅은 저희가 맡겠습니다.</strong><br><br>
+          밤 11시에 인스타 대신<br>
+          <strong>내일의 전략을 고민하세요.</strong>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="dark-accent-msg" style="margin-top: 32px;">
+          당신의 CMO 팀, brandrise
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 06 — CTA (body-light, black button)
+       ============================================================ -->
+  <div class="slide body-light" id="slide-06">
+    <div class="slide-inner">
+      <div class="cta-center">
+        <div class="cta-tag">스타트업 전담 CMO 팀</div>
+
+        <div class="cta-logo">brandrise</div>
+
+        <div class="cta-button">무료 마케팅 진단</div>
+
+        <div class="cta-sub">
+          대표님이 마케팅에 쓰는 시간을<br>
+          절반으로 줄여드립니다
+        </div>
+
+        <div style="margin-top: 32px;">
+          <div class="cta-handle">@brandrise_kr</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+</body>
+</html>

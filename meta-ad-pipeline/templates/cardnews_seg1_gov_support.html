@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>정부지원금으로 마케팅 시작하는 법 — brandrise</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    /* ========================================
+       CSS Variables (Design Tokens)
+       ======================================== */
+    :root {
+      --accent: #E8752E;
+      --accent-light: #FB923C;
+      --bg-warm: #F5F0EB;
+      --bg-dark: #1A1A1A;
+      --bg-accent: #E8752E;
+      --text-primary: #1A1A1A;
+      --text-secondary: #3D3D3D;
+      --text-muted: #9E9E9E;
+      --text-white: #FFFFFF;
+      --card-bg: #FFFFFF;
+      --card-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      --gradient-orange: linear-gradient(90deg, #F97316, #FB923C);
+      --gradient-blue: linear-gradient(90deg, #3B82F6, #60A5FA);
+      --gradient-purple: linear-gradient(90deg, #8B5CF6, #A78BFA);
+      --gradient-green: linear-gradient(90deg, #22C55E, #4ADE80);
+      --compare-before-bg: linear-gradient(135deg, #FECACA, #FCA5A5);
+      --compare-before-color: #991B1B;
+      --compare-after-bg: linear-gradient(135deg, #A7F3D0, #6EE7B7);
+      --compare-after-color: #065F46;
+    }
+
+    /* ========================================
+       Reset & Base
+       ======================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #E0D8D0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      padding: 40px 20px;
+    }
+
+    /* ========================================
+       Slide Base
+       ======================================== */
+    .slide {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .slide.warm-light {
+      background: var(--bg-warm);
+      color: var(--text-primary);
+    }
+
+    .slide.warm-accent {
+      background: var(--bg-accent);
+      color: var(--text-primary);
+    }
+
+    .slide.dark {
+      background: var(--bg-dark);
+      color: var(--text-white);
+    }
+
+    .slide-inner {
+      padding: 56px 60px;
+      height: 100%;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========================================
+       Components: Q Badge
+       ======================================== */
+    .q-badge {
+      width: 48px;
+      height: 48px;
+      background: var(--accent);
+      border-radius: 12px;
+      color: var(--text-white);
+      font-size: 30px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ========================================
+       Components: Page Number
+       ======================================== */
+    .page-num {
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .slide.dark .page-num {
+      color: rgba(255,255,255,0.35);
+    }
+
+    .slide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    /* ========================================
+       Components: Headline
+       ======================================== */
+    .headline {
+      font-size: 58px;
+      font-weight: 900;
+      line-height: 1.35;
+      color: var(--text-primary);
+      margin-bottom: 28px;
+      word-break: keep-all;
+    }
+
+    .slide.dark .headline {
+      color: var(--text-white);
+    }
+
+    .headline .accent {
+      color: var(--accent);
+    }
+
+    .slide.warm-accent .headline .accent {
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Body Text
+       ======================================== */
+    .body-text {
+      font-size: 30px;
+      font-weight: 400;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      word-break: keep-all;
+    }
+
+    .body-text strong {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .body-text .accent {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .slide.dark .body-text {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .slide.dark .body-text strong {
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Tag / Badge
+       ======================================== */
+    .tag {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 100px;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+
+    .tag.dark-bg {
+      background: rgba(0,0,0,0.15);
+      color: var(--text-primary);
+    }
+
+    .tag.accent-bg {
+      background: var(--accent);
+      color: var(--text-white);
+    }
+
+    .tag.light-bg {
+      background: rgba(232,117,46,0.12);
+      color: var(--accent);
+    }
+
+    .tag.white-bg {
+      background: rgba(255,255,255,0.15);
+      color: var(--text-white);
+    }
+
+    /* ========================================
+       Components: Credit
+       ======================================== */
+    .credit {
+      position: absolute;
+      bottom: 40px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .slide.warm-accent .credit {
+      color: rgba(26,26,26,0.4);
+    }
+
+    .slide.dark .credit {
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ========================================
+       Components: Terminal Code Block
+       ======================================== */
+    .terminal {
+      background: #2D2D2D;
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .terminal-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .terminal-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+    }
+
+    .terminal-dot.red { background: #FF5F57; }
+    .terminal-dot.yellow { background: #FEBC2E; }
+    .terminal-dot.green { background: #28C840; }
+
+    .terminal-title {
+      margin-left: 12px;
+      font-size: 22px;
+      color: #9E9E9E;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+
+    .terminal-body {
+      padding: 24px 28px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 24px;
+      line-height: 1.8;
+      color: #E0E0E0;
+    }
+
+    .terminal-body .key { color: #82AAFF; }
+    .terminal-body .value { color: #C3E88D; }
+    .terminal-body .comment { color: #6B7280; }
+    .terminal-body .error { color: #EF4444; }
+    .terminal-body .accent { color: #E8752E; }
+
+    /* ========================================
+       Components: Color Bar Card
+       ======================================== */
+    .color-bar {
+      padding: 20px 24px;
+      border-radius: 14px;
+      margin-bottom: 14px;
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .color-bar.orange  { background: var(--gradient-orange); }
+    .color-bar.blue    { background: var(--gradient-blue); }
+    .color-bar.purple  { background: var(--gradient-purple); }
+    .color-bar.green   { background: var(--gradient-green); }
+
+    .color-bar .bar-title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .color-bar .bar-desc {
+      font-size: 24px;
+      font-weight: 500;
+      opacity: 0.9;
+    }
+
+    /* ========================================
+       Components: Compare Cards
+       ======================================== */
+    .compare-row {
+      display: flex;
+      gap: 20px;
+    }
+
+    .compare-card {
+      flex: 1;
+      border-radius: 16px;
+      padding: 32px;
+    }
+
+    .compare-card.before {
+      background: var(--compare-before-bg);
+      color: var(--compare-before-color);
+    }
+
+    .compare-card.after {
+      background: var(--compare-after-bg);
+      color: var(--compare-after-color);
+    }
+
+    .compare-label {
+      font-size: 22px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 6px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .compare-card.before .compare-label {
+      background: rgba(153,27,27,0.15);
+    }
+
+    .compare-card.after .compare-label {
+      background: rgba(6,95,70,0.15);
+    }
+
+    .compare-title {
+      font-size: 36px;
+      font-weight: 900;
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+
+    .compare-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .compare-list li {
+      font-size: 26px;
+      font-weight: 500;
+      line-height: 1.7;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .compare-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .compare-card.before .compare-list li::before {
+      background: rgba(153,27,27,0.4);
+    }
+
+    .compare-card.after .compare-list li::before {
+      background: rgba(6,95,70,0.4);
+    }
+
+    /* ========================================
+       Components: Checklist
+       ======================================== */
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      padding: 22px 28px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .checklist-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 10px;
+      color: var(--text-white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 800;
+      margin-right: 20px;
+      flex-shrink: 0;
+    }
+
+    .checklist-label {
+      flex: 1;
+      font-size: 28px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* ========================================
+       Cover Specific
+       ======================================== */
+    .cover-headline {
+      font-size: 76px;
+      font-weight: 900;
+      line-height: 1.3;
+      color: var(--text-primary);
+      word-break: keep-all;
+      margin-bottom: 24px;
+    }
+
+    .cover-headline .white {
+      color: #FFFFFF;
+    }
+
+    .cover-sub {
+      font-size: 36px;
+      font-weight: 500;
+      color: rgba(26,26,26,0.7);
+      line-height: 1.6;
+    }
+
+    .cover-credit {
+      position: absolute;
+      bottom: 52px;
+      left: 60px;
+      font-size: 30px;
+      font-weight: 700;
+      color: rgba(26,26,26,0.35);
+      letter-spacing: 1px;
+    }
+
+    /* ========================================
+       Visual Decoration
+       ======================================== */
+    .cover-visual {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 480px;
+      height: 480px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 50% 0 0 0;
+    }
+
+    .cover-visual-inner {
+      position: absolute;
+      bottom: 40px;
+      right: 40px;
+      width: 200px;
+      height: 200px;
+      border: 4px solid rgba(26,26,26,0.12);
+      border-radius: 50%;
+    }
+
+    /* ========================================
+       Dark Slide Specifics
+       ======================================== */
+    .dark-emotional {
+      font-size: 50px;
+      font-weight: 400;
+      line-height: 1.8;
+      color: rgba(255,255,255,0.6);
+      word-break: keep-all;
+    }
+
+    .dark-emotional strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .dark-accent-msg {
+      font-size: 52px;
+      font-weight: 900;
+      color: var(--accent);
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    .divider {
+      width: 60px;
+      height: 3px;
+      background: rgba(255,255,255,0.2);
+      margin: 32px 0;
+    }
+
+    /* ========================================
+       CTA Slide Specific
+       ======================================== */
+    .cta-section {
+      background: var(--bg-warm);
+      border-radius: 24px;
+      padding: 48px 40px;
+      text-align: center;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: var(--accent);
+      color: #FFFFFF;
+      font-size: 36px;
+      font-weight: 700;
+      padding: 20px 56px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .cta-sub-text {
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+
+    .cta-handle {
+      display: inline-block;
+      padding: 10px 28px;
+      border-radius: 100px;
+      background: rgba(232,117,46,0.1);
+      color: var(--accent);
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    /* ========================================
+       Utility
+       ======================================== */
+    .spacer { flex: 1; }
+    .mb-16 { margin-bottom: 16px; }
+    .mb-20 { margin-bottom: 20px; }
+    .mb-24 { margin-bottom: 24px; }
+    .mb-28 { margin-bottom: 28px; }
+    .mb-32 { margin-bottom: 32px; }
+    .mb-40 { margin-bottom: 40px; }
+    .mb-48 { margin-bottom: 48px; }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       SLIDE 01 — COVER (warm-accent)
+       ============================================================ -->
+  <div class="slide warm-accent" id="slide-01">
+    <div class="slide-inner">
+      <div class="tag dark-bg">예비창업</div>
+
+      <div style="margin-top: 40px;">
+        <div class="cover-headline">
+          정부지원금,<br>
+          받는 것보다<br>
+          <span class="white">쓰는 게 더 중요합니다</span>
+        </div>
+        <div class="cover-sub">
+          지원금으로 마케팅 시스템을 구축하세요
+        </div>
+      </div>
+
+      <!-- Decorative shape -->
+      <div class="cover-visual">
+        <div class="cover-visual-inner"></div>
+      </div>
+
+      <div class="cover-credit">brandrise</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 02 — 지원사업 종류 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-02">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">Q</div>
+        <div class="page-num">02 / 06</div>
+      </div>
+
+      <div class="headline">
+        어떤 지원사업을<br>
+        <span class="accent">신청해야 할까?</span>
+      </div>
+
+      <div class="body-text mb-40">
+        창업 단계별로 신청할 수 있는<br>
+        <strong>대표적인 정부지원사업 4가지</strong>를 정리했습니다.
+      </div>
+
+      <!-- Color Bar Cards -->
+      <div>
+        <div class="color-bar orange">
+          <div class="bar-title">예비창업패키지</div>
+          <div class="bar-desc">최대 1억원 / 예비창업자</div>
+        </div>
+        <div class="color-bar blue">
+          <div class="bar-title">초기창업패키지</div>
+          <div class="bar-desc">최대 1억원 / 3년 이내</div>
+        </div>
+        <div class="color-bar purple">
+          <div class="bar-title">창업도약패키지</div>
+          <div class="bar-desc">최대 3억원 / 3-7년</div>
+        </div>
+        <div class="color-bar green">
+          <div class="bar-title">팁스(TIPS)</div>
+          <div class="bar-desc">최대 5억원 / 기술 기반</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 03 — 흔한 실수 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-03">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">!</div>
+        <div class="page-num">03 / 06</div>
+      </div>
+
+      <div class="headline">
+        지원금 받고<br>
+        이렇게 쓰면 <span class="accent">낭비</span>입니다
+      </div>
+
+      <div class="body-text mb-40">
+        단발성 지출은 시스템이 아닙니다.<br>
+        <strong>지원금이 끝나면 다시 원점으로 돌아갑니다.</strong>
+      </div>
+
+      <!-- Terminal Code Block -->
+      <div class="terminal">
+        <div class="terminal-header">
+          <div class="terminal-dot red"></div>
+          <div class="terminal-dot yellow"></div>
+          <div class="terminal-dot green"></div>
+          <div class="terminal-title">common_mistakes.py</div>
+        </div>
+        <div class="terminal-body">
+          <span class="key">흔한_실수</span> = {<br>
+          &nbsp;&nbsp;<span class="key">로고_디자인_만</span>: <span class="value">"200만원 → 사용 안 함"</span>,<br>
+          &nbsp;&nbsp;<span class="key">홍보_영상_1개</span>: <span class="value">"500만원 → 조회수 200"</span>,<br>
+          &nbsp;&nbsp;<span class="key">블로그_대행</span>: <span class="value">"월100만원 → 검색 유입 0"</span>,<br>
+          <br>
+          &nbsp;&nbsp;<span class="comment">// 단발성 지출 = 시스템 없음</span><br>
+          &nbsp;&nbsp;<span class="comment">// = <span class="error">지원금 소진 후 원점</span></span><br>
+          }
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 04 — 제대로 쓰는 법 (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-04">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="q-badge">A</div>
+        <div class="page-num">04 / 06</div>
+      </div>
+
+      <div class="headline">
+        지원금으로 마케팅 시스템을<br>
+        <span class="accent">구축하는 법</span>
+      </div>
+
+      <div class="body-text mb-40">
+        단발성 지출이 아니라,<br>
+        <strong>지원금이 끝나도 돌아가는 시스템</strong>을 만드세요.
+      </div>
+
+      <!-- Checklist -->
+      <div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="font-size: 20px;">&#10003;</div>
+          <div class="checklist-label">브랜드 전략 수립 (포지셔닝 + 메시지)</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="font-size: 20px;">&#10003;</div>
+          <div class="checklist-label">랜딩페이지 + 리드 수집 시스템</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="font-size: 20px;">&#10003;</div>
+          <div class="checklist-label">콘텐츠 마케팅 시스템 (재활용 가능)</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="font-size: 20px;">&#10003;</div>
+          <div class="checklist-label">퍼포먼스 마케팅 테스트 (채널 검증)</div>
+        </div>
+        <div class="checklist-item">
+          <div class="checklist-icon" style="font-size: 20px;">&#10003;</div>
+          <div class="checklist-label">데이터 분석 환경 세팅</div>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 05 — Before/After (warm-light)
+       ============================================================ -->
+  <div class="slide warm-light" id="slide-05">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div style="width: 48px;"></div>
+        <div class="page-num">05 / 06</div>
+      </div>
+
+      <div class="headline">
+        같은 지원금,<br>
+        <span class="accent">다른 결과</span>
+      </div>
+
+      <div class="body-text mb-40">
+        어디에 쓰느냐에 따라<br>
+        <strong>지원금의 가치가 완전히 달라집니다.</strong>
+      </div>
+
+      <!-- Before/After Compare -->
+      <div class="compare-row">
+        <div class="compare-card before">
+          <div class="compare-label">BEFORE</div>
+          <div class="compare-title">단발성 지출</div>
+          <ul class="compare-list">
+            <li>로고만 남음</li>
+            <li>지원금 끝 = 마케팅 끝</li>
+            <li>성과 데이터 없음</li>
+          </ul>
+        </div>
+        <div class="compare-card after">
+          <div class="compare-label">AFTER</div>
+          <div class="compare-title">시스템 구축</div>
+          <ul class="compare-list">
+            <li>자동화된 리드 수집</li>
+            <li>지원금 끝나도 운영 가능</li>
+            <li>다음 투자에 활용할 데이터</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SLIDE 06 — 클로징 + CTA (dark + CTA)
+       ============================================================ -->
+  <div class="slide dark" id="slide-06">
+    <div class="slide-inner">
+      <div class="slide-header">
+        <div class="tag white-bg">brandrise</div>
+        <div class="page-num">06 / 06</div>
+      </div>
+
+      <!-- Top half: Dark emotional closing -->
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <div class="dark-emotional mb-48">
+          <strong>지원금은 시작일 뿐입니다.</strong><br>
+          시스템을 만드세요.
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="dark-accent-msg" style="margin-top: 32px;">
+          brandrise가 함께합니다
+        </div>
+      </div>
+
+      <!-- Bottom CTA section -->
+      <div class="cta-section">
+        <div class="cta-button">지원사업 마케팅 전략 상담</div>
+        <div class="cta-sub-text">
+          지원금 활용 계획부터 실행까지
+        </div>
+        <div class="cta-handle">@brandrise_kr</div>
+      </div>
+
+      <div class="credit">brandrise &middot; @brandrise_kr</div>
+    </div>
+  </div>
+
+</body>
+</html>

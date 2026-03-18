@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>미례국밥 3개월 마케팅 플랜 — brandrise</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+  <style>
+    :root {
+      --orange: #FF9500;
+      --orange-light: #FFF8EE;
+      --orange-dim: rgba(255, 149, 0, 0.08);
+      --dark: #1A1A1A;
+      --gray-900: #212121;
+      --gray-700: #424242;
+      --gray-500: #757575;
+      --gray-300: #BDBDBD;
+      --gray-200: #E5E5E5;
+      --gray-100: #F5F5F5;
+      --gray-50: #FAFAFA;
+      --white: #FFFFFF;
+      --green: #16A34A;
+      --green-light: #F0FDF4;
+      --green-border: #BBF7D0;
+      --red: #DC2626;
+      --red-light: #FEF2F2;
+      --red-border: #FECACA;
+      --blue: #2563EB;
+      --blue-light: #EFF6FF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Pretendard', -apple-system, sans-serif;
+      background: var(--gray-100);
+      color: var(--dark);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: var(--dark);
+      color: var(--white);
+      padding: 72px 0;
+      text-align: center;
+    }
+    .header .logo {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .header h1 {
+      font-size: 40px;
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 12px;
+    }
+    .header .subtitle {
+      font-size: 16px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 32px;
+    }
+    .header .header-stat {
+      display: inline-flex;
+      gap: 40px;
+      padding: 20px 40px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .header .stat-item {
+      text-align: center;
+    }
+    .header .stat-num {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--orange);
+    }
+    .header .stat-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+
+    /* ── Section ── */
+    .section {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      color: var(--orange);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .section h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .section .section-sub {
+      font-size: 15px;
+      color: var(--gray-500);
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 16px;
+      margin-top: 36px;
+    }
+
+    /* ── Status cards ── */
+    .status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+    .status-card {
+      padding: 24px;
+      border-radius: 12px;
+    }
+    .status-card.good { background: var(--green-light); border: 1px solid var(--green-border); }
+    .status-card.bad { background: var(--red-light); border: 1px solid var(--red-border); }
+    .status-card .card-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .status-card.good .card-title { color: #166534; }
+    .status-card.bad .card-title { color: #991B1B; }
+    .status-card ul { list-style: none; font-size: 14px; color: var(--gray-700); }
+    .status-card li { padding: 4px 0; padding-left: 16px; position: relative; }
+    .status-card li::before { content: '·'; position: absolute; left: 0; font-weight: 900; }
+
+    /* ── 3-channel focus ── */
+    .channel-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .channel-card {
+      padding: 28px 20px;
+      text-align: center;
+      border-radius: 12px;
+      background: var(--gray-50);
+      border: 2px solid var(--gray-200);
+      transition: all 0.2s;
+    }
+    .channel-card:hover {
+      border-color: var(--orange);
+      background: var(--orange-light);
+    }
+    .channel-card .ch-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .channel-card .ch-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 4px;
+    }
+    .channel-card .ch-role {
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+
+    /* ── Strategy cards ── */
+    .strategy-banner {
+      padding: 28px 32px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    .strategy-banner.s1 {
+      background: var(--orange-light);
+      border-left: 4px solid var(--orange);
+    }
+    .strategy-banner.s2 {
+      background: var(--blue-light);
+      border-left: 4px solid var(--blue);
+    }
+    .strategy-banner strong { font-weight: 700; }
+    .strategy-banner .strat-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .strategy-banner.s1 .strat-tag { background: var(--orange); color: white; }
+    .strategy-banner.s2 .strat-tag { background: var(--blue); color: white; }
+
+    /* ── Compare table ── */
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+    }
+    .compare-table th {
+      text-align: left;
+      padding: 10px 16px;
+      background: var(--gray-100);
+      font-weight: 600;
+      color: var(--gray-500);
+      font-size: 13px;
+    }
+    .compare-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 14px;
+      color: var(--gray-700);
+    }
+    .compare-table td:first-child {
+      font-weight: 600;
+      color: var(--dark);
+    }
+    .compare-table .highlight { color: var(--orange); font-weight: 700; }
+
+    /* ── Timeline tabs ── */
+    .month-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .month-btn {
+      flex: 1;
+      padding: 16px;
+      border: 2px solid var(--gray-300);
+      border-radius: 12px;
+      background: var(--white);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--gray-500);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .month-btn:hover { border-color: var(--orange); color: var(--dark); }
+    .month-btn.active {
+      background: var(--dark);
+      border-color: var(--dark);
+      color: var(--white);
+    }
+    .month-btn .month-sub {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 4px;
+      opacity: 0.6;
+    }
+
+    .month-content { display: none; }
+    .month-content.active { display: block; }
+
+    .month-banner {
+      padding: 20px 28px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      font-size: 15px;
+      line-height: 1.6;
+      font-weight: 500;
+      color: var(--gray-700);
+    }
+    .month-banner.m1 { background: #FEF3C7; border-left: 4px solid #F59E0B; }
+    .month-banner.m2 { background: #FEE2E2; border-left: 4px solid #EF4444; }
+    .month-banner.m3 { background: #DCFCE7; border-left: 4px solid #22C55E; }
+    .month-banner strong { font-weight: 700; color: var(--dark); }
+
+    /* ── Service table ── */
+    table.service-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    table.service-table th {
+      text-align: left;
+      padding: 10px 16px;
+      background: var(--gray-100);
+      font-weight: 600;
+      color: var(--gray-500);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    table.service-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--gray-100);
+      color: var(--gray-700);
+    }
+    table.service-table td:first-child {
+      font-weight: 600;
+      color: var(--dark);
+      white-space: nowrap;
+    }
+
+    /* ── Budget ── */
+    .budget-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 24px;
+    }
+    .budget-table th {
+      text-align: left;
+      padding: 12px 16px;
+      background: var(--dark);
+      color: var(--white);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .budget-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 14px;
+    }
+    .budget-table tr.total {
+      background: var(--orange-light);
+      font-weight: 800;
+    }
+    .budget-table tr.total td {
+      color: var(--dark);
+      font-size: 16px;
+      border-bottom: none;
+    }
+    .budget-table .amount {
+      text-align: right;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .sep-cost {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .sep-cost .label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #92400E;
+      margin-bottom: 12px;
+    }
+    .sep-cost table td { border-bottom: 1px solid #FDE68A; }
+
+    .total-box {
+      text-align: center;
+      padding: 32px;
+      background: var(--dark);
+      border-radius: 12px;
+      color: var(--white);
+      margin-top: 24px;
+    }
+    .total-box .total-label {
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 8px;
+    }
+    .total-box .total-amount {
+      font-size: 36px;
+      font-weight: 900;
+      color: var(--orange);
+    }
+    .total-box .total-detail {
+      font-size: 14px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 8px;
+    }
+
+    /* ── KPI ── */
+    .kpi-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .kpi-table th {
+      padding: 12px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      background: var(--gray-100);
+    }
+    .kpi-table th:first-child { text-align: left; }
+    .kpi-table th.m3 { background: var(--orange-light); color: var(--orange); }
+    .kpi-table td {
+      padding: 10px 16px;
+      font-size: 14px;
+      text-align: center;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .kpi-table td:first-child { text-align: left; font-weight: 600; color: var(--dark); }
+    .kpi-table td.result {
+      font-weight: 800;
+      color: var(--orange);
+    }
+
+    /* ── Progress bar ── */
+    .progress-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .progress-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--dark);
+      text-align: right;
+    }
+    .progress-bar-bg {
+      height: 28px;
+      background: var(--gray-100);
+      border-radius: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar {
+      height: 100%;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      transition: width 0.8s ease;
+    }
+    .progress-bar.p1 { background: #F59E0B; }
+    .progress-bar.p2 { background: #EF4444; }
+    .progress-bar.p3 { background: var(--orange); }
+
+    /* ── Note ── */
+    .note {
+      font-size: 13px;
+      color: var(--gray-500);
+      line-height: 1.7;
+      padding: 16px 20px;
+      background: var(--gray-100);
+      border-radius: 10px;
+      margin-top: 16px;
+    }
+
+    /* ── Q&A ── */
+    .qa-item {
+      padding: 20px 24px;
+      background: var(--gray-50);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border: 1px solid var(--gray-200);
+    }
+    .qa-item .qa-q {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+    .qa-item .qa-a {
+      font-size: 14px;
+      color: var(--gray-700);
+      line-height: 1.7;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+      padding: 48px 40px;
+      background: var(--dark);
+      border-radius: 16px;
+      margin-bottom: 24px;
+    }
+    .cta-section h2 {
+      color: var(--white);
+      font-size: 24px;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .cta-section .cta-highlight {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      text-align: center;
+      padding: 40px 0;
+      font-size: 13px;
+      color: var(--gray-500);
+    }
+    .footer strong { color: var(--dark); }
+
+    @media print {
+      body { background: white; }
+      .section { box-shadow: none; border: 1px solid #eee; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ HEADER ══ -->
+  <div class="header">
+    <div class="container">
+      <div class="logo">brandrise</div>
+      <h1>미례국밥 3개월 마케팅 플랜</h1>
+      <div class="subtitle">2026. 03. 11 | 브랜드라이즈</div>
+      <div class="header-stat">
+        <div class="stat-item">
+          <div class="stat-num">500만</div>
+          <div class="stat-label">월 서비스비</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3개월</div>
+          <div class="stat-label">계약 기간</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num">3채널</div>
+          <div class="stat-label">집중 채널</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- ══ 현재 상황 ══ -->
+    <div class="section">
+      <div class="section-label">Current Status</div>
+      <h2>현재 상황</h2>
+      <div class="section-sub"></div>
+      <div class="status-grid">
+        <div class="status-card good">
+          <div class="card-title">잘 하고 계신 것</div>
+          <ul>
+            <li>리뷰 900건+ → 부산 내 신뢰도 확보</li>
+            <li>댄싱컵 100~120개 가맹점 → 프랜차이즈 노하우</li>
+            <li>"돼지우동" 시그니처 → 차별화 자산</li>
+          </ul>
+        </div>
+        <div class="status-card bad">
+          <div class="card-title">놓치고 계신 것</div>
+          <ul>
+            <li>브랜드 스토리 부재 → "왜 미례인가?" 답 없음</li>
+            <li>인스타그램이 의무 채널로 운영됨</li>
+            <li>바이럴 의존 → 돈 안 쓰면 멈추는 구조</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 왜 3개월인가 ══ -->
+    <div class="section">
+      <div class="section-label">Why 3 Months</div>
+      <h2>왜 3개월인가</h2>
+      <div class="section-sub">한 달 세팅하고 끝나면, 한 달 뒤 다시 원점입니다.<br>마케팅은 <strong>쌓이는 구조</strong>여야 합니다.</div>
+
+      <div class="progress-row">
+        <div class="progress-label">릴스 콘텐츠</div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar p3" style="width: 100%;">30개</div>
+        </div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label">블로그 리뷰</div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar p3" style="width: 80%;">40편+</div>
+        </div>
+      </div>
+      <div class="progress-row">
+        <div class="progress-label">검색 순위</div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar p3" style="width: 90%;">상위 안착</div>
+        </div>
+      </div>
+
+      <div class="note">
+        1개월만 하면 씨만 뿌린 겁니다. <strong>3개월을 해야 수확합니다.</strong>
+      </div>
+    </div>
+
+    <!-- ══ 3채널 집중 ══ -->
+    <div class="section">
+      <div class="section-label">Focus</div>
+      <h2>핵심 전략: 3채널 집중</h2>
+      <div class="section-sub">다른 건 다 빼고, 이 3개에 올인합니다.</div>
+
+      <div class="channel-grid">
+        <div class="channel-card">
+          <div class="ch-icon">N</div>
+          <div class="ch-name">네이버플레이스</div>
+          <div class="ch-role">검색 → 방문 전환</div>
+        </div>
+        <div class="channel-card">
+          <div class="ch-icon">IG</div>
+          <div class="ch-name">인스타그램</div>
+          <div class="ch-role">릴스 바이럴 → 유입</div>
+        </div>
+        <div class="channel-card">
+          <div class="ch-icon">B</div>
+          <div class="ch-name">블로그</div>
+          <div class="ch-role">리뷰 쌓기 → 신뢰</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ 전략 1 + 전략 2 ══ -->
+    <div class="section">
+      <div class="section-label">Strategy</div>
+      <h2>두 가지 전략</h2>
+      <div class="section-sub">유입시키고, 전환시킵니다.</div>
+
+      <div class="strategy-banner s1">
+        <div class="strat-tag">전략 1</div><br>
+        <strong>유입량 늘리기 — 노출 → 유입</strong><br>
+        "미례국밥이 뭔데?" → 궁금해서 검색하게 만드는 단계
+      </div>
+
+      <h3>무가 씨딩 인플루언서 30명 = 릴스 30개</h3>
+      <p style="font-size:15px; color:var(--gray-700); line-height:1.7; margin-bottom:20px;">
+        유료 인플루언서 1명에 100만원 쓰면 릴스 1개.<br>
+        무가 씨딩 30명이면 <strong>릴스 30개</strong>. 음식 원가만 부담.<br>
+        30개 릴스가 동시에 퍼지면 알고리즘이 "핫플"로 인식합니다.
+      </p>
+
+      <table class="compare-table">
+        <tr>
+          <th>구분</th>
+          <th>일반 체험단</th>
+          <th>무가 씨딩 (우리 방식)</th>
+        </tr>
+        <tr>
+          <td>산출물</td>
+          <td>블로그 리뷰 1편</td>
+          <td class="highlight">릴스 1개 (15~60초)</td>
+        </tr>
+        <tr>
+          <td>가이드</td>
+          <td>"방문 후 솔직 리뷰"</td>
+          <td class="highlight">바이럴 포인트 가이드</td>
+        </tr>
+        <tr>
+          <td>노출 범위</td>
+          <td>블로그 검색</td>
+          <td class="highlight">인스타+릴스+탐색탭</td>
+        </tr>
+        <tr>
+          <td>누적 효과</td>
+          <td>검색 유입</td>
+          <td class="highlight">알고리즘 시너지</td>
+        </tr>
+      </table>
+
+      <h3>인스타그램 매장 붐업 콘텐츠</h3>
+      <p style="font-size:14px; color:var(--gray-700); line-height:1.7; margin-bottom:20px;">
+        줄 서 있는 모습, 매장 안 사람 많은 풍경, 돼지우동 클로즈업.<br>
+        "국밥집인데 우동이 시그니처" 의외성 바이럴.<br>
+        → 채널 컨셉, 레퍼런스 계정 리스트업, 비주얼 무드보드, 콘텐츠 기획 포함.
+      </p>
+
+      <div style="height:32px;"></div>
+
+      <div class="strategy-banner s2">
+        <div class="strat-tag">전략 2</div><br>
+        <strong>방문율 높이기 — 유입 → 전환</strong><br>
+        "미례국밥 한번 가볼까?" → 실제로 찾아가게 만드는 단계
+      </div>
+
+      <h3>네이버플레이스 최적화</h3>
+      <p style="font-size:14px; color:var(--gray-700); line-height:1.7; margin-bottom:16px;">
+        릴스 보고 "미례국밥" 검색했는데 플레이스가 허술하면 이탈합니다.<br>
+        기본 정보 풀 셋업 + 선점 키워드 세팅 + 리뷰 관리까지.<br>
+        블로그·인스타·당근마켓에 플레이스 링크를 지속 노출하여 트래픽 시그널을 쌓습니다.
+      </p>
+
+      <h3>블로그 세팅 & 운영</h3>
+      <p style="font-size:14px; color:var(--gray-700); line-height:1.7; margin-bottom:8px;">
+        블로그는 두 가지 목적입니다:
+      </p>
+      <p style="font-size:14px; color:var(--gray-700); line-height:1.7; margin-bottom:16px; padding-left:16px;">
+        1. <strong>진정성 있는 콘텐츠 양산</strong> → 가맹점주 설득에 용이<br>
+        2. <strong>네이버플레이스 블로그 리뷰 숫자 업스케일링</strong>
+      </p>
+      <table class="compare-table">
+        <tr><th>시리즈</th><th>내용</th></tr>
+        <tr><td>"사장님 우당탕일기"</td><td>창업 스토리, 매장 운영 비하인드</td></tr>
+        <tr><td>"리뷰로 먹고 살아요"</td><td>고객 리뷰 하나하나 답변하는 시리즈</td></tr>
+        <tr><td>"많이들 궁금해하는"</td><td>FAQ 기반 (돼지우동 뭔가요?, 줄 얼마나 서야?)</td></tr>
+      </table>
+      <div class="note">
+        1개월차: brandrise가 세팅 + 샘플 5편 직접 작성<br>
+        2개월차~: 콘텐츠 기획·가이드 제공 → 내부에서 작성 (자체 운영 전환)
+      </div>
+    </div>
+
+    <!-- ══ 3개월 로드맵 ══ -->
+    <div class="section">
+      <div class="section-label">3-Month Roadmap</div>
+      <h2>3개월 로드맵</h2>
+      <div class="section-sub">매달 확실한 산출물. 매달 쌓이는 성과.</div>
+
+      <div class="month-tabs">
+        <button class="month-btn active" onclick="switchMonth(1)">
+          1개월차
+          <span class="month-sub">땅 다지기</span>
+        </button>
+        <button class="month-btn" onclick="switchMonth(2)">
+          2개월차
+          <span class="month-sub">불 지피기</span>
+        </button>
+        <button class="month-btn" onclick="switchMonth(3)">
+          3개월차
+          <span class="month-sub">엔진 걸기</span>
+        </button>
+      </div>
+
+      <!-- Month 1 -->
+      <div id="month-1" class="month-content active">
+        <div class="month-banner m1">
+          <strong>채널 기반을 세우고, 첫 릴스 10개를 터뜨립니다.</strong>
+        </div>
+        <table class="service-table">
+          <tr><th style="width:35%">항목</th><th>산출물</th></tr>
+          <tr><td>인스타그램 채널 전략</td><td>채널 컨셉, 레퍼런스 계정 리스트업, 비주얼 무드보드, 콘텐츠 기획</td></tr>
+          <tr><td>무가 씨딩 1차 (10명)</td><td>인플루언서 선정 + 바이럴 가이드 제작 + 방문 코디 + 릴스 관리</td></tr>
+          <tr><td>네이버플레이스 풀 셋업</td><td>전 항목 점검, 키워드 세팅, 메뉴판 정비, 사진·소개란 최적화</td></tr>
+          <tr><td>블로그 세팅 + 콘텐츠 5편</td><td>블로그 개설·디자인 + 시리즈 기획 + 샘플 5편 직접 작성</td></tr>
+          <tr><td>키워드 전략 수립</td><td>선점 키워드 선정, 경쟁 매장 분석, 상위 랭크 전략</td></tr>
+          <tr><td>광고 세팅</td><td>메타 광고 계정 세팅, 초기 릴스 도달 광고</td></tr>
+        </table>
+      </div>
+
+      <!-- Month 2 -->
+      <div id="month-2" class="month-content">
+        <div class="month-banner m2">
+          <strong>릴스가 쌓이고, 블로그 리뷰가 올라가고, 검색 순위가 오릅니다.</strong>
+        </div>
+        <table class="service-table">
+          <tr><th style="width:35%">항목</th><th>산출물</th></tr>
+          <tr><td>무가 씨딩 2차 (10명)</td><td>1차 성과 분석 반영 → 가이드 개선 → 2차 진행</td></tr>
+          <tr><td>인스타 콘텐츠 시리즈</td><td>매장 붐업 콘텐츠 기획·제작 (줄서기, 매장 활기, 우동 클로즈업)</td></tr>
+          <tr><td>체험단 1차 (10~15팀)</td><td>블로그 리뷰 볼륨 확보</td></tr>
+          <tr><td>블로그 기획 (내부 작성)</td><td>콘텐츠 시리즈 기획 + 작성 가이드 → 내부 작성 전환</td></tr>
+          <tr><td>네이버플레이스 관리</td><td>리뷰 응대, 키워드 모니터링, 순위 추적</td></tr>
+          <tr><td>광고 최적화</td><td>잘 된 릴스 광고 증폭, 타겟 세분화, 주간 리포트</td></tr>
+        </table>
+      </div>
+
+      <!-- Month 3 -->
+      <div id="month-3" class="month-content">
+        <div class="month-banner m3">
+          <strong>릴스 30개, 리뷰 40건+. 검색 상위 안착. 자체 운영 기반 완성.</strong>
+        </div>
+        <table class="service-table">
+          <tr><th style="width:35%">항목</th><th>산출물</th></tr>
+          <tr><td>무가 씨딩 3차 (10명)</td><td>릴스 누적 30개 달성</td></tr>
+          <tr><td>체험단 2차 (10~15팀)</td><td>블로그 리뷰 누적 40건+</td></tr>
+          <tr><td>인스타 콘텐츠 기획</td><td>4개월차 이후 자체 운영용 콘텐츠 캘린더</td></tr>
+          <tr><td>광고 스케일링</td><td>성과 좋은 소재 확대, ROAS 기반 최적화</td></tr>
+          <tr><td>경쟁 매장 비교 분석</td><td>같은 상권 국밥집 3곳 플레이스 비교 리포트</td></tr>
+          <tr><td>3개월 풀 리포트</td><td>전 채널 성과 분석 + 자체 운영 가이드 + 다음 분기 제안</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ 비용 구조 ══ -->
+    <div class="section">
+      <div class="section-label">Budget</div>
+      <h2>비용 구조</h2>
+      <div class="section-sub">월 500만원 × 3개월. 매달 이 돈이 어디에 쓰이는지 명확합니다.</div>
+
+      <table class="budget-table">
+        <tr><th>항목</th><th class="amount">월 금액</th><th style="text-align:left; padding-left:20px;">내용</th></tr>
+        <tr><td>채널 전략 & 콘텐츠 기획</td><td class="amount">100만원</td><td style="padding-left:20px; color:var(--gray-500); font-size:13px;">인스타 방향, 콘텐츠 기획, 캘린더, 무드보드</td></tr>
+        <tr><td>무가 씨딩 관리 (10명/월)</td><td class="amount">120만원</td><td style="padding-left:20px; color:var(--gray-500); font-size:13px;">선정, 바이럴 가이드, 방문 코디, 릴스 관리</td></tr>
+        <tr><td>네이버플레이스 관리</td><td class="amount">80만원</td><td style="padding-left:20px; color:var(--gray-500); font-size:13px;">셋업(1M) → 최적화+리뷰관리(2~3M)</td></tr>
+        <tr><td>블로그 운영</td><td class="amount">80만원</td><td style="padding-left:20px; color:var(--gray-500); font-size:13px;">세팅+작성(1M) → 기획+가이드(2~3M)</td></tr>
+        <tr><td>콘텐츠 제작</td><td class="amount">70만원</td><td style="padding-left:20px; color:var(--gray-500); font-size:13px;">매장 붐업 시리즈, 피드 콘텐츠, 체험단 관리</td></tr>
+        <tr><td>광고 운영 & 리포팅</td><td class="amount">50만원</td><td style="padding-left:20px; color:var(--gray-500); font-size:13px;">메타 광고 세팅·운영, 주간 리포트</td></tr>
+        <tr class="total"><td>월 합계</td><td class="amount">500만원</td><td></td></tr>
+      </table>
+
+      <div class="sep-cost">
+        <div class="label">별도 비용</div>
+        <table class="service-table">
+          <tr><td>메타 광고비</td><td>월 100만원~ (집행 규모에 따라 조절)</td></tr>
+          <tr><td>무가 씨딩 음식 원가</td><td>미례국밥 부담 (인플루언서 1인당 1~2인분 제공)</td></tr>
+        </table>
+      </div>
+
+      <div class="total-box">
+        <div class="total-label">3개월 총 비용</div>
+        <div class="total-amount">약 1,800만원~</div>
+        <div class="total-detail">서비스비 1,500만원 + 광고비 300만원~</div>
+      </div>
+    </div>
+
+    <!-- ══ 예상 KPI ══ -->
+    <div class="section">
+      <div class="section-label">Expected Results</div>
+      <h2>3개월 예상 KPI</h2>
+      <div class="section-sub">매달 쌓이는 성과. 3개월 후 이 숫자를 만듭니다.</div>
+
+      <table class="kpi-table">
+        <tr>
+          <th></th>
+          <th>1개월 후</th>
+          <th>2개월 후</th>
+          <th class="m3">3개월 후 (누적)</th>
+        </tr>
+        <tr><td>인플루언서 릴스</td><td>10개</td><td>20개</td><td class="result">30개</td></tr>
+        <tr><td>릴스 총 조회수</td><td>15만</td><td>40만</td><td class="result">80만+</td></tr>
+        <tr><td>인스타 팔로워 증가</td><td>+300</td><td>+800</td><td class="result">+1,500</td></tr>
+        <tr><td>블로그 리뷰</td><td>5편</td><td>20편</td><td class="result">40편+</td></tr>
+        <tr><td>네이버 검색량</td><td>1.5배</td><td>2배</td><td class="result">3배+</td></tr>
+        <tr><td>네이버플레이스 순위</td><td>세팅 완료</td><td>상승 중</td><td class="result">상위 3위</td></tr>
+        <tr><td>프랜차이즈 문의</td><td>1건</td><td>3건</td><td class="result">5건+</td></tr>
+      </table>
+    </div>
+
+    <!-- ══ Q&A ══ -->
+    <div class="section">
+      <div class="section-label">Q&A</div>
+      <h2>자주 묻는 질문</h2>
+      <div class="section-sub"></div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q. 왜 유료 인플루언서 대신 무가 씨딩 30명인가?</div>
+        <div class="qa-a">
+          유료 인플루언서 1명에 100만원 쓰면 릴스 1개.<br>
+          무가 씨딩 30명이면 릴스 30개. 음식 원가만 부담.<br>
+          30개 릴스가 동시다발적으로 퍼지면 알고리즘이 "핫플"로 인식합니다.<br>
+          1명의 대형보다 30명의 마이크로가 총 도달이 높습니다.
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q. 왜 블로그까지 해야 하나?</div>
+        <div class="qa-a">
+          네이버플레이스 순위는 블로그 리뷰 수에 영향을 받습니다.<br>
+          가맹점주 설득 시에도 "이 브랜드 블로그 보세요" → 진정성 확인.<br>
+          "부산 국밥 추천", "센텀 맛집" 등 검색 키워드도 선점합니다.
+        </div>
+      </div>
+
+      <div class="qa-item">
+        <div class="qa-q">Q. 1개월만 하면 안 되나?</div>
+        <div class="qa-a">
+          1개월 = 씨만 뿌린 겁니다. 릴스 10개, 블로그 5편, 검색 순위 세팅만.<br>
+          3개월 = 릴스 30개, 리뷰 40편, 검색 상위 안착, 자체 운영 가이드까지.<br>
+          <strong>투자 대비 성과는 3개월째에 폭발합니다.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CTA ══ -->
+    <div class="cta-section">
+      <h2>3개월 후 미례국밥은</h2>
+      <p>
+        인스타 릴스 <span class="cta-highlight">30개</span>가 돌아가고 있고<br>
+        네이버에서 "미례국밥" 검색하면 <span class="cta-highlight">상위에 뜨고</span><br>
+        블로그에 진정성 있는 콘텐츠 <span class="cta-highlight">40편</span>이 쌓여 있고<br>
+        자체적으로 채널 운영이 가능한 가이드가 있고<br>
+        프랜차이즈 문의가 들어오기 시작합니다.<br><br>
+        <strong style="color:var(--orange); font-size:18px;">한 달로는 씨만 뿌립니다. 3개월이면 수확합니다.</strong>
+      </p>
+    </div>
+
+    <!-- ══ 번외 ══ -->
+    <div class="section" style="background:var(--gray-100); border:1px dashed var(--gray-300);">
+      <div class="section-label">Optional</div>
+      <h2>번외 — 프랜차이즈 대시보드</h2>
+      <p style="font-size:15px; color:var(--gray-700); line-height:1.7;">
+        pace&proof 상품으로 별도 제안 가능합니다.<br>
+        가맹 문의 트래킹, 문의자 관리 대시보드를 셋업해 드립니다.<br>
+        본 제안과 별개로 필요 시 안내드리겠습니다.
+      </p>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <strong>brandrise</strong><br>
+    브랜드 전략 · 콘텐츠 마케팅 · 퍼포먼스 마케팅
+  </div>
+
+  <script>
+    function switchMonth(month) {
+      document.querySelectorAll('.month-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.month-content').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.month-btn')[month - 1].classList.add('active');
+      document.getElementById('month-' + month).classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

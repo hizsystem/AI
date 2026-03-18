@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    width: 1080px; height: 1080px; overflow: hidden;
+    font-family: 'Pretendard', sans-serif;
+    background: linear-gradient(180deg, #0F172A 0%, #070B14 100%);
+    color: #FFFFFF;
+}
+.slide { width: 1080px; height: 1080px; position: relative; }
+
+.logo {
+    position: absolute; top: 40px; right: 48px;
+    font-size: 22px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 1px;
+    z-index: 10;
+}
+
+.content {
+    padding: 52px 64px;
+    padding-bottom: 100px;
+    display: flex; flex-direction: column;
+    height: 100%;
+}
+
+.tag {
+    display: inline-block;
+    font-size: 18px; font-weight: 600;
+    color: #60A5FA; background: rgba(255,255,255,0.1);
+    padding: 8px 20px; border-radius: 100px;
+    margin-bottom: 36px; width: fit-content;
+}
+
+.headline {
+    font-size: 56px; font-weight: 900; line-height: 1.28;
+    letter-spacing: -2px;
+    color: #FFFFFF;
+    margin-bottom: 24px;
+}
+
+.sub-copy {
+    font-size: 28px; font-weight: 500; color: #94A3B8;
+    line-height: 1.55;
+    margin-bottom: 0;
+}
+
+/* 메인 영역과 데이터 카드 사이 간격 자동 분배 */
+.spacer {
+    flex: 1;
+    min-height: 32px;
+}
+
+/* 데이터 포인트 미니 카드 */
+.data-cards {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.data-card {
+    flex: 1;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex; flex-direction: column;
+    gap: 8px;
+}
+
+.data-card .value {
+    font-size: 28px; font-weight: 800; letter-spacing: -0.5px;
+}
+.data-card .label {
+    font-size: 16px; font-weight: 500; opacity: 0.85;
+}
+
+/* 빨간 카드 — CAC 상승 */
+.data-card.red {
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+.data-card.red .value { color: #EF4444; }
+.data-card.red .label { color: #FCA5A5; }
+
+/* 회색 카드 — 브랜드 검색 0건 */
+.data-card.gray {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.data-card.gray .value { color: #94A3B8; }
+.data-card.gray .label { color: #6B7280; }
+
+/* 초록 카드 — 전환율 상승 */
+.data-card.green {
+    background: rgba(74, 222, 128, 0.10);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+}
+.data-card.green .value { color: #4ADE80; }
+.data-card.green .label { color: #86EFAC; }
+
+/* 하단 안내 문구 */
+.bottom-msg {
+    text-align: center;
+    font-size: 18px; font-weight: 500; color: #4B5563;
+    margin-bottom: 8px;
+}
+.bottom-msg strong {
+    color: #60A5FA;
+}
+
+/* CTA 바 */
+.cta-bar {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 80px;
+    background: #E8752E;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 700; color: #FFFFFF;
+    letter-spacing: -0.5px;
+}
+</style>
+</head>
+<body>
+<div class="slide">
+    <div class="logo">brandrise</div>
+
+    <div class="content">
+        <div class="tag">성장기 기업 마케팅</div>
+
+        <div class="headline">
+            광고를 끄면<br>매출도 멈추나요?
+        </div>
+
+        <div class="sub-copy">
+            그렇다면 광고 효율이 아니라<br>브랜드 전략이 필요한 시그널입니다.
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="data-cards">
+            <div class="data-card red">
+                <div class="value">CAC +20%&#8593;</div>
+                <div class="label">매 분기 상승</div>
+            </div>
+            <div class="data-card gray">
+                <div class="value">브랜드 검색 0건</div>
+                <div class="label">자연 유입 부재</div>
+            </div>
+            <div class="data-card green">
+                <div class="value">전환율 3.2배&#8593;</div>
+                <div class="label">전략 전환 시</div>
+            </div>
+        </div>
+
+        <div class="bottom-msg">
+            퍼포먼스 의존에서 벗어나는 첫 걸음, <strong>brandrise</strong>
+        </div>
+    </div>
+
+    <div class="cta-bar">무료 마케팅 진단 받기 &#8594;</div>
+</div>
+</body>
+</html>

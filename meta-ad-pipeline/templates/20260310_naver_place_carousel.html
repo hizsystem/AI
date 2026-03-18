@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>네이버플레이스 체크리스트 — brandrise</title>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  :root {
+    --accent: #FF9500;
+    --accent-dim: rgba(255,149,0,0.12);
+    --bg-base: #1E1E20;
+    --bg-deep: #161618;
+    --text-primary: #F5F5F5;
+    --text-secondary: rgba(255,255,255,0.55);
+    --text-dim: rgba(255,255,255,0.3);
+    --slide-w: 1080px;
+    --slide-h: 1350px;
+    --scale: 0.42;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: #e8e8e8;
+    padding: 40px 20px 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  .header { text-align: center; margin-bottom: 12px; }
+  .header h1 { font-size: 20px; font-weight: 800; color: #1a1a1a; }
+  .header p { font-size: 12px; color: #999; margin-top: 4px; }
+
+  .slides-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .slide-wrap {
+    width: calc(var(--slide-w) * var(--scale));
+    height: calc(var(--slide-h) * var(--scale));
+    flex-shrink: 0;
+    position: relative;
+  }
+  .slide-num {
+    position: absolute;
+    top: -22px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px;
+    font-weight: 600;
+    color: #999;
+  }
+
+  /* ======== BASE SLIDE ======== */
+  .slide {
+    width: var(--slide-w);
+    height: var(--slide-h);
+    transform: scale(var(--scale));
+    transform-origin: top left;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 64px 130px;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse at top right, rgba(255,149,0,0.09) 0%, transparent 55%),
+      radial-gradient(ellipse at bottom left, rgba(255,149,0,0.06) 0%, transparent 50%),
+      radial-gradient(ellipse at center, rgba(255,255,255,0.01) 0%, transparent 80%),
+      linear-gradient(170deg, #222224 0%, var(--bg-deep) 50%, #1a1a1c 100%);
+  }
+  .slide::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    background-size: 256px 256px;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  /* ======== COMMON ======== */
+  .z { position: relative; z-index: 1; }
+
+  .tag {
+    display: inline-block;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    background: var(--accent-dim);
+    align-self: flex-start;
+    margin-bottom: 28px;
+    letter-spacing: 0.5px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .accent-line {
+    width: 56px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+
+  .headline {
+    font-size: 88px;
+    font-weight: 900;
+    color: var(--text-primary);
+    line-height: 1.25;
+    letter-spacing: -1.5px;
+  }
+  .headline em {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .sub {
+    font-size: 44px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    margin-top: 24px;
+    line-height: 1.6;
+  }
+
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .brand {
+    font-size: 22px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.18);
+    letter-spacing: 2px;
+  }
+  .dots { display: flex; gap: 7px; }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+  }
+
+  /* ======== SECTION TITLE ======== */
+  .section-num {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .section-title {
+    font-size: 72px;
+    font-weight: 900;
+    color: var(--text-primary);
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+    line-height: 1.25;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  /* ======== CHECKLIST ======== */
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 22px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 14px;
+    border-left: 3px solid rgba(255,149,0,0.35);
+  }
+  .check-box {
+    width: 32px;
+    height: 32px;
+    border-radius: 7px;
+    border: 2.5px solid rgba(255,149,0,0.4);
+    flex-shrink: 0;
+    margin-top: 6px;
+    background: rgba(255,149,0,0.06);
+  }
+  .check-content { flex: 1; }
+  .check-title {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+  .check-why {
+    font-size: 32px;
+    font-weight: 400;
+    color: var(--text-secondary);
+    line-height: 1.4;
+  }
+
+  /* ======== COMPARISON CARDS ======== */
+  .compare-row {
+    display: flex;
+    gap: 20px;
+  }
+  .compare-card {
+    flex: 1;
+    border-radius: 16px;
+    padding: 32px 28px;
+  }
+  .compare-card.before {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .compare-card.after {
+    background: var(--accent);
+  }
+  .compare-label {
+    font-size: 30px;
+    font-weight: 800;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+  .compare-card.before .compare-label { color: var(--text-dim); }
+  .compare-card.after .compare-label { color: #000; }
+  .compare-item {
+    font-size: 32px;
+    line-height: 1.8;
+    font-weight: 500;
+  }
+  .compare-card.before .compare-item { color: rgba(255,255,255,0.5); }
+  .compare-card.after .compare-item { color: rgba(0,0,0,0.75); }
+
+  /* ======== DIVIDER ======== */
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 16px 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ======== CONTEXT BAR ======== */
+  .context-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    border-left: 3px solid rgba(255,149,0,0.25);
+  }
+  .context-bar.tip {
+    border-left-color: rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.03);
+  }
+  .context-text {
+    font-size: 32px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  .context-label {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* ======== CTA ======== */
+  .cta-box {
+    background: rgba(255,149,0,0.08);
+    border: 1px solid rgba(255,149,0,0.15);
+    border-radius: 18px;
+    padding: 36px 40px;
+  }
+  .cta-desc {
+    font-size: 30px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.6;
+  }
+  .cta-desc strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .cta-badge {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 12px 28px;
+    background: var(--accent);
+    color: #000;
+    font-size: 24px;
+    font-weight: 800;
+    border-radius: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Cover layout — vertically centered */
+  .cover-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>네이버플레이스 체크리스트 — 다크 + 오렌지 포인트</h1>
+  <p>배경: 차콜 + 오렌지 코너 글로우 · 컬러: #FF9500 · 7 slides</p>
+</div>
+
+<div class="slides-row">
+
+  <!-- ===== SLIDE 1: COVER ===== -->
+  <div class="slide-wrap">
+    <div class="slide-num">1 / 7</div>
+    <div class="slide">
+      <div class="tag">네이버플레이스 마케팅</div>
+
+      <div class="cover-content">
+        <div class="accent-line"></div>
+        <div class="headline">네이버플레이스,<br>등록만<br><em>해놓으셨죠?</em></div>
+        <div class="sub">
+          등록했다고 끝이 아닙니다.<br>
+          검색에 안 뜨면, 없는 매장이에요.
+        </div>
+      </div>
+
+      <div class="context-bar z" style="margin-bottom:16px">
+        <div class="context-text">
+          매달 <strong style="color:var(--accent);font-weight:700">3,200만 명</strong>이 네이버에서 매장을 검색합니다.<br>
+          상위 3개 매장이 클릭의 <strong style="color:var(--accent);font-weight:700">80%</strong>를 가져갑니다.
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="brand">brandrise</div>
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 2: COMPARISON ===== -->
+  <div class="slide-wrap">
+    <div class="slide-num">2 / 7</div>
+    <div class="slide">
+      <div class="tag">등록 vs 최적화</div>
+
+      <div class="z">
+        <div class="accent-line"></div>
+        <div class="section-title">같은 플레이스인데<br>왜 결과가 다를까?</div>
+      </div>
+
+      <div class="compare-row z">
+        <div class="compare-card before">
+          <div class="compare-label">등록만 한 매장</div>
+          <div class="compare-item">
+            기본정보 절반 비어있음<br>
+            사진 3장<br>
+            리뷰 답변 없음<br>
+            키워드 세팅 0개<br>
+            외부 연동 없음
+          </div>
+        </div>
+        <div class="compare-card after">
+          <div class="compare-label">최적화한 매장</div>
+          <div class="compare-item">
+            전 항목 100% 완성<br>
+            사진 15장+<br>
+            리뷰 48시간 내 응답<br>
+            키워드 10개+ 세팅<br>
+            인스타·블로그 연동
+          </div>
+        </div>
+      </div>
+
+      <div class="context-bar z" style="margin-top:28px">
+        <div class="context-text">
+          네이버 알고리즘은 <strong style="color:var(--text-primary)">정보 충실도 + 활성도</strong>로 순위를 매깁니다.<br>
+          등록만 하면 뜨는 게 아닙니다.
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="brand">brandrise</div>
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 3: STEP 01 기본 정보 ===== -->
+  <div class="slide-wrap">
+    <div class="slide-num">3 / 7</div>
+    <div class="slide">
+      <div class="tag">체크리스트</div>
+
+      <div class="z">
+        <div class="section-num">STEP 01</div>
+        <div class="section-title">기본 정보<br>빈칸 없이 채우세요</div>
+      </div>
+
+      <div class="checklist z">
+        <div class="check-item">
+          <div class="check-box"></div>
+          <div class="check-content">
+            <div class="check-title">영업시간·브레이크타임·주차</div>
+            <div class="check-why">정보 없으면 "영업중" 표시가 안 됩니다</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box"></div>
+          <div class="check-content">
+            <div class="check-title">전 메뉴 사진 + 가격 등록</div>
+            <div class="check-why">사진 없는 메뉴 클릭률 50% 하락</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box"></div>
+          <div class="check-content">
+            <div class="check-title">대표 사진 5장 이상</div>
+            <div class="check-why">네이버 "정보 충실도" 점수에 직접 반영</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box"></div>
+          <div class="check-content">
+            <div class="check-title">단체석·포장·예약 가능 여부</div>
+            <div class="check-why">미입력 시 필터 검색에서 제외</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider z"></div>
+
+      <div class="context-bar z">
+        <div>
+          <div class="context-label">DATA</div>
+          <div class="context-text">
+            기본 정보 100% 완성만으로<br>
+            <strong style="color:var(--accent)">플레이스 노출량 평균 2.3배 ↑</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="brand">brandrise</div>
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 4: STEP 02 검색 최적화 ===== -->
+  <div class="slide-wrap">
+    <div class="slide-num">4 / 7</div>
+    <div class="slide">
+      <div class="tag">체크리스트</div>
+
+      <div class="z">
+        <div class="section-num">STEP 02</div>
+        <div class="section-title">검색 최적화<br>키워드가 전부입니다</div>
+      </div>
+
+      <div class="checklist z">
+        <div class="check-item">
+          <div class="check-box"></div>
+          <div class="check-content">
+            <div class="check-title">소개란에 지역+업종 키워드</div>
+            <div class="check-why">"해운대 국밥" "서면 우동" 같은 조합 10개+</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box"></div>
+          <div class="check-content">
+            <div class="check-title">스마트콜 연동</div>
+            <div class="check-why">전화 유입 = 네이버에 "활성 매장" 시그널</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box"></div>
+          <div class="check-content">
+            <div class="check-title">인스타그램·블로그 연동</div>
+            <div class="check-why">외부 트래픽 시그널이 순위에 직접 영향</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider z"></div>
+
+      <div class="context-bar z">
+        <div>
+          <div class="context-label">DATA</div>
+          <div class="context-text">
+            키워드 세팅만 제대로 해도<br>
+            <strong style="color:var(--accent)">지역 검색 상위 노출률 60% ↑</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="context-bar tip z" style="margin-top:12px">
+        <div>
+          <div class="context-label" style="color:rgba(255,255,255,0.4)">EXAMPLE</div>
+          <div class="context-text">
+            <strong style="color:var(--text-primary)">"해운대 국밥 맛집, 돼지국밥 전문점 ○○국밥.<br>해운대역 3분 거리, 단체석·포장 가능"</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="brand">brandrise</div>
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 5: STEP 03 리뷰 관리 ===== -->
+  <div class="slide-wrap">
+    <div class="slide-num">5 / 7</div>
+    <div class="slide">
+      <div class="tag">체크리스트</div>
+
+      <div class="z">
+        <div class="section-num">STEP 03</div>
+        <div class="section-title">리뷰 관리<br>순위의 40%를 좌우합니다</div>
+      </div>
+
+      <div class="checklist z">
+        <div class="check-item">
+          <div class="check-box"></div>
+          <div class="check-content">
+            <div class="check-title">영수증 리뷰 유도 POP 설치</div>
+            <div class="check-why">영수증 리뷰 = 일반 리뷰 대비 가중치 2배</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box"></div>
+          <div class="check-content">
+            <div class="check-title">리뷰 답변 48시간 이내</div>
+            <div class="check-why">응답률이 알고리즘 활성도 핵심 지표</div>
+          </div>
+        </div>
+        <div class="check-item">
+          <div class="check-box"></div>
+          <div class="check-content">
+            <div class="check-title">부정 리뷰에도 반드시 답변</div>
+            <div class="check-why">미응답 = "비활성 매장"으로 판단</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-divider z"></div>
+
+      <div class="context-bar z">
+        <div>
+          <div class="context-label">DATA</div>
+          <div class="context-text">
+            리뷰 응답률 90% 이상 유지 시<br>
+            <strong style="color:var(--accent)">예약·전화 전환률 평균 35% ↑</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="context-bar tip z" style="margin-top:12px">
+        <div>
+          <div class="context-label" style="color:rgba(255,255,255,0.4)">TIP</div>
+          <div class="context-text">
+            <strong style="color:var(--text-primary)">"감사합니다! 다음에도 더 맛있는 음식으로<br>보답하겠습니다 :)"</strong> — 30초면 끝
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="brand">brandrise</div>
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 6: WARNING ===== -->
+  <div class="slide-wrap">
+    <div class="slide-num">6 / 7</div>
+    <div class="slide" style="
+      background:
+        radial-gradient(ellipse at top right, rgba(255,149,0,0.13) 0%, transparent 50%),
+        radial-gradient(ellipse at bottom left, rgba(255,149,0,0.09) 0%, transparent 50%),
+        linear-gradient(170deg, #222224 0%, var(--bg-deep) 50%, #1a1a1c 100%);
+    ">
+      <div class="tag">경고</div>
+
+      <div class="cover-content">
+        <div style="position:relative;z-index:1">
+          <div style="font-size:160px;font-weight:900;color:var(--accent);opacity:0.12;line-height:1;margin-bottom:12px;letter-spacing:-5px">3+</div>
+          <div class="accent-line"></div>
+          <div class="headline">3개 이상<br>빠져 있으면</div>
+          <div class="sub" style="font-size:44px">
+            지금 이 순간에도<br>
+            경쟁 매장에 <em style="color:var(--accent);font-style:normal;font-weight:700">검색 순위를<br>밀리고 있는 겁니다.</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="context-bar z" style="margin-bottom:16px">
+        <div class="context-text">
+          한 번 세팅하면 매달 광고비 없이 검색 유입됩니다.<br>
+          <strong style="color:var(--text-primary)">플레이스는 투자가 아니라 기본입니다.</strong>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="brand">brandrise</div>
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== SLIDE 7: CTA ===== -->
+  <div class="slide-wrap">
+    <div class="slide-num">7 / 7</div>
+    <div class="slide">
+      <div class="tag">무료 상담</div>
+
+      <div class="cover-content">
+        <div style="position:relative;z-index:1;text-align:center;display:flex;flex-direction:column;align-items:center;">
+          <div class="accent-line" style="margin-bottom:40px"></div>
+          <div class="headline" style="font-size:88px;margin-bottom:40px;letter-spacing:-2px">
+            지금<br><em>무료 상담</em><br>진행중
+          </div>
+
+          <div class="sub" style="font-size:44px;margin-top:0;color:rgba(255,255,255,0.55);line-height:1.7">
+            프로필 링크에서 상담 신청해주시면<br>
+            현재 플레이스 상태를 진단해드립니다.
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <div class="brand">brandrise</div>
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -9,8 +9,20 @@ __pycache__/
 .venv/
 venv/
 
+# Git Worktrees
+.worktrees/
+
+# Node
+node_modules/
+package-lock.json
+
+# Exports (large PNGs)
+**/exports/*.png
+**/exports/*.jpg
+
 # OS
 .DS_Store
 content/node_modules/
 content/package-lock.json
 content/package.json
+.env
