@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-18T06:17:07.546Z",
+  "lastUpdated": "2026-03-18T10:02:43.252Z",
   "activeFeatures": [
     ".claude",
     "scripts",
@@ -154,7 +154,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-08T02:27:24.544Z",
-        "lastUpdated": "2026-03-13T19:09:40.222Z"
+        "lastUpdated": "2026-03-18T09:42:52.567Z"
       },
       "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/tabshopbar/page.tsx"
     },
@@ -167,9 +167,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-08T02:27:34.061Z",
-        "lastUpdated": "2026-03-18T06:17:07.546Z"
+        "lastUpdated": "2026-03-18T10:02:43.252Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/components/ContentModal.tsx"
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/lib/storage.ts"
     },
     "goventureforum": {
       "phase": "do",
@@ -401,9 +401,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-13T03:48:50.068Z",
-        "lastUpdated": "2026-03-15T06:49:14.157Z"
+        "lastUpdated": "2026-03-18T09:26:32.792Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/huenic/content-calendar/src/app/api/huenic/[brand]/kpi/[month]/route.ts"
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar/[client]/[month]/route.ts"
     },
     "items": {
       "phase": "do",
@@ -414,7 +414,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-13T03:48:55.987Z",
-        "lastUpdated": "2026-03-13T03:48:55.987Z"
+        "lastUpdated": "2026-03-18T09:26:34.173Z"
       },
       "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar/[client]/[month]/items/route.ts"
     },
@@ -427,7 +427,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-13T03:49:03.023Z",
-        "lastUpdated": "2026-03-13T03:49:03.023Z"
+        "lastUpdated": "2026-03-18T09:26:35.929Z"
       },
       "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar/[client]/[month]/items/[id]/route.ts"
     },
@@ -453,7 +453,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-13T19:03:56.051Z",
-        "lastUpdated": "2026-03-13T19:03:56.051Z"
+        "lastUpdated": "2026-03-18T09:26:38.257Z"
       },
       "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar/[client]/route.ts"
     },
@@ -518,7 +518,7 @@
   "session": {
     "startedAt": "2026-02-21T15:55:09.018Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-03-18T06:17:07.546Z"
+    "lastActivity": "2026-03-18T10:02:43.252Z"
   },
   "history": [
     {
@@ -2569,6 +2569,78 @@
     },
     {
       "timestamp": "2026-03-18T06:17:07.546Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T09:26:06.393Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T09:26:21.622Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T09:26:32.792Z",
+      "feature": "[month]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T09:26:34.173Z",
+      "feature": "items",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T09:26:35.929Z",
+      "feature": "[id]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T09:26:38.257Z",
+      "feature": "[client]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T09:42:50.712Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T09:42:52.567Z",
+      "feature": "tabshopbar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T10:02:22.815Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T10:02:32.124Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T10:02:41.425Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-03-18T10:02:43.252Z",
       "feature": "content-calendar",
       "phase": "do",
       "action": "updated"

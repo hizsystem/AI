@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { listMonths, getCalendar, saveCalendar } from "@/lib/storage";
 import type { CalendarData } from "@/data/types";
 
+export const dynamic = "force-dynamic";
+
 // GET /api/calendar/tabshopbar → list available months
 export async function GET(
   _req: NextRequest,

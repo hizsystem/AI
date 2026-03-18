@@ -19,7 +19,9 @@ export default function TabshopbarCalendar() {
         const { months: m } = await res.json();
         setMonths(m);
         if (m.length > 0 && !currentMonth) {
-          setCurrentMonth(m[m.length - 1]);
+          // Show current month if available, otherwise latest
+          const now = getCurrentMonth();
+          setCurrentMonth(m.includes(now) ? now : m[m.length - 1]);
         }
       }
     } catch {
