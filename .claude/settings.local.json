@@ -185,7 +185,8 @@
       "Bash(cp /tmp/naver-place-backup/dashboard.html /Users/wooseongmin/AI/.claude/worktrees/naver-place/)",
       "Bash(cp -r /tmp/naver-place-backup/research /Users/wooseongmin/AI/.claude/worktrees/naver-place/)",
       "Bash(BLOB_READ_WRITE_TOKEN=\"vercel_blob_rw_X0JvgS5Jl0cT4Opu_pt6e6u7zGguXmoRld22MiA6QSnGf2a\" node -e \"\nconst { list } = require\\('@vercel/blob'\\);\n\\(async \\(\\) => {\n  const result = await list\\({ prefix: 'calendar/tabshopbar/', limit: 20 }\\);\n  console.log\\('Total blobs:', result.blobs.length\\);\n  for \\(const b of result.blobs\\) {\n    console.log\\(JSON.stringify\\({\n      pathname: b.pathname,\n      size: b.size,\n      uploadedAt: b.uploadedAt\n    }\\)\\);\n  }\n}\\)\\(\\).catch\\(e => console.error\\(e.message\\)\\);\n\" 2>&1)",
-      "Bash(git remote:*)"
+      "Bash(git remote:*)",
+      "mcp__figma-remote-mcp__get_screenshot"
     ]
   },
   "hooks": {
