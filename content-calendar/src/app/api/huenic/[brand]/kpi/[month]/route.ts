@@ -50,7 +50,12 @@ export async function PUT(
     return NextResponse.json({ error: "Invalid month format. Use YYYY-MM" }, { status: 400 });
   }
 
-  const body = await req.json();
-  await saveKpiData(brand, parsed.year, parsed.month, body);
-  return NextResponse.json({ ok: true });
+  try {
+    const body = await req.json();
+    await saveKpiData(brand, parsed.year, parsed.month, body);
+    return NextResponse.json({ ok: true });
+  } catch (e) {
+    const message = e instanceof Error ? e.message : "저장에 실패했습니다";
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

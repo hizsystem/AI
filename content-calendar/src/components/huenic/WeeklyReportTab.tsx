@@ -54,7 +54,11 @@ export default function WeeklyReportTab({ brand }: WeeklyReportTabProps) {
   const handleCoachSave = useCallback(
     async (comment: NonNullable<WeeklyReport["coachComment"]>) => {
       if (!report) return;
-      await saveReport({ ...report, coachComment: comment });
+      try {
+        await saveReport({ ...report, coachComment: comment });
+      } catch {
+        alert("저장에 실패했습니다. 다시 시도해주세요.");
+      }
     },
     [report, saveReport]
   );
@@ -62,7 +66,11 @@ export default function WeeklyReportTab({ brand }: WeeklyReportTabProps) {
   const handlePlanSave = useCallback(
     async (plans: string[]) => {
       if (!report) return;
-      await saveReport({ ...report, nextWeekPlan: plans });
+      try {
+        await saveReport({ ...report, nextWeekPlan: plans });
+      } catch {
+        alert("저장에 실패했습니다. 다시 시도해주세요.");
+      }
     },
     [report, saveReport]
   );

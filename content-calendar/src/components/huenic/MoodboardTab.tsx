@@ -8,7 +8,7 @@ import InstagramGrid from "./InstagramGrid";
 import BrandMoodboard from "./BrandMoodboard";
 import ContentModal from "@/components/ContentModal";
 
-const AVAILABLE_MONTHS = ["2026-03"];
+const AVAILABLE_MONTHS = ["2026-03", "2026-04"];
 
 interface MoodboardTabProps {
   brand: HuenicBrand;
@@ -17,7 +17,7 @@ interface MoodboardTabProps {
 export default function MoodboardTab({ brand }: MoodboardTabProps) {
   const client = `huenic-${brand}`;
   const [currentMonth, setCurrentMonth] = useState(
-    AVAILABLE_MONTHS[AVAILABLE_MONTHS.length - 1]
+    AVAILABLE_MONTHS[0]
   );
   const [editMode, setEditMode] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null);
@@ -138,7 +138,7 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
   if (error || !data) {
     return (
       <div className="flex items-center justify-center py-20">
-        <p className="text-gray-400">{error || `No data for ${currentMonth}`}</p>
+        <p className="text-gray-400">{error || `${currentMonth} 데이터가 아직 없습니다`}</p>
       </div>
     );
   }

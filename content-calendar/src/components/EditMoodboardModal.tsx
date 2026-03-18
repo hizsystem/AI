@@ -10,12 +10,14 @@ interface EditMoodboardModalProps {
   };
   onSave: (moodboard: { description?: string; items: MoodboardItem[] }) => void;
   onClose: () => void;
+  clientId?: string;
 }
 
 export default function EditMoodboardModal({
   moodboard,
   onSave,
   onClose,
+  clientId = "default",
 }: EditMoodboardModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -42,7 +44,7 @@ export default function EditMoodboardModal({
       for (const file of Array.from(files)) {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("client", "tabshopbar");
+        formData.append("client", clientId);
         const res = await fetch("/api/upload", { method: "POST", body: formData });
         if (!res.ok) continue;
         const { url } = await res.json();

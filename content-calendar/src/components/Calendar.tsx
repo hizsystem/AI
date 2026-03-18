@@ -41,7 +41,7 @@ export default function Calendar({
   onUpdateItem,
   onDeleteItem,
   onSaveCalendar,
-  logo = { src: '/tsb-logo.png', alt: 'TAP SHOP BAR' },
+  logo = { src: '', alt: '' },
 }: CalendarProps) {
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null);
   const [editingItem, setEditingItem] = useState<ContentItem | null | "new">(null);
@@ -428,8 +428,10 @@ export default function Calendar({
       {selectedItem && !editMode && (
         <ContentModal
           item={selectedItem}
-          category={categoryMap[selectedItem.category]}
+          category={categoryMap[selectedItem.category] || { id: "", name: "기타", color: "#888" }}
           onClose={() => setSelectedItem(null)}
+          logo={logo}
+          accountName={logo.alt}
         />
       )}
 
