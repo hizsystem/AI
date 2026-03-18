@@ -5,7 +5,7 @@ import Calendar from "@/components/Calendar";
 import { useCalendarData } from "@/hooks/useCalendarData";
 import type { HuenicBrand } from "@/data/huenic-types";
 
-const AVAILABLE_MONTHS = ["2026-03", "2026-04"];
+const AVAILABLE_MONTHS = ["2026-03", "2026-04", "2026-05"];
 
 interface CalendarTabProps {
   brand: HuenicBrand;
@@ -13,9 +13,7 @@ interface CalendarTabProps {
 
 export default function CalendarTab({ brand }: CalendarTabProps) {
   const client = `huenic-${brand}`;
-  const [currentMonth, setCurrentMonth] = useState(
-    AVAILABLE_MONTHS[0]
-  );
+  const [currentMonth, setCurrentMonth] = useState("2026-04");
   const [editMode, setEditMode] = useState(false);
 
   const { data, loading, error, addItem, updateItem, deleteItem, saveCalendar } =

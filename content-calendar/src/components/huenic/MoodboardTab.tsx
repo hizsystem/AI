@@ -8,7 +8,7 @@ import InstagramGrid from "./InstagramGrid";
 import BrandMoodboard from "./BrandMoodboard";
 import ContentModal from "@/components/ContentModal";
 
-const AVAILABLE_MONTHS = ["2026-03", "2026-04"];
+const AVAILABLE_MONTHS = ["2026-03", "2026-04", "2026-05"];
 
 interface MoodboardTabProps {
   brand: HuenicBrand;
@@ -16,9 +16,7 @@ interface MoodboardTabProps {
 
 export default function MoodboardTab({ brand }: MoodboardTabProps) {
   const client = `huenic-${brand}`;
-  const [currentMonth, setCurrentMonth] = useState(
-    AVAILABLE_MONTHS[0]
-  );
+  const [currentMonth, setCurrentMonth] = useState("2026-04");
   const [editMode, setEditMode] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null);
 

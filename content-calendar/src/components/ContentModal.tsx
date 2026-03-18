@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { ContentItem, Category, ContentStatus } from "@/data/types";
 
 const STATUS_CONFIG: Record<ContentStatus, { label: string; bg: string; text: string }> = {
@@ -27,10 +27,15 @@ export default function ContentModal({
   accountName = "",
 }: ContentModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
+  const [imageIndex, setImageIndex] = useState(0);
+
+  const imageCount = item.overview?.images?.length ?? 0;
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft" && imageCount > 1) setImageIndex((i) => Math.max(0, i - 1));
+      if (e.key === "ArrowRight" && imageCount > 1) setImageIndex((i) => Math.min(imageCount - 1, i + 1));
     }
     document.addEventListener("keydown", handleKeyDown);
     document.body.style.overflow = "hidden";
@@ -38,7 +43,10 @@ export default function ContentModal({
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [onClose]);
+  }, [onClose, imageCount]);
+
+  // Reset index when item changes
+  useEffect(() => { setImageIndex(0); }, [item.id]);
 
   const { overview } = item;
 
@@ -100,12 +108,46 @@ export default function ContentModal({
               <span className="text-white/50 text-[11px] tracking-wide">Instagram에서 보기</span>
             </a>
           ) : overview.images && overview.images.length > 0 ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={overview.images[0]}
-              alt={item.title}
-              className="w-full h-full object-contain"
-            />
+            <div className="relative w-full h-full flex items-center justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={overview.images[imageIndex]}
+                alt={`${item.title} ${imageIndex + 1}`}
+                className="w-full h-full object-contain"
+              />
+              {overview.images.length > 1 && (
+                <>
+                  {/* Previous button */}
+                  {imageIndex > 0 && (
+                    <button
+                      onClick={() => setImageIndex((i) => i - 1)}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center hover:bg-white transition-colors"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </button>
+                  )}
+                  {/* Next button */}
+                  {imageIndex < overview.images.length - 1 && (
+                    <button
+                      onClick={() => setImageIndex((i) => i + 1)}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center hover:bg-white transition-colors"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                    </button>
+                  )}
+                  {/* Dots indicator */}
+                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+                    {overview.images.map((_, i) => (
+                      <button
+                        key={i}
+                        onClick={() => setImageIndex(i)}
+                        className={`w-1.5 h-1.5 rounded-full transition-colors ${i === imageIndex ? "bg-white" : "bg-white/40"}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center gap-5">
               <div
