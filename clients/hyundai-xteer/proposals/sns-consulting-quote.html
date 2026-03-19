@@ -251,6 +251,62 @@
     color: var(--text);
   }
 
+  /* ── Deliverable list ── */
+  .quote-deliverables {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .quote-deliverables-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .deliverable-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .deliverable-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    padding: 6px 0;
+  }
+  .deliverable-item .d-check {
+    color: var(--orange);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .deliverable-item .d-label {
+    font-weight: 600;
+  }
+  .deliverable-item .d-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    display: block;
+    font-weight: 400;
+  }
+
+  /* ── Highlight box ── */
+  .highlight-box {
+    background: var(--orange-light);
+    border-left: 3px solid var(--orange);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-size: 13px;
+    color: var(--text-sub);
+    line-height: 1.6;
+  }
+
   /* ── Next steps ── */
   .next-steps {
     display: flex;
@@ -314,7 +370,7 @@
 <div class="cover">
   <div class="cover-label">Service Scope & Quotation</div>
   <h1>HYUNDAI <span>XTeer</span><br>SNS 컨설팅 견적 제안</h1>
-  <p class="cover-sub">서비스 범위, 진행 방식, 견적 안내</p>
+  <p class="cover-sub">인스타그램 비주얼 전략 + 디자인 가이드라인</p>
   <div class="cover-meta">
     <div class="cover-meta-item">
       <label>To</label>
@@ -333,57 +389,72 @@
 
 <div class="container">
 
+<!-- ═══ 배경 ═══ -->
+<section>
+  <div class="section-label">Background</div>
+  <h2>배경</h2>
+  <p class="desc">내부 디자이너가 콘텐츠를 제작하되, 채널 전체의 비주얼 방향과 운영 기준이 필요한 상황입니다.</p>
+
+  <div class="highlight-box">
+    국내/해외 제품 패키지 디자인이 상이하여, 하나의 인스타그램 채널에서 일관된 브랜드 이미지를 구축하기 위한 비주얼 전략과 가이드라인을 수립합니다.
+  </div>
+</section>
+
 <!-- ═══ 서비스 범위 ═══ -->
 <section>
   <div class="section-label">Service Scope</div>
   <h2>서비스 범위</h2>
   <p class="desc">BRANDRISE가 수행하는 역할과 산출물입니다.</p>
 
-  <div style="font-size:13px; font-weight:600; color:var(--orange); letter-spacing:1px; margin-bottom:10px;">MONTH 1 — 전략 셋업</div>
+  <div style="font-size:13px; font-weight:600; color:var(--orange); letter-spacing:1px; margin-bottom:10px;">STEP 1 — 진단 (Week 1)</div>
   <div class="action-grid">
     <div class="action-item">
       <div class="ai-num">01</div>
-      <div class="ai-title">SNS 채널 진단 + 경쟁사 벤치마크</div>
-      <div class="ai-output">XTeer 현황 + ZIC/Kixx/S-OIL + 해외 딜러 비교 리포트</div>
+      <div class="ai-title">SNS 채널 진단</div>
+      <div class="ai-output">XTeer 인스타그램 현황 분석 리포트</div>
     </div>
     <div class="action-item">
       <div class="ai-num">02</div>
-      <div class="ai-title">인스타그램 포지셔닝 전략</div>
-      <div class="ai-output">타겟, 톤앤보이스, 콘텐츠 방향, 게시 전략 기획서</div>
+      <div class="ai-title">경쟁사 벤치마크</div>
+      <div class="ai-output">ZIC / Kixx / S-OIL + 해외 윤활유 브랜드 비교</div>
     </div>
-    <div class="action-item">
+    <div class="action-item" style="grid-column: span 2;">
       <div class="ai-num">03</div>
-      <div class="ai-title">SNS 디자인 가이드라인</div>
-      <div class="ai-output">그리드, 컬러, 타이포, 템플릿 3종, Do & Don't</div>
-    </div>
-    <div class="action-item">
-      <div class="ai-num">04</div>
-      <div class="ai-title">콘텐츠 기획</div>
-      <div class="ai-output">콘텐츠 캘린더 + 카피 방향 + 레퍼런스</div>
+      <div class="ai-title">국내·해외 제품 비주얼 분석</div>
+      <div class="ai-output">패키지 디자인 차이점 정리 + 통합 비주얼 방향 도출</div>
     </div>
   </div>
 
-  <div style="font-size:13px; font-weight:600; color:var(--orange); letter-spacing:1px; margin: 28px 0 10px;">매월 — 운영 지원</div>
+  <div style="font-size:13px; font-weight:600; color:var(--orange); letter-spacing:1px; margin: 28px 0 10px;">STEP 2 — 전략 + 가이드라인 (Week 2–3)</div>
   <div class="action-grid">
     <div class="action-item">
-      <div class="ai-num">05</div>
-      <div class="ai-title">월간 콘텐츠 기획</div>
-      <div class="ai-output">콘텐츠 캘린더 + 카피 방향 + 레퍼런스</div>
+      <div class="ai-num">04</div>
+      <div class="ai-title">인스타그램 무드보드</div>
+      <div class="ai-output">채널 전체 비주얼 톤 + 무드 레퍼런스</div>
     </div>
     <div class="action-item">
-      <div class="ai-num">06</div>
-      <div class="ai-title">콘텐츠 리뷰 + 피드백</div>
-      <div class="ai-output">내부 제작 콘텐츠 사전 검수 (월 8건)</div>
+      <div class="ai-num">05</div>
+      <div class="ai-title">SNS 디자인 가이드라인</div>
+      <div class="ai-output">그리드, 컬러, 타이포, 템플릿 3종, Do & Don't</div>
     </div>
+    <div class="action-item" style="grid-column: span 2;">
+      <div class="ai-num">06</div>
+      <div class="ai-title">콘텐츠 방향 가이드</div>
+      <div class="ai-output">카테고리별 콘텐츠 기획 방향 + 레퍼런스</div>
+    </div>
+  </div>
+
+  <div style="font-size:13px; font-weight:600; color:var(--orange); letter-spacing:1px; margin: 28px 0 10px;">STEP 3 — 전달 (Week 4)</div>
+  <div class="action-grid">
     <div class="action-item">
       <div class="ai-num">07</div>
-      <div class="ai-title">월간 성과 리뷰</div>
-      <div class="ai-output">KPI 점검 + 전략 조정 + 다음 달 방향</div>
+      <div class="ai-title">가이드라인 전달 미팅</div>
+      <div class="ai-output">산출물 전달 + 활용법 설명 (화상 1h)</div>
     </div>
     <div class="action-item">
       <div class="ai-num">08</div>
-      <div class="ai-title">정기 미팅 2회</div>
-      <div class="ai-output">화상 1h × 2회 (기획 공유 + 성과 리뷰)</div>
+      <div class="ai-title">Q&A + 피드백</div>
+      <div class="ai-output">가이드라인 적용 관련 질의응답</div>
     </div>
   </div>
 </section>
@@ -392,30 +463,31 @@
 <section>
   <div class="section-label">Process</div>
   <h2>진행 방식</h2>
-  <p class="desc">첫 달에 전략을 셋업하고, 이후 매월 운영을 함께 합니다.</p>
+  <p class="desc">4주 단기 프로젝트로, 산출물 납품 후 종료됩니다.</p>
 
   <div class="timeline-bar">
-    <div class="tbar-seg" style="width:33%; background:var(--text);">
-      <span class="tbar-week">Month 1</span>
-      <span class="tbar-label">전략 셋업 + 가이드라인</span>
+    <div class="tbar-seg" style="width:25%; background:var(--text);">
+      <span class="tbar-week">Week 1</span>
+      <span class="tbar-label">진단</span>
     </div>
-    <div class="tbar-seg" style="width:33%; background:var(--orange);">
-      <span class="tbar-week">Month 2</span>
-      <span class="tbar-label">운영 안착</span>
+    <div class="tbar-seg" style="width:50%; background:var(--orange);">
+      <span class="tbar-week">Week 2–3</span>
+      <span class="tbar-label">전략 + 가이드라인</span>
     </div>
-    <div class="tbar-seg" style="width:34%; background:var(--orange-soft);">
-      <span class="tbar-week">Month 3+</span>
-      <span class="tbar-label">성과 최적화</span>
+    <div class="tbar-seg" style="width:25%; background:var(--orange-soft);">
+      <span class="tbar-week">Week 4</span>
+      <span class="tbar-label">전달</span>
     </div>
   </div>
   <div class="timeline-desc">
-    <span>← 전략 수립 + 가이드라인 납품 →</span>
-    <span>← 매월 기획 · 리뷰 · 전략 조정 →</span>
+    <span>리서치</span>
+    <span>무드보드 + 디자인 가이드라인 제작</span>
+    <span>핸드오프</span>
   </div>
 
-  <p style="font-size:13px; color:var(--text-sub); margin-top:20px;">
-    전략 설계 후 1회로 끝나는 것이 아니라, 매월 콘텐츠 기획과 성과 리뷰를 함께 진행합니다.
-  </p>
+  <div class="highlight-box" style="margin-top:24px;">
+    콘텐츠 제작은 포함되지 않습니다. 내부 디자이너가 가이드라인을 바탕으로 자체 제작하며, 전달 미팅에서 활용법을 안내합니다.
+  </div>
 </section>
 
 <!-- ═══ 견적 ═══ -->
@@ -424,29 +496,74 @@
   <h2>견적</h2>
 
   <div class="quote-box">
-    <div class="quote-badge">월간 리테이너</div>
+    <div class="quote-badge">단기 프로젝트 &middot; 4주</div>
     <div class="quote-row">
-      <div class="quote-title">SNS 전략 + 운영 지원</div>
-      <div class="quote-price">500만원<span class="quote-price-sub">/월 (VAT 별도)</span></div>
+      <div class="quote-title">SNS 비주얼 전략 + 디자인 가이드라인</div>
+      <div class="quote-price">500만원<span class="quote-price-sub"> (VAT 별도)</span></div>
     </div>
     <div class="quote-details">
       <div class="quote-detail">
-        <label>최소 계약</label>
-        <span>3개월</span>
+        <label>프로젝트 기간</label>
+        <span>약 4주</span>
       </div>
       <div class="quote-detail">
-        <label>월간 산출물</label>
-        <span>콘텐츠 기획 + 리뷰 + 정기 미팅 2회</span>
+        <label>콘텐츠 제작</label>
+        <span>미포함</span>
       </div>
       <div class="quote-detail">
         <label>결제</label>
-        <span>월 선결제</span>
+        <span>착수 시 선결제</span>
+      </div>
+    </div>
+
+    <div class="quote-deliverables">
+      <div class="quote-deliverables-label">포함 산출물</div>
+      <div class="deliverable-grid">
+        <div class="deliverable-item">
+          <span class="d-check">&#10003;</span>
+          <div>
+            <span class="d-label">채널 진단 리포트</span>
+            <span class="d-desc">XTeer 현황 + 경쟁사 벤치마크</span>
+          </div>
+        </div>
+        <div class="deliverable-item">
+          <span class="d-check">&#10003;</span>
+          <div>
+            <span class="d-label">국내·해외 비주얼 분석</span>
+            <span class="d-desc">패키지 차이 정리 + 통합 방향</span>
+          </div>
+        </div>
+        <div class="deliverable-item">
+          <span class="d-check">&#10003;</span>
+          <div>
+            <span class="d-label">인스타그램 무드보드</span>
+            <span class="d-desc">채널 비주얼 톤 + 무드 레퍼런스</span>
+          </div>
+        </div>
+        <div class="deliverable-item">
+          <span class="d-check">&#10003;</span>
+          <div>
+            <span class="d-label">SNS 디자인 가이드라인</span>
+            <span class="d-desc">그리드 · 컬러 · 타이포 · 템플릿 3종</span>
+          </div>
+        </div>
+        <div class="deliverable-item">
+          <span class="d-check">&#10003;</span>
+          <div>
+            <span class="d-label">콘텐츠 방향 가이드</span>
+            <span class="d-desc">카테고리별 기획 방향 + 레퍼런스</span>
+          </div>
+        </div>
+        <div class="deliverable-item">
+          <span class="d-check">&#10003;</span>
+          <div>
+            <span class="d-label">전달 미팅 + Q&A</span>
+            <span class="d-desc">활용법 설명 · 질의응답 (화상 1h)</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <p style="font-size:12px; color:var(--text-muted); margin-top:8px;">
-    첫 달에 전략 셋업(진단, 포지셔닝, 가이드라인)을 포함하여 진행합니다.
-  </p>
 </section>
 
 <!-- ═══ 다음 단계 ═══ -->
