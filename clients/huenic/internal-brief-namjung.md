@@ -92,8 +92,38 @@
 
 ---
 
+---
+
+## Part 3. 빙커(VINKER) 4월 — 투트랙
+
+> 상세: `vinker/april-plan-v1.md` 참조
+
+빙커는 최소 유지이지만, **4월부터 캐나다 리테일 입점/데모 시작**이라 피드 정비 필요.
+
+### 남중 관련 포인트
+
+| 항목 | 내용 |
+|------|------|
+| 월 콘텐츠 | 4개 (HIZ 기획/카피, 기존 촬영분 활용) |
+| 남중 역할 | 카피 초안 (영어), 콘텐츠 브리프 작성 서포트 |
+| 주의 | 빙커 카피는 **영어 기본**. "plant-based protein, crafted in Korea" 톤 |
+| 시딩 | 해외 시딩은 4월 아직 불필요. 입점 이후 현지 인플루언서 검토 (5월~) |
+
+### 4월 콘텐츠 4개 (매주 수요일)
+
+| 주차 | 주제 | 남중 할 일 |
+|------|------|----------|
+| 4/2 | Brand Reintroduction | 영문 카피 초안 |
+| 4/9 | Product Spotlight (서리태) | 성분 데이터 정리 + 영문 카피 |
+| 4/16 | Now in Canada (입점 안내) | 입점 정보 확인 (휴닉에서 수신) |
+| 4/23 | How to Enjoy (음용 릴스) | 영문 카피 초안 |
+
+---
+
 ## 참고 파일
 
 - 전체 시리즈 설계: `veggiet/content-series-design.md`
 - 4월 통합 기획안: `veggiet/april-integrated-plan-v1.md`
+- 빙커 4월 플랜: `vinker/april-plan-v1.md`
+- 빙커 글로벌 리서치: `vinker/market-research-global-20260318.md`
 - 경쟁사 분석 (AG1 크리에이터 전략 참고): `competitor-deep-analysis.md`
