@@ -8,24 +8,33 @@ export async function PATCH(
   { params }: { params: Promise<{ client: string; month: string; id: string }> }
 ) {
   const { client, month, id } = await params;
-  const data = await getCalendar(client, month);
-  if (!data) {
-    return NextResponse.json({ error: "Calendar not found" }, { status: 404 });
-  }
 
-  const updates = await req.json();
-  const idx = data.items.findIndex((item) => item.id === id);
-  if (idx === -1) {
-    return NextResponse.json({ error: "Item not found" }, { status: 404 });
-  }
+  try {
+    const data = await getCalendar(client, month);
+    if (!data) {
+      return NextResponse.json({ error: "Calendar not found" }, { status: 404 });
+    }
 
-  data.items[idx] = { ...data.items[idx], ...updates };
-  if (updates.overview) {
-    data.items[idx].overview = { ...data.items[idx].overview, ...updates.overview };
-  }
+    const updates = await req.json();
+    const idx = data.items.findIndex((item) => item.id === id);
+    if (idx === -1) {
+      return NextResponse.json({ error: "Item not found" }, { status: 404 });
+    }
 
-  await saveCalendar(client, month, data);
-  return NextResponse.json(data.items[idx]);
+    data.items[idx] = { ...data.items[idx], ...updates };
+    if (updates.overview) {
+      data.items[idx].overview = { ...data.items[idx].overview, ...updates.overview };
+    }
+
+    await saveCalendar(client, month, data);
+    return NextResponse.json(data.items[idx]);
+  } catch (e) {
+    console.error("PATCH /items error:", e);
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : "Unknown error" },
+      { status: 500 }
+    );
+  }
 }
 
 export async function DELETE(

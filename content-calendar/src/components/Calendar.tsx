@@ -53,6 +53,7 @@ export default function Calendar({
   const [dragItemId, setDragItemId] = useState<string | null>(null);
   const [dropTargetDay, setDropTargetDay] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const categoryMap = useMemo(() => {
     const map: Record<string, Category> = {};
@@ -161,15 +162,20 @@ export default function Calendar({
   const handleSaveItem = useCallback(
     async (item: ContentItem) => {
       setSaving(true);
+      setSaveError(null);
       try {
         if (editingItem === "new" && onAddItem) {
           await onAddItem(item);
         } else if (onUpdateItem) {
           await onUpdateItem(item.id, item);
         }
+        setEditingItem(null);
+      } catch (e) {
+        console.error("Save failed:", e);
+        const msg = e instanceof Error ? e.message : "Unknown error";
+        setSaveError(`저장 실패: ${msg}`);
       } finally {
         setSaving(false);
-        setEditingItem(null);
       }
     },
     [editingItem, onAddItem, onUpdateItem]
@@ -275,6 +281,18 @@ export default function Calendar({
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
             </svg>
             저장 중...
+          </div>
+        )}
+
+        {/* Save error */}
+        {saveError && (
+          <div className="mb-4 px-4 py-2 bg-red-50 border border-red-200 rounded-lg text-sm text-red-600 flex items-center justify-between">
+            <span>{saveError}</span>
+            <button onClick={() => setSaveError(null)} className="text-red-400 hover:text-red-600 ml-2">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+            </button>
           </div>
         )}
 

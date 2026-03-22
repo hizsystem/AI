@@ -52,7 +52,10 @@ export function useCalendarData(
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(item),
       });
-      if (!res.ok) throw new Error("Failed to add item");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Failed to add item (${res.status})`);
+      }
       const newItem = await res.json();
       setData((prev) =>
         prev ? { ...prev, items: [...prev.items, newItem] } : prev
@@ -71,7 +74,10 @@ export function useCalendarData(
           body: JSON.stringify(updates),
         }
       );
-      if (!res.ok) throw new Error("Failed to update item");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Failed to update item (${res.status})`);
+      }
       const updated = await res.json();
       setData((prev) =>
         prev
