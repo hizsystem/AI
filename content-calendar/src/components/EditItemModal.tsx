@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { upload } from "@vercel/blob/client";
 import type { ContentItem, Category, ContentStatus } from "@/data/types";
 
 interface EditItemModalProps {
@@ -45,6 +46,7 @@ export default function EditItemModal({
   const [images, setImages] = useState<string[]>(item?.overview?.images ?? []);
   const [localVideo, setLocalVideo] = useState(item?.overview?.localVideo ?? "");
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
@@ -90,14 +92,34 @@ export default function EditItemModal({
 
   async function handleVideoUpload(files: FileList | null) {
     if (!files || files.length === 0) return;
+    const file = files[0];
     setUploading(true);
+    setUploadProgress(0);
     try {
-      const url = await uploadFile(files[0]);
-      setLocalVideo(url);
+      // Client-side direct upload — bypasses 4.5MB serverless limit
+      const timestamp = Date.now();
+      const safeName = file.name
+        .replace(/[^a-zA-Z0-9가-힣._-]/g, "_")
+        .replace(/_{2,}/g, "_");
+      const blob = await upload(
+        `uploads/${clientId}/${timestamp}-${safeName}`,
+        file,
+        {
+          access: "public",
+          handleUploadUrl: "/api/upload/client-token",
+          onUploadProgress: ({ percentage }) => {
+            setUploadProgress(Math.round(percentage));
+          },
+        }
+      );
+      setLocalVideo(blob.url);
     } catch (e) {
       console.error("Video upload error:", e);
+      const msg = e instanceof Error ? e.message : "영상 업로드 실패";
+      alert(`영상 업로드 실패: ${msg}`);
     } finally {
       setUploading(false);
+      setUploadProgress(0);
     }
   }
 
@@ -342,12 +364,22 @@ export default function EditItemModal({
               </button>
             </div>
             {uploading && (
-              <div className="mt-2 flex items-center gap-2 text-xs text-blue-500">
-                <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
-                </svg>
-                업로드 중...
+              <div className="mt-2 space-y-1">
+                <div className="flex items-center gap-2 text-xs text-blue-500">
+                  <svg className="animate-spin h-3 w-3" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                  </svg>
+                  업로드 중...{uploadProgress > 0 && ` ${uploadProgress}%`}
+                </div>
+                {uploadProgress > 0 && (
+                  <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-blue-500 rounded-full transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    />
+                  </div>
+                )}
               </div>
             )}
           </div>
