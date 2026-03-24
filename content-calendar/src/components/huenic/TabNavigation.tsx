@@ -1,10 +1,12 @@
 "use client";
 
-export type HuenicTab = "calendar" | "moodboard" | "report" | "kpi";
+export type HuenicTab = "calendar" | "moodboard" | "ref" | "guide" | "report" | "kpi";
 
 const TABS: { id: HuenicTab; label: string }[] = [
   { id: "calendar", label: "캘린더" },
   { id: "moodboard", label: "무드보드" },
+  { id: "ref", label: "Ref." },
+  { id: "guide", label: "가이드" },
   { id: "report", label: "주간 리포트" },
   { id: "kpi", label: "KPI" },
 ];

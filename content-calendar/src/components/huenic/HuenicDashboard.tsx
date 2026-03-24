@@ -8,6 +8,8 @@ import CalendarTab from "./CalendarTab";
 import WeeklyReportTab from "./WeeklyReportTab";
 import KpiTab from "./KpiTab";
 import MoodboardTab from "./MoodboardTab";
+import RefTab from "./RefTab";
+import GuideTab from "./GuideTab";
 import type { HuenicBrand } from "@/data/huenic-types";
 
 function validBrand(b: string | null): HuenicBrand {
@@ -15,7 +17,7 @@ function validBrand(b: string | null): HuenicBrand {
 }
 
 function validTab(t: string | null): HuenicTab {
-  return t === "calendar" || t === "moodboard" || t === "report" || t === "kpi" ? t : "calendar";
+  return t === "calendar" || t === "moodboard" || t === "ref" || t === "guide" || t === "report" || t === "kpi" ? t : "calendar";
 }
 
 export default function HuenicDashboard() {
@@ -64,6 +66,8 @@ export default function HuenicDashboard() {
         <div className="mt-6">
           {tab === "calendar" && <CalendarTab brand={brand} />}
           {tab === "moodboard" && <MoodboardTab brand={brand} />}
+          {tab === "ref" && <RefTab brand={brand} />}
+          {tab === "guide" && <GuideTab brand={brand} />}
           {tab === "report" && <WeeklyReportTab brand={brand} />}
           {tab === "kpi" && <KpiTab brand={brand} />}
         </div>

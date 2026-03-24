@@ -1,5 +1,6 @@
 import { put, list, del } from "@vercel/blob";
-import type { WeeklyReport, KpiData, HuenicBrand } from "@/data/huenic-types";
+import type { WeeklyReport, KpiData, RefData, HuenicBrand } from "@/data/huenic-types";
+import { VEGGIET_REF_COLLECTIONS, VINKER_REF_COLLECTIONS } from "@/data/huenic-types";
 
 // Static seed fallback
 import veggietReportW11 from "@/data/huenic-seed/veggiet-report-2026-W11.json";
@@ -116,6 +117,63 @@ export async function saveKpiData(
 
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
     STATIC_KPI[`${brand}:${year}-${mm}`] = data;
+    return;
+  }
+
+  try {
+    const { blobs } = await list({ prefix: path, limit: 1 });
+    if (blobs.length > 0) {
+      await del(blobs[0].url);
+    }
+  } catch {
+    // ignore
+  }
+
+  await put(path, JSON.stringify(data), {
+    access: "public",
+    contentType: "application/json",
+    addRandomSuffix: false,
+  });
+}
+
+// --- Refs ---
+
+function refBlobPath(brand: HuenicBrand): string {
+  return `huenic/${brand}/refs.json`;
+}
+
+function defaultRefData(brand: HuenicBrand): RefData {
+  return {
+    brand,
+    collections: brand === "veggiet" ? VEGGIET_REF_COLLECTIONS : VINKER_REF_COLLECTIONS,
+    items: [],
+  };
+}
+
+export async function getRefData(brand: HuenicBrand): Promise<RefData> {
+  const path = refBlobPath(brand);
+
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const { blobs } = await list({ prefix: path, limit: 1 });
+      if (blobs.length > 0) {
+        const res = await fetch(blobs[0].url);
+        if (res.ok) {
+          return (await res.json()) as RefData;
+        }
+      }
+    } catch (e) {
+      console.error("Blob read error (refs):", e);
+    }
+  }
+
+  return defaultRefData(brand);
+}
+
+export async function saveRefData(brand: HuenicBrand, data: RefData): Promise<void> {
+  const path = refBlobPath(brand);
+
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
     return;
   }
 
