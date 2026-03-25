@@ -71,7 +71,7 @@ export default function InstagramGrid({
   }
 
   return (
-    <div className="grid grid-cols-3 gap-0.5 bg-gray-100 border border-gray-200 rounded-lg overflow-hidden">
+    <div className="grid grid-cols-3 gap-0.5 bg-gray-100 border-x border-b border-gray-200 overflow-hidden">
       {items.map((item, idx) => {
         const cat = categoryMap[item.category];
         const hasImage =
@@ -88,7 +88,8 @@ export default function InstagramGrid({
             onDrop={(e) => editMode && handleDrop(e, idx)}
             onDragEnd={handleDragEnd}
             onClick={() => onItemClick?.(item)}
-            className={`relative aspect-square cursor-pointer transition-all ${
+            style={{ aspectRatio: "1 / 1" }}
+            className={`relative cursor-pointer transition-all overflow-hidden ${
               isDragging ? "opacity-30 scale-95" : ""
             } ${isDropTarget ? "ring-2 ring-inset ring-blue-400" : ""} ${
               editMode ? "cursor-grab active:cursor-grabbing" : ""

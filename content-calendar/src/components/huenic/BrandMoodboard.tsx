@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 
 interface MoodboardImage {
   url: string;
@@ -72,6 +72,33 @@ export default function BrandMoodboard({
     },
     [handleFileUpload]
   );
+
+  const handlePaste = useCallback(
+    async (e: ClipboardEvent) => {
+      if (!editMode) return;
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      const imageFiles: File[] = [];
+      for (const item of Array.from(items)) {
+        if (item.type.startsWith("image/")) {
+          const file = item.getAsFile();
+          if (file) imageFiles.push(file);
+        }
+      }
+      if (imageFiles.length === 0) return;
+      e.preventDefault();
+      const dt = new DataTransfer();
+      imageFiles.forEach((f) => dt.items.add(f));
+      handleFileUpload(dt.files);
+    },
+    [editMode, handleFileUpload]
+  );
+
+  useEffect(() => {
+    if (!editMode) return;
+    document.addEventListener("paste", handlePaste);
+    return () => document.removeEventListener("paste", handlePaste);
+  }, [editMode, handlePaste]);
 
   const handleRemove = useCallback(
     (idx: number) => {
@@ -175,7 +202,7 @@ export default function BrandMoodboard({
                 이미지를 드래그하거나 클릭하여 업로드
               </p>
               <p className="text-xs text-gray-300 mt-1">
-                여러 파일 동시 업로드 가능
+                여러 파일 동시 업로드 가능 · Ctrl+V 붙여넣기
               </p>
             </>
           )}
@@ -197,19 +224,19 @@ export default function BrandMoodboard({
     );
   }
 
-  // View mode — with images
+  // View mode — with images (full-width, scrollable)
   return (
-    <div className="grid grid-cols-4 sm:grid-cols-6 gap-1.5">
+    <div className="columns-2 sm:columns-3 gap-2 space-y-2">
       {images.map((img, idx) => (
         <div
           key={idx}
-          className="relative aspect-square rounded-lg overflow-hidden group"
+          className="relative rounded-lg overflow-hidden group break-inside-avoid"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={img.url}
             alt={img.label || ""}
-            className="w-full h-full object-cover"
+            className="w-full h-auto object-cover"
           />
           {img.label && (
             <div className="absolute bottom-0 inset-x-0 bg-black/50 px-1.5 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity">

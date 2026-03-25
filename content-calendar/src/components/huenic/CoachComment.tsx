@@ -12,7 +12,7 @@ interface CoachCommentProps {
 
 export default function CoachComment({ comment, onSave }: CoachCommentProps) {
   const [editing, setEditing] = useState(false);
-  const [author, setAuthor] = useState(comment?.author ?? "Green");
+  const [author, setAuthor] = useState(comment?.author ?? "");
   const [wellDone, setWellDone] = useState(comment?.wellDone ?? "");
   const [improvement, setImprovement] = useState(comment?.improvement ?? "");
   const [tryNext, setTryNext] = useState(comment?.tryNext ?? "");

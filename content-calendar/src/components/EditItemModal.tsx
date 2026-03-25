@@ -88,6 +88,33 @@ export default function EditItemModal({
     }
   }
 
+  async function handlePaste(e: React.ClipboardEvent) {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    const imageFiles: File[] = [];
+    for (const item of Array.from(items)) {
+      if (item.type.startsWith("image/")) {
+        const file = item.getAsFile();
+        if (file) imageFiles.push(file);
+      }
+    }
+    if (imageFiles.length === 0) return;
+    e.preventDefault();
+    setUploading(true);
+    try {
+      const urls: string[] = [];
+      for (const file of imageFiles) {
+        const url = await uploadFile(file);
+        urls.push(url);
+      }
+      setImages((prev) => [...prev, ...urls]);
+    } catch (e) {
+      console.error("Paste upload error:", e);
+    } finally {
+      setUploading(false);
+    }
+  }
+
   async function handleVideoUpload(files: FileList | null) {
     if (!files || files.length === 0) return;
     setUploading(true);
@@ -140,7 +167,7 @@ export default function EditItemModal({
         if (e.target === overlayRef.current) onClose();
       }}
     >
-      <div className="bg-white rounded-xl shadow-2xl max-w-[560px] w-full max-h-[85vh] overflow-hidden flex flex-col">
+      <div className="bg-white rounded-xl shadow-2xl max-w-[560px] w-full max-h-[85vh] overflow-hidden flex flex-col" onPaste={handlePaste}>
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
           <h2 className="text-lg font-bold text-gray-900">
@@ -307,6 +334,7 @@ export default function EditItemModal({
                 </svg>
                 이미지 추가
               </button>
+              <span className="text-[10px] text-gray-400 self-center">or Ctrl+V 붙여넣기</span>
               <input
                 ref={videoInputRef}
                 type="file"
@@ -361,7 +389,7 @@ export default function EditItemModal({
               type="text"
               value={hashtags}
               onChange={(e) => setHashtags(e.target.value)}
-              placeholder="#탭샵바 #와인바 #셀프탭"
+              placeholder="#베지어트 #VEGGIET #식물성단백질"
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>

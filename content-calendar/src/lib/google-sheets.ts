@@ -6,7 +6,7 @@ import type { WeeklyReport, KpiData, HuenicBrand } from "@/data/huenic-types";
  * 시트 헤더는 한글. 브랜드명도 한글(베지어트/빙커).
  */
 
-const SHEET_ID = process.env.NEXT_PUBLIC_HUENIC_SHEET_ID || "";
+const SHEET_ID = process.env.HUENIC_SHEET_ID || "";
 
 function sheetUrl(tabName: string): string {
   return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tabName)}`;

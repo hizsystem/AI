@@ -100,7 +100,7 @@ export default function RefTab({ brand }: RefTabProps) {
       thumbnailUrl: newThumbnail || undefined,
       platform: detectPlatform(newUrl),
       comment: newComment.trim() || undefined,
-      addedBy: "HIZ",
+      addedBy: "",
       createdAt: new Date().toISOString(),
     };
     await addItem(item);
@@ -391,7 +391,7 @@ function RefCard({
             rel="noopener noreferrer"
             className="text-xs text-blue-500 hover:underline truncate max-w-[200px]"
           >
-            {item.url ? new URL(item.url).hostname + "/..." : "링크 없음"}
+            {item.url ? (() => { try { return new URL(item.url).hostname + "/..."; } catch { return item.url; } })() : "링크 없음"}
           </a>
           <div className="flex items-center gap-2">
             {item.addedBy && (

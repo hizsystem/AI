@@ -136,6 +136,79 @@ export async function saveKpiData(
   });
 }
 
+// --- Guide ---
+
+export interface GuideSeriesData {
+  id: string;
+  name: string;
+  color: string;
+  hook: string;
+  concern: string;
+  oneLiner: string;
+  reference: string;
+  referenceDetail: string;
+  visual: string[];
+  examples: string[];
+  frequency: string;
+  format: string;
+}
+
+export interface GuideData {
+  brand: HuenicBrand;
+  keyMessage: string;
+  series: GuideSeriesData[];
+}
+
+function guideBlobPath(brand: HuenicBrand): string {
+  return `huenic/${brand}/guide.json`;
+}
+
+const STATIC_GUIDE: Record<string, GuideData> = {};
+
+export async function getGuideData(brand: HuenicBrand): Promise<GuideData | null> {
+  const path = guideBlobPath(brand);
+
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    try {
+      const { blobs } = await list({ prefix: path, limit: 1 });
+      if (blobs.length > 0) {
+        const res = await fetch(blobs[0].url);
+        if (res.ok) {
+          return (await res.json()) as GuideData;
+        }
+      }
+    } catch (e) {
+      console.error("Blob read error (guide):", e);
+    }
+  }
+
+  return STATIC_GUIDE[brand] ?? null;
+}
+
+export async function saveGuideData(brand: HuenicBrand, data: GuideData): Promise<void> {
+  const path = guideBlobPath(brand);
+
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    STATIC_GUIDE[brand] = data;
+    return;
+  }
+
+  try {
+    const { blobs } = await list({ prefix: path, limit: 1 });
+    if (blobs.length > 0) {
+      await del(blobs[0].url);
+    }
+  } catch {
+    // ignore
+  }
+
+  await put(path, JSON.stringify(data), {
+    access: "public",
+    contentType: "application/json",
+    addRandomSuffix: false,
+  });
+}
+
 // --- Refs ---
 
 function refBlobPath(brand: HuenicBrand): string {
