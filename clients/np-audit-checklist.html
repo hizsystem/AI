@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>네이버 플레이스 진단 체크리스트 — 브랜드라이즈</title>
+  <meta name="description" content="네이버 플레이스 100점 진단. 매장 현황을 체크하면 맞춤 개선안을 드립니다.">
+  <meta property="og:title" content="네이버 플레이스 진단 체크리스트">
+  <meta property="og:description" content="5분이면 끝나는 매장 현황 체크. 100점 만점 진단 리포트를 받아보세요.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+      background: #f8f9fa;
+      color: #1a1a1a;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px 20px 120px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 32px 0 28px;
+      margin-bottom: 24px;
+    }
+
+    .brand-logo {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #9ca3af;
+      margin-bottom: 16px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+
+    .header p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    /* Store Info */
+    .store-info {
+      background: #fff;
+      border: 2px solid #1a1a1a;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 28px;
+    }
+
+    .store-info-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6b7280;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .store-field {
+      margin-bottom: 12px;
+    }
+
+    .store-field:last-child { margin-bottom: 0; }
+
+    .store-field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 5px;
+      color: #374151;
+    }
+
+    .store-input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .store-input:focus {
+      border-color: #1a1a1a;
+    }
+
+    .store-input::placeholder {
+      color: #9ca3af;
+    }
+
+    .store-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* Notice */
+    .notice {
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 28px;
+      font-size: 13px;
+      color: #0369a1;
+      line-height: 1.7;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid #1a1a1a;
+    }
+
+    .section-grade {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .grade-s { background: #dc2626; }
+    .grade-a { background: #ea580c; }
+    .grade-b { background: #2563eb; }
+    .grade-x { background: #7c3aed; }
+    .grade-extra { background: #059669; }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-left: auto;
+    }
+
+    /* Item */
+    .item {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 10px;
+      transition: border-color 0.15s;
+    }
+
+    .item:has(input:checked) {
+      border-color: #86efac;
+      background: #f0fdf4;
+    }
+
+    .item-label {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      letter-spacing: -0.01em;
+    }
+
+    .item-desc {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 12px;
+    }
+
+    .item-options {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .item-options label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .item-options label:has(input:checked) {
+      border-color: #16a34a;
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .item-options input[type="radio"] {
+      display: none;
+    }
+
+    /* Text input */
+    .item-text {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .item-text:focus {
+      border-color: #16a34a;
+    }
+
+    .item-text::placeholder {
+      color: #9ca3af;
+    }
+
+    textarea.item-text {
+      min-height: 72px;
+      resize: vertical;
+    }
+
+    /* Progress */
+    .progress-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-top: 1px solid #e5e7eb;
+      padding: 12px 20px;
+      z-index: 100;
+    }
+
+    .progress-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-track {
+      flex: 1;
+      height: 6px;
+      background: #e5e7eb;
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: #16a34a;
+      border-radius: 100px;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+
+    .progress-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      white-space: nowrap;
+    }
+
+    .btn-copy {
+      padding: 8px 20px;
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .btn-copy:hover { background: #374151; }
+    .btn-copy:active { background: #000; }
+    .btn-copy.copied { background: #16a34a; }
+
+    .btn-submit {
+      padding: 8px 20px;
+      background: #16a34a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .btn-submit:hover { background: #15803d; }
+    .btn-submit:active { background: #166534; }
+    .btn-submit:disabled {
+      background: #9ca3af;
+      cursor: not-allowed;
+    }
+    .btn-submit.done { background: #16a34a; }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #1a1a1a;
+      color: #fff;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 200;
+      transition: transform 0.3s ease;
+      text-align: center;
+      max-width: 90vw;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .toast.error {
+      background: #dc2626;
+    }
+
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 28px 0;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 32px 0 0;
+      font-size: 12px;
+      color: #9ca3af;
+      line-height: 1.8;
+    }
+
+    .footer a {
+      color: #6b7280;
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container { padding: 16px 16px 120px; }
+      .header h1 { font-size: 21px; }
+      .item-options { flex-direction: column; }
+      .item-options label { justify-content: center; }
+      .store-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="brand-logo">Brandrise</div>
+    <h1>네이버 플레이스<br>100점 진단 체크리스트</h1>
+    <p>각 항목을 체크해주시면 맞춤 진단 리포트를 보내드립니다.<br>5분이면 끝납니다.</p>
+  </div>
+
+  <!-- 매장 정보 입력 -->
+  <div class="store-info">
+    <div class="store-info-title">매장 정보</div>
+    <div class="store-field">
+      <label>매장명 *</label>
+      <input type="text" class="store-input" name="store-name" placeholder="예: 미례국밥 센텀점">
+    </div>
+    <div class="store-row">
+      <div class="store-field">
+        <label>업종</label>
+        <input type="text" class="store-input" name="store-type" placeholder="예: 국밥, 카페">
+      </div>
+      <div class="store-field">
+        <label>상권/지역</label>
+        <input type="text" class="store-input" name="store-area" placeholder="예: 센텀, 홍대">
+      </div>
+    </div>
+    <div class="store-field">
+      <label>네이버 플레이스 URL</label>
+      <input type="text" class="store-input" name="store-url" placeholder="https://m.place.naver.com/...">
+    </div>
+    <div class="store-field">
+      <label>담당자 연락처</label>
+      <input type="text" class="store-input" name="store-contact" placeholder="카카오톡 ID 또는 전화번호">
+    </div>
+  </div>
+
+  <div class="notice">
+    모르거나 확인이 어려운 항목은 비워두셔도 됩니다.<br>
+    작성 후 하단 <strong>[진단 제출]</strong> 버튼을 눌러주세요. 자동으로 접수됩니다.
+  </div>
+
+  <!-- S등급 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-grade grade-s">S</div>
+      <div class="section-title">매출 직결 항목</div>
+      <div class="section-subtitle">50점</div>
+    </div>
+
+    <div class="item" data-id="s1-review-count">
+      <div class="item-label">S1-1. 현재 리뷰 수</div>
+      <div class="item-desc">방문자 리뷰가 몇 개인가요?</div>
+      <input type="text" class="item-text" name="s1-review-count" placeholder="예: 150개">
+    </div>
+
+    <div class="item" data-id="s1-review-guide">
+      <div class="item-label">S1-2. 리뷰 유도 장치</div>
+      <div class="item-desc">리뷰 작성을 유도하는 엽서, 카드, 이벤트 등이 매장에 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="s1-review-guide" value="O">있음</label>
+        <label><input type="radio" name="s1-review-guide" value="X">없음</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="s2-ad">
+      <div class="item-label">S2. 플레이스 광고</div>
+      <div class="item-desc">네이버 플레이스 광고를 집행하고 계신가요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="s2-ad" value="미집행">미집행</label>
+        <label><input type="radio" name="s2-ad" value="집행중">집행 중</label>
+        <label><input type="radio" name="s2-ad" value="최적화">집행 + 키워드 최적화</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="s3-reserve">
+      <div class="item-label">S3-1. 네이버 예약</div>
+      <div class="item-desc">네이버 예약을 통해 고객이 예약할 수 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="s3-reserve" value="O">켜짐</label>
+        <label><input type="radio" name="s3-reserve" value="X">꺼짐</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="s3-coupon">
+      <div class="item-label">S3-2. 알림받기 쿠폰</div>
+      <div class="item-desc">알림받기 시 자동 지급되는 쿠폰이 세팅되어 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="s3-coupon" value="O">세팅됨</label>
+        <label><input type="radio" name="s3-coupon" value="X">미세팅</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="s3-talktalk">
+      <div class="item-label">S3-3. 톡톡 마케팅 메시지</div>
+      <div class="item-desc">톡톡으로 고객에게 마케팅 메시지를 보내고 계신가요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="s3-talktalk" value="O">활용 중</label>
+        <label><input type="radio" name="s3-talktalk" value="X">미활용</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- A등급 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-grade grade-a">A</div>
+      <div class="section-title">노출 순위 항목</div>
+      <div class="section-subtitle">30점</div>
+    </div>
+
+    <div class="item" data-id="a1-photo">
+      <div class="item-label">A1-1. 대표 사진 퀄리티</div>
+      <div class="item-desc">"맛있겠다 / 가보고 싶다" 느낌이 드는 사진인가요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="a1-photo" value="좋음">좋음</label>
+        <label><input type="radio" name="a1-photo" value="보통">보통</label>
+        <label><input type="radio" name="a1-photo" value="없음">없음/나쁨</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="a1-menu-photo">
+      <div class="item-label">A1-2. 메뉴별 사진</div>
+      <div class="item-desc">모든 메뉴에 사진이 등록되어 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="a1-menu-photo" value="전부">전부 있음</label>
+        <label><input type="radio" name="a1-menu-photo" value="일부">일부만</label>
+        <label><input type="radio" name="a1-menu-photo" value="없음">없음</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="a1-video">
+      <div class="item-label">A1-3. 영상 소식</div>
+      <div class="item-desc">플레이스에 영상(5~10초)이 업로드되어 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="a1-video" value="O">있음</label>
+        <label><input type="radio" name="a1-video" value="X">없음</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="a2-keyword">
+      <div class="item-label">A2-1. 대표 키워드 세팅</div>
+      <div class="item-desc">스마트플레이스에서 대표 키워드를 설정하셨나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="a2-keyword" value="O">설정됨</label>
+        <label><input type="radio" name="a2-keyword" value="X">미설정</label>
+        <label><input type="radio" name="a2-keyword" value="모름">잘 모름</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="a2-keyword-list">
+      <div class="item-label">A2-2. 현재 대표 키워드</div>
+      <div class="item-desc">설정된 키워드가 있다면 적어주세요.</div>
+      <input type="text" class="item-text" name="a2-keyword-list" placeholder="예: 강남카페, 홍대맛집, 센텀국밥">
+    </div>
+
+    <div class="item" data-id="a3-news">
+      <div class="item-label">A3-1. 최근 소식 발행</div>
+      <div class="item-desc">최근 한 달 내에 소식을 발행한 적이 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="a3-news" value="O">있음</label>
+        <label><input type="radio" name="a3-news" value="X">없음</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="a3-event">
+      <div class="item-label">A3-2. 이벤트/쿠폰</div>
+      <div class="item-desc">플레이스에 이벤트나 쿠폰이 등록되어 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="a3-event" value="O">있음</label>
+        <label><input type="radio" name="a3-event" value="X">없음</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="a4-blog">
+      <div class="item-label">A4. 블로그 체험단</div>
+      <div class="item-desc">블로그 체험단을 운영하셨거나 운영 중인가요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="a4-blog" value="운영중">운영 중</label>
+        <label><input type="radio" name="a4-blog" value="했었음">이전에 했음</label>
+        <label><input type="radio" name="a4-blog" value="X">안 해봄</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- B등급 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-grade grade-b">B</div>
+      <div class="section-title">기본기 항목</div>
+      <div class="section-subtitle">15점</div>
+    </div>
+
+    <div class="item" data-id="b1-hours">
+      <div class="item-label">B1-1. 영업시간 등록</div>
+      <div class="item-options">
+        <label><input type="radio" name="b1-hours" value="O">등록됨</label>
+        <label><input type="radio" name="b1-hours" value="X">미등록</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="b1-owner">
+      <div class="item-label">B1-2. 업주 인증</div>
+      <div class="item-desc">스마트플레이스에서 업주 인증을 완료하셨나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="b1-owner" value="O">인증 완료</label>
+        <label><input type="radio" name="b1-owner" value="X">미인증</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="b1-facility">
+      <div class="item-label">B1-3. 편의시설 등록</div>
+      <div class="item-desc">주차, 화장실, 단체석 등 편의시설이 등록되어 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="b1-facility" value="O">등록됨</label>
+        <label><input type="radio" name="b1-facility" value="X">미등록</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="b2-intro">
+      <div class="item-label">B2. 상세 소개문 분량</div>
+      <div class="item-desc">매장 소개글이 대략 얼마나 되나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="b2-intro" value="미작성">미작성</label>
+        <label><input type="radio" name="b2-intro" value="500자미만">500자 미만</label>
+        <label><input type="radio" name="b2-intro" value="1000자">~1,000자</label>
+        <label><input type="radio" name="b2-intro" value="1500자+">1,500자+</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="b3-ai">
+      <div class="item-label">B3-1. AI 브리핑</div>
+      <div class="item-desc">플레이스 AI 브리핑이 켜져 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="b3-ai" value="O">켜짐</label>
+        <label><input type="radio" name="b3-ai" value="X">꺼짐</label>
+        <label><input type="radio" name="b3-ai" value="모름">잘 모름</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="b3-name-region">
+      <div class="item-label">B3-2. 매장명에 지역명 포함</div>
+      <div class="item-desc">예: "OO카페 홍대점", "OO국밥 센텀점"처럼 지역명이 들어가 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="b3-name-region" value="O">포함</label>
+        <label><input type="radio" name="b3-name-region" value="X">미포함</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 보너스 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-grade grade-x">+</div>
+      <div class="section-title">보너스 항목</div>
+      <div class="section-subtitle">5점</div>
+    </div>
+
+    <div class="item" data-id="x1-insta">
+      <div class="item-label">X1-1. 인스타그램 연동</div>
+      <div class="item-options">
+        <label><input type="radio" name="x1-insta" value="O">연동됨</label>
+        <label><input type="radio" name="x1-insta" value="X">미연동</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="x1-carrot">
+      <div class="item-label">X1-2. 당근 비즈프로필</div>
+      <div class="item-options">
+        <label><input type="radio" name="x1-carrot" value="O">등록됨</label>
+        <label><input type="radio" name="x1-carrot" value="X">미등록</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="x1-blog">
+      <div class="item-label">X1-3. 블로그 연동</div>
+      <div class="item-options">
+        <label><input type="radio" name="x1-blog" value="O">연동됨</label>
+        <label><input type="radio" name="x1-blog" value="X">미연동</label>
+      </div>
+    </div>
+
+    <div class="item" data-id="x2-connect">
+      <div class="item-label">X2. 네이버 커넥트(포스)</div>
+      <div class="item-desc">네이버 커넥트(포스 연동)가 등록되어 있나요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="x2-connect" value="O">등록됨</label>
+        <label><input type="radio" name="x2-connect" value="X">미등록</label>
+        <label><input type="radio" name="x2-connect" value="모름">잘 모름</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- 추가 정보 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-grade grade-extra">?</div>
+      <div class="section-title">추가 정보</div>
+      <div class="section-subtitle">선택사항</div>
+    </div>
+
+    <div class="item" data-id="extra-competitor">
+      <div class="item-label">경쟁 매장</div>
+      <div class="item-desc">같은 동네에서 경쟁이라고 느끼는 매장 2~3곳이 있다면 알려주세요.</div>
+      <textarea class="item-text" name="extra-competitor" placeholder="매장명 또는 네이버 플레이스 URL"></textarea>
+    </div>
+
+    <div class="item" data-id="extra-concern">
+      <div class="item-label">현재 가장 고민인 점</div>
+      <div class="item-desc">플레이스 운영에서 가장 어려운 점이 있다면 자유롭게 적어주세요.</div>
+      <textarea class="item-text" name="extra-concern" placeholder="예: 리뷰가 안 늘어요, 검색에 잘 안 나와요..."></textarea>
+    </div>
+
+    <div class="item" data-id="extra-adlog">
+      <div class="item-label">에드로그 사용 여부</div>
+      <div class="item-desc">에드로그(adlog.co.kr)로 키워드 순위를 확인하고 계신가요?</div>
+      <div class="item-options">
+        <label><input type="radio" name="extra-adlog" value="O">사용 중</label>
+        <label><input type="radio" name="extra-adlog" value="X">미사용</label>
+        <label><input type="radio" name="extra-adlog" value="모름">처음 들어봄</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Brandrise &mdash; 네이버 플레이스 최적화 코칭<br>
+    <a href="#">문의: 카카오톡 채널 '브랜드라이즈'</a>
+  </div>
+
+</div>
+
+<!-- Progress Bar -->
+<div class="progress-bar">
+  <div class="progress-inner">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-text" id="progressText">0 / 23</div>
+    <button class="btn-copy" id="btnCopy" onclick="copyResults()">텍스트 복사</button>
+    <button class="btn-submit" id="btnSubmit" onclick="submitResults()">진단 제출</button>
+  </div>
+</div>
+
+<script>
+  const TOTAL = 23;
+
+  function updateProgress() {
+    const answered = new Set();
+    document.querySelectorAll('input[type="radio"]:checked').forEach(r => answered.add(r.name));
+    document.querySelectorAll('input.item-text, textarea.item-text, input.store-input').forEach(t => {
+      if (t.value.trim()) answered.add(t.name);
+    });
+    const count = answered.size;
+    const pct = Math.round((count / TOTAL) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = count + ' / ' + TOTAL;
+  }
+
+  document.addEventListener('change', updateProgress);
+  document.addEventListener('input', updateProgress);
+
+  function getVal(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : '-';
+  }
+
+  function getTextVal(name) {
+    const el = document.querySelector(`[name="${name}"]`);
+    return (el && el.value.trim()) ? el.value.trim() : '-';
+  }
+
+  function copyResults() {
+    const storeName = getTextVal('store-name') || '(미입력)';
+    const lines = [];
+
+    lines.push('=== 네이버 플레이스 진단 체크리스트 ===');
+    lines.push('');
+    lines.push('[매장 정보]');
+    lines.push('매장명: ' + storeName);
+    lines.push('업종: ' + getTextVal('store-type'));
+    lines.push('상권: ' + getTextVal('store-area'));
+    lines.push('플레이스URL: ' + getTextVal('store-url'));
+    lines.push('연락처: ' + getTextVal('store-contact'));
+    lines.push('작성일: ' + new Date().toLocaleDateString('ko-KR'));
+    lines.push('');
+
+    lines.push('[S등급 — 매출 직결 / 50점]');
+    lines.push('S1-1 리뷰수: ' + getTextVal('s1-review-count'));
+    lines.push('S1-2 리뷰유도장치: ' + getVal('s1-review-guide'));
+    lines.push('S2 플레이스광고: ' + getVal('s2-ad'));
+    lines.push('S3-1 예약기능: ' + getVal('s3-reserve'));
+    lines.push('S3-2 알림받기쿠폰: ' + getVal('s3-coupon'));
+    lines.push('S3-3 톡톡메시지: ' + getVal('s3-talktalk'));
+    lines.push('');
+
+    lines.push('[A등급 — 노출 순위 / 30점]');
+    lines.push('A1-1 대표사진: ' + getVal('a1-photo'));
+    lines.push('A1-2 메뉴별사진: ' + getVal('a1-menu-photo'));
+    lines.push('A1-3 영상소식: ' + getVal('a1-video'));
+    lines.push('A2-1 키워드세팅: ' + getVal('a2-keyword'));
+    lines.push('A2-2 키워드목록: ' + getTextVal('a2-keyword-list'));
+    lines.push('A3-1 소식발행: ' + getVal('a3-news'));
+    lines.push('A3-2 이벤트쿠폰: ' + getVal('a3-event'));
+    lines.push('A4 블로그체험단: ' + getVal('a4-blog'));
+    lines.push('');
+
+    lines.push('[B등급 — 기본기 / 15점]');
+    lines.push('B1-1 영업시간: ' + getVal('b1-hours'));
+    lines.push('B1-2 업주인증: ' + getVal('b1-owner'));
+    lines.push('B1-3 편의시설: ' + getVal('b1-facility'));
+    lines.push('B2 소개문분량: ' + getVal('b2-intro'));
+    lines.push('B3-1 AI브리핑: ' + getVal('b3-ai'));
+    lines.push('B3-2 매장명지역명: ' + getVal('b3-name-region'));
+    lines.push('');
+
+    lines.push('[보너스 / 5점]');
+    lines.push('X1-1 인스타: ' + getVal('x1-insta'));
+    lines.push('X1-2 당근: ' + getVal('x1-carrot'));
+    lines.push('X1-3 블로그: ' + getVal('x1-blog'));
+    lines.push('X2 커넥트: ' + getVal('x2-connect'));
+    lines.push('');
+
+    lines.push('[추가 정보]');
+    lines.push('경쟁매장: ' + getTextVal('extra-competitor'));
+    lines.push('고민: ' + getTextVal('extra-concern'));
+    lines.push('에드로그: ' + getVal('extra-adlog'));
+
+    const text = lines.join('\n');
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('btnCopy');
+      btn.textContent = '복사 완료';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = '결과 복사';
+        btn.classList.remove('copied');
+      }, 2000);
+    });
+  }
+</script>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ★ Apps Script 배포 URL을 여기에 붙여넣으세요
+  const SCRIPT_URL = '__APPS_SCRIPT_URL__';
+
+  function showToast(msg, isError) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (isError ? ' error' : '');
+    setTimeout(() => { t.className = 'toast'; }, 3000);
+  }
+
+  function collectData() {
+    const data = {};
+    // store fields
+    document.querySelectorAll('.store-input').forEach(el => {
+      data[el.name] = el.value.trim();
+    });
+    // radio
+    document.querySelectorAll('input[type="radio"]:checked').forEach(el => {
+      data[el.name] = el.value;
+    });
+    // text/textarea items
+    document.querySelectorAll('input.item-text, textarea.item-text').forEach(el => {
+      if (el.value.trim()) data[el.name] = el.value.trim();
+    });
+    return data;
+  }
+
+  function submitResults() {
+    const data = collectData();
+
+    if (!data['store-name']) {
+      showToast('매장명을 입력해주세요.', true);
+      document.querySelector('[name="store-name"]').focus();
+      return;
+    }
+
+    const btn = document.getElementById('btnSubmit');
+    btn.disabled = true;
+    btn.textContent = '제출 중...';
+
+    // Apps Script URL이 세팅되지 않았으면 복사 모드로 fallback
+    if (SCRIPT_URL === '__APPS_SCRIPT_URL__') {
+      // fallback: 클립보드 복사
+      copyResults();
+      showToast('제출 기능 준비 중 — 결과가 복사되었습니다. 카톡으로 보내주세요.', false);
+      btn.disabled = false;
+      btn.textContent = '진단 제출';
+      return;
+    }
+
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(() => {
+      btn.textContent = '제출 완료';
+      btn.classList.add('done');
+      showToast(data['store-name'] + ' 진단이 접수되었습니다. 리포트를 보내드릴게요!', false);
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.textContent = '진단 제출';
+        btn.classList.remove('done');
+      }, 5000);
+    })
+    .catch(() => {
+      btn.disabled = false;
+      btn.textContent = '진단 제출';
+      showToast('전송에 실패했습니다. 잠시 후 다시 시도해주세요.', true);
+    });
+  }
+</script>
+
+</body>
+</html>
