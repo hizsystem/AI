@@ -1,0 +1,202 @@
+<!--
+  BRANDRISE — Brand Guide HTML Template
+  ======================================
+  이 파일은 /figma-brand 스킬의 HTML 생성 레퍼런스 템플릿이다.
+
+  사용법:
+  - Step 3에서 이 구조를 기반으로 브랜드별 HTML을 생성한다
+  - {{PLACEHOLDER}} 변수를 실제 브랜드 정보로 치환한다
+  - 선택 섹션은 조건에 따라 포함/제외한다
+
+  레퍼런스 구현: weetamin-brand-guide.html (위타민 실제 적용 사례)
+
+  핵심 규칙:
+  1. 모든 텍스트에 인라인 style="color:#XXXXXX" 필수
+  2. 한글 폰트는 시스템 폰트 (-apple-system, sans-serif)
+  3. 영문 폰트는 Bricolage Grotesque (Google Fonts)
+  4. Figma 캡처 스크립트 포함 필수
+  5. 페이지 너비 1200px 고정
+-->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{BRAND_NAME_EN}} Brand Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, sans-serif; background: #F5F5F5; color: #1A1A1A; }
+  .page { width: 1200px; margin: 0 auto; background: #FFFFFF; }
+
+  /* Cover */
+  .cover { background: {{PRIMARY_COLOR}}; height: 600px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; }
+
+  /* Sections */
+  .section { padding: 80px 80px; }
+  .section--gray { background: #FAFAFA; }
+  .divider { border: none; border-top: 3px dashed #DBEAFE; margin: 0; }
+
+  /* Color Cards (3x2 grid) */
+  .color-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-bottom: 60px; }
+  .color-card { border: 1px solid #E5E5E5; border-radius: 12px; overflow: hidden; }
+  .color-card__swatch { height: 140px; border-radius: 8px; margin: 12px; }
+  .color-card__body { padding: 20px 24px 24px; }
+
+  /* Product Color Bars */
+  .product-color-row { display: flex; align-items: center; margin-bottom: 16px; }
+  .product-color-row__label { width: 180px; font-size: 15px; font-weight: 600; flex-shrink: 0; }
+  .product-color-row__bars { display: flex; flex: 1; height: 56px; border-radius: 8px; overflow: hidden; }
+  .product-color-row__bar { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; }
+
+  /* Typography Table */
+  .typo-table { width: 100%; border-collapse: collapse; }
+  .typo-row { border-bottom: 1px solid #E5E5E5; }
+  .typo-row td { padding: 28px 0; vertical-align: middle; }
+  .typo-row__role { width: 160px; }
+
+  /* Logo Rules (2x2 grid) */
+  .logo-rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .logo-rule-card { padding: 32px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5; }
+
+  /* Voice Cards */
+  .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .voice-card { padding: 32px; border-radius: 12px; border: 1px solid #E5E5E5; }
+  .voice-card--do { background: #F0F9F1; border-color: #B5CDB8; }
+  .voice-card--dont { background: #FEF2F2; border-color: #FECACA; }
+
+  /* Naming Cards (3x grid) */
+  .naming-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .naming-card { padding: 28px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5; }
+
+  /* Photo Cards (2x2 grid) */
+  .photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 48px; }
+  .photo-card { border: 1px solid #E5E5E5; border-radius: 12px; overflow: hidden; }
+  .photo-card__visual { height: 180px; display: flex; align-items: center; justify-content: center; }
+  .photo-card__body { padding: 24px; }
+
+  /* Props */
+  .props-row { display: flex; gap: 16px; }
+  .prop-chip { flex: 1; padding: 20px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5; text-align: center; }
+
+  /* Instagram Mock Grid */
+  .insta-mock { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; border-radius: 12px; overflow: hidden; margin-bottom: 48px; }
+  .insta-cell { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; }
+
+  /* Rule Cards */
+  .rule-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; }
+  .rule-card { padding: 28px; border: 1px solid #E5E5E5; border-radius: 12px; }
+
+  /* Package Specs */
+  .package-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .package-spec { padding: 32px; background: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5; text-align: center; }
+  .package-spec__circle { width: 80px; height: 80px; border-radius: 50%; margin: 0 auto 20px; }
+
+  /* Essence Cards */
+  .essence-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 28px; margin-top: 48px; }
+  .essence-card { padding: 36px 28px; border: 1px solid #E5E5E5; border-radius: 12px; }
+
+  /* Keyword Tags */
+  .keyword-row { display: flex; gap: 12px; }
+
+  /* Footer */
+  .footer { padding: 48px 80px; background: {{PRIMARY_COLOR}}; font-size: 13px; display: flex; justify-content: space-between; align-items: center; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===== COVER ===== -->
+  <div class="cover">
+    <p style="color:rgba(255,255,255,0.45); font-family:'Bricolage Grotesque',serif; font-size:13px; letter-spacing:4px; text-transform:uppercase;">Brand Guidelines</p>
+    <h1 style="color:#FFFFFF; font-family:'Bricolage Grotesque',serif; font-size:64px; font-weight:700;">{{BRAND_NAME_EN}}</h1>
+    <p style="color:rgba(255,255,255,0.5); font-size:16px;">{{YEAR}}</p>
+  </div>
+
+  <!-- ===== 1. BRAND IDENTITY ===== -->
+  <div class="section">
+    <p style="color:#999999; font-size:13px; font-weight:600; letter-spacing:4px; text-transform:uppercase; margin-bottom:12px;">Brand Essence</p>
+    <h2 style="color:#1A1A1A; font-size:36px; font-weight:800; margin-bottom:60px;">Brand Identity</h2>
+
+    <div class="keyword-row">
+      <!-- {{KEYWORDS}} 배열의 각 항목을 pill로 -->
+      <span style="color:#FFFFFF; background:{{PRIMARY_COLOR}}; padding:14px 28px; border-radius:100px; font-size:16px; font-weight:600;">{{KEYWORD_1}}</span>
+      <span style="color:#FFFFFF; background:{{PRIMARY_COLOR}}; padding:14px 28px; border-radius:100px; font-size:16px; font-weight:600;">{{KEYWORD_2}}</span>
+      <span style="color:#FFFFFF; background:{{PRIMARY_COLOR}}; padding:14px 28px; border-radius:100px; font-size:16px; font-weight:600;">{{KEYWORD_3}}</span>
+      <span style="color:#1A1A1A; background:transparent; border:2px solid #DDDDDD; padding:14px 28px; border-radius:100px; font-size:16px; font-weight:600;">{{TAGLINE_EN}}</span>
+    </div>
+
+    <div class="essence-grid">
+      <div class="essence-card">
+        <p style="color:#999999; font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px;">Mission</p>
+        <h3 style="color:#1A1A1A; font-size:22px; font-weight:700; margin-bottom:12px; line-height:1.4;">{{MISSION_TITLE}}</h3>
+        <p style="color:#666666; font-size:14px; line-height:1.7;">{{MISSION_TEXT}}</p>
+      </div>
+      <div class="essence-card">
+        <p style="color:#999999; font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px;">Personality</p>
+        <h3 style="color:#1A1A1A; font-size:22px; font-weight:700; margin-bottom:12px; line-height:1.4;">{{PERSONALITY_TITLE}}</h3>
+        <p style="color:#666666; font-size:14px; line-height:1.7;">{{PERSONALITY_TEXT}}</p>
+      </div>
+      <div class="essence-card">
+        <p style="color:#999999; font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px;">Promise</p>
+        <h3 style="color:#1A1A1A; font-size:22px; font-weight:700; margin-bottom:12px; line-height:1.4;">{{PROMISE_TITLE}}</h3>
+        <p style="color:#666666; font-size:14px; line-height:1.7;">{{PROMISE_TEXT}}</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== 2. BRAND COLORS ===== -->
+  <!-- 3x2 color-grid + Product Series Color Guide -->
+  <!-- references/step3-generate.md의 Color Cards 섹션 참조 -->
+  <!-- 각 카드: swatch + name + role + CMYK/RGB/HEX 인라인 컬러 적용 -->
+
+  <hr class="divider">
+
+  <!-- ===== 3. TYPEFACES ===== -->
+  <!-- typo-table: Logo / English Title / Title / Body Bold / Body -->
+  <!-- references/step3-generate.md의 Typefaces 섹션 참조 -->
+
+  <hr class="divider">
+
+  <!-- ===== 4. LOGO USAGE RULES ===== -->
+  <!-- 2x2 logo-rules-grid: Clear Space / Min Size / Light BG / Dark BG -->
+
+  <hr class="divider">
+
+  <!-- ===== 5. TONE OF VOICE ===== -->
+  <!-- voice-grid: Do / Don't 카드 -->
+
+  <hr class="divider">
+
+  <!-- ===== 6. PRODUCT NAMING (선택: 제품 3개+ & 패턴) ===== -->
+  <!-- naming-grid: 제품별 카드 -->
+
+  <hr class="divider">
+
+  <!-- ===== 7. PHOTOGRAPHY STYLE (선택: 인스타 스크린샷) ===== -->
+  <!-- photo-grid + props-row -->
+
+  <hr class="divider">
+
+  <!-- ===== 8. INSTAGRAM GRID RULES (선택: 인스타 스크린샷) ===== -->
+  <!-- insta-mock + rule-cards -->
+
+  <hr class="divider">
+
+  <!-- ===== 9. PACKAGE SPECS (선택: 제품 2개+ & 물리적) ===== -->
+  <!-- package-grid -->
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    <span style="color:#FFFFFF; font-family:'Bricolage Grotesque',serif; font-size:22px; font-weight:700;">{{BRAND_NAME_EN}}</span>
+    <span style="color:rgba(255,255,255,0.4);">Brand Guidelines — Prepared by BRANDRISE | {{YEAR}}</span>
+  </div>
+
+</div>
+</body>
+</html>

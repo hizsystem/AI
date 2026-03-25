@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WEETAMIN Brand Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap" rel="stylesheet">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Pretendard', -apple-system, sans-serif;
+    background: #F5F5F5;
+    color: #1A1A1A;
+  }
+
+  .page {
+    width: 1200px;
+    margin: 0 auto;
+    background: #FFFFFF;
+  }
+
+  /* ===== COVER ===== */
+  .cover {
+    background: #0D1B3C;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .cover__badge {
+    font-family: 'Bricolage Grotesque', serif;
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+
+  .cover__title {
+    font-family: 'Bricolage Grotesque', serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: -1px;
+  }
+
+  .cover__sub {
+    font-size: 16px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ===== SECTIONS ===== */
+  .section {
+    padding: 80px 80px;
+  }
+
+  .section--gray {
+    background: #FAFAFA;
+  }
+
+  .section__label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #999999;
+    margin-bottom: 12px;
+  }
+
+  .section__title {
+    font-size: 36px;
+    font-weight: 800;
+    color: #1A1A1A;
+    margin-bottom: 60px;
+  }
+
+  .divider {
+    border: none;
+    border-top: 3px dashed #DBEAFE;
+    margin: 0;
+  }
+
+  /* ===== COLOR CARDS (VEGGIET STYLE) ===== */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    margin-bottom: 60px;
+  }
+
+  .color-card {
+    border: 1px solid #E5E5E5;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .color-card__swatch {
+    height: 140px;
+    border-radius: 8px;
+    margin: 12px;
+  }
+
+  .color-card__body {
+    padding: 20px 24px 24px;
+  }
+
+  .color-card__name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 2px;
+  }
+
+  .color-card__role {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999999;
+    margin-bottom: 16px;
+  }
+
+  .color-card__spec {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.8;
+    font-family: 'Bricolage Grotesque', serif;
+  }
+
+  /* ===== PRODUCT COLOR GUIDE ===== */
+  .product-color-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 28px;
+  }
+
+  .product-color-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .product-color-row__label {
+    width: 180px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1A1A1A;
+    flex-shrink: 0;
+  }
+
+  .product-color-row__bars {
+    display: flex;
+    flex: 1;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .product-color-row__bar {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* ===== TYPOGRAPHY (VEGGIET STYLE) ===== */
+  .typo-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .typo-row {
+    border-bottom: 1px solid #E5E5E5;
+  }
+
+  .typo-row td {
+    padding: 28px 0;
+    vertical-align: middle;
+  }
+
+  .typo-row__role {
+    width: 160px;
+  }
+
+  .typo-row__role-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999999;
+    margin-bottom: 4px;
+  }
+
+  .typo-row__role-font {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1A1A1A;
+  }
+
+  .typo-row__sample {
+    font-size: 32px;
+    color: #1A1A1A;
+  }
+
+  .typo-row__sample--logo {
+    font-family: 'Bricolage Grotesque', serif;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -1px;
+  }
+
+  .typo-row__sample--title {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+  }
+
+  .typo-row__sample--body-bold {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .typo-row__sample--body {
+    font-family: 'Pretendard', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+  }
+
+  .typo-row__sample-sub {
+    font-size: 13px;
+    color: #999999;
+    margin-top: 4px;
+  }
+
+  /* ===== LOGO USAGE RULES ===== */
+  .logo-rules-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .logo-rule-card {
+    padding: 32px;
+    background: #FAFAFA;
+    border-radius: 12px;
+    border: 1px solid #E5E5E5;
+  }
+
+  .logo-rule-card__label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999999;
+    margin-bottom: 16px;
+  }
+
+  .logo-rule-card__text {
+    font-size: 15px;
+    color: #333333;
+    line-height: 1.7;
+  }
+
+  /* ===== TONE OF VOICE ===== */
+  .voice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+
+  .voice-card {
+    padding: 32px;
+    border-radius: 12px;
+    border: 1px solid #E5E5E5;
+  }
+
+  .voice-card--do {
+    background: #F0F9F1;
+    border-color: #B5CDB8;
+  }
+
+  .voice-card--dont {
+    background: #FEF2F2;
+    border-color: #FECACA;
+  }
+
+  .voice-card__tag {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    color: #FFFFFF;
+  }
+
+  .voice-card--do .voice-card__tag {
+    background: #5A8C5E;
+  }
+
+  .voice-card--dont .voice-card__tag {
+    background: #DC2626;
+  }
+
+  .voice-card__item {
+    font-size: 15px;
+    color: #333333;
+    line-height: 2;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .voice-card__item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .voice-card--do .voice-card__item::before { background: #5A8C5E; }
+  .voice-card--dont .voice-card__item::before { background: #DC2626; }
+
+  /* ===== PRODUCT NAMING ===== */
+  .naming-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .naming-card {
+    padding: 28px;
+    background: #FAFAFA;
+    border-radius: 12px;
+    border: 1px solid #E5E5E5;
+  }
+
+  .naming-card__product {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 8px;
+  }
+
+  .naming-card__desc {
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .naming-card__pattern {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #B07D4F;
+    background: #FAF0E6;
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+
+  /* ===== PHOTOGRAPHY ===== */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-bottom: 48px;
+  }
+
+  .photo-card {
+    border: 1px solid #E5E5E5;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .photo-card__visual {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .photo-card__visual--flatlay {
+    background: linear-gradient(135deg, #E8DDD0 0%, #D4C5B5 50%, #C9B8A5 100%);
+  }
+
+  .photo-card__visual--stripe {
+    background: repeating-linear-gradient(0deg, #FFFFFF 0px, #FFFFFF 4px, #8BA3C4 4px, #8BA3C4 6px);
+  }
+
+  .photo-card__visual--navy {
+    background: #0D1B3C;
+  }
+
+  .photo-card__visual--product {
+    background: linear-gradient(135deg, #F5F0EB 0%, #EDE5DA 100%);
+  }
+
+  .photo-card__visual-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #666666;
+    text-align: center;
+    padding: 20px;
+    line-height: 1.6;
+  }
+
+  .photo-card__visual--navy .photo-card__visual-text {
+    color: rgba(255,255,255,0.8);
+    font-family: 'Bricolage Grotesque', serif;
+    font-size: 24px;
+    font-weight: 700;
+  }
+
+  .photo-card__body {
+    padding: 24px;
+  }
+
+  .photo-card__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 8px;
+  }
+
+  .photo-card__desc {
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.6;
+  }
+
+  /* Props */
+  .props-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 20px;
+  }
+
+  .props-row {
+    display: flex;
+    gap: 16px;
+  }
+
+  .prop-chip {
+    flex: 1;
+    padding: 20px;
+    background: #FAFAFA;
+    border-radius: 12px;
+    border: 1px solid #E5E5E5;
+    text-align: center;
+  }
+
+  .prop-chip__icon {
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .prop-chip__name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1A1A1A;
+    margin-bottom: 4px;
+  }
+
+  .prop-chip__role {
+    font-size: 12px;
+    color: #999999;
+  }
+
+  /* ===== INSTAGRAM GRID ===== */
+  .insta-mock {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+
+  .insta-cell {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .insta-cell--warm { background: #E8DDD0; }
+  .insta-cell--light { background: #F5F0EB; }
+  .insta-cell--navy { background: #0D1B3C; }
+
+  .insta-cell__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #666666;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .insta-cell--navy .insta-cell__label {
+    color: rgba(255,255,255,0.8);
+    font-family: 'Bricolage Grotesque', serif;
+  }
+
+  .rule-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 24px;
+  }
+
+  .rule-card {
+    padding: 28px;
+    border: 1px solid #E5E5E5;
+    border-radius: 12px;
+  }
+
+  .rule-card__number {
+    font-family: 'Bricolage Grotesque', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #DDDDDD;
+    margin-bottom: 12px;
+  }
+
+  .rule-card__title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 8px;
+  }
+
+  .rule-card__desc {
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.6;
+  }
+
+  /* ===== PACKAGE SPECS (VEGGIET STYLE) ===== */
+  .package-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+
+  .package-spec {
+    padding: 32px;
+    background: #FAFAFA;
+    border-radius: 12px;
+    border: 1px solid #E5E5E5;
+    text-align: center;
+  }
+
+  .package-spec__circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+  }
+
+  .package-spec__name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 4px;
+  }
+
+  .package-spec__size {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 4px;
+  }
+
+  .package-spec__detail {
+    font-size: 12px;
+    color: #999999;
+  }
+
+  /* ===== BRAND ESSENCE ===== */
+  .essence-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 28px;
+    margin-top: 48px;
+  }
+
+  .essence-card {
+    padding: 36px 28px;
+    border: 1px solid #E5E5E5;
+    border-radius: 12px;
+  }
+
+  .essence-card__label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #999999;
+    margin-bottom: 16px;
+  }
+
+  .essence-card__title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1A1A1A;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .essence-card__text {
+    font-size: 14px;
+    color: #666666;
+    line-height: 1.7;
+  }
+
+  .keyword-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .keyword-tag {
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-size: 16px;
+    font-weight: 600;
+    background: #0D1B3C;
+    color: #FFFFFF;
+  }
+
+  .keyword-tag--outline {
+    background: transparent;
+    color: #1A1A1A;
+    border: 2px solid #DDDDDD;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    padding: 48px 80px;
+    background: #0D1B3C;
+    color: rgba(255,255,255,0.4);
+    font-size: 13px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer__brand {
+    font-family: 'Bricolage Grotesque', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===== COVER ===== -->
+  <div class="cover">
+    <p class="cover__badge" style="color:rgba(255,255,255,0.45)">Brand Guidelines</p>
+    <h1 class="cover__title" style="color:#FFFFFF">weetamin</h1>
+    <p class="cover__sub" style="color:rgba(255,255,255,0.5)">2026</p>
+  </div>
+
+  <!-- ===== BRAND ESSENCE ===== -->
+  <div class="section">
+    <p class="section__label" style="color:#999999">Brand Essence</p>
+    <h2 class="section__title" style="color:#1A1A1A">Brand Identity</h2>
+
+    <div class="keyword-row">
+      <span class="keyword-tag" style="color:#FFFFFF; background:#0D1B3C">전문적 신뢰</span>
+      <span class="keyword-tag" style="color:#FFFFFF; background:#0D1B3C">친근한 건강</span>
+      <span class="keyword-tag" style="color:#FFFFFF; background:#0D1B3C">깔끔한 정직</span>
+      <span class="keyword-tag keyword-tag--outline" style="color:#1A1A1A">Your health, delivered.</span>
+    </div>
+
+    <div class="essence-grid">
+      <div class="essence-card">
+        <p class="essence-card__label" style="color:#999999">Mission</p>
+        <h3 class="essence-card__title" style="color:#1A1A1A">약사의 전문성을<br>일상의 건강으로</h3>
+        <p class="essence-card__text" style="color:#666666">약국에서만 들을 수 있던 영양제 지식을, 누구나 쉽게 접할 수 있도록. 연구하고 만들고 설명합니다.</p>
+      </div>
+      <div class="essence-card">
+        <p class="essence-card__label" style="color:#999999">Personality</p>
+        <h3 class="essence-card__title" style="color:#1A1A1A">믿을 수 있는<br>건강한 이웃</h3>
+        <p class="essence-card__text" style="color:#666666">전문적이지만 권위적이지 않은. 과학적이지만 어렵지 않은. 약사이자 이웃처럼 다가가는 브랜드.</p>
+      </div>
+      <div class="essence-card">
+        <p class="essence-card__label" style="color:#999999">Promise</p>
+        <h3 class="essence-card__title" style="color:#1A1A1A">성분부터 설명까지<br>정직하게</h3>
+        <p class="essence-card__text" style="color:#666666">불필요한 성분은 빼고, 필요한 것만 담고, 왜 그런지 설명합니다. 과대광고 없이 솔직하게.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== COLOR SYSTEM ===== -->
+  <div class="section">
+    <p class="section__label" style="color:#999999">Color System</p>
+    <h2 class="section__title" style="color:#1A1A1A">Brand Colors</h2>
+
+    <div class="color-grid">
+      <div class="color-card">
+        <div class="color-card__swatch" style="background: #0D1B3C; border-radius: 8px;"></div>
+        <div class="color-card__body">
+          <p class="color-card__name" style="color:#1A1A1A">Weetamin Navy</p>
+          <p class="color-card__role" style="color:#999999">Primary</p>
+          <p class="color-card__spec" style="color:#666666">
+            CMYK 95 / 85 / 45 / 45<br>
+            RGB 13 / 27 / 60<br>
+            HEX #0D1B3C
+          </p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-card__swatch" style="background: #7A9E7E; border-radius: 8px;"></div>
+        <div class="color-card__body">
+          <p class="color-card__name" style="color:#1A1A1A">Weetamin Sage</p>
+          <p class="color-card__role" style="color:#999999">Secondary</p>
+          <p class="color-card__spec" style="color:#666666">
+            CMYK 45 / 15 / 42 / 5<br>
+            RGB 122 / 158 / 126<br>
+            HEX #7A9E7E
+          </p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-card__swatch" style="background: #D4956A; border-radius: 8px;"></div>
+        <div class="color-card__body">
+          <p class="color-card__name" style="color:#1A1A1A">Weetamin Warm</p>
+          <p class="color-card__role" style="color:#999999">Secondary</p>
+          <p class="color-card__spec" style="color:#666666">
+            CMYK 12 / 42 / 58 / 2<br>
+            RGB 212 / 149 / 106<br>
+            HEX #D4956A
+          </p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-card__swatch" style="background: #E8F0E9; border-radius: 8px;"></div>
+        <div class="color-card__body">
+          <p class="color-card__name" style="color:#1A1A1A">Weetamin Cream</p>
+          <p class="color-card__role" style="color:#999999">Secondary</p>
+          <p class="color-card__spec" style="color:#666666">
+            CMYK 8 / 3 / 8 / 0<br>
+            RGB 232 / 240 / 233<br>
+            HEX #E8F0E9
+          </p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-card__swatch" style="background: #CFD2D8; border-radius: 8px;"></div>
+        <div class="color-card__body">
+          <p class="color-card__name" style="color:#1A1A1A">Weetamin Gray</p>
+          <p class="color-card__role" style="color:#999999">Secondary</p>
+          <p class="color-card__spec" style="color:#666666">
+            CMYK 18 / 12 / 10 / 0<br>
+            RGB 207 / 210 / 216<br>
+            HEX #CFD2D8
+          </p>
+        </div>
+      </div>
+      <div class="color-card">
+        <div class="color-card__swatch" style="background: #1A1A1A; border-radius: 8px;"></div>
+        <div class="color-card__body">
+          <p class="color-card__name" style="color:#1A1A1A">Black</p>
+          <p class="color-card__role" style="color:#999999">Neutral</p>
+          <p class="color-card__spec" style="color:#666666">
+            CMYK 0 / 0 / 0 / 95<br>
+            RGB 26 / 26 / 26<br>
+            HEX #1A1A1A
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Series Color Guide -->
+    <h3 class="product-color-title" style="color:#1A1A1A">Product Series Color Guide</h3>
+
+    <div class="product-color-row">
+      <span class="product-color-row__label" style="color:#1A1A1A">장당당 (프로바이오틱스)</span>
+      <div class="product-color-row__bars">
+        <div class="product-color-row__bar" style="background: #8B6BAE; color: white;">Purple #8B6BAE</div>
+        <div class="product-color-row__bar" style="background: #E8DDF0; color: #333;">Lavender #E8DDF0</div>
+      </div>
+    </div>
+
+    <div class="product-color-row">
+      <span class="product-color-row__label" style="color:#1A1A1A">간당당 (간 건강)</span>
+      <div class="product-color-row__bars">
+        <div class="product-color-row__bar" style="background: #5B8C6D; color: white;">Green #5B8C6D</div>
+        <div class="product-color-row__bar" style="background: #D4E8DB; color: #333;">Mint #D4E8DB</div>
+      </div>
+    </div>
+
+    <div class="product-color-row">
+      <span class="product-color-row__label" style="color:#1A1A1A">올리브 에 올리브</span>
+      <div class="product-color-row__bars">
+        <div class="product-color-row__bar" style="background: #D4956A; color: white;">Gold #D4956A</div>
+        <div class="product-color-row__bar" style="background: #F5E8DC; color: #333;">Cream #F5E8DC</div>
+      </div>
+    </div>
+
+    <div class="product-color-row">
+      <span class="product-color-row__label" style="color:#1A1A1A">비타민C (리포좀)</span>
+      <div class="product-color-row__bars">
+        <div class="product-color-row__bar" style="background: #E8A855; color: white;">Yellow #E8A855</div>
+        <div class="product-color-row__bar" style="background: #FFF3DD; color: #333;">Ivory #FFF3DD</div>
+      </div>
+    </div>
+
+    <div class="product-color-row">
+      <span class="product-color-row__label" style="color:#1A1A1A">오메가3 (츄어블)</span>
+      <div class="product-color-row__bars">
+        <div class="product-color-row__bar" style="background: #4A7FB5; color: white;">Blue #4A7FB5</div>
+        <div class="product-color-row__bar" style="background: #DAEAF5; color: #333;">Sky #DAEAF5</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== TYPOGRAPHY ===== -->
+  <div class="section">
+    <p class="section__label" style="color:#999999">Typography</p>
+    <h2 class="section__title" style="color:#1A1A1A">Typefaces</h2>
+
+    <table class="typo-table">
+      <tr class="typo-row">
+        <td class="typo-row__role">
+          <p class="typo-row__role-label" style="color:#999999">Logo</p>
+          <p class="typo-row__role-font" style="color:#1A1A1A">Custom<br>Typeface</p>
+        </td>
+        <td>
+          <p class="typo-row__sample typo-row__sample--logo" style="color:#1A1A1A">weetamin</p>
+          <p class="typo-row__sample-sub" style="color:#999999">Custom logo typeface only — 텍스트 사용 금지</p>
+        </td>
+      </tr>
+      <tr class="typo-row">
+        <td class="typo-row__role">
+          <p class="typo-row__role-label" style="color:#999999">English Title</p>
+          <p class="typo-row__role-font" style="color:#1A1A1A">Bricolage<br>Grotesque</p>
+        </td>
+        <td>
+          <p class="typo-row__sample" style="font-family:'Bricolage Grotesque',serif; font-size:36px; font-weight:700; color:#1A1A1A;">Your health, delivered.</p>
+          <p class="typo-row__sample-sub" style="color:#999999">SemiBold — 영문 헤드라인, 숫자, 라벨</p>
+        </td>
+      </tr>
+      <tr class="typo-row">
+        <td class="typo-row__role">
+          <p class="typo-row__role-label" style="color:#999999">Title / Product</p>
+          <p class="typo-row__role-font" style="color:#1A1A1A">Pretendard<br>Bold</p>
+        </td>
+        <td>
+          <p class="typo-row__sample typo-row__sample--title" style="color:#1A1A1A">약사가 연구하고 만듭니다</p>
+          <p class="typo-row__sample-sub" style="color:#999999">Bold 700 — 한글 제목, 제품명</p>
+        </td>
+      </tr>
+      <tr class="typo-row">
+        <td class="typo-row__role">
+          <p class="typo-row__role-label" style="color:#999999">Body Bold</p>
+          <p class="typo-row__role-font" style="color:#1A1A1A">Pretendard<br>SemiBold</p>
+        </td>
+        <td>
+          <p class="typo-row__sample typo-row__sample--body-bold" style="color:#1A1A1A">장 건강, 유산균 하나로 달라질 수 있어요</p>
+          <p class="typo-row__sample-sub" style="color:#999999">SemiBold 600 — 본문 강조, 부제목</p>
+        </td>
+      </tr>
+      <tr class="typo-row">
+        <td class="typo-row__role">
+          <p class="typo-row__role-label" style="color:#999999">Body</p>
+          <p class="typo-row__role-font" style="color:#1A1A1A">Pretendard<br>Medium</p>
+        </td>
+        <td>
+          <p class="typo-row__sample typo-row__sample--body" style="color:#1A1A1A">비린맛 없는 츄어블 제형의 프리미엄 오메가3</p>
+          <p class="typo-row__sample-sub" style="color:#999999">Medium 500 — 일반 본문, 설명 텍스트</p>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== LOGO USAGE RULES ===== -->
+  <div class="section section--gray">
+    <p class="section__label" style="color:#999999">Logo</p>
+    <h2 class="section__title" style="color:#1A1A1A">Usage Rules</h2>
+
+    <div class="logo-rules-grid">
+      <div class="logo-rule-card">
+        <p class="logo-rule-card__label" style="color:#999999">Clear Space</p>
+        <p class="logo-rule-card__text" style="color:#333333">로고 너비(W) 기준 상하좌우 W/4 여백 유지.<br>여백 안에 다른 요소가 들어오지 않도록.</p>
+      </div>
+      <div class="logo-rule-card">
+        <p class="logo-rule-card__label" style="color:#999999">Minimum Size</p>
+        <p class="logo-rule-card__text" style="color:#333333">인쇄: 최소 너비 20mm<br>디지털: 최소 너비 80px<br>이하 사이즈는 가독성 저하.</p>
+      </div>
+      <div class="logo-rule-card">
+        <p class="logo-rule-card__label" style="color:#999999">Light Background</p>
+        <p class="logo-rule-card__text" style="color:#333333">밝은 배경(밝기 0~50%)에서는<br>네이비 로고(#0D1B3C) 기본 사용.</p>
+      </div>
+      <div class="logo-rule-card">
+        <p class="logo-rule-card__label" style="color:#999999">Dark Background</p>
+        <p class="logo-rule-card__text" style="color:#333333">어두운 배경(밝기 50~100%)에서는<br>화이트 로고(#FFFFFF) 사용.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== TONE OF VOICE ===== -->
+  <div class="section">
+    <p class="section__label" style="color:#999999">Tone of Voice</p>
+    <h2 class="section__title" style="color:#1A1A1A">Communication Style</h2>
+
+    <div class="voice-grid">
+      <div class="voice-card voice-card--do">
+        <span class="voice-card__tag" style="color:#FFFFFF; background:#5A8C5E">Do</span>
+        <p class="voice-card__item" style="color:#333333">"장 건강, 유산균 하나로 달라질 수 있어요"</p>
+        <p class="voice-card__item" style="color:#333333">"약사가 직접 배합 비율을 설계했습니다"</p>
+        <p class="voice-card__item" style="color:#333333">"비린맛 걱정 없이 씹어 드세요"</p>
+        <p class="voice-card__item" style="color:#333333">"필요한 것만 담았습니다"</p>
+        <p class="voice-card__item" style="color:#333333">전문 근거를 쉬운 말로 풀어서</p>
+        <p class="voice-card__item" style="color:#333333">해요체 기본, 상황에 따라 합니다체</p>
+      </div>
+      <div class="voice-card voice-card--dont">
+        <span class="voice-card__tag" style="color:#FFFFFF; background:#DC2626">Don't</span>
+        <p class="voice-card__item" style="color:#333333">"업계 최고! 최강! 압도적!"</p>
+        <p class="voice-card__item" style="color:#333333">"이거 안 먹으면 큰일나요"</p>
+        <p class="voice-card__item" style="color:#333333">"3일 만에 효과! 기적의 영양제!"</p>
+        <p class="voice-card__item" style="color:#333333">"의학 전문 용어 나열"</p>
+        <p class="voice-card__item" style="color:#333333">공포 마케팅, 과대광고</p>
+        <p class="voice-card__item" style="color:#333333">딱딱한 논문체, 지나친 캐주얼</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== PRODUCT NAMING ===== -->
+  <div class="section section--gray">
+    <p class="section__label" style="color:#999999">Product Naming</p>
+    <h2 class="section__title" style="color:#1A1A1A">Naming System</h2>
+
+    <div class="naming-grid">
+      <div class="naming-card">
+        <p class="naming-card__product" style="color:#1A1A1A">장당당</p>
+        <p class="naming-card__desc" style="color:#666666">장 건강 프로바이오틱스<br>100억 CFU 특허 균주</p>
+        <span class="naming-card__pattern" style="color:#B07D4F; background:#FAF0E6">운율 반복형</span>
+      </div>
+      <div class="naming-card">
+        <p class="naming-card__product" style="color:#1A1A1A">간당당</p>
+        <p class="naming-card__desc" style="color:#666666">간 건강 밀크씨슬<br>+ 홍경천 + 마그네슘</p>
+        <span class="naming-card__pattern" style="color:#B07D4F; background:#FAF0E6">운율 반복형</span>
+      </div>
+      <div class="naming-card">
+        <p class="naming-card__product" style="color:#1A1A1A">당당당</p>
+        <p class="naming-card__desc" style="color:#666666">혈당 관리<br>바나바잎 + 크롬</p>
+        <span class="naming-card__pattern" style="color:#B07D4F; background:#FAF0E6">운율 반복형</span>
+      </div>
+      <div class="naming-card">
+        <p class="naming-card__product" style="color:#1A1A1A">올리브 에 올리브</p>
+        <p class="naming-card__desc" style="color:#666666">지중해산 올리브오일<br>캡슐 제형</p>
+        <span class="naming-card__pattern" style="color:#B07D4F; background:#FAF0E6">소재 강조형</span>
+      </div>
+      <div class="naming-card">
+        <p class="naming-card__product" style="color:#1A1A1A">오.디.유.</p>
+        <p class="naming-card__desc" style="color:#666666">오메가3 + D3 + 유산균<br>올인원 포뮬러</p>
+        <span class="naming-card__pattern" style="color:#B07D4F; background:#FAF0E6">이니셜 조합형</span>
+      </div>
+      <div class="naming-card">
+        <p class="naming-card__product" style="color:#1A1A1A">리포좀 비타민C</p>
+        <p class="naming-card__desc" style="color:#666666">리포좀 기술 적용<br>고흡수율 비타민C</p>
+        <span class="naming-card__pattern" style="color:#B07D4F; background:#FAF0E6">기술+성분형</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== PHOTOGRAPHY STYLE ===== -->
+  <div class="section">
+    <p class="section__label" style="color:#999999">Photography</p>
+    <h2 class="section__title" style="color:#1A1A1A">Visual Style Guide</h2>
+
+    <div class="photo-grid">
+      <div class="photo-card">
+        <div class="photo-card__visual photo-card__visual--flatlay">
+          <p class="photo-card__visual-text" style="color:#666666">플랫레이 제품 촬영<br>우드/세라믹 트레이<br>자연광 + 따뜻한 톤</p>
+        </div>
+        <div class="photo-card__body">
+          <h4 class="photo-card__title" style="color:#1A1A1A">Flat Lay</h4>
+          <p class="photo-card__desc" style="color:#666666">위에서 내려다보는 구도. 제품 + 소품을 자연스럽게 배치. 우드/세라믹 트레이, 린넨 소재 활용.</p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="photo-card__visual photo-card__visual--stripe">
+          <p class="photo-card__visual-text" style="background:rgba(255,255,255,0.7); padding:8px 16px; border-radius:8px; color:#666666;">블루 스트라이프 패브릭<br>시그니처 소품</p>
+        </div>
+        <div class="photo-card__body">
+          <h4 class="photo-card__title" style="color:#1A1A1A">Signature Prop</h4>
+          <p class="photo-card__desc" style="color:#666666">블루 스트라이프 패브릭이 반복 등장하며 피드 통일감과 브랜드 인지도를 형성.</p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="photo-card__visual photo-card__visual--navy">
+          <p class="photo-card__visual-text" style="color:#FFFFFF">weetamin</p>
+        </div>
+        <div class="photo-card__body">
+          <h4 class="photo-card__title" style="color:#1A1A1A">Brand Card</h4>
+          <p class="photo-card__desc" style="color:#666666">네이비 배경 + 화이트 로고. 피드 사이에 삽입하여 리듬감 형성, 브랜드 존재감 강화.</p>
+        </div>
+      </div>
+      <div class="photo-card">
+        <div class="photo-card__visual photo-card__visual--product">
+          <p class="photo-card__visual-text" style="color:#666666">미니멀 프로덕트 컷<br>크림/아이보리 배경<br>제품 자체에 집중</p>
+        </div>
+        <div class="photo-card__body">
+          <h4 class="photo-card__title" style="color:#1A1A1A">Product Shot</h4>
+          <p class="photo-card__desc" style="color:#666666">크림/아이보리 배경에 제품만 깔끔하게 배치. 그림자 최소화, 디테일 집중.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="props-title" style="color:#1A1A1A">Signature Props</h3>
+    <div class="props-row">
+      <div class="prop-chip">
+        <div class="prop-chip__icon">🧸</div>
+        <p class="prop-chip__name" style="color:#1A1A1A">블루 테디베어</p>
+        <p class="prop-chip__role" style="color:#999999">브랜드 캐릭터</p>
+      </div>
+      <div class="prop-chip">
+        <div class="prop-chip__icon">🔵</div>
+        <p class="prop-chip__name" style="color:#1A1A1A">스트라이프 패브릭</p>
+        <p class="prop-chip__role" style="color:#999999">시그니처 배경</p>
+      </div>
+      <div class="prop-chip">
+        <div class="prop-chip__icon">🪵</div>
+        <p class="prop-chip__name" style="color:#1A1A1A">우드/세라믹 트레이</p>
+        <p class="prop-chip__role" style="color:#999999">따뜻함 + 자연</p>
+      </div>
+      <div class="prop-chip">
+        <div class="prop-chip__icon">🌿</div>
+        <p class="prop-chip__name" style="color:#1A1A1A">올리브 잎</p>
+        <p class="prop-chip__role" style="color:#999999">건강 + 자연</p>
+      </div>
+      <div class="prop-chip">
+        <div class="prop-chip__icon">☕</div>
+        <p class="prop-chip__name" style="color:#1A1A1A">커피/음료</p>
+        <p class="prop-chip__role" style="color:#999999">일상 라이프스타일</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== INSTAGRAM GRID ===== -->
+  <div class="section section--gray">
+    <p class="section__label" style="color:#999999">Instagram</p>
+    <h2 class="section__title" style="color:#1A1A1A">Feed Grid Rules</h2>
+
+    <div class="insta-mock">
+      <div class="insta-cell insta-cell--warm"><span class="insta-cell__label" style="color:#666666">플랫레이<br>제품+소품</span></div>
+      <div class="insta-cell insta-cell--light"><span class="insta-cell__label" style="color:#666666">프로덕트<br>단독 컷</span></div>
+      <div class="insta-cell insta-cell--warm"><span class="insta-cell__label" style="color:#666666">라이프스타일<br>일상 속 제품</span></div>
+      <div class="insta-cell insta-cell--light"><span class="insta-cell__label" style="color:#666666">정보성<br>성분 카드</span></div>
+      <div class="insta-cell insta-cell--navy"><span class="insta-cell__label" style="color:#FFFFFF">weetamin<br>브랜드 카드</span></div>
+      <div class="insta-cell insta-cell--warm"><span class="insta-cell__label" style="color:#666666">플랫레이<br>시즌 소품</span></div>
+      <div class="insta-cell insta-cell--warm"><span class="insta-cell__label" style="color:#666666">클로즈업<br>디테일</span></div>
+      <div class="insta-cell insta-cell--light"><span class="insta-cell__label" style="color:#666666">리뷰/후기<br>UGC</span></div>
+      <div class="insta-cell insta-cell--warm"><span class="insta-cell__label" style="color:#666666">플랫레이<br>신제품</span></div>
+    </div>
+
+    <div class="rule-cards">
+      <div class="rule-card">
+        <p class="rule-card__number" style="color:#DDDDDD">01</p>
+        <h4 class="rule-card__title" style="color:#1A1A1A">3:1 리듬 법칙</h4>
+        <p class="rule-card__desc" style="color:#666666">포토 3장당 브랜드 카드 1장 삽입. 같은 유형이 연속 3장 이상 나오지 않도록.</p>
+      </div>
+      <div class="rule-card">
+        <p class="rule-card__number" style="color:#DDDDDD">02</p>
+        <h4 class="rule-card__title" style="color:#1A1A1A">컬러 밸런스</h4>
+        <p class="rule-card__desc" style="color:#666666">따뜻한 톤과 네이비가 교차 배치. 한 화면(9칸)에 네이비 카드 1~2장 유지.</p>
+      </div>
+      <div class="rule-card">
+        <p class="rule-card__number" style="color:#DDDDDD">03</p>
+        <h4 class="rule-card__title" style="color:#1A1A1A">소품 일관성</h4>
+        <p class="rule-card__desc" style="color:#666666">블루 스트라이프, 테디베어 등 시그니처 소품이 피드 전체에 반복 등장.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ===== PACKAGE SPECS ===== -->
+  <div class="section">
+    <p class="section__label" style="color:#999999">Package</p>
+    <h2 class="section__title" style="color:#1A1A1A">Product Line Specs</h2>
+
+    <div class="package-grid">
+      <div class="package-spec">
+        <div class="package-spec__circle" style="background: #8B6BAE;"></div>
+        <p class="package-spec__name" style="color:#1A1A1A">장당당</p>
+        <p class="package-spec__size" style="color:#666666">파우치 / 스틱포</p>
+        <p class="package-spec__detail" style="color:#999999">30포 (1개월분)</p>
+      </div>
+      <div class="package-spec">
+        <div class="package-spec__circle" style="background: #5B8C6D;"></div>
+        <p class="package-spec__name" style="color:#1A1A1A">간당당</p>
+        <p class="package-spec__size" style="color:#666666">캡슐 / 박스</p>
+        <p class="package-spec__detail" style="color:#999999">60캡슐 (1개월분)</p>
+      </div>
+      <div class="package-spec">
+        <div class="package-spec__circle" style="background: #D4956A;"></div>
+        <p class="package-spec__name" style="color:#1A1A1A">올리브 에 올리브</p>
+        <p class="package-spec__size" style="color:#666666">소프트캡슐 / 박스</p>
+        <p class="package-spec__detail" style="color:#999999">60캡슐 (2개월분)</p>
+      </div>
+      <div class="package-spec">
+        <div class="package-spec__circle" style="background: #E8A855;"></div>
+        <p class="package-spec__name" style="color:#1A1A1A">리포좀 비타민C</p>
+        <p class="package-spec__size" style="color:#666666">스틱포 / 박스</p>
+        <p class="package-spec__detail" style="color:#999999">30포 (1개월분)</p>
+      </div>
+      <div class="package-spec">
+        <div class="package-spec__circle" style="background: #4A7FB5;"></div>
+        <p class="package-spec__name" style="color:#1A1A1A">오메가3 츄어블</p>
+        <p class="package-spec__size" style="color:#666666">츄어블 / 병</p>
+        <p class="package-spec__detail" style="color:#999999">60정 (1개월분)</p>
+      </div>
+      <div class="package-spec">
+        <div class="package-spec__circle" style="background: #E8A855;"></div>
+        <p class="package-spec__name" style="color:#1A1A1A">D3K2 부스터</p>
+        <p class="package-spec__size" style="color:#666666">캡슐 / 박스</p>
+        <p class="package-spec__detail" style="color:#999999">60캡슐 (2개월분)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <div class="footer">
+    <span class="footer__brand" style="color:#FFFFFF">weetamin</span>
+    <span style="color:rgba(255,255,255,0.4)">Brand Guidelines — Prepared by BRANDRISE | 2026</span>
+  </div>
+
+</div>
+</body>
+</html>
