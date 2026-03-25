@@ -52,6 +52,19 @@ PROJECTS = {
         "month_offset": 1,
         "mode": "importrange",
     },
+    "미례국밥": {
+        "row": 6,
+        "sheet_id": "1PLzHbFhcEmyNk-yxRXlx6hrZPx8810IjhCLU9pSUbdA",
+        "month_offset": 1,
+        "mode": "api_sync",
+        # create_project_sheet.py 표준 구조
+        "rev_tab": "2026 예상 매출",
+        "rev_total_row": 2,
+        "rev_month_start_col": 4,   # E열 = index 4 (A:항목, B:발행일, C:공급가, D:VAT, E:1월~)
+        "exp_tab": "2026 예상 지출",
+        "exp_total_row": 2,
+        "exp_month_start_col": 1,   # B열 = index 1 (A:카테고리, B:1월~) — 탭샵바 스타일
+    },
 }
 
 
