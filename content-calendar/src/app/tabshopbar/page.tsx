@@ -5,6 +5,7 @@ import Calendar from "@/components/Calendar";
 import { useCalendarData } from "@/hooks/useCalendarData";
 
 const CLIENT = "tabshopbar";
+const LOGO = { src: "/tsb-logo.png", alt: "TAP SHOP BAR" };
 
 export default function TabshopbarCalendar() {
   const [months, setMonths] = useState<string[]>([]);
@@ -97,6 +98,7 @@ export default function TabshopbarCalendar() {
       onDeleteItem={deleteItem}
       onSaveCalendar={saveCalendar}
       onAddMonth={handleAddMonth}
+      logo={LOGO}
     />
   );
 }

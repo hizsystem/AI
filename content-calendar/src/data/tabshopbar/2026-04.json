@@ -1,0 +1,114 @@
+{
+  "client": "탭샵바 (TAP SHOP BAR)",
+  "clientSlug": "tabshopbar",
+  "month": "2026-04",
+  "title": "4월 콘텐츠 캘린더",
+  "coreMessage": "봄이니까, 한 잔",
+  "moodboard": {
+    "description": "4월 봄 시즌 무드. 벚꽃 + 로제/화이트의 밝은 색감, 따뜻한 자연광, 테라스와 야외 분위기. 3월 톤세팅 기반 위에 봄의 가벼움과 밝음을 더합니다.",
+    "items": [
+      { "image": "/moodboard/tsb-moodboard-march.png", "label": "비주얼 무드보드 (3월 기준)" }
+    ]
+  },
+  "categories": [
+    { "id": "place", "name": "#탭샵바플레이스", "color": "#4A7BF7", "description": "지점·공간 소개" },
+    { "id": "pairing", "name": "#탭샵바페어링", "color": "#E8A838", "description": "와인과 음식 페어링" },
+    { "id": "scene", "name": "#탭샵바씬", "color": "#45B26B", "description": "촬영·대관·브랜드 활동" },
+    { "id": "new-menu", "name": "#탭샵바뉴", "color": "#9B59B6", "description": "신메뉴 출시 소개" },
+    { "id": "monthly-tap", "name": "#이달의탭", "color": "#E05555", "description": "이달의 프로모션 와인" },
+    { "id": "guide", "name": "#탭샵바가이드", "color": "#14B8A6", "description": "초보자 가이드 시리즈" }
+  ],
+  "items": [
+    {
+      "id": "apr-1",
+      "date": "2026-04-01",
+      "title": "이달의 탭 — NZ 쇼비뇽 블랑",
+      "category": "monthly-tap",
+      "status": "planning",
+      "overview": {
+        "format": "캐러셀 3~4장",
+        "mentions": ["@tap.shop.bar"],
+        "hashtags": ["#이달의탭", "#탭샵바", "#tapshopbar", "#쇼비뇽블랑", "#프로모션와인", "#셀프탭와인바"],
+        "caption": "이 와인 이름,\n솔직히 읽기 어렵죠.\n\n쇼비뇽 블랑.\n뉴질랜드에서 왔어요.\n\n근데 이름은 몰라도 되고요,\n맛만 알면 돼요.\n\n첫 모금에 패션프루트,\n끝에 살짝 라임.\n\n화이트 와인 첫 잔으로\n이거만한 게 없어요.\n\n이번 달 탭에 꽂아뒀어요.\n잘 모르겠으면 일단 한 잔.\n\n📍Place\ntap.shop.bar 전 매장\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔\n\n#이달의탭 #탭샵바 #tapshopbar #쇼비뇽블랑 #프로모션와인 #셀프탭와인바"
+      }
+    },
+    {
+      "id": "apr-2",
+      "date": "2026-04-04",
+      "title": "여의도점 벚꽃 데이트 코스",
+      "category": "place",
+      "status": "planning",
+      "overview": {
+        "format": "릴스 15~30초",
+        "mentions": ["@tap.shop.bar"],
+        "hashtags": ["#탭샵바플레이스", "#탭샵바여의도", "#탭샵바", "#tapshopbar", "#여의도벚꽃", "#여의도데이트", "#벚꽃데이트", "#셀프탭와인바"],
+        "caption": "벚꽃 보고 어디 가지?\n\n여의도 벚꽃길 걷다가\n탭샵바에서 와인 한 잔.\n\n나란히 앉아서\n탭에서 하나씩 골라 마시면\n데이트 코스 완성이에요.\n\n📍Place\ntap.shop.bar 여의도점\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔\n\n#탭샵바플레이스 #탭샵바여의도 #탭샵바 #tapshopbar #여의도벚꽃 #여의도데이트 #벚꽃데이트 #셀프탭와인바"
+      }
+    },
+    {
+      "id": "apr-3",
+      "date": "2026-04-08",
+      "title": "셀프탭 이용 가이드",
+      "category": "guide",
+      "status": "planning",
+      "overview": {
+        "format": "릴스 15~30초",
+        "mentions": ["@tap.shop.bar"],
+        "hashtags": ["#탭샵바가이드", "#탭샵바", "#tapshopbar", "#셀프탭", "#셀프탭와인바", "#와인초보", "#와인입문"],
+        "caption": "탭샵바 처음이면\n이것만 알면 돼요.\n\n1. 마시고 싶은 와인 앞에 서기\n2. 카드 대고 잔 대기\n3. 버튼 누르기\n\n끝.\n\n소믈리에한테 물어볼 필요 없고\n메뉴판 읽을 필요도 없어요.\n\n몰라도 괜찮아요.\n탭이 다 알려줘요.\n\n📍Place\ntap.shop.bar 전 매장\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔\n\n#탭샵바가이드 #탭샵바 #tapshopbar #셀프탭 #셀프탭와인바 #와인초보 #와인입문"
+      }
+    },
+    {
+      "id": "apr-4",
+      "date": "2026-04-15",
+      "title": "상암점 모닝/런치/디너 페어링",
+      "category": "pairing",
+      "status": "planning",
+      "overview": {
+        "format": "캐러셀 3~5장",
+        "mentions": ["@tap.shop.bar"],
+        "hashtags": ["#탭샵바페어링", "#탭샵바상암", "#탭샵바", "#tapshopbar", "#상암맛집", "#셀프탭와인바"],
+        "caption": "탭샵바 상암점,\n아침부터 저녁까지 다 돼요.\n\n아침엔 모닝세트로 여유롭게,\n점심엔 런치디쉬로 가볍게,\n저녁엔 와인 한 잔과 함께.\n\n시간대별로 다른 분위기,\n같은 공간에서.\n\n📍Place\ntap.shop.bar 상암점\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔\n\n#탭샵바페어링 #탭샵바상암 #탭샵바 #tapshopbar #상암맛집 #셀프탭와인바"
+      }
+    },
+    {
+      "id": "apr-5",
+      "date": "2026-04-18",
+      "title": "추카추카추 헤이즈 편",
+      "category": "scene",
+      "status": "planning",
+      "overview": {
+        "format": "릴스 15~20초",
+        "mentions": ["@tap.shop.bar"],
+        "hashtags": ["#탭샵바씬", "#탭샵바", "#tapshopbar", "#추카추카추", "#헤이즈", "#셀프탭와인바"],
+        "caption": "이번에는 헤이즈님이\n탭샵바에서 와인 한 잔 했어요.\n\n와인 마시기 좋은 공간에\n음악까지 더해진 순간.\n\n이 분위기,\n탭샵바에서 한 번 느껴보세요.\n\n📍Place\ntap.shop.bar\n\n▶ Full ver. 유튜브 프로필 링크\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔\n\n#탭샵바씬 #탭샵바 #tapshopbar #추카추카추 #헤이즈 #셀프탭와인바"
+      }
+    },
+    {
+      "id": "apr-6",
+      "date": "2026-04-22",
+      "title": "신메뉴 소개",
+      "category": "new-menu",
+      "status": "planning",
+      "overview": {
+        "format": "캐러셀 3~4장 (메뉴 확정 후 결정)",
+        "mentions": ["@tap.shop.bar"],
+        "hashtags": ["#탭샵바뉴", "#탭샵바", "#tapshopbar", "#신메뉴", "#셀프탭와인바"],
+        "caption": "새로 나온 메뉴,\n쇼비뇽 블랑이랑 같이 먹으면 큰일 나요.\n(좋은 쪽으로)\n\n이달의탭 프로모션이랑 같이 즐겨보세요.\n\n📍Place\ntap.shop.bar 전 매장\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔\n\n#탭샵바뉴 #탭샵바 #tapshopbar #신메뉴 #셀프탭와인바"
+      }
+    },
+    {
+      "id": "apr-7",
+      "date": "2026-04-25",
+      "title": "이달의 탭 리마인드 — 쇼비뇽 블랑",
+      "category": "monthly-tap",
+      "status": "planning",
+      "overview": {
+        "format": "단일 이미지",
+        "mentions": ["@tap.shop.bar"],
+        "hashtags": ["#이달의탭", "#탭샵바", "#tapshopbar", "#쇼비뇽블랑", "#프로모션", "#셀프탭와인바"],
+        "caption": "4월 이달의 탭,\n쇼비뇽 블랑 프로모션이 곧 끝나요.\n\n아직 안 마셔본 사람?\n한 잔 X,XXX원.\n\n이번 달 지나면 다음 달엔 다른 와인이에요.\n\n📍Place\ntap.shop.bar 전 매장\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔\n\n#이달의탭 #탭샵바 #tapshopbar #쇼비뇽블랑 #프로모션 #셀프탭와인바"
+      }
+    }
+  ]
+}
