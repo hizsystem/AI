@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCalendar, saveCalendar } from "@/lib/storage";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ client: string; month: string }> }

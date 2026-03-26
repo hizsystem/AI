@@ -18,6 +18,7 @@ export interface ContentOverview {
   caption?: string;
   captionAlts?: string[];
   notes?: string;
+  referenceUrls?: string[];
 }
 
 export interface ContentItem {

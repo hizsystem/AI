@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { getGuideData, saveGuideData } from "@/lib/huenic-storage";
 import type { HuenicBrand } from "@/data/huenic-types";
 
+export const dynamic = "force-dynamic";
+
 function validBrand(b: string): HuenicBrand {
   return b === "veggiet" || b === "vinker" ? b : "veggiet";
 }

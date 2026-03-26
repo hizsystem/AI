@@ -1,4 +1,4 @@
-import { put, list, del } from "@vercel/blob";
+import { put, list } from "@vercel/blob";
 import type { WeeklyReport, KpiData, RefData, HuenicBrand } from "@/data/huenic-types";
 import { VEGGIET_REF_COLLECTIONS, VINKER_REF_COLLECTIONS } from "@/data/huenic-types";
 
@@ -7,6 +7,8 @@ import veggietReportW11 from "@/data/huenic-seed/veggiet-report-2026-W11.json";
 import vinkerReportW11 from "@/data/huenic-seed/vinker-report-2026-W11.json";
 import veggietKpi202603 from "@/data/huenic-seed/veggiet-kpi-2026-03.json";
 import vinkerKpi202603 from "@/data/huenic-seed/vinker-kpi-2026-03.json";
+import veggietGuideSeed from "@/data/huenic-seed/veggiet-guide.json";
+import vinkerGuideSeed from "@/data/huenic-seed/vinker-guide.json";
 
 const STATIC_REPORTS: Record<string, WeeklyReport> = {
   "veggiet:2026-W11": veggietReportW11 as WeeklyReport,
@@ -26,26 +28,51 @@ function kpiBlobPath(brand: HuenicBrand, year: number, month: string): string {
   return `huenic/${brand}/kpi-${year}-${month}.json`;
 }
 
+const _blobWarned = { current: false };
+function warnNoBlobToken() {
+  if (!_blobWarned.current && !process.env.BLOB_READ_WRITE_TOKEN) {
+    console.warn("⚠️ BLOB_READ_WRITE_TOKEN 없음 — 휴닉 데이터가 인메모리에만 저장됩니다. .env.local에 토큰을 추가하세요.");
+    _blobWarned.current = true;
+  }
+}
+
+async function blobFetch(path: string): Promise<Response | null> {
+  try {
+    const { blobs } = await list({ prefix: path, limit: 1 });
+    if (blobs.length > 0) {
+      const cacheBust = `?t=${Date.now()}`;
+      const res = await fetch(blobs[0].url + cacheBust, { cache: "no-store" });
+      if (res.ok) return res;
+    }
+  } catch (e) {
+    console.error("Blob read error:", e);
+  }
+  return null;
+}
+
+async function blobWrite(path: string, data: unknown): Promise<void> {
+  await put(path, JSON.stringify(data), {
+    access: "public",
+    contentType: "application/json",
+    addRandomSuffix: false,
+    allowOverwrite: true,
+  });
+}
+
+// --- Weekly Report ---
+
 export async function getWeeklyReport(
   brand: HuenicBrand,
   year: number,
   week: number
 ): Promise<WeeklyReport | null> {
+  warnNoBlobToken();
   const path = reportBlobPath(brand, year, week);
   const key = `${brand}:${year}-W${week}`;
 
   if (process.env.BLOB_READ_WRITE_TOKEN) {
-    try {
-      const { blobs } = await list({ prefix: path, limit: 1 });
-      if (blobs.length > 0) {
-        const res = await fetch(blobs[0].url);
-        if (res.ok) {
-          return (await res.json()) as WeeklyReport;
-        }
-      }
-    } catch (e) {
-      console.error("Blob read error (report):", e);
-    }
+    const res = await blobFetch(path);
+    if (res) return (await res.json()) as WeeklyReport;
   }
 
   return STATIC_REPORTS[key] ?? null;
@@ -64,43 +91,24 @@ export async function saveWeeklyReport(
     return;
   }
 
-  try {
-    const { blobs } = await list({ prefix: path, limit: 1 });
-    if (blobs.length > 0) {
-      await del(blobs[0].url);
-    }
-  } catch {
-    // ignore
-  }
-
-  await put(path, JSON.stringify(data), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-  });
+  await blobWrite(path, data);
 }
+
+// --- KPI ---
 
 export async function getKpiData(
   brand: HuenicBrand,
   year: number,
   month: number
 ): Promise<KpiData | null> {
+  warnNoBlobToken();
   const mm = String(month).padStart(2, "0");
   const path = kpiBlobPath(brand, year, mm);
   const key = `${brand}:${year}-${mm}`;
 
   if (process.env.BLOB_READ_WRITE_TOKEN) {
-    try {
-      const { blobs } = await list({ prefix: path, limit: 1 });
-      if (blobs.length > 0) {
-        const res = await fetch(blobs[0].url);
-        if (res.ok) {
-          return (await res.json()) as KpiData;
-        }
-      }
-    } catch (e) {
-      console.error("Blob read error (kpi):", e);
-    }
+    const res = await blobFetch(path);
+    if (res) return (await res.json()) as KpiData;
   }
 
   return STATIC_KPI[key] ?? null;
@@ -120,20 +128,7 @@ export async function saveKpiData(
     return;
   }
 
-  try {
-    const { blobs } = await list({ prefix: path, limit: 1 });
-    if (blobs.length > 0) {
-      await del(blobs[0].url);
-    }
-  } catch {
-    // ignore
-  }
-
-  await put(path, JSON.stringify(data), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-  });
+  await blobWrite(path, data);
 }
 
 // --- Guide ---
@@ -163,23 +158,18 @@ function guideBlobPath(brand: HuenicBrand): string {
   return `huenic/${brand}/guide.json`;
 }
 
-const STATIC_GUIDE: Record<string, GuideData> = {};
+const STATIC_GUIDE: Record<string, GuideData> = {
+  veggiet: veggietGuideSeed as unknown as GuideData,
+  vinker: vinkerGuideSeed as unknown as GuideData,
+};
 
 export async function getGuideData(brand: HuenicBrand): Promise<GuideData | null> {
+  warnNoBlobToken();
   const path = guideBlobPath(brand);
 
   if (process.env.BLOB_READ_WRITE_TOKEN) {
-    try {
-      const { blobs } = await list({ prefix: path, limit: 1 });
-      if (blobs.length > 0) {
-        const res = await fetch(blobs[0].url);
-        if (res.ok) {
-          return (await res.json()) as GuideData;
-        }
-      }
-    } catch (e) {
-      console.error("Blob read error (guide):", e);
-    }
+    const res = await blobFetch(path);
+    if (res) return (await res.json()) as GuideData;
   }
 
   return STATIC_GUIDE[brand] ?? null;
@@ -193,20 +183,7 @@ export async function saveGuideData(brand: HuenicBrand, data: GuideData): Promis
     return;
   }
 
-  try {
-    const { blobs } = await list({ prefix: path, limit: 1 });
-    if (blobs.length > 0) {
-      await del(blobs[0].url);
-    }
-  } catch {
-    // ignore
-  }
-
-  await put(path, JSON.stringify(data), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-  });
+  await blobWrite(path, data);
 }
 
 // --- Refs ---
@@ -224,20 +201,12 @@ function defaultRefData(brand: HuenicBrand): RefData {
 }
 
 export async function getRefData(brand: HuenicBrand): Promise<RefData> {
+  warnNoBlobToken();
   const path = refBlobPath(brand);
 
   if (process.env.BLOB_READ_WRITE_TOKEN) {
-    try {
-      const { blobs } = await list({ prefix: path, limit: 1 });
-      if (blobs.length > 0) {
-        const res = await fetch(blobs[0].url);
-        if (res.ok) {
-          return (await res.json()) as RefData;
-        }
-      }
-    } catch (e) {
-      console.error("Blob read error (refs):", e);
-    }
+    const res = await blobFetch(path);
+    if (res) return (await res.json()) as RefData;
   }
 
   return defaultRefData(brand);
@@ -250,18 +219,5 @@ export async function saveRefData(brand: HuenicBrand, data: RefData): Promise<vo
     return;
   }
 
-  try {
-    const { blobs } = await list({ prefix: path, limit: 1 });
-    if (blobs.length > 0) {
-      await del(blobs[0].url);
-    }
-  } catch {
-    // ignore
-  }
-
-  await put(path, JSON.stringify(data), {
-    access: "public",
-    contentType: "application/json",
-    addRandomSuffix: false,
-  });
+  await blobWrite(path, data);
 }

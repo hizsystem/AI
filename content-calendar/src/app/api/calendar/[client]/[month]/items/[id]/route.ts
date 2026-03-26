@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCalendar, saveCalendar } from "@/lib/storage";
 
+export const dynamic = "force-dynamic";
+
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ client: string; month: string; id: string }> }
@@ -17,9 +19,10 @@ export async function PATCH(
     return NextResponse.json({ error: "Item not found" }, { status: 404 });
   }
 
-  data.items[idx] = { ...data.items[idx], ...updates };
+  const oldItem = data.items[idx];
+  data.items[idx] = { ...oldItem, ...updates };
   if (updates.overview) {
-    data.items[idx].overview = { ...data.items[idx].overview, ...updates.overview };
+    data.items[idx].overview = { ...oldItem.overview, ...updates.overview };
   }
 
   await saveCalendar(client, month, data);

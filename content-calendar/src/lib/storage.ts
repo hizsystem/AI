@@ -1,4 +1,4 @@
-import { put, list, del } from "@vercel/blob";
+import { put, list } from "@vercel/blob";
 import type { CalendarData } from "@/data/types";
 
 // Static JSON fallback for local dev / initial seed
@@ -20,6 +20,9 @@ function blobPath(client: string, month: string): string {
   return `calendar/${client}/${month}.json`;
 }
 
+// In-memory write-through cache to avoid CDN stale reads
+const BLOB_CACHE: Record<string, CalendarData> = {};
+
 export async function getCalendar(
   client: string,
   month: string
@@ -27,14 +30,26 @@ export async function getCalendar(
   const path = blobPath(client, month);
   const key = `${client}:${month}`;
 
-  // Try Vercel Blob first
+  // Check write-through cache first (same serverless instance)
+  if (BLOB_CACHE[key]) {
+    return BLOB_CACHE[key];
+  }
+
+  if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    console.warn("⚠️ BLOB_READ_WRITE_TOKEN 없음 — 데이터가 인메모리에만 저장됩니다. .env.local에 토큰을 추가하세요.");
+  }
+
+  // Try Vercel Blob with cache-busting
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
       const { blobs } = await list({ prefix: path, limit: 1 });
       if (blobs.length > 0) {
-        const res = await fetch(blobs[0].url);
+        const cacheBust = `?t=${Date.now()}`;
+        const res = await fetch(blobs[0].url + cacheBust, { cache: "no-store" });
         if (res.ok) {
-          return (await res.json()) as CalendarData;
+          const data = (await res.json()) as CalendarData;
+          BLOB_CACHE[key] = data;
+          return data;
         }
       }
     } catch (e) {
@@ -52,27 +67,21 @@ export async function saveCalendar(
   data: CalendarData
 ): Promise<void> {
   const path = blobPath(client, month);
+  const key = `${client}:${month}`;
 
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
-    // In dev without blob, update in-memory
-    STATIC_DATA[`${client}:${month}`] = data;
+    STATIC_DATA[key] = data;
     return;
   }
 
-  // Delete old blob if exists
-  try {
-    const { blobs } = await list({ prefix: path, limit: 1 });
-    if (blobs.length > 0) {
-      await del(blobs[0].url);
-    }
-  } catch {
-    // ignore
-  }
-
-  // Write new blob
+  // Write to blob
   await put(path, JSON.stringify(data), {
     access: "public",
     contentType: "application/json",
     addRandomSuffix: false,
+    allowOverwrite: true,
   });
+
+  // Update write-through cache
+  BLOB_CACHE[key] = data;
 }

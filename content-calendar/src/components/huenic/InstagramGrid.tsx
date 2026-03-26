@@ -88,7 +88,7 @@ export default function InstagramGrid({
             onDrop={(e) => editMode && handleDrop(e, idx)}
             onDragEnd={handleDragEnd}
             onClick={() => onItemClick?.(item)}
-            style={{ aspectRatio: "1 / 1" }}
+            style={{ aspectRatio: "4 / 5" }}
             className={`relative cursor-pointer transition-all overflow-hidden ${
               isDragging ? "opacity-30 scale-95" : ""
             } ${isDropTarget ? "ring-2 ring-inset ring-blue-400" : ""} ${
