@@ -1,4 +1,4 @@
-import { put, list, del } from "@vercel/blob";
+import { put, list } from "@vercel/blob";
 import type { WeeklyReport, KpiData, HuenicBrand } from "@/data/huenic-types";
 
 // Static seed fallback
@@ -37,7 +37,7 @@ export async function getWeeklyReport(
     try {
       const { blobs } = await list({ prefix: path, limit: 1 });
       if (blobs.length > 0) {
-        const res = await fetch(blobs[0].url);
+        const res = await fetch(blobs[0].url, { cache: "no-store" });
         if (res.ok) {
           return (await res.json()) as WeeklyReport;
         }
@@ -63,19 +63,11 @@ export async function saveWeeklyReport(
     return;
   }
 
-  try {
-    const { blobs } = await list({ prefix: path, limit: 1 });
-    if (blobs.length > 0) {
-      await del(blobs[0].url);
-    }
-  } catch {
-    // ignore
-  }
-
   await put(path, JSON.stringify(data), {
     access: "public",
     contentType: "application/json",
     addRandomSuffix: false,
+    allowOverwrite: true,
   });
 }
 
@@ -92,7 +84,7 @@ export async function getKpiData(
     try {
       const { blobs } = await list({ prefix: path, limit: 1 });
       if (blobs.length > 0) {
-        const res = await fetch(blobs[0].url);
+        const res = await fetch(blobs[0].url, { cache: "no-store" });
         if (res.ok) {
           return (await res.json()) as KpiData;
         }
@@ -119,18 +111,10 @@ export async function saveKpiData(
     return;
   }
 
-  try {
-    const { blobs } = await list({ prefix: path, limit: 1 });
-    if (blobs.length > 0) {
-      await del(blobs[0].url);
-    }
-  } catch {
-    // ignore
-  }
-
   await put(path, JSON.stringify(data), {
     access: "public",
     contentType: "application/json",
     addRandomSuffix: false,
+    allowOverwrite: true,
   });
 }
