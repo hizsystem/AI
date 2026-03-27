@@ -37,7 +37,7 @@
 
 복사한 URL을 여기에 기록:
 
-**현재 URL**: `(배포 후 기록)`
+**현재 URL**: `https://script.google.com/macros/s/AKfycbxwyDc5kIu3t5YgPEJFMX6PfLmelKgNKEr269Kcnyy64drOvVcPM3A5UBle_lluCVIh/exec`
 
 `/np-audit` 커맨드 실행 시 Phase 6에서 이 URL로 데이터 전송.
 
