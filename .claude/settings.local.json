@@ -178,7 +178,11 @@
       "WebFetch(domain:map.naver.com)",
       "WebFetch(domain:pcmap.place.naver.com)",
       "WebFetch(domain:m.place.naver.com)",
-      "WebFetch(domain:doc-14-ak-sheets.googleusercontent.com)"
+      "WebFetch(domain:doc-14-ak-sheets.googleusercontent.com)",
+      "WebFetch(domain:www.navercorp.com)",
+      "Bash(pdftoppm -v)",
+      "Bash(pdftotext \"/Users/wooseongmin/.claude/projects/-Users-wooseongmin-AI--claude-worktrees-naver-place/c544519d-c630-44e2-b374-303c177f68e6/tool-results/webfetch-1774404381665-npmc5y.pdf\" -)",
+      "Bash(pdftotext /Users/wooseongmin/.claude/projects/-Users-wooseongmin-AI--claude-worktrees-naver-place/c544519d-c630-44e2-b374-303c177f68e6/tool-results/webfetch-1774404381665-npmc5y.pdf -)"
     ]
   },
   "hooks": {
