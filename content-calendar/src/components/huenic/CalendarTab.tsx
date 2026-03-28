@@ -13,7 +13,9 @@ interface CalendarTabProps {
 
 export default function CalendarTab({ brand }: CalendarTabProps) {
   const client = `huenic-${brand}`;
-  const [currentMonth, setCurrentMonth] = useState("2026-04");
+  const [currentMonth, setCurrentMonth] = useState(
+    AVAILABLE_MONTHS[AVAILABLE_MONTHS.length - 1]
+  );
   const [editMode, setEditMode] = useState(false);
 
   const { data, loading, error, addItem, updateItem, deleteItem, saveCalendar } =

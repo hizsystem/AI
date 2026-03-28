@@ -16,7 +16,9 @@ interface MoodboardTabProps {
 
 export default function MoodboardTab({ brand }: MoodboardTabProps) {
   const client = `huenic-${brand}`;
-  const [currentMonth, setCurrentMonth] = useState("2026-04");
+  const [currentMonth, setCurrentMonth] = useState(
+    AVAILABLE_MONTHS[AVAILABLE_MONTHS.length - 1]
+  );
   const [editMode, setEditMode] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null);
 
@@ -258,12 +260,24 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
         </div>
 
         {/* Instagram phone frame */}
-        <div className="max-w-sm mx-auto">
+        <div className="max-w-md mx-auto">
           {/* Profile header mock */}
           <div className="border border-gray-200 rounded-t-xl bg-white px-4 py-3">
             <div className="flex items-center gap-3">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={brand === "veggiet" ? "/content/veggiet-profile.jpg" : "/content/vinker-profile.jpg"}
+                alt={brand === "veggiet" ? "veggiet" : "vinker"}
+                className="w-10 h-10 rounded-full object-cover"
+                onError={(e) => {
+                  const el = e.currentTarget;
+                  el.style.display = "none";
+                  const fallback = el.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = "flex";
+                }}
+              />
               <div
-                className="w-10 h-10 rounded-full flex items-center justify-center text-white text-xs font-bold"
+                className="w-10 h-10 rounded-full items-center justify-center text-white text-xs font-bold hidden"
                 style={{
                   backgroundColor:
                     brand === "veggiet" ? "#10b981" : "#8b5cf6",

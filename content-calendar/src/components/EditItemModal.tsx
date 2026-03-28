@@ -45,6 +45,8 @@ export default function EditItemModal({
   const [notes, setNotes] = useState(item?.overview?.notes ?? "");
   const [images, setImages] = useState<string[]>(item?.overview?.images ?? []);
   const [localVideo, setLocalVideo] = useState(item?.overview?.localVideo ?? "");
+  const [referenceUrls, setReferenceUrls] = useState<string[]>(item?.overview?.referenceUrls ?? []);
+  const [newRefUrl, setNewRefUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
@@ -85,6 +87,33 @@ export default function EditItemModal({
       setImages((prev) => [...prev, ...urls]);
     } catch (e) {
       console.error("Image upload error:", e);
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  async function handlePaste(e: React.ClipboardEvent) {
+    const items = e.clipboardData?.items;
+    if (!items) return;
+    const imageFiles: File[] = [];
+    for (const item of Array.from(items)) {
+      if (item.type.startsWith("image/")) {
+        const file = item.getAsFile();
+        if (file) imageFiles.push(file);
+      }
+    }
+    if (imageFiles.length === 0) return;
+    e.preventDefault();
+    setUploading(true);
+    try {
+      const urls: string[] = [];
+      for (const file of imageFiles) {
+        const url = await uploadFile(file);
+        urls.push(url);
+      }
+      setImages((prev) => [...prev, ...urls]);
+    } catch (e) {
+      console.error("Paste upload error:", e);
     } finally {
       setUploading(false);
     }
@@ -131,9 +160,11 @@ export default function EditItemModal({
       id: item?.id ?? `content-${Date.now()}`,
       date,
       title: title.trim(),
+      subtitle: item?.subtitle,
       category,
       status,
       overview: {
+        description: item?.overview?.description,
         format: format || undefined,
         caption: caption || undefined,
         hashtags: hashtags.trim()
@@ -147,6 +178,7 @@ export default function EditItemModal({
         images: images.length > 0 ? images : undefined,
         localVideo: localVideo || undefined,
         captionAlts: item?.overview?.captionAlts,
+        referenceUrls: referenceUrls.length > 0 ? referenceUrls : undefined,
       },
     };
     onSave(result);
@@ -162,7 +194,7 @@ export default function EditItemModal({
         if (e.target === overlayRef.current) onClose();
       }}
     >
-      <div className="bg-white rounded-xl shadow-2xl max-w-[560px] w-full max-h-[85vh] overflow-hidden flex flex-col">
+      <div className="bg-white rounded-xl shadow-2xl max-w-[560px] w-full max-h-[85vh] overflow-hidden flex flex-col" onPaste={handlePaste}>
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
           <h2 className="text-lg font-bold text-gray-900">
@@ -343,6 +375,7 @@ export default function EditItemModal({
                 </svg>
                 이미지 추가
               </button>
+              <span className="text-[10px] text-gray-400 self-center">or Ctrl+V 붙여넣기</span>
               <input
                 ref={videoInputRef}
                 type="file"
@@ -407,7 +440,7 @@ export default function EditItemModal({
               type="text"
               value={hashtags}
               onChange={(e) => setHashtags(e.target.value)}
-              placeholder="#탭샵바 #와인바 #셀프탭"
+              placeholder="#베지어트 #VEGGIET #식물성단백질"
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
@@ -438,6 +471,48 @@ export default function EditItemModal({
               placeholder="https://youtube.com/... 또는 https://instagram.com/reel/..."
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
+          </div>
+
+          {/* Reference URLs */}
+          <div>
+            <label className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+              레퍼런스 링크
+            </label>
+            {referenceUrls.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {referenceUrls.map((url, i) => (
+                  <div key={i} className="flex items-center gap-1 px-2 py-1 bg-gray-50 rounded border border-gray-200 text-xs text-gray-600 max-w-full">
+                    <span className="truncate max-w-[200px]">{url}</span>
+                    <button type="button" onClick={() => setReferenceUrls(prev => prev.filter((_, idx) => idx !== i))} className="text-gray-300 hover:text-red-400 flex-shrink-0">
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className="flex gap-2">
+              <input
+                type="url"
+                value={newRefUrl}
+                onChange={(e) => setNewRefUrl(e.target.value)}
+                placeholder="https://instagram.com/p/... 또는 레퍼런스 URL"
+                className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && newRefUrl.trim()) {
+                    e.preventDefault();
+                    setReferenceUrls(prev => [...prev, newRefUrl.trim()]);
+                    setNewRefUrl("");
+                  }
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => { if (newRefUrl.trim()) { setReferenceUrls(prev => [...prev, newRefUrl.trim()]); setNewRefUrl(""); } }}
+                className="px-3 py-2 text-xs font-medium text-blue-500 border border-blue-200 rounded-lg hover:bg-blue-50"
+              >
+                추가
+              </button>
+            </div>
           </div>
 
           {/* Notes */}

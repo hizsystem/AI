@@ -1,0 +1,51 @@
+{
+  "brand": "vinker",
+  "keyMessage": "Chick'n for all.",
+  "series": [
+    {
+      "id": "retail",
+      "name": "Retail & Demo",
+      "color": "#10b981",
+      "hook": "Where to find VINKER in Canada",
+      "concern": "Where can I buy this?",
+      "oneLiner": "입점 매장 소식과 데모 현장",
+      "role": "전환",
+      "reference": "200% 북미 감성",
+      "referenceDetail": "매장 현장 사진, 데모 시연 영상, 인플루언서 방문 콘텐츠",
+      "visual": ["매장 현장 사진", "데모 시연 영상", "인플루언서 방문 콘텐츠"],
+      "examples": ["Community Natural Foods 입점 소식", "밴쿠버 데모 현장"],
+      "frequency": "수시",
+      "format": "피드/릴스"
+    },
+    {
+      "id": "collab",
+      "name": "Collab & Giveaway",
+      "color": "#3b82f6",
+      "hook": "Community-driven brand collaborations",
+      "concern": "Is this brand legit?",
+      "oneLiner": "월 1회 브랜드 콜라보 + 트래픽 광고",
+      "role": "발견 + 확산",
+      "reference": "캐주얼, 커뮤니티 중심",
+      "referenceDetail": "콜라보 브랜드와의 합동 비주얼, Giveaway 안내 그래픽",
+      "visual": ["콜라보 브랜드와의 합동 비주얼", "Giveaway 안내 그래픽"],
+      "examples": ["로컬 브랜드 콜라보 giveaway"],
+      "frequency": "월 1회",
+      "format": "피드/릴스"
+    },
+    {
+      "id": "content",
+      "name": "Content",
+      "color": "#f97316",
+      "hook": "Taste it, see it, try it",
+      "concern": "What does this taste like?",
+      "oneLiner": "직접 릴스 소스 확보, 북미 감성 콘텐츠",
+      "role": "발견",
+      "reference": "북미 푸드 콘텐츠",
+      "referenceDetail": "밝고 에너지 있는 톤. 밝은 조명, 캐주얼 세팅, 실제 조리/시식 장면",
+      "visual": ["밝은 조명", "캐주얼 세팅", "실제 조리/시식 장면"],
+      "examples": ["빙커 치킨으로 만든 간단 레시피", "시식 리액션"],
+      "frequency": "월 2~3회",
+      "format": "릴스 중심"
+    }
+  ]
+}

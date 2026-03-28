@@ -3,6 +3,8 @@ import { getWeeklyReport, saveWeeklyReport } from "@/lib/huenic-storage";
 import { fetchWeeklyReportFromSheets } from "@/lib/google-sheets";
 import type { HuenicBrand } from "@/data/huenic-types";
 
+export const dynamic = "force-dynamic";
+
 function validBrand(b: string): HuenicBrand {
   return b === "veggiet" || b === "vinker" ? b : "veggiet";
 }

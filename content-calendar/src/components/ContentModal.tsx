@@ -108,46 +108,7 @@ export default function ContentModal({
               <span className="text-white/50 text-[11px] tracking-wide">Instagram에서 보기</span>
             </a>
           ) : overview.images && overview.images.length > 0 ? (
-            <div className="relative w-full h-full flex items-center justify-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={overview.images[imageIndex]}
-                alt={`${item.title} ${imageIndex + 1}`}
-                className="w-full h-full object-contain"
-              />
-              {overview.images.length > 1 && (
-                <>
-                  {/* Previous button */}
-                  {imageIndex > 0 && (
-                    <button
-                      onClick={() => setImageIndex((i) => i - 1)}
-                      className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center hover:bg-white transition-colors"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    </button>
-                  )}
-                  {/* Next button */}
-                  {imageIndex < overview.images.length - 1 && (
-                    <button
-                      onClick={() => setImageIndex((i) => i + 1)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/90 shadow flex items-center justify-center hover:bg-white transition-colors"
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                    </button>
-                  )}
-                  {/* Dots indicator */}
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-                    {overview.images.map((_, i) => (
-                      <button
-                        key={i}
-                        onClick={() => setImageIndex(i)}
-                        className={`w-1.5 h-1.5 rounded-full transition-colors ${i === imageIndex ? "bg-white" : "bg-white/40"}`}
-                      />
-                    ))}
-                  </div>
-                </>
-              )}
-            </div>
+            <ImageCarousel images={overview.images} alt={item.title} />
           ) : (
             <div className="w-full h-full flex flex-col items-center justify-center gap-5">
               <div
@@ -256,6 +217,45 @@ export default function ContentModal({
               </div>
             )}
 
+            {/* Reference Links */}
+            {overview.referenceUrls && overview.referenceUrls.length > 0 && (
+              <div className="mt-5">
+                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mb-2">
+                  Reference
+                </p>
+                <div className="flex gap-2 overflow-x-auto pb-2 snap-x snap-mandatory scrollbar-hide">
+                  {overview.referenceUrls.map((url, i) => (
+                    <a
+                      key={i}
+                      href={url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-shrink-0 snap-start w-[180px] border border-gray-200 rounded-lg overflow-hidden hover:border-blue-300 transition-colors"
+                    >
+                      <div className="h-[120px] bg-gray-50 flex items-center justify-center">
+                        {url.includes("instagram.com") ? (
+                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-pink-400">
+                            <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="1.5"/>
+                            <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1.5"/>
+                            <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+                          </svg>
+                        ) : (
+                          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-gray-300">
+                            <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                            <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                          </svg>
+                        )}
+                      </div>
+                      <div className="px-2.5 py-2 bg-white">
+                        <p className="text-[10px] text-gray-500 truncate">{new URL(url).hostname}</p>
+                        <p className="text-[11px] text-blue-500 truncate">{url.split("/").pop()}</p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+
           </div>
 
           {/* Bottom bar */}
@@ -276,6 +276,48 @@ export default function ContentModal({
           </div>
 
         </div>
+      </div>
+    </div>
+  );
+}
+
+function ImageCarousel({ images, alt }: { images: string[]; alt: string }) {
+  const [idx, setIdx] = useState(0);
+  if (images.length === 1) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img src={images[0]} alt={alt} className="w-full h-full object-cover" />
+    );
+  }
+  return (
+    <div className="relative w-full h-full group">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={images[idx]} alt={`${alt} ${idx + 1}`} className="w-full h-full object-cover" />
+      {/* Left arrow */}
+      {idx > 0 && (
+        <button
+          onClick={(e) => { e.stopPropagation(); setIdx(idx - 1); }}
+          className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white/80 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+      )}
+      {/* Right arrow */}
+      {idx < images.length - 1 && (
+        <button
+          onClick={(e) => { e.stopPropagation(); setIdx(idx + 1); }}
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white/80 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="#333" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+      )}
+      {/* Dots */}
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
+        {images.map((_, i) => (
+          <button key={i} onClick={(e) => { e.stopPropagation(); setIdx(i); }}
+            className={`w-1.5 h-1.5 rounded-full transition-colors ${i === idx ? "bg-white" : "bg-white/40"}`}
+          />
+        ))}
       </div>
     </div>
   );
