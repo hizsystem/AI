@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>네이버플레이스 진단 리포트 - 미례 국밥 전포본점</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, 'Pretendard', 'Apple SD Gothic Neo', sans-serif;
+      background: #f8f9fa;
+      color: #1a1a1a;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 24px 20px 80px;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding: 32px 0 24px;
+      border-bottom: 1px solid #e5e7eb;
+      margin-bottom: 28px;
+    }
+
+    .header-badge {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
+
+    .header .subtitle {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    /* Score Hero */
+    .score-hero {
+      text-align: center;
+      padding: 32px 20px;
+      background: #fff;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    .score-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      position: relative;
+    }
+
+    .score-circle .number {
+      font-size: 40px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .score-circle .unit {
+      font-size: 14px;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .grade-D { background: #fef2f2; border: 3px solid #ef4444; color: #dc2626; }
+    .grade-C { background: #fff7ed; border: 3px solid #f97316; color: #ea580c; }
+    .grade-B { background: #fefce8; border: 3px solid #eab308; color: #ca8a04; }
+    .grade-A { background: #f0fdf4; border: 3px solid #22c55e; color: #16a34a; }
+
+    .grade-label {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .score-meta {
+      font-size: 13px;
+      color: #9ca3af;
+    }
+
+    /* Score Bars */
+    .score-bars {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    .score-bars h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .bar-item {
+      margin-bottom: 16px;
+    }
+
+    .bar-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .bar-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .bar-label .name {
+      font-weight: 600;
+      color: #374151;
+    }
+
+    .bar-label .score {
+      color: #6b7280;
+    }
+
+    .bar-track {
+      height: 8px;
+      background: #f3f4f6;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s ease;
+    }
+
+    .bar-fill.red { background: #ef4444; }
+    .bar-fill.orange { background: #f97316; }
+    .bar-fill.yellow { background: #eab308; }
+    .bar-fill.green { background: #22c55e; }
+
+    /* Cards */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    .card h2 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+    }
+
+    /* Top 3 Improvements */
+    .improve-item {
+      padding: 16px;
+      background: #fef2f2;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      border-left: 4px solid #ef4444;
+    }
+
+    .improve-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .improve-rank {
+      font-size: 12px;
+      font-weight: 700;
+      color: #ef4444;
+      margin-bottom: 4px;
+    }
+
+    .improve-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 6px;
+    }
+
+    .improve-status {
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .improve-action {
+      font-size: 13px;
+      color: #1d4ed8;
+      font-weight: 500;
+    }
+
+    .evidence {
+      font-size: 12px;
+      color: #92400e;
+      background: #fffbeb;
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-top: 8px;
+      line-height: 1.5;
+      border-left: 3px solid #f59e0b;
+    }
+
+    /* Detail Table */
+    .detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .detail-table th {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 2px solid #e5e7eb;
+      font-weight: 600;
+      color: #6b7280;
+      font-size: 12px;
+    }
+
+    .detail-table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .detail-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .verdict-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 100px;
+    }
+
+    .verdict-ok { background: #f0fdf4; color: #16a34a; }
+    .verdict-warn { background: #fefce8; color: #ca8a04; }
+    .verdict-need { background: #fff7ed; color: #ea580c; }
+    .verdict-urgent { background: #fef2f2; color: #dc2626; }
+    .verdict-unknown { background: #f3f4f6; color: #9ca3af; }
+
+    /* Good Points */
+    .good-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 8px 0;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .good-icon {
+      color: #22c55e;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Task Timeline */
+    .week-group {
+      margin-bottom: 20px;
+    }
+
+    .week-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .week-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6b7280;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .task-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      font-size: 13px;
+    }
+
+    .task-name {
+      flex: 1;
+      color: #374151;
+    }
+
+    .task-owner {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 100px;
+      flex-shrink: 0;
+      margin-left: 8px;
+    }
+
+    .owner-us { background: #eff6ff; color: #2563eb; }
+    .owner-client { background: #f0fdf4; color: #16a34a; }
+
+    /* Menu Keywords */
+    .menu-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .menu-table th {
+      text-align: left;
+      padding: 8px 6px;
+      border-bottom: 2px solid #e5e7eb;
+      font-weight: 600;
+      color: #6b7280;
+      font-size: 12px;
+    }
+
+    .menu-table td {
+      padding: 8px 6px;
+      border-bottom: 1px solid #f3f4f6;
+    }
+
+    .menu-arrow {
+      color: #9ca3af;
+      text-align: center;
+    }
+
+    .menu-new {
+      color: #2563eb;
+      font-weight: 500;
+    }
+
+    /* Package */
+    .package-box {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .package-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1d4ed8;
+      margin-bottom: 8px;
+    }
+
+    .package-options {
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .package-options li {
+      margin-bottom: 4px;
+      list-style: none;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .package-options li::before {
+      content: '+';
+      position: absolute;
+      left: 0;
+      color: #2563eb;
+      font-weight: 700;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 24px 0;
+      font-size: 12px;
+      color: #9ca3af;
+      border-top: 1px solid #e5e7eb;
+      margin-top: 20px;
+    }
+
+    .footer a {
+      color: #6b7280;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-badge" style="background:#fef2f2;color:#dc2626;">Lite 진단</div>
+    <h1>미례 국밥 전포본점</h1>
+    <p class="subtitle">2026.03.28 | 부산 전포동 | 국밥</p>
+  </div>
+
+  <!-- Score Hero -->
+  <div class="score-hero">
+    <div class="score-circle grade-D">
+      <span class="number">39</span>
+      <span class="unit">/ 100</span>
+    </div>
+    <div class="grade-label" style="color:#dc2626;">D등급</div>
+    <p class="score-meta">기본기는 탄탄하나, 매출 직결 기능이 미활용 상태</p>
+  </div>
+
+  <!-- Score Bars -->
+  <div class="score-bars">
+    <h2>영역별 점수</h2>
+
+    <div class="bar-item">
+      <div class="bar-label">
+        <span class="name">S등급 -- 매출 직결</span>
+        <span class="score">16 / 50</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill red" style="width:32%"></div>
+      </div>
+    </div>
+
+    <div class="bar-item">
+      <div class="bar-label">
+        <span class="name">A등급 -- 노출 순위</span>
+        <span class="score">10 / 30</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill orange" style="width:33%"></div>
+      </div>
+    </div>
+
+    <div class="bar-item">
+      <div class="bar-label">
+        <span class="name">B등급 -- 기본기</span>
+        <span class="score">11 / 15</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill green" style="width:73%"></div>
+      </div>
+    </div>
+
+    <div class="bar-item">
+      <div class="bar-label">
+        <span class="name">보너스 -- 매출 부스터</span>
+        <span class="score">2 / 5</span>
+      </div>
+      <div class="bar-track">
+        <div class="bar-fill orange" style="width:40%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top 3 Improvements -->
+  <div class="card">
+    <h2>즉시 개선이 필요한 3가지</h2>
+
+    <div class="improve-item">
+      <div class="improve-rank">1순위</div>
+      <div class="improve-title">플레이스 광고 (0/15점)</div>
+      <div class="improve-status">현재: 광고 미집행</div>
+      <div class="improve-action">일 예산 1~3만원으로 플레이스 광고 시작</div>
+      <div class="evidence">플레이스 광고 사용 시 매출 6배, 저장 3.6배 증가 (D-플레이스 리포트)</div>
+    </div>
+
+    <div class="improve-item">
+      <div class="improve-rank">2순위</div>
+      <div class="improve-title">예약 / 쿠폰 / 톡톡 (0/15점)</div>
+      <div class="improve-status">현재: 3종 솔루션 모두 미활용</div>
+      <div class="improve-action">예약 + 쿠폰 + 톡톡 모두 활성화 (무료)</div>
+      <div class="evidence">솔루션 1개 이상 사용 시 매출 3배 증가. 예약 사용 시 PV 3.1배 증가 (네이버 공식)</div>
+    </div>
+
+    <div class="improve-item">
+      <div class="improve-rank">3순위</div>
+      <div class="improve-title">소식 & 이벤트 (0/7점)</div>
+      <div class="improve-status">현재: 마지막 소식 발행 2025.03.03 (1년 전)</div>
+      <div class="improve-action">주 1~2회 소식 재개 + 이벤트 쿠폰 연동</div>
+    </div>
+  </div>
+
+  <!-- Detail Table -->
+  <div class="card">
+    <h2>13개 항목 상세</h2>
+    <table class="detail-table">
+      <thead>
+        <tr>
+          <th>항목</th>
+          <th>점수</th>
+          <th>판정</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>S1. 리뷰 (1,354개)</td><td>16/20</td><td><span class="verdict-badge verdict-warn">주의</span></td></tr>
+        <tr><td>S2. 플레이스 광고</td><td>0/15</td><td><span class="verdict-badge verdict-urgent">즉시 개선</span></td></tr>
+        <tr><td>S3. 예약/쿠폰/톡톡</td><td>0/15</td><td><span class="verdict-badge verdict-urgent">즉시 개선</span></td></tr>
+        <tr><td>A1. 사진 & 영상</td><td>5/8</td><td><span class="verdict-badge verdict-need">개선 필요</span></td></tr>
+        <tr><td>A2. 대표 키워드</td><td>5/8</td><td><span class="verdict-badge verdict-need">개선 필요</span></td></tr>
+        <tr><td>A3. 소식 & 이벤트</td><td>0/7</td><td><span class="verdict-badge verdict-urgent">즉시 개선</span></td></tr>
+        <tr><td>A4. 블로그 체험단</td><td>0/7</td><td><span class="verdict-badge verdict-unknown">미확인</span></td></tr>
+        <tr><td>B1. 기본 정보</td><td>6/6</td><td><span class="verdict-badge verdict-ok">OK</span></td></tr>
+        <tr><td>B2. 상세 소개문</td><td>1/5</td><td><span class="verdict-badge verdict-urgent">즉시 개선</span></td></tr>
+        <tr><td>B3. AI 브리핑</td><td>4/4</td><td><span class="verdict-badge verdict-ok">OK</span></td></tr>
+        <tr><td>X1. 외부 채널</td><td>2/3</td><td><span class="verdict-badge verdict-need">개선 필요</span></td></tr>
+        <tr><td>X2. 네이버 커넥트</td><td>0/2</td><td><span class="verdict-badge verdict-unknown">미확인</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Good Points -->
+  <div class="card">
+    <h2>잘하고 있는 것</h2>
+    <div class="good-item"><span class="good-icon">V</span> 기본 정보 만점 (6/6) - 영업시간, 편의시설 7개, 찾아오는 길 모두 등록</div>
+    <div class="good-item"><span class="good-icon">V</span> AI 브리핑 만점 (4/4) - AI 브리핑 ON + 매장명 지역명 포함</div>
+    <div class="good-item"><span class="good-icon">V</span> 리뷰 1,354개, 저장 3,000+ - 검색 자산이 매우 풍부</div>
+    <div class="good-item"><span class="good-icon">V</span> 메뉴 사진 18개 전체 완비 - 전문 촬영 수준의 높은 퀄리티</div>
+  </div>
+
+  <!-- Menu Keyword Suggestions -->
+  <div class="card">
+    <h2>메뉴명 키워드 제안</h2>
+    <table class="menu-table">
+      <thead>
+        <tr><th>현재</th><th></th><th>제안</th><th>이유</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>돼지국밥</td><td class="menu-arrow">-></td><td class="menu-new">해장 돼지국밥</td><td style="font-size:11px;color:#6b7280">검색 목적</td></tr>
+        <tr><td>한마리국밥</td><td class="menu-arrow">-></td><td class="menu-new">보양 한마리국밥</td><td style="font-size:11px;color:#6b7280">목적 + 특징</td></tr>
+        <tr><td>얼큰돼지우동</td><td class="menu-arrow">-></td><td class="menu-new">얼큰 돼지우동국밥</td><td style="font-size:11px;color:#6b7280">대표키워드 매칭</td></tr>
+        <tr><td>수육백반</td><td class="menu-arrow">-></td><td class="menu-new">혼밥 수육백반</td><td style="font-size:11px;color:#6b7280">1인 식사 목적</td></tr>
+        <tr><td>순대국밥</td><td class="menu-arrow">-></td><td class="menu-new">속풀이 순대국밥</td><td style="font-size:11px;color:#6b7280">검색 목적</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 4-Week Coaching Tasks -->
+  <div class="card">
+    <h2>4주 코칭 플랜</h2>
+
+    <div class="week-group">
+      <div class="week-label">Week 1 -- 핵심 세팅</div>
+      <div class="task-item"><span class="task-name">플레이스 광고 세팅 (일 1~3만원)</span><span class="task-owner owner-us">저희</span></div>
+      <div class="task-item"><span class="task-name">네이버 예약 활성화</span><span class="task-owner owner-client">직접</span></div>
+      <div class="task-item"><span class="task-name">알림받기 쿠폰 세팅</span><span class="task-owner owner-client">직접</span></div>
+      <div class="task-item"><span class="task-name">톡톡 + 스마트콜 활성화</span><span class="task-owner owner-client">직접</span></div>
+      <div class="task-item"><span class="task-name">상세 소개문 1,500자 작성</span><span class="task-owner owner-us">저희</span></div>
+      <div class="task-item"><span class="task-name">대표 키워드 교체</span><span class="task-owner owner-us">저희</span></div>
+      <div class="task-item"><span class="task-name">리뷰 가이드 엽서 제작</span><span class="task-owner owner-us">저희</span></div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Week 2 -- 콘텐츠 시작</div>
+      <div class="task-item"><span class="task-name">5~10초 영상 촬영 + 소식 업로드</span><span class="task-owner owner-client">직접</span></div>
+      <div class="task-item"><span class="task-name">이벤트 소식 발행 + 쿠폰 연동</span><span class="task-owner owner-client">직접</span></div>
+      <div class="task-item"><span class="task-name">블로그 체험단 4~5명 섭외</span><span class="task-owner owner-us">저희</span></div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Week 3 -- 외부 채널</div>
+      <div class="task-item"><span class="task-name">네이버 블로그 개설</span><span class="task-owner owner-client">직접</span></div>
+      <div class="task-item"><span class="task-name">네이버 커넥트 전환 검토</span><span class="task-owner owner-client">직접</span></div>
+    </div>
+
+    <div class="week-group">
+      <div class="week-label">Week 4 -- 루틴 정착</div>
+      <div class="task-item"><span class="task-name">에드로그 등록 + 키워드 모니터링</span><span class="task-owner owner-us">저희</span></div>
+      <div class="task-item"><span class="task-name">주간 운영 루틴 확립</span><span class="task-owner owner-client">직접</span></div>
+      <div class="task-item"><span class="task-name">첫 월간 보고서 생성</span><span class="task-owner owner-us">저희</span></div>
+    </div>
+  </div>
+
+  <!-- Package Recommendation -->
+  <div class="card">
+    <h2>추천 패키지</h2>
+    <div class="package-box">
+      <div class="package-name">초기 세팅 패키지</div>
+      <ul class="package-options">
+        <li>광고 세팅 + 최적화</li>
+        <li>블로그 체험단 운영</li>
+        <li>상세 소개문 작성</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>브랜드라이즈 | 네이버플레이스 최적화 진단</p>
+    <p style="margin-top:4px;">문의: brandrise.kr</p>
+  </div>
+
+</div>
+
+</body>
+</html>
