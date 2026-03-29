@@ -8,6 +8,8 @@ import veggietMarch2026 from "@/data/huenic-seed/veggiet-2026-03.json";
 import vinkerMarch2026 from "@/data/huenic-seed/vinker-2026-03.json";
 import veggietApril2026 from "@/data/huenic-seed/veggiet-2026-04.json";
 import vinkerApril2026 from "@/data/huenic-seed/vinker-2026-04.json";
+import veggietMay2026 from "@/data/huenic-seed/veggiet-2026-05.json";
+import vinkerMay2026 from "@/data/huenic-seed/vinker-2026-05.json";
 
 const SEED_DATA: Record<string, CalendarData> = {
   "tabshopbar:2026-03": march2026 as CalendarData,
@@ -16,6 +18,8 @@ const SEED_DATA: Record<string, CalendarData> = {
   "huenic-vinker:2026-03": vinkerMarch2026 as CalendarData,
   "huenic-veggiet:2026-04": veggietApril2026 as CalendarData,
   "huenic-vinker:2026-04": vinkerApril2026 as CalendarData,
+  "huenic-veggiet:2026-05": veggietMay2026 as CalendarData,
+  "huenic-vinker:2026-05": vinkerMay2026 as CalendarData,
 };
 
 function blobPath(client: string, month: string): string {

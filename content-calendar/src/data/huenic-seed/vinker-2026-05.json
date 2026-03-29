@@ -1,0 +1,65 @@
+{
+  "client": "HUENIC - VINKER",
+  "clientSlug": "huenic-vinker",
+  "month": "2026-05",
+  "title": "VINKER May Content Calendar",
+  "description": "Monthly default — 4 posts minimum maintenance",
+  "coreMessage": "Keep the heartbeat alive. Monthly 4 posts for brand presence in Canadian market.",
+  "categories": [
+    { "id": "recipe", "name": "Recipe/Product", "color": "#10b981" },
+    { "id": "branding", "name": "Branding", "color": "#3b82f6" },
+    { "id": "reels", "name": "Reels", "color": "#f97316" },
+    { "id": "seeding", "name": "Seeding/Collab", "color": "#8b5cf6" }
+  ],
+  "items": [
+    {
+      "id": "vk05-001",
+      "date": "2026-05-06",
+      "title": "Retail & Demo Update",
+      "subtitle": "Store availability",
+      "category": "branding",
+      "status": "planning",
+      "overview": {
+        "description": "Where to find VINKER in Canada. Store update or demo schedule.",
+        "format": "Feed image",
+        "notes": "Use store photo if available, or minimal graphic."
+      }
+    },
+    {
+      "id": "vk05-002",
+      "date": "2026-05-13",
+      "title": "Product Spotlight",
+      "subtitle": "Product Education",
+      "category": "recipe",
+      "status": "planning",
+      "overview": {
+        "description": "Ingredient highlight or product benefit carousel.",
+        "format": "Carousel 3 slides"
+      }
+    },
+    {
+      "id": "vk05-003",
+      "date": "2026-05-20",
+      "title": "Collab & Giveaway",
+      "subtitle": "Community",
+      "category": "seeding",
+      "status": "planning",
+      "overview": {
+        "description": "Monthly brand collaboration + traffic ad. Community-driven giveaway.",
+        "format": "Feed/Reels"
+      }
+    },
+    {
+      "id": "vk05-004",
+      "date": "2026-05-27",
+      "title": "Lifestyle Content",
+      "subtitle": "How to Enjoy",
+      "category": "reels",
+      "status": "planning",
+      "overview": {
+        "description": "Recipe or lifestyle reels. Quick, bright, casual North American tone.",
+        "format": "Reels 30s"
+      }
+    }
+  ]
+}

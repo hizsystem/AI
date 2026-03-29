@@ -7,15 +7,23 @@ import type { HuenicBrand } from "@/data/huenic-types";
 
 const AVAILABLE_MONTHS = ["2026-03", "2026-04", "2026-05"];
 
+function getCurrentMonth(): string {
+  const now = new Date();
+  const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  if (AVAILABLE_MONTHS.includes(ym)) return ym;
+  // If current month not available, pick the closest one
+  const future = AVAILABLE_MONTHS.filter((m) => m >= ym);
+  if (future.length > 0) return future[0];
+  return AVAILABLE_MONTHS[AVAILABLE_MONTHS.length - 1];
+}
+
 interface CalendarTabProps {
   brand: HuenicBrand;
 }
 
 export default function CalendarTab({ brand }: CalendarTabProps) {
   const client = `huenic-${brand}`;
-  const [currentMonth, setCurrentMonth] = useState(
-    AVAILABLE_MONTHS[AVAILABLE_MONTHS.length - 1]
-  );
+  const [currentMonth, setCurrentMonth] = useState(getCurrentMonth);
   const [editMode, setEditMode] = useState(false);
 
   const { data, loading, error, addItem, updateItem, deleteItem, saveCalendar } =
