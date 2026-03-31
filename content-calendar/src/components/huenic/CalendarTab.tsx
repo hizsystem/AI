@@ -5,7 +5,7 @@ import Calendar from "@/components/Calendar";
 import { useCalendarData } from "@/hooks/useCalendarData";
 import type { HuenicBrand } from "@/data/huenic-types";
 
-const AVAILABLE_MONTHS = ["2026-03", "2026-04"];
+const AVAILABLE_MONTHS = ["2026-04"];
 
 interface CalendarTabProps {
   brand: HuenicBrand;

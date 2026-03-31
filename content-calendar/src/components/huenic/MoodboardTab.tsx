@@ -8,7 +8,7 @@ import InstagramGrid from "./InstagramGrid";
 import BrandMoodboard from "./BrandMoodboard";
 import ContentModal from "@/components/ContentModal";
 
-const AVAILABLE_MONTHS = ["2026-03", "2026-04"];
+const AVAILABLE_MONTHS = ["2026-04"];
 
 interface MoodboardTabProps {
   brand: HuenicBrand;
