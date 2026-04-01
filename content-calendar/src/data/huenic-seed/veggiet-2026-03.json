@@ -1,0 +1,23 @@
+{
+  "client": "HUENIC - VEGGIET",
+  "clientSlug": "huenic-veggiet",
+  "month": "2026-03",
+  "title": "VEGGIET 3월 콘텐츠 캘린더",
+  "description": "베지어트 인스타그램 월간 콘텐츠 기획",
+  "categories": [
+    { "id": "recipe", "name": "레시피/제품", "color": "#10b981" },
+    { "id": "branding", "name": "브랜딩", "color": "#3b82f6" },
+    { "id": "reels", "name": "릴스", "color": "#f97316" },
+    { "id": "seeding", "name": "시딩/콜라보", "color": "#8b5cf6" }
+  ],
+  "items": [
+    { "id": "v-001", "date": "2026-03-03", "title": "프로틴바 신제품 티저", "category": "branding", "status": "uploaded", "overview": { "description": "스트로베리 프로틴바 출시 티저 이미지", "format": "피드 이미지", "hashtags": ["#베지어트", "#프로틴바", "#식물성단백질"] } },
+    { "id": "v-002", "date": "2026-03-05", "title": "프로틴바 언박싱 릴스", "category": "reels", "status": "uploaded", "overview": { "description": "신제품 언박싱 + 첫 맛 리뷰", "format": "릴스 30초", "hashtags": ["#프로틴바리뷰", "#베지어트"] } },
+    { "id": "v-003", "date": "2026-03-10", "title": "아침 스무디 레시피", "category": "recipe", "status": "uploaded", "overview": { "description": "베지어트 파우더 활용 스무디 레시피", "format": "캐러셀 5장", "hashtags": ["#아침스무디", "#식물성프로틴"] } },
+    { "id": "v-004", "date": "2026-03-12", "title": "대표 인터뷰: 왜 식물성인가", "category": "branding", "status": "needs-confirm", "overview": { "description": "박진아 대표 인터뷰 카드뉴스", "format": "캐러셀 7장", "hashtags": ["#푸드테크", "#대표인터뷰"] } },
+    { "id": "v-005", "date": "2026-03-17", "title": "운동 후 프로틴 루틴 릴스", "category": "reels", "status": "planning", "overview": { "description": "홈트 후 프로틴바 먹는 일상 릴스", "format": "릴스 15초", "hashtags": ["#운동일상", "#프로틴루틴"] } },
+    { "id": "v-006", "date": "2026-03-19", "title": "@건강맛집 시딩 콜라보", "category": "seeding", "status": "planning", "overview": { "description": "인플루언서 시딩 — 프로틴바 체험 후기", "format": "릴스 리그램", "hashtags": ["#시딩", "#인플루언서"] } },
+    { "id": "v-007", "date": "2026-03-24", "title": "원재료 산지 비하인드", "category": "branding", "status": "planning", "overview": { "description": "콩 원료 생산지 방문 비하인드", "format": "캐러셀 5장", "hashtags": ["#원재료", "#진정성"] } },
+    { "id": "v-008", "date": "2026-03-28", "title": "프로틴바 x 요거트 레시피", "category": "recipe", "status": "planning", "overview": { "description": "프로틴바 부수어 요거트 토핑 레시피", "format": "릴스 30초", "hashtags": ["#레시피", "#간편식"] } }
+  ]
+}
