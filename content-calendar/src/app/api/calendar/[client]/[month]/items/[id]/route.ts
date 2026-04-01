@@ -24,7 +24,12 @@ export async function PATCH(
     const oldItem = data.items[idx];
     data.items[idx] = { ...oldItem, ...updates };
     if (updates.overview) {
-      data.items[idx].overview = { ...oldItem.overview, ...updates.overview };
+      // Merge old + new, then strip null (= explicitly cleared by client)
+      const merged = { ...oldItem.overview, ...updates.overview } as Record<string, unknown>;
+      for (const key of Object.keys(merged)) {
+        if (merged[key] === null) delete merged[key];
+      }
+      data.items[idx].overview = merged as typeof oldItem.overview;
     }
 
     await saveCalendar(client, month, data);

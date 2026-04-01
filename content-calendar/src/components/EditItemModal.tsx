@@ -164,21 +164,21 @@ export default function EditItemModal({
       category,
       status,
       overview: {
-        description: item?.overview?.description,
-        format: format || undefined,
-        caption: caption || undefined,
+        description: item?.overview?.description ?? null,
+        format: format || null,
+        caption: caption || null,
         hashtags: hashtags.trim()
           ? hashtags.split(/\s+/).filter(Boolean)
-          : undefined,
+          : null,
         mentions: mentions.trim()
           ? mentions.split(/\s+/).filter(Boolean)
-          : undefined,
-        videoUrl: videoUrl || undefined,
-        notes: notes || undefined,
-        images: images.length > 0 ? images : undefined,
-        localVideo: localVideo || undefined,
-        captionAlts: item?.overview?.captionAlts,
-        referenceUrls: referenceUrls.length > 0 ? referenceUrls : undefined,
+          : null,
+        videoUrl: videoUrl || null,
+        notes: notes || null,
+        images: images.length > 0 ? images : null,
+        localVideo: localVideo || null,
+        captionAlts: item?.overview?.captionAlts ?? null,
+        referenceUrls: referenceUrls.length > 0 ? referenceUrls : null,
       },
     };
     onSave(result);

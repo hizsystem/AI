@@ -72,7 +72,17 @@ export default function ContentModal({
       <div className="bg-white shadow-2xl flex max-w-[860px] w-full max-h-[80vh] overflow-hidden rounded">
         {/* Left: Media area — min-h prevents collapse, object-contain keeps ratio */}
         <div className="w-[420px] min-h-[320px] bg-gray-950 flex-shrink-0 flex items-center justify-center self-stretch">
-          {overview.localVideo ? (
+          {overview.images && overview.images.length > 1 ? (
+            <div className="relative w-full h-full">
+              <ImageCarousel images={overview.images} alt={item.title} />
+              {overview.localVideo && (
+                <VideoOverlayButton
+                  src={overview.localVideo}
+                  poster={overview.images[0]}
+                />
+              )}
+            </div>
+          ) : overview.localVideo ? (
             <div className="relative w-full h-full flex items-center justify-center">
               <video
                 src={overview.localVideo}
@@ -323,7 +333,44 @@ function ImageCarousel({ images, alt }: { images: string[]; alt: string }) {
   );
 }
 
-function FormatIcon({ format, color }: { format?: string; color: string }) {
+function VideoOverlayButton({ src, poster }: { src: string; poster?: string | null }) {
+  const [playing, setPlaying] = useState(false);
+  if (playing) {
+    return (
+      <div className="absolute inset-0 z-10 bg-black flex items-center justify-center">
+        <video
+          src={src}
+          poster={poster ?? undefined}
+          controls
+          autoPlay
+          className="w-full h-full object-contain"
+          playsInline
+        />
+        <button
+          onClick={(e) => { e.stopPropagation(); setPlaying(false); }}
+          className="absolute top-3 right-3 w-8 h-8 bg-black/70 rounded-full flex items-center justify-center text-white/80 hover:text-white z-20"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+            <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+        </button>
+      </div>
+    );
+  }
+  return (
+    <button
+      onClick={(e) => { e.stopPropagation(); setPlaying(true); }}
+      className="absolute bottom-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1.5 bg-black/70 rounded-full text-white text-[11px] hover:bg-black/90 transition-colors"
+    >
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+        <path d="M10 8l6 4-6 4V8z" fill="white"/>
+      </svg>
+      영상 보기
+    </button>
+  );
+}
+
+function FormatIcon({ format, color }: { format?: string | null; color: string }) {
   if (format?.includes("릴스")) {
     return (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

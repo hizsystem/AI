@@ -8,17 +8,17 @@ export interface Category {
 export type ContentStatus = "planning" | "needs-confirm" | "uploaded";
 
 export interface ContentOverview {
-  description?: string;
-  format?: string;
-  mentions?: string[];
-  hashtags?: string[];
-  images?: string[];
-  videoUrl?: string;
-  localVideo?: string;
-  caption?: string;
-  captionAlts?: string[];
-  notes?: string;
-  referenceUrls?: string[];
+  description?: string | null;
+  format?: string | null;
+  mentions?: string[] | null;
+  hashtags?: string[] | null;
+  images?: string[] | null;
+  videoUrl?: string | null;
+  localVideo?: string | null;
+  caption?: string | null;
+  captionAlts?: string[] | null;
+  notes?: string | null;
+  referenceUrls?: string[] | null;
 }
 
 export interface ContentItem {
