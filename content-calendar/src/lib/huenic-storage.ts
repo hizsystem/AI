@@ -204,9 +204,19 @@ export async function getRefData(brand: HuenicBrand): Promise<RefData> {
   warnNoBlobToken();
   const path = refBlobPath(brand);
 
+  const seedCollections = brand === "veggiet" ? VEGGIET_REF_COLLECTIONS : VINKER_REF_COLLECTIONS;
+
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     const res = await blobFetch(path);
-    if (res) return (await res.json()) as RefData;
+    if (res) {
+      const data = (await res.json()) as RefData;
+      // Always sync collections from seed (source of truth for available collections)
+      const existingIds = new Set(data.collections.map((c) => c.id));
+      for (const sc of seedCollections) {
+        if (!existingIds.has(sc.id)) data.collections.push(sc);
+      }
+      return data;
+    }
   }
 
   return defaultRefData(brand);

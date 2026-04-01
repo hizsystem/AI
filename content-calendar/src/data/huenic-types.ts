@@ -75,6 +75,7 @@ export const VEGGIET_REF_COLLECTIONS: RefCollection[] = [
   { id: 'vegieter', name: '이달의 베지어터', color: '#10b981' },
   { id: 'lab', name: '베지어트 랩', color: '#3b82f6' },
   { id: 'attack', name: '베지어택', color: '#f59e0b' },
+  { id: 'lets', name: "Let's Veggiet", color: '#e11d48' },
   { id: 'my', name: 'MY VEGGIET', color: '#f97316' },
   { id: 'moment', name: '베지어트 모먼트', color: '#8b5cf6' },
   { id: 'interview', name: '베지터뷰', color: '#ec4899' },
