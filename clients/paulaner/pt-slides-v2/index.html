@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1920">
+  <title>Paulaner 2026 PT Deck v2</title>
+  <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-warm: #F4F1EB;
+      --bg-dark: #001A33;
+      --bg-navy: #002040;
+      --gold: #C19A5B;
+      --gold-light: #D4B483;
+      --amber: #D4872C;
+      --text-dark: #1A1A1A;
+      --text-muted: #888;
+      --text-light: rgba(255,255,255,0.85);
+      --text-dim: rgba(255,255,255,0.5);
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Noto Sans KR', 'Inter', sans-serif;
+      --font-inter: 'Inter', sans-serif;
+    }
+
+    .slide {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    /* ===== Slide: Cover ===== */
+    .slide-cover {
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 120px;
+    }
+    .slide-cover .glow {
+      position: absolute;
+      top: 50%; left: 55%;
+      transform: translate(-50%, -50%);
+      width: 900px; height: 900px;
+      background: radial-gradient(circle, rgba(193,154,91,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .slide-cover .glow-2 {
+      position: absolute;
+      top: 35%; left: 40%;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(212,135,44,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .slide-cover h1 {
+      font-family: var(--font-serif);
+      font-size: 140px;
+      font-weight: 300;
+      color: white;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      position: relative;
+      z-index: 1;
+    }
+    .slide-cover h1 .line-2 {
+      display: block;
+      text-align: right;
+      font-style: italic;
+      color: rgba(255,255,255,0.85);
+      padding-right: 60px;
+    }
+    .slide-cover .slogan {
+      font-family: var(--font-serif);
+      font-size: 32px;
+      font-weight: 400;
+      color: var(--gold);
+      margin-top: 60px;
+      letter-spacing: 0.02em;
+      position: relative;
+      z-index: 1;
+    }
+    .slide-cover .meta {
+      position: absolute;
+      bottom: 80px;
+      left: 120px;
+      right: 120px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      z-index: 1;
+    }
+    .slide-cover .meta-left {
+      font-family: var(--font-inter);
+      color: rgba(255,255,255,0.5);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+    .slide-cover .meta-left strong {
+      color: var(--gold);
+      font-weight: 500;
+    }
+    .slide-cover .meta-right {
+      font-family: var(--font-inter);
+      color: rgba(255,255,255,0.35);
+      font-size: 13px;
+      text-align: right;
+    }
+
+    /* ===== Slide: Climax (p.19) ===== */
+    .slide-climax {
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .slide-climax .glow {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 1000px; height: 1000px;
+      background: radial-gradient(circle, rgba(193,154,91,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .slide-climax .buildup {
+      font-family: var(--font-sans);
+      font-size: 22px;
+      font-weight: 300;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.8;
+      margin-bottom: 50px;
+      position: relative; z-index: 1;
+    }
+    .slide-climax .main-slogan {
+      font-family: var(--font-serif);
+      font-size: 120px;
+      font-weight: 300;
+      color: white;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      position: relative; z-index: 1;
+    }
+    .slide-climax .main-slogan em {
+      display: block;
+      font-style: italic;
+      color: var(--gold);
+    }
+    .slide-climax .divider {
+      width: 200px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.4;
+      margin: 50px auto;
+      position: relative; z-index: 1;
+    }
+    .slide-climax .note {
+      font-family: var(--font-inter);
+      font-size: 16px;
+      color: rgba(255,255,255,0.3);
+      position: relative; z-index: 1;
+    }
+
+    /* ===== Slide: Content (light) ===== */
+    .slide-light {
+      background: var(--bg-warm);
+      padding: 80px 120px;
+    }
+    .slide-light .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .slide-light .part-label {
+      font-family: var(--font-inter);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .slide-light .page-num {
+      font-family: var(--font-inter);
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .slide-light h2 {
+      font-family: var(--font-serif);
+      font-size: 72px;
+      font-weight: 400;
+      color: var(--text-dark);
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .slide-light h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .slide-light .subtitle {
+      font-family: var(--font-sans);
+      font-size: 18px;
+      color: var(--text-muted);
+      margin-bottom: 60px;
+    }
+
+    /* Content cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .stat-card {
+      background: white;
+      padding: 48px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+    }
+    .stat-card .value {
+      font-family: var(--font-serif);
+      font-size: 64px;
+      font-weight: 400;
+      color: var(--text-dark);
+      letter-spacing: -0.03em;
+    }
+    .stat-card .desc {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-top: 24px;
+    }
+
+    /* Quote block */
+    .quote-block {
+      margin-top: 60px;
+      padding: 40px 0;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+    .quote-block p {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-weight: 400;
+      color: var(--text-dark);
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* Two column layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      margin-top: 40px;
+    }
+    .col-left h3 {
+      font-family: var(--font-serif);
+      font-size: 48px;
+      font-weight: 400;
+      color: var(--text-dark);
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+    .col-left .body-text {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* Dark stat cards */
+    .dark-card {
+      background: var(--bg-navy);
+      padding: 48px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 280px;
+    }
+    .dark-card .value {
+      font-family: var(--font-serif);
+      font-size: 64px;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: -0.03em;
+    }
+    .dark-card .label {
+      font-family: var(--font-inter);
+      font-size: 12px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
+    }
+    .dark-card .desc {
+      font-family: var(--font-sans);
+      font-size: 14px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+    }
+
+    /* ===== Slide: Dark content ===== */
+    .slide-dark {
+      background: var(--bg-dark);
+      padding: 80px 120px;
+    }
+    .slide-dark .header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .slide-dark .part-label {
+      font-family: var(--font-inter);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+    .slide-dark .page-num {
+      font-family: var(--font-inter);
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+    .slide-dark h2 {
+      font-family: var(--font-serif);
+      font-size: 72px;
+      font-weight: 400;
+      color: white;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+    .slide-dark h2 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* Section divider */
+    .slide-divider {
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 120px;
+      position: relative;
+    }
+    .slide-divider .glow {
+      position: absolute;
+      top: 40%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, rgba(193,154,91,0.08) 0%, transparent 70%);
+    }
+    .slide-divider .part-num {
+      font-family: var(--font-inter);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      margin-bottom: 16px;
+      position: relative; z-index: 1;
+    }
+    .slide-divider h2 {
+      font-family: var(--font-serif);
+      font-size: 96px;
+      font-weight: 300;
+      color: white;
+      line-height: 1.05;
+      position: relative; z-index: 1;
+    }
+    .slide-divider .sub {
+      font-family: var(--font-serif);
+      font-size: 28px;
+      font-style: italic;
+      color: rgba(255,255,255,0.4);
+      margin-top: 24px;
+      position: relative; z-index: 1;
+    }
+    .slide-divider .info {
+      font-family: var(--font-inter);
+      font-size: 14px;
+      color: rgba(255,255,255,0.25);
+      margin-top: 12px;
+      position: relative; z-index: 1;
+    }
+
+    /* Footer */
+    .slide-footer {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 120px;
+      font-family: var(--font-inter);
+      font-size: 11px;
+      color: rgba(0,0,0,0.3);
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .slide-dark .slide-footer,
+    .slide-divider .slide-footer,
+    .slide-climax .slide-footer,
+    .slide-cover .slide-footer {
+      color: rgba(255,255,255,0.2);
+      border-top-color: rgba(255,255,255,0.06);
+    }
+
+    /* Thank you */
+    .slide-thankyou {
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .slide-thankyou h2 {
+      font-family: var(--font-serif);
+      font-size: 140px;
+      font-weight: 300;
+      color: white;
+      letter-spacing: -0.03em;
+    }
+    .slide-thankyou .contact {
+      margin-top: 60px;
+      font-family: var(--font-sans);
+      font-size: 18px;
+      color: rgba(255,255,255,0.4);
+      line-height: 2;
+    }
+    .slide-thankyou .contact strong {
+      color: var(--gold);
+      font-weight: 500;
+    }
+
+    /* Big number highlight */
+    .big-number-block {
+      background: var(--bg-navy);
+      padding: 60px;
+      display: flex;
+      align-items: center;
+      gap: 60px;
+      margin-top: 40px;
+    }
+    .big-number-block .number {
+      font-family: var(--font-serif);
+      font-size: 140px;
+      font-weight: 300;
+      color: white;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .big-number-block .context {
+      font-family: var(--font-sans);
+      font-size: 20px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.8;
+    }
+    .big-number-block .context strong {
+      color: var(--gold);
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body style="background: #ddd; padding: 40px; display: flex; flex-direction: column; align-items: center;">
+
+<!-- ===== p.01: COVER ===== -->
+<div class="slide slide-cover" id="slide-01">
+  <div class="glow"></div>
+  <div class="glow-2"></div>
+  <h1>
+    PAULANER
+    <span class="line-2">2026</span>
+  </h1>
+  <div class="slogan">날것의 매력, 파울라너.</div>
+  <div class="meta">
+    <div class="meta-left">
+      <strong>Paulaner × HIZ</strong><br>
+      Annual Campaign Proposal
+    </div>
+    <div class="meta-right">
+      April 8, 2026<br>
+      Confidential
+    </div>
+  </div>
+  <div class="slide-footer" style="color: rgba(255,255,255,0.15);">
+    <span>Paulaner × HIZ</span>
+    <span>01</span>
+  </div>
+</div>
+
+<!-- ===== PART 1 Divider ===== -->
+<div class="slide slide-divider" id="slide-divider-1">
+  <div class="glow"></div>
+  <div class="part-num">Part 1</div>
+  <h2>시장과<br>파울라너</h2>
+  <div class="sub">"왜 지금인가"</div>
+  <div class="info">5 min · 8 slides</div>
+  <div class="slide-footer">
+    <span>Paulaner × HIZ</span>
+    <span></span>
+  </div>
+</div>
+
+<!-- ===== p.03: 한국 맥주 시장 현황 ===== -->
+<div class="slide slide-light" id="slide-03">
+  <div class="header">
+    <span class="part-label">Part 1 — Market</span>
+    <span class="page-num">03</span>
+  </div>
+  <h2>한국 맥주<br>시장 현황</h2>
+  <div class="subtitle">수입 유럽 맥주가 가장 힘든 시기입니다</div>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="value">3.2<span style="font-size:36px">조</span></div>
+      <div class="desc">한국 맥주 시장 규모.<br>수입맥주는 이 중 8천억.</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">14<span style="font-size:36px">%</span></div>
+      <div class="desc">밀맥주 시장에서<br>파울라너의 현재 점유율.</div>
+    </div>
+    <div class="stat-card">
+      <div class="value">1.5<span style="font-size:36px">%</span></div>
+      <div class="desc">브랜드 인지도.<br>독일 No.1인데 아무도 모른다.</div>
+    </div>
+    <div class="stat-card">
+      <div class="value" style="font-size:48px">유럽맥주<br><span style="color:var(--gold)">부진</span></div>
+      <div class="desc">일본맥주 부활, 경험 소비 확대,<br>무알코올 성장 속 유럽맥주 하락.</div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Paulaner × HIZ</span>
+    <span>03</span>
+  </div>
+</div>
+
+<!-- ===== p.05: 글로벌 자산 (dark) ===== -->
+<div class="slide slide-dark" id="slide-05">
+  <div class="header">
+    <span class="part-label">Part 1 — Market</span>
+    <span class="page-num">05</span>
+  </div>
+  <h2>그런데 파울라너의<br><em>글로벌 자산은</em></h2>
+  <div class="stat-grid" style="margin-top:60px;">
+    <div class="dark-card">
+      <div><div class="label">수출</div><div class="value">No.1</div></div>
+      <div class="desc">독일 수출 1위.<br>2위의 3.5배.</div>
+    </div>
+    <div class="dark-card">
+      <div><div class="label">옥토버페스트</div><div class="value">10,900</div></div>
+      <div class="desc">최대 텐트 수용 인원.<br>전세계에서 가장 큰 맥주 텐트.</div>
+    </div>
+    <div class="dark-card">
+      <div><div class="label">역사</div><div class="value">392<span style="font-size:36px">년</span></div></div>
+      <div class="desc">1634년 설립.<br>수도승이 만든 맥주.</div>
+    </div>
+    <div class="dark-card">
+      <div><div class="label">파트너</div><div class="value" style="font-size:42px">FC 바이에른<br>뮌헨</div></div>
+      <div class="desc">세계 최고 클럽의<br>공식 맥주 파트너.</div>
+    </div>
+  </div>
+  <div class="quote-block" style="border-top-color: rgba(255,255,255,0.08);">
+    <p style="color: rgba(255,255,255,0.7);">"숨은 보석이 아닙니다. 세계에서는 이미 1등입니다."</p>
+  </div>
+  <div class="slide-footer">
+    <span>Paulaner × HIZ</span>
+    <span>05</span>
+  </div>
+</div>
+
+<!-- ===== p.09: 캠페인 목표 (dark) ===== -->
+<div class="slide slide-dark" id="slide-09">
+  <div class="header">
+    <span class="part-label">Part 1 — Market</span>
+    <span class="page-num">09</span>
+  </div>
+  <h2>2026 캠페인 목표</h2>
+  <div class="big-number-block">
+    <div class="number">1.5%</div>
+    <div class="context">
+      현재 브랜드 인지도.<br>
+      모르는 브랜드를 좋아할 수는 없다.<br><br>
+      <strong>올해는 파울라너를 알리는 해.</strong><br>
+      사랑받는 건 그다음.
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Paulaner × HIZ</span>
+    <span>09</span>
+  </div>
+</div>
+
+<!-- ===== PART 2 Divider ===== -->
+<div class="slide slide-divider" id="slide-divider-2">
+  <div class="glow"></div>
+  <div class="part-num">Part 2</div>
+  <h2>전략:<br><span style="font-style:italic; color:var(--gold-light)">날것의 매력</span></h2>
+  <div class="sub">"왜 이 방향인가"</div>
+  <div class="info">8 min · 10 slides · 싱글 클라이맥스</div>
+  <div class="slide-footer">
+    <span>Paulaner × HIZ</span>
+    <span></span>
+  </div>
+</div>
+
+<!-- ===== p.19: ★ CLIMAX ===== -->
+<div class="slide slide-climax" id="slide-19">
+  <div class="glow"></div>
+  <div class="buildup">
+    필터 없이 만들었습니다.<br>
+    그래서, 꾸미지 않았습니다.
+  </div>
+  <div class="main-slogan">
+    날것의 매력,
+    <em>파울라너.</em>
+  </div>
+  <div class="divider"></div>
+  <div class="note">여기서 멈춘다. 설명하지 않는다.</div>
+  <div class="slide-footer">
+    <span>Paulaner × HIZ</span>
+    <span>19</span>
+  </div>
+</div>
+
+<!-- ===== p.52: Thank You ===== -->
+<div class="slide slide-thankyou" id="slide-52">
+  <div class="glow" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:800px;height:800px;background:radial-gradient(circle, rgba(193,154,91,0.1) 0%, transparent 65%);"></div>
+  <h2 style="position:relative;z-index:1;">Thank You</h2>
+  <div class="contact" style="position:relative;z-index:1;">
+    <strong>우성민</strong> · Lead PM<br>
+    Paulaner × HIZ · 2026 Annual Campaign
+  </div>
+  <div class="slide-footer">
+    <span>Paulaner × HIZ</span>
+    <span>52</span>
+  </div>
+</div>
+
+</body>
+</html>

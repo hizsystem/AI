@@ -283,7 +283,14 @@
       "Bash(mkdir -p /tmp/np-audit-reports)",
       "Bash(cp /Users/wooseongmin/AI/.claude/worktrees/naver-place/clients/mirye-gukbap/np-audit-report.html /tmp/np-audit-reports/mirye-gukbap.html)",
       "Bash(cp /Users/wooseongmin/AI/.claude/worktrees/naver-place/clients/myeongdong-sikdang/np-audit-report.html /tmp/np-audit-reports/myeongdong-sikdang.html)",
-      "Bash(npx tsx:*)"
+      "Bash(npx tsx:*)",
+      "Bash(find /Users/wooseongmin/AI/.claude/worktrees/goventure-forum -type f \\\\\\(-name *attendee* -o -name *participant* -o -name *참석* -o -name *신청* -o -name *register* -o -name *checklist* -o -name *d-day* -o -name *reception* \\\\\\))",
+      "Bash(git fetch:*)",
+      "Bash(mkdir -p .vercel)",
+      "Bash(cp content-calendar/.vercel/project.json .vercel/project.json)",
+      "Read(//private/tmp/test-build/content-calendar/**)",
+      "WebFetch(domain:higgsfield.ai)",
+      "WebFetch(domain:labs.google)"
     ]
   },
   "hooks": {

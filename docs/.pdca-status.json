@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-03-31T01:34:56.311Z",
+  "lastUpdated": "2026-04-01T11:00:43.751Z",
   "activeFeatures": [
     ".claude",
     "scripts",
@@ -42,7 +42,8 @@
     "client-token",
     "clients",
     "guide",
-    "store"
+    "store",
+    "[slug]"
   ],
   "primaryFeature": ".claude",
   "features": {
@@ -68,9 +69,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-02-22T18:22:18.427Z",
-        "lastUpdated": "2026-03-27T05:32:04.894Z"
+        "lastUpdated": "2026-04-01T10:17:31.328Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/goventure-forum/goventureforum/scripts/sync-onoffmix-to-supabase.py"
+      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/goventure-forum/scripts/sync_attendance_to_supabase.py"
     },
     "meta-ad-pipeline": {
       "phase": "do",
@@ -146,9 +147,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-08T02:27:22.741Z",
-        "lastUpdated": "2026-03-26T11:08:38.227Z"
+        "lastUpdated": "2026-04-01T09:47:17.652Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/huenic/content-calendar/src/data/types.ts"
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/data/client-configs.ts"
     },
     "tabshopbar": {
       "phase": "do",
@@ -159,9 +160,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-08T02:27:24.544Z",
-        "lastUpdated": "2026-03-25T17:17:45.804Z"
+        "lastUpdated": "2026-04-01T01:27:24.362Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/data/tabshopbar/index.ts"
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/tabshopbar/page.tsx"
     },
     "content-calendar": {
       "phase": "do",
@@ -172,9 +173,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-08T02:27:34.061Z",
-        "lastUpdated": "2026-03-31T01:30:33.114Z"
+        "lastUpdated": "2026-04-01T11:00:43.751Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/huenic/content-calendar/src/components/ContentModal.tsx"
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/lib/google-sheets.ts"
     },
     "goventureforum": {
       "phase": "do",
@@ -406,9 +407,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-13T03:48:50.068Z",
-        "lastUpdated": "2026-03-26T02:41:37.904Z"
+        "lastUpdated": "2026-04-01T09:59:32.057Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/huenic/content-calendar/src/app/api/huenic/[brand]/kpi/[month]/route.ts"
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar/[client]/[month]/route.ts"
     },
     "items": {
       "phase": "do",
@@ -432,7 +433,7 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-13T03:49:03.023Z",
-        "lastUpdated": "2026-03-28T10:42:14.338Z"
+        "lastUpdated": "2026-04-01T05:40:18.343Z"
       },
       "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar/[client]/[month]/items/[id]/route.ts"
     },
@@ -458,9 +459,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-13T19:03:56.051Z",
-        "lastUpdated": "2026-03-18T09:26:38.257Z"
+        "lastUpdated": "2026-04-01T09:59:49.813Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar/[client]/route.ts"
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/calendar-months/[client]/route.ts"
     },
     "[week]": {
       "phase": "do",
@@ -471,9 +472,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-15T02:09:32.590Z",
-        "lastUpdated": "2026-03-26T02:41:39.738Z"
+        "lastUpdated": "2026-04-01T11:00:15.779Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/huenic/content-calendar/src/app/api/huenic/[brand]/reports/[week]/route.ts"
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/api/huenic/[brand]/reports/[week]/route.ts"
     },
     "huenic": {
       "phase": "do",
@@ -484,9 +485,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-15T02:32:12.183Z",
-        "lastUpdated": "2026-03-31T01:34:56.310Z"
+        "lastUpdated": "2026-04-01T10:59:46.281Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/huenic/content-calendar/src/components/huenic/BrandMoodboard.tsx"
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/components/huenic/WeeklyReportTab.tsx"
     },
     "meta": {
       "phase": "do",
@@ -510,9 +511,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-15T07:02:24.908Z",
-        "lastUpdated": "2026-03-15T14:43:40.259Z"
+        "lastUpdated": "2026-04-01T10:06:09.970Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/huenic/clients/huenic/sheets/setup-huenic-master.js"
+      "lastFile": "/Users/wooseongmin/AI/clients/huenic/sheets/add-dashboard-tabs.js"
     },
     "refs": {
       "phase": "do",
@@ -578,6 +579,19 @@
         "lastUpdated": "2026-03-27T05:32:44.910Z"
       },
       "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/goventure-forum/goventureforum/src/store/admin.ts"
+    },
+    "[slug]": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-04-01T09:57:02.562Z",
+        "lastUpdated": "2026-04-01T09:57:02.562Z"
+      },
+      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/app/clients/[slug]/page.tsx"
     }
   },
   "pipeline": {
@@ -588,7 +602,7 @@
   "session": {
     "startedAt": "2026-02-21T15:55:09.018Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-03-31T01:34:56.311Z"
+    "lastActivity": "2026-04-01T11:00:43.751Z"
   },
   "history": [
     {
@@ -4086,6 +4100,330 @@
     {
       "timestamp": "2026-03-31T01:34:56.311Z",
       "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T01:26:34.604Z",
+      "feature": "[client]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T01:26:40.890Z",
+      "feature": "tabshopbar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T01:27:18.643Z",
+      "feature": "[client]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T01:27:24.362Z",
+      "feature": "tabshopbar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T05:29:54.439Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T05:40:18.344Z",
+      "feature": "[id]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T05:40:50.437Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T05:41:30.532Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T05:59:46.380Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T06:00:18.819Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T06:27:15.923Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T07:08:38.627Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T07:08:48.884Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T07:12:22.354Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T07:12:45.005Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T08:44:20.608Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T08:44:52.287Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T08:52:53.435Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T08:53:38.594Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:46:52.295Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:47:07.401Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:47:17.652Z",
+      "feature": "data",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:47:21.537Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:52:32.012Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:52:54.657Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:53:14.057Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:54:21.833Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:54:33.059Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:57:02.562Z",
+      "feature": "[slug]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:57:13.938Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:57:18.733Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:57:43.852Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:58:04.773Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:58:12.360Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:58:18.056Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:58:30.395Z",
+      "feature": "sheets",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:58:38.080Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:59:08.982Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:59:16.783Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:59:32.057Z",
+      "feature": "[month]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:59:44.435Z",
+      "feature": "[client]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T09:59:49.813Z",
+      "feature": "[client]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T10:06:09.970Z",
+      "feature": "sheets",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T10:17:31.328Z",
+      "feature": "scripts",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T10:58:59.255Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T10:59:07.094Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T10:59:19.289Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T10:59:38.429Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T10:59:46.281Z",
+      "feature": "huenic",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T10:59:55.458Z",
+      "feature": "[week]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T11:00:07.284Z",
+      "feature": "[week]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T11:00:15.779Z",
+      "feature": "[week]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T11:00:28.087Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-01T11:00:43.751Z",
+      "feature": "content-calendar",
       "phase": "do",
       "action": "updated"
     }
