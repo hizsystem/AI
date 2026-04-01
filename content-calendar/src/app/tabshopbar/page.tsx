@@ -15,7 +15,7 @@ export default function TabshopbarCalendar() {
 
   const fetchMonths = useCallback(async () => {
     try {
-      const res = await fetch(`/api/calendar/${CLIENT}`);
+      const res = await fetch(`/api/calendar-months/${CLIENT}`);
       if (res.ok) {
         const { months: m } = await res.json();
         setMonths(m);
@@ -42,7 +42,7 @@ export default function TabshopbarCalendar() {
     const next = getNextMonth(latest);
 
     try {
-      const res = await fetch(`/api/calendar/${CLIENT}`, {
+      const res = await fetch(`/api/calendar-months/${CLIENT}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ month: next }),

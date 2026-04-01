@@ -4,7 +4,7 @@ import type { CalendarData } from "@/data/types";
 
 export const dynamic = "force-dynamic";
 
-// GET /api/calendar/tabshopbar → list available months
+// GET /api/calendar-months/tabshopbar → list available months
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ client: string }> }
@@ -14,7 +14,7 @@ export async function GET(
   return NextResponse.json({ months });
 }
 
-// POST /api/calendar/tabshopbar → create new month
+// POST /api/calendar-months/tabshopbar → create new month
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ client: string }> }
