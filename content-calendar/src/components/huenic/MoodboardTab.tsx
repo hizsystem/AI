@@ -35,11 +35,11 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
     currentMonth
   );
 
-  // Sort items by date for grid display
+  // Sort items by date descending (newest first, like Instagram)
   const sortedItems = useMemo(() => {
     if (!data) return [];
     return [...data.items].sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
   }, [data]);
 
