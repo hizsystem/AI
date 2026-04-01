@@ -1,0 +1,93 @@
+{
+  "summary_sheet_id": "19Vlz6i7swopqqXwfrzp1WIkYuys73te7Z0fCevQfaLc",
+  "np_master_sheet_id": "10leTU4LTBHWiGqFEYEWDPNpMYk3eVyPyJrUKeEI2J7Q",
+  "standard_structure": {
+    "rev_tab": "2026 예상 매출",
+    "rev_total_row": 2,
+    "rev_month_start_col": 4,
+    "exp_tab": "2026 예상 지출",
+    "exp_total_row": 2,
+    "exp_month_start_col": 3
+  },
+  "projects": [
+    {
+      "name": "현대차 정몽구 재단",
+      "team": "3팀",
+      "sheet_id": "14sczfUEtT1QiNtAX0BjT9M5k-9j8G0m2NhOVrc5ML2w",
+      "row": 2,
+      "mode": "importrange",
+      "structure": "standard",
+      "type": "general"
+    },
+    {
+      "name": "탭샵바",
+      "team": "3팀",
+      "sheet_id": "1XOvH3_0llsFRXb3hpTJFArp37Ts4R8jByVfbVo38AX8",
+      "row": 3,
+      "mode": "api_sync",
+      "structure": "standard",
+      "type": "np"
+    },
+    {
+      "name": "휴닉",
+      "team": "3팀",
+      "sheet_id": "1crkZXjTlFd01vUGoaXs3zpNqgZBLh-xZwpqPQEDHDUY",
+      "row": 4,
+      "mode": "api_sync",
+      "structure": "custom",
+      "type": "general",
+      "custom_config": {
+        "rev_tab": "예상매출",
+        "rev_total_row": 2,
+        "rev_month_start_col": 1,
+        "exp_tab": "예상지출",
+        "exp_total_row": 9,
+        "exp_month_start_col": 2
+      }
+    },
+    {
+      "name": "벤처리움",
+      "team": "3팀",
+      "sheet_id": "1MuNdALo0Mo9fGrhXiea_gpCnMMZd6frOn1CPq4KpuTM",
+      "row": 5,
+      "mode": "importrange",
+      "structure": "standard",
+      "type": "general"
+    },
+    {
+      "name": "고벤처포럼",
+      "team": "3팀",
+      "sheet_id": "1YtOd5pW9ECd_kQggWpk8VojUlpuMXn9PS7R1kBG4NiM",
+      "row": 7,
+      "mode": "api_sync",
+      "structure": "expense_log",
+      "type": "general",
+      "revenue": false,
+      "custom_config": {
+        "exp_tab": "💰 지출내역",
+        "amount_col": 4,
+        "search_key": "소계"
+      }
+    },
+    {
+      "name": "미례국밥",
+      "team": "3팀",
+      "sheet_id": "1ryKW6FNkHVLkUTlGkmuJO0AjNziZg1eMtDVyEOelzsU",
+      "row": 6,
+      "mode": "api_sync",
+      "structure": "standard",
+      "type": "np",
+      "client_sheet_id": "1Jd9TFq0MGXhDgQKAYsdaE3E9pjpmD-cV8gA1b2JsD-o"
+    },
+    {
+      "name": "명동식당",
+      "team": "3팀",
+      "sheet_id": "1YE4v9Dh_5NCA0rYU0CcPTv3cQpO35-TfJfcxnHxOEvs",
+      "row": 8,
+      "mode": "api_sync",
+      "structure": "standard",
+      "type": "np",
+      "client_sheet_id": "14fmMs4J4KFqiL6cjAx84r3KZXGB6nCf_Axiwgx1CWhY"
+    }
+  ]
+}

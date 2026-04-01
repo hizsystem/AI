@@ -3,6 +3,7 @@
 .secrets
 *.json
 !package.json
+!config/projects.json
 
 # Python
 __pycache__/
