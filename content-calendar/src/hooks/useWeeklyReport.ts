@@ -3,24 +3,34 @@
 import { useState, useEffect, useCallback } from "react";
 import type { WeeklyReport, HuenicBrand } from "@/data/huenic-types";
 
-/** Get ISO week number for a given date */
-function getISOWeek(date: Date): number {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+/** Get month-based week: "2026-4월-1w" */
+function getCurrentMonthWeek(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const weekOfMonth = Math.ceil(now.getDate() / 7);
+  return `${year}-${month}월-${weekOfMonth}w`;
 }
 
-/** Get ISO week year (may differ from calendar year at year boundaries) */
-function getISOWeekYear(date: Date): number {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
-  return d.getUTCFullYear();
-}
+/** Shift month-week by delta */
+function shiftMonthWeek(current: string, delta: number): string {
+  const match = current.match(/^(\d{4})-(\d{1,2})월-(\d)w$/);
+  if (!match) return current;
+  let year = Number(match[1]);
+  let month = Number(match[2]);
+  let week = Number(match[3]);
 
-/** Format as "YYYY-WNN" */
-function formatWeek(year: number, week: number): string {
-  return `${year}-W${week}`;
+  week += delta;
+  if (week < 1) {
+    month -= 1;
+    if (month < 1) { month = 12; year -= 1; }
+    week = 4; // 이전 달 마지막 주
+  } else if (week > 4) {
+    month += 1;
+    if (month > 12) { month = 1; year += 1; }
+    week = 1;
+  }
+  return `${year}-${month}월-${week}w`;
 }
 
 interface UseWeeklyReportReturn {
@@ -34,8 +44,7 @@ interface UseWeeklyReportReturn {
 }
 
 export function useWeeklyReport(brand: HuenicBrand): UseWeeklyReportReturn {
-  const now = new Date();
-  const defaultWeek = formatWeek(getISOWeekYear(now), getISOWeek(now));
+  const defaultWeek = getCurrentMonthWeek();
 
   const [week, setWeek] = useState(defaultWeek);
   const [report, setReport] = useState<WeeklyReport | null>(null);

@@ -12,28 +12,11 @@ interface WeeklyReportTabProps {
   brand: HuenicBrand;
 }
 
-/** Parse "YYYY-WNN" and return { year, week } */
-function parseWeek(w: string): { year: number; week: number } {
-  const [yearStr, wStr] = w.split("-W");
-  return { year: Number(yearStr), week: Number(wStr) };
-}
-
-/** Shift week by delta, wrapping around year boundaries (ISO weeks: 1-52/53) */
-function shiftWeek(current: string, delta: number): string {
-  const { year, week } = parseWeek(current);
-  let newWeek = week + delta;
-  let newYear = year;
-
-  if (newWeek < 1) {
-    newYear -= 1;
-    // Approximate: ISO year can have 52 or 53 weeks; use 52 as safe default
-    newWeek = 52;
-  } else if (newWeek > 52) {
-    newYear += 1;
-    newWeek = 1;
-  }
-
-  return `${newYear}-W${newWeek}`;
+/** Parse "2026-4월-1w" → { year, month, week } */
+function parseMonthWeek(w: string): { year: number; month: number; week: number } {
+  const match = w.match(/^(\d{4})-(\d{1,2})월-(\d)w$/);
+  if (!match) return { year: 2026, month: 1, week: 1 };
+  return { year: Number(match[1]), month: Number(match[2]), week: Number(match[3]) };
 }
 
 function SkeletonBlock({ className }: { className?: string }) {
@@ -46,10 +29,24 @@ export default function WeeklyReportTab({ brand }: WeeklyReportTabProps) {
   const { report, loading, error, week, setWeek, saveReport } =
     useWeeklyReport(brand);
 
-  const { year, week: weekNum } = parseWeek(week);
+  const { month, week: weekNum } = parseMonthWeek(week);
 
-  const handlePrev = () => setWeek(shiftWeek(week, -1));
-  const handleNext = () => setWeek(shiftWeek(week, 1));
+  const handlePrev = () => {
+    const match = week.match(/^(\d{4})-(\d{1,2})월-(\d)w$/);
+    if (!match) return;
+    let [, y, m, w] = match.map(Number);
+    w -= 1;
+    if (w < 1) { m -= 1; if (m < 1) { m = 12; y -= 1; } w = 4; }
+    setWeek(`${y}-${m}월-${w}w`);
+  };
+  const handleNext = () => {
+    const match = week.match(/^(\d{4})-(\d{1,2})월-(\d)w$/);
+    if (!match) return;
+    let [, y, m, w] = match.map(Number);
+    w += 1;
+    if (w > 4) { m += 1; if (m > 12) { m = 1; y += 1; } w = 1; }
+    setWeek(`${y}-${m}월-${w}w`);
+  };
 
   const handleCoachSave = useCallback(
     async (comment: NonNullable<WeeklyReport["coachComment"]>) => {
@@ -90,13 +87,10 @@ export default function WeeklyReportTab({ brand }: WeeklyReportTabProps) {
         </button>
         <div className="text-center">
           <p className="text-lg font-bold text-gray-900">
-            W{weekNum}
+            {month}월 {weekNum}주차
           </p>
           {report?.period && (
             <p className="text-xs text-gray-500">{report.period}</p>
-          )}
-          {!report?.period && !loading && (
-            <p className="text-xs text-gray-500">{year}년 {weekNum}주차</p>
           )}
         </div>
         <button

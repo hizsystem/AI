@@ -83,7 +83,7 @@ export function isSheetsConfigured(): boolean {
  */
 export async function fetchWeeklyReportFromSheets(
   brand: HuenicBrand,
-  weekStr: string // "2026-W11"
+  weekStr: string // "4월 1w"
 ): Promise<WeeklyReport | null> {
   if (!isSheetsConfigured()) return null;
 
@@ -108,12 +108,15 @@ export async function fetchWeeklyReportFromSheets(
         )
       : [];
 
-    const [yearStr, weekNumStr] = weekStr.split("-W");
+    // weekStr = "4월 1w" → month=4, week=1
+    const wMatch = weekStr.match(/(\d+)월\s*(\d)w/);
+    const wMonth = wMatch ? parseInt(wMatch[1], 10) : 0;
+    const wWeek = wMatch ? parseInt(wMatch[2], 10) : 0;
 
     return {
       brand,
-      year: parseInt(yearStr, 10),
-      week: parseInt(weekNumStr, 10),
+      year: new Date().getFullYear(),
+      week: wMonth * 10 + wWeek,
       period: row["기간"] || "",
       metrics: {
         followers: num(row["팔로워"]),
