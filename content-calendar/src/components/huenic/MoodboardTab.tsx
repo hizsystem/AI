@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback as useCallbackReact, useMemo, useCallback } from "react";
 import { useCalendarData } from "@/hooks/useCalendarData";
 import type { HuenicBrand } from "@/data/huenic-types";
 import type { ContentItem } from "@/data/types";
@@ -8,15 +8,9 @@ import InstagramGrid from "./InstagramGrid";
 import BrandMoodboard from "./BrandMoodboard";
 import ContentModal from "@/components/ContentModal";
 
-const AVAILABLE_MONTHS = ["2026-03", "2026-04", "2026-05"];
-
 function getCurrentMonth(): string {
   const now = new Date();
-  const ym = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-  if (AVAILABLE_MONTHS.includes(ym)) return ym;
-  const future = AVAILABLE_MONTHS.filter((m) => m >= ym);
-  if (future.length > 0) return future[0];
-  return AVAILABLE_MONTHS[AVAILABLE_MONTHS.length - 1];
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
 }
 
 interface MoodboardTabProps {
@@ -25,8 +19,27 @@ interface MoodboardTabProps {
 
 export default function MoodboardTab({ brand }: MoodboardTabProps) {
   const client = `huenic-${brand}`;
-  const [currentMonth, setCurrentMonth] = useState(getCurrentMonth
-  );
+  const [months, setMonths] = useState<string[]>([]);
+  const [currentMonth, setCurrentMonth] = useState("");
+
+  const fetchMonths = useCallbackReact(async () => {
+    try {
+      const res = await fetch(`/api/calendar-months/${client}`);
+      if (res.ok) {
+        const { months: m } = await res.json();
+        setMonths(m);
+        if (m.length > 0 && !currentMonth) {
+          const now = getCurrentMonth();
+          setCurrentMonth(m.includes(now) ? now : m[m.length - 1]);
+        }
+      }
+    } catch {
+      // fallback
+    }
+  }, [client, currentMonth]);
+
+  useEffect(() => { fetchMonths(); }, [fetchMonths]);
+  useEffect(() => { setCurrentMonth(""); setMonths([]); }, [brand]);
   const [editMode, setEditMode] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null);
 
@@ -105,13 +118,13 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
   const displayMonth = `${yearStr}년 ${monthNames[Number(monthStr)]}`;
 
   // Month navigation
-  const monthIdx = AVAILABLE_MONTHS.indexOf(currentMonth);
+  const monthIdx = months.indexOf(currentMonth);
   const handlePrevMonth = () => {
-    if (monthIdx > 0) setCurrentMonth(AVAILABLE_MONTHS[monthIdx - 1]);
+    if (monthIdx > 0) setCurrentMonth(months[monthIdx - 1]);
   };
   const handleNextMonth = () => {
-    if (monthIdx < AVAILABLE_MONTHS.length - 1)
-      setCurrentMonth(AVAILABLE_MONTHS[monthIdx + 1]);
+    if (monthIdx < months.length - 1)
+      setCurrentMonth(months[monthIdx + 1]);
   };
 
   if (loading) {
@@ -180,7 +193,7 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
           </span>
           <button
             onClick={handleNextMonth}
-            disabled={monthIdx >= AVAILABLE_MONTHS.length - 1}
+            disabled={monthIdx >= months.length - 1}
             className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent"
           >
             <svg

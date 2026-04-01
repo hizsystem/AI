@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { listMonths, getCalendar, saveCalendar } from "@/lib/storage";
+import { getClientConfig } from "@/lib/client-config-storage";
 import type { CalendarData } from "@/data/types";
 
 export const dynamic = "force-dynamic";
@@ -51,7 +52,7 @@ export async function POST(
     description: template?.description ?? "",
     coreMessage: template?.coreMessage,
     moodboard: template?.moodboard,
-    categories: template?.categories ?? [],
+    categories: template?.categories ?? (await getClientConfig(client.includes("-") ? client.split("-")[0] : client))?.defaultCategories ?? [],
     items: [],
   };
 

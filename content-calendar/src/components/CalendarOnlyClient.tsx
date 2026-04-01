@@ -3,19 +3,16 @@
 import { useState, useEffect, useCallback } from "react";
 import Calendar from "@/components/Calendar";
 import { useCalendarData } from "@/hooks/useCalendarData";
-import type { HuenicBrand } from "@/data/huenic-types";
+import type { ClientConfig } from "@/data/client-config";
 
-function getCurrentMonth(): string {
-  const now = new Date();
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+interface Props {
+  config: ClientConfig;
 }
 
-interface CalendarTabProps {
-  brand: HuenicBrand;
-}
+export default function CalendarOnlyClient({ config }: Props) {
+  const CLIENT = config.slug;
+  const LOGO = config.logo;
 
-export default function CalendarTab({ brand }: CalendarTabProps) {
-  const client = `huenic-${brand}`;
   const [months, setMonths] = useState<string[]>([]);
   const [currentMonth, setCurrentMonth] = useState("");
   const [editMode, setEditMode] = useState(false);
@@ -23,7 +20,7 @@ export default function CalendarTab({ brand }: CalendarTabProps) {
 
   const fetchMonths = useCallback(async () => {
     try {
-      const res = await fetch(`/api/calendar-months/${client}`);
+      const res = await fetch(`/api/calendar-months/${CLIENT}`);
       if (res.ok) {
         const { months: m } = await res.json();
         setMonths(m);
@@ -37,25 +34,39 @@ export default function CalendarTab({ brand }: CalendarTabProps) {
     } finally {
       setLoadingMonths(false);
     }
-  }, [client, currentMonth]);
+  }, [CLIENT, currentMonth]);
 
   useEffect(() => {
     fetchMonths();
   }, [fetchMonths]);
 
-  // Reset when brand changes
-  useEffect(() => {
-    setCurrentMonth("");
-    setMonths([]);
-    setLoadingMonths(true);
-  }, [brand]);
+  const handleAddMonth = async () => {
+    const latest = months.length > 0 ? months[months.length - 1] : getCurrentMonth();
+    const next = getNextMonth(latest);
+
+    try {
+      const res = await fetch(`/api/calendar-months/${CLIENT}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ month: next }),
+      });
+      if (res.ok) {
+        setMonths((prev) => [...prev, next].sort());
+        setCurrentMonth(next);
+      } else if (res.status === 409) {
+        setCurrentMonth(next);
+      }
+    } catch {
+      // ignore
+    }
+  };
 
   const { data, loading, error, addItem, updateItem, deleteItem, saveCalendar } =
-    useCalendarData(client, currentMonth);
+    useCalendarData(CLIENT, currentMonth);
 
   if (loadingMonths || (loading && currentMonth)) {
     return (
-      <div className="flex items-center justify-center py-20">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="flex items-center gap-3 text-gray-400">
           <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
@@ -67,9 +78,9 @@ export default function CalendarTab({ brand }: CalendarTabProps) {
     );
   }
 
-  if (!currentMonth || error || !data) {
+  if (!currentMonth || !data || (error && !data)) {
     return (
-      <div className="flex items-center justify-center py-20">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <p className="text-gray-400">{error || "No calendar data."}</p>
       </div>
     );
@@ -86,7 +97,19 @@ export default function CalendarTab({ brand }: CalendarTabProps) {
       onUpdateItem={updateItem}
       onDeleteItem={deleteItem}
       onSaveCalendar={saveCalendar}
-      logo={{ src: "", alt: "HUENIC" }}
+      onAddMonth={handleAddMonth}
+      logo={LOGO ?? undefined}
     />
   );
+}
+
+function getCurrentMonth(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+}
+
+function getNextMonth(month: string): string {
+  const [y, m] = month.split("-").map(Number);
+  const next = m === 12 ? { y: y + 1, m: 1 } : { y, m: m + 1 };
+  return `${next.y}-${String(next.m).padStart(2, "0")}`;
 }
