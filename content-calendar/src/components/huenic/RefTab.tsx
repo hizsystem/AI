@@ -27,15 +27,6 @@ function platformLabel(p: RefItem["platform"]): string {
   return map[p];
 }
 
-function isInstagramEmbed(url: string): boolean {
-  return /instagram\.com\/(p|reel|reels)\//.test(url);
-}
-
-function getInstagramEmbedUrl(url: string): string | null {
-  const match = url.match(/(instagram\.com\/(p|reel|reels)\/[A-Za-z0-9_-]+)/);
-  if (!match) return null;
-  return `https://www.${match[1]}/embed`;
-}
 
 export default function RefTab({ brand }: RefTabProps) {
   const { data, loading, error, addItem, deleteItem } = useRefData(brand);
@@ -304,7 +295,6 @@ export default function RefTab({ brand }: RefTabProps) {
 function RefCard({
   item,
   collection,
-  expanded,
   onToggle,
   onDelete,
 }: {
@@ -314,49 +304,56 @@ function RefCard({
   onToggle: () => void;
   onDelete: () => void;
 }) {
-  const embedUrl = isInstagramEmbed(item.url) ? getInstagramEmbedUrl(item.url) : null;
-  const hasPreview = item.thumbnailUrl || embedUrl;
+  const platformIcon: Record<string, React.ReactNode> = {
+    instagram: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-pink-400">
+        <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="1.5"/>
+        <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1.5"/>
+        <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
+      </svg>
+    ),
+    youtube: (
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-red-500">
+        <rect x="2" y="4" width="20" height="16" rx="4" stroke="currentColor" strokeWidth="1.5"/>
+        <path d="M10 9l5 3-5 3V9z" fill="currentColor"/>
+      </svg>
+    ),
+  };
 
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-gray-300 transition-colors">
       {/* Preview */}
       {item.thumbnailUrl ? (
-        <div
-          className="w-full h-48 bg-gray-100 cursor-pointer"
-          onClick={onToggle}
+        <a
+          href={item.url || undefined}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block w-full h-48 bg-gray-100"
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={item.thumbnailUrl}
             alt=""
             className="w-full h-full object-cover"
           />
-        </div>
-      ) : embedUrl && expanded ? (
-        <div className="w-full bg-gray-50">
-          <iframe
-            src={embedUrl}
-            className="w-full border-0"
-            style={{ height: 480 }}
-            loading="lazy"
-            allowTransparency
-          />
-        </div>
+        </a>
       ) : (
-        <div
-          className="w-full h-32 bg-gray-50 flex items-center justify-center cursor-pointer"
-          onClick={onToggle}
+        <a
+          href={item.url || undefined}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full h-36 bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col items-center justify-center gap-2 hover:from-gray-100 hover:to-gray-150 transition-colors"
         >
-          {embedUrl ? (
-            <div className="text-center">
-              <div className="text-2xl mb-1">
-                {item.platform === "instagram" ? "📷" : item.platform === "youtube" ? "📺" : "🔗"}
-              </div>
-              <div className="text-xs text-gray-400">클릭하여 미리보기</div>
-            </div>
-          ) : (
-            <div className="text-2xl text-gray-300">🔗</div>
+          {platformIcon[item.platform] || (
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-gray-300">
+              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
           )}
-        </div>
+          <span className="text-[10px] text-gray-400 font-medium">
+            {platformLabel(item.platform)}에서 보기 →
+          </span>
+        </a>
       )}
 
       {/* Info */}
