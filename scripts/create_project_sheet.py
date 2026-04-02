@@ -21,7 +21,7 @@ def create_summary_tab(ws, name, team):
         ["", ""],
         ["[핵심 수치 요약]", ""],
         ["총 예상매출", "='2026 예상 매출'!Q2"],
-        ["총 예산(지출)", "='2026 예상 지출'!O2"],
+        ["총 예산(지출)", "='2026 예상 지출'!N2"],
         ["현재 실매출", 0],
         ["현재 실지출", 0],
         ["수익률", "=IF(B9=0,0,(B9-B10)/B9)"],
@@ -64,63 +64,40 @@ def create_revenue_tab(sh):
 
 
 def create_expense_tab(sh):
-    """탭 3: 2026 예상 지출 — 모든 데이터를 한 번에 구성"""
-    ws = sh.add_worksheet(title="2026 예상 지출", rows=60, cols=15)
+    """탭 3: 2026 예상 지출 — 카테고리 1행씩 플랫 구조"""
+    ws = sh.add_worksheet(title="2026 예상 지출", rows=15, cols=14)
 
-    # 전체 데이터를 한 번에 구성
+    categories = ["외주비", "광고비", "진행비", "매체비", "이벤트"]
     all_data = []
 
     # 행 1: 헤더
-    header = ["카테고리", "항목", "비고"] + MONTHS
-    all_data.append(header)
+    all_data.append(["카테고리"] + MONTHS + ["연간합계"])
 
-    # 행 2: 월별 총합계 (수식은 나중에 범위 확정 후)
-    sum_row = ["[월별 총합계]", "", ""]
-    for c in range(ord("D"), ord("P")):
-        sum_row.append(f"=SUM({chr(c)}4:{chr(c)}60)")
+    # 행 2: 월별 총합계
+    sum_row = ["[월별 총합계]"]
+    for c_idx in range(12):
+        col = chr(ord("B") + c_idx)
+        sum_row.append(f"=SUM({col}3:{col}{2 + len(categories)})")
+    sum_row.append("=SUM(B2:M2)")
     all_data.append(sum_row)
 
-    # 행 3: 빈 행
+    # 행 3~: 카테고리 (각 1행)
+    for cat in categories:
+        row_num = len(all_data) + 1
+        all_data.append([cat] + [0] * 12 + [f"=SUM(B{row_num}:M{row_num})"])
+
+    # 빈 행 (추가용)
+    all_data.append([""])
     all_data.append([""])
 
-    # 카테고리별 섹션
-    categories = ["인건비", "외주비", "광고비", "툴비용", "기타"]
-    format_rules = []
-    row = 4  # 1-based row number
-
-    for cat in categories:
-        # 카테고리 헤더
-        all_data.append([f"[{cat}]"])
-        format_rules.append({"range": f"A{row}", "format": {"textFormat": {"bold": True, "fontSize": 10}}})
-        row += 1
-
-        # 빈 항목 5행
-        for _ in range(5):
-            all_data.append([cat])
-            row += 1
-
-        # 소계 행
-        start = row - 5
-        end = row - 1
-        sub_row = [f"{cat} 소계", "", ""]
-        for c in range(ord("D"), ord("P")):
-            sub_row.append(f"=SUM({chr(c)}{start}:{chr(c)}{end})")
-        all_data.append(sub_row)
-        format_rules.append({"range": f"A{row}:O{row}", "format": {"textFormat": {"bold": True}}})
-        row += 1
-
-    # 단일 update 호출
     ws.update(values=all_data, range_name="A1", value_input_option="USER_ENTERED")
-
-    # 단일 batch_format 호출
-    format_rules.extend([
-        {"range": "A1:O1", "format": {
+    ws.batch_format([
+        {"range": "A1:N1", "format": {
             "textFormat": {"bold": True, "foregroundColorStyle": {"rgbColor": {"red": 1, "green": 1, "blue": 1}}},
             "backgroundColor": {"red": 0.7, "green": 0.2, "blue": 0.2},
         }},
-        {"range": "A2:O2", "format": {"textFormat": {"bold": True}}},
+        {"range": "A2:N2", "format": {"textFormat": {"bold": True}}},
     ])
-    ws.batch_format(format_rules)
     return ws
 
 

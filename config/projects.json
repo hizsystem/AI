@@ -7,7 +7,7 @@
     "rev_month_start_col": 4,
     "exp_tab": "2026 예상 지출",
     "exp_total_row": 2,
-    "exp_month_start_col": 3
+    "exp_month_start_col": 1
   },
   "projects": [
     {
@@ -25,8 +25,16 @@
       "sheet_id": "1XOvH3_0llsFRXb3hpTJFArp37Ts4R8jByVfbVo38AX8",
       "row": 3,
       "mode": "api_sync",
-      "structure": "standard",
-      "type": "np"
+      "structure": "custom",
+      "type": "np",
+      "custom_config": {
+        "rev_tab": "2026 예상 매출",
+        "rev_total_row": 2,
+        "rev_month_start_col": 0,
+        "exp_tab": "2026 예상 지출",
+        "exp_total_row": 2,
+        "exp_month_start_col": 0
+      }
     },
     {
       "name": "휴닉",
@@ -41,8 +49,8 @@
         "rev_total_row": 2,
         "rev_month_start_col": 1,
         "exp_tab": "예상지출",
-        "exp_total_row": 9,
-        "exp_month_start_col": 2
+        "exp_total_row": 2,
+        "exp_month_start_col": 1
       }
     },
     {
