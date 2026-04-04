@@ -66,7 +66,7 @@ export async function GET() {
         );
 
         // Fetch calendar data
-        let allItems: ContentItem[] = [];
+        let allItems: (ContentItem & { _calendarKey?: string })[] = [];
         if (igChannel) {
           let calendarKeys: string[];
           if (project.brands && igChannel.calendarClientPrefix) {
@@ -80,7 +80,9 @@ export async function GET() {
           for (const key of calendarKeys) {
             const data = await getCalendar(key, currentMonth);
             if (data) {
-              allItems = allItems.concat(data.items);
+              allItems = allItems.concat(
+                data.items.map((item) => ({ ...item, _calendarKey: key }))
+              );
             }
           }
         }

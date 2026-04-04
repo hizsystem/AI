@@ -233,7 +233,59 @@ function OverviewPanel({ data }: { data: SummaryData }) {
 
 // ─── Instagram Panel ───
 
-function InstagramPanel({ project }: { project: ProjectSummary }) {
+const STATUS_CYCLE: Record<string, string> = {
+  planning: "needs-confirm",
+  "needs-confirm": "uploaded",
+  uploaded: "planning",
+};
+
+function InstagramPanel({ project, onStatusChange, onRefresh }: { project: ProjectSummary; onStatusChange?: (item: ContentItem, newStatus: string) => void; onRefresh?: () => void }) {
+  const [initializing, setInitializing] = useState(false);
+
+  async function handleInitCalendar() {
+    setInitializing(true);
+    try {
+      const now = new Date();
+      const month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+      const res = await fetch("/api/calendar/init", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          clientKey: project.slug,
+          month,
+          title: `${project.name} ${now.getMonth() + 1}월 콘텐츠 캘린더`,
+        }),
+      });
+      if (res.ok) onRefresh?.();
+    } finally {
+      setInitializing(false);
+    }
+  }
+
+  if (project.stats.total === 0 && !initializing) {
+    return (
+      <div className="space-y-8">
+        <div className="bg-white rounded-xl border border-gray-200 p-10 text-center">
+          <p className="text-gray-400 text-sm mb-4">아직 이번 달 캘린더가 없습니다</p>
+          <button
+            onClick={handleInitCalendar}
+            className="px-5 py-2.5 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors"
+          >
+            캘린더 시작하기
+          </button>
+        </div>
+        <a
+          href={`/clients/${project.slug}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block bg-white rounded-xl border border-gray-200 p-4 text-center text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors"
+        >
+          캘린더 전체 보기 &rarr;
+        </a>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-8">
       {/* Stats */}
@@ -282,9 +334,18 @@ function InstagramPanel({ project }: { project: ProjectSummary }) {
                   <p className="text-sm font-medium text-gray-900 truncate">{item.title}</p>
                   {item.subtitle && <p className="text-xs text-gray-400 mt-0.5">{item.subtitle}</p>}
                 </div>
-                <span className={`text-xs font-medium flex-shrink-0 ${STATUS_TEXT[item.status || "planning"]}`}>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const current = item.status || "planning";
+                    const next = STATUS_CYCLE[current] || "planning";
+                    onStatusChange?.(item, next);
+                  }}
+                  className={`text-xs font-medium flex-shrink-0 hover:underline cursor-pointer ${STATUS_TEXT[item.status || "planning"]}`}
+                  title="클릭하여 상태 변경"
+                >
                   {STATUS_LABELS[item.status || "planning"]}
-                </span>
+                </button>
               </div>
             ))}
           </div>
@@ -432,7 +493,17 @@ function FinancePanel({ project }: { project: ProjectSummary }) {
 
 // ─── Client Panel with Channel Tabs ───
 
-function ClientPanel({ project }: { project: ProjectSummary }) {
+function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefresh: () => void }) {
+  const [copied, setCopied] = useState(false);
+
+  function handleCopyShareLink() {
+    const token = project.slug; // Simple token = slug for now
+    const url = `${window.location.origin}/clients/${project.slug}?token=${token}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
   const availableTabs: ChannelTab[] = [];
   if (project.channels.includes("instagram")) availableTabs.push("instagram");
   if (project.channels.includes("naver-place")) availableTabs.push("naver-place");
@@ -469,6 +540,16 @@ function ClientPanel({ project }: { project: ProjectSummary }) {
             </p>
           )}
         </div>
+        <button
+          onClick={handleCopyShareLink}
+          className="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1.5"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+            <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" strokeLinecap="round"/>
+            <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" strokeLinecap="round"/>
+          </svg>
+          {copied ? "복사됨!" : "공유 링크"}
+        </button>
       </div>
 
       {/* Channel sub-tabs */}
@@ -489,7 +570,29 @@ function ClientPanel({ project }: { project: ProjectSummary }) {
       </div>
 
       {/* Channel content */}
-      {channelTab === "instagram" && <InstagramPanel project={project} />}
+      {channelTab === "instagram" && (
+        <InstagramPanel
+          project={project}
+          onRefresh={onRefresh}
+          onStatusChange={async (item, newStatus) => {
+            // Determine calendarKey and month from item
+            const calKey = (item as ContentItem & { _calendarKey?: string })._calendarKey || project.slug;
+            const month = item.date.slice(0, 7);
+            try {
+              await fetch(`/api/calendar/${calKey}/${month}/items/${item.id}`, {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ status: newStatus }),
+              });
+              // Update local state
+              item.status = newStatus as ContentItem["status"];
+              onRefresh();
+            } catch (e) {
+              console.error("Status update failed:", e);
+            }
+          }}
+        />
+      )}
       {channelTab === "naver-place" && <NaverPlacePanel project={project} />}
       {channelTab === "blog" && <BlogPanel project={project} />}
       {channelTab === "finance" && <FinancePanel project={project} />}
@@ -503,6 +606,7 @@ export default function AdminDashboard() {
   const [data, setData] = useState<SummaryData | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<string>("overview");
+  const [fetchKey, setFetchKey] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -518,7 +622,7 @@ export default function AdminDashboard() {
       .then((d) => d && setData(d))
       .catch(console.error)
       .finally(() => setLoading(false));
-  }, [router]);
+  }, [router, fetchKey]);
 
   async function handleLogout() {
     await fetch("/api/admin/auth", { method: "DELETE" });
@@ -637,7 +741,7 @@ export default function AdminDashboard() {
         {activeTab === "overview" ? (
           <OverviewPanel data={data} />
         ) : activeProject ? (
-          <ClientPanel project={activeProject} />
+          <ClientPanel project={activeProject} onRefresh={() => setFetchKey((n) => n + 1)} />
         ) : null}
       </main>
     </div>
