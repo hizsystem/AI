@@ -6,6 +6,7 @@ import type { ContentItem } from "@/data/types";
 import type { ChannelType, FinanceConfig } from "@/data/client-config";
 import AuditScoreCard from "@/components/np/AuditScoreCard";
 import WeeklyMissions from "@/components/np/WeeklyMissions";
+import AuditInputForm from "@/components/np/AuditInputForm";
 
 // ─── Types ───
 
@@ -297,6 +298,7 @@ function NaverPlacePanel({ project }: { project: ProjectSummary }) {
   const [audit, setAudit] = useState<import("@/data/np-types").NpAuditData | null>(null);
   const [missions, setMissions] = useState<import("@/data/np-types").NpMissionsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [showAuditForm, setShowAuditForm] = useState(false);
 
   useEffect(() => {
     if (!project.npStoreId) { setLoading(false); return; }
@@ -310,6 +312,16 @@ function NaverPlacePanel({ project }: { project: ProjectSummary }) {
       .finally(() => setLoading(false));
   }, [project.npStoreId]);
 
+  async function handleSaveAudit(data: import("@/data/np-types").NpAuditData) {
+    if (!project.npStoreId) return;
+    const res = await fetch(`/api/np/${project.npStoreId}/audit`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (res.ok) setAudit(data);
+  }
+
   if (loading) {
     return <div className="text-center py-12 text-sm text-gray-400">로딩 중...</div>;
   }
@@ -317,7 +329,15 @@ function NaverPlacePanel({ project }: { project: ProjectSummary }) {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">진단 점수</h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider">진단 점수</h3>
+          <button
+            onClick={() => setShowAuditForm(true)}
+            className="text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors"
+          >
+            {audit ? "재진단" : "진단하기"}
+          </button>
+        </div>
         <AuditScoreCard audit={audit} />
       </div>
 
@@ -325,6 +345,16 @@ function NaverPlacePanel({ project }: { project: ProjectSummary }) {
         <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">주간 미션</h3>
         <WeeklyMissions missions={missions} />
       </div>
+
+      {showAuditForm && project.npStoreId && (
+        <AuditInputForm
+          storeId={project.npStoreId}
+          storeName={project.name}
+          existing={audit}
+          onSave={handleSaveAudit}
+          onClose={() => setShowAuditForm(false)}
+        />
+      )}
     </div>
   );
 }
