@@ -1,21 +1,38 @@
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
+import { cookies } from "next/headers";
 import { getClientConfig } from "@/lib/client-config-storage";
 import CalendarOnlyClient from "@/components/CalendarOnlyClient";
 import DashboardClient from "@/components/DashboardClient";
+import TokenGate from "@/components/admin/TokenGate";
 
 export const dynamic = "force-dynamic";
 
 export default async function ClientPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ token?: string }>;
 }) {
   const { slug } = await params;
+  const { token } = await searchParams;
   const config = await getClientConfig(slug);
 
   if (!config) {
     notFound();
+  }
+
+  // Token check: if config has accessToken, verify it
+  if (config.accessToken) {
+    const cookieStore = await cookies();
+    const adminAuth = cookieStore.get("cc-admin-auth");
+    const isAdmin = adminAuth?.value === "authenticated";
+    const tokenValid = token === config.accessToken;
+
+    if (!isAdmin && !tokenValid) {
+      return <TokenGate clientName={config.name} />;
+    }
   }
 
   const isSimple = config.tabs.length === 1 && config.tabs[0] === "calendar" && !config.brands;

@@ -20,4 +20,6 @@ export interface ClientConfig {
   dashboardTitle?: string;
   /** How calendar data is keyed in Blob, e.g. "huenic" → "huenic-{brand}" */
   calendarClientPrefix?: string;
+  /** Token for client-specific access. If set, /clients/[slug] requires ?token=xxx */
+  accessToken?: string;
 }
