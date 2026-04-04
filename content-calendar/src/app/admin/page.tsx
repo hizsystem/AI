@@ -55,6 +55,12 @@ const STATUS_LABELS: Record<string, string> = {
   uploaded: "업로드 완료",
 };
 
+const STATUS_TEXT: Record<string, string> = {
+  planning: "text-gray-400",
+  "needs-confirm": "text-amber-500",
+  uploaded: "text-emerald-500",
+};
+
 const STATUS_DOT: Record<string, string> = {
   planning: "bg-gray-300",
   "needs-confirm": "bg-amber-400",
@@ -64,6 +70,17 @@ const STATUS_DOT: Record<string, string> = {
 function formatDate(dateStr: string): string {
   const d = new Date(dateStr + "T00:00:00");
   return `${d.getMonth() + 1}/${d.getDate()}(${["일", "월", "화", "수", "목", "금", "토"][d.getDay()]})`;
+}
+
+function formatDateShort(dateStr: string): string {
+  const d = new Date(dateStr + "T00:00:00");
+  return `${d.getMonth() + 1}.${d.getDate()}`;
+}
+
+function formatDateKorean(dateStr: string): string {
+  const d = new Date(dateStr + "T00:00:00");
+  const days = ["일", "월", "화", "수", "목", "금", "토"];
+  return `${d.getMonth() + 1}월 ${d.getDate()}일 (${days[d.getDay()]})`;
 }
 
 function formatMonthLabel(month: string): string {
@@ -110,28 +127,28 @@ function OverviewPanel({ data }: { data: SummaryData }) {
     .map((s) => ({ name: s.name, day: s.finance!.invoiceDay, budget: s.finance!.monthlyBudget }));
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Stats */}
       <div>
-        <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">
+        <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">
           {formatMonthLabel(data.currentMonth)} 콘텐츠 현황
         </h2>
-        <div className="grid grid-cols-4 gap-3">
-          <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
-            <p className="text-2xl font-bold text-gray-900">{totalStats.total}</p>
-            <p className="text-[11px] text-gray-400 mt-1">전체</p>
+        <div className="grid grid-cols-4 gap-4">
+          <div className="bg-white rounded-xl border border-gray-200 p-5">
+            <p className="text-4xl font-bold text-gray-900">{totalStats.total}</p>
+            <p className="text-xs text-gray-400 mt-2">전체</p>
           </div>
-          <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
-            <p className="text-2xl font-bold text-gray-500">{totalStats.planning}</p>
-            <p className="text-[11px] text-gray-400 mt-1">기획</p>
+          <div className="bg-white rounded-xl border border-gray-200 p-5">
+            <p className="text-4xl font-bold text-gray-400">{totalStats.planning}</p>
+            <p className="text-xs text-gray-400 mt-2">기획</p>
           </div>
-          <div className="bg-white rounded-xl border border-amber-100 p-4 text-center">
-            <p className="text-2xl font-bold text-amber-600">{totalStats.needsConfirm}</p>
-            <p className="text-[11px] text-amber-500 mt-1">컨펌 필요</p>
+          <div className="bg-white rounded-xl border border-dashed border-amber-300 p-5">
+            <p className="text-4xl font-bold text-amber-600">{totalStats.needsConfirm}</p>
+            <p className="text-xs text-amber-500 mt-2">컨펌 필요</p>
           </div>
-          <div className="bg-white rounded-xl border border-emerald-100 p-4 text-center">
-            <p className="text-2xl font-bold text-emerald-600">{totalStats.uploaded}</p>
-            <p className="text-[11px] text-emerald-500 mt-1">완료</p>
+          <div className="bg-white rounded-xl border border-dashed border-emerald-300 p-5">
+            <p className="text-4xl font-bold text-emerald-600">{totalStats.uploaded}</p>
+            <p className="text-xs text-emerald-500 mt-2">완료</p>
           </div>
         </div>
       </div>
@@ -149,16 +166,16 @@ function OverviewPanel({ data }: { data: SummaryData }) {
             이번 주 처리할 콘텐츠가 없습니다
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-gray-100 divide-y divide-gray-50">
+          <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
             {needsAction.map((item) => (
-              <div key={`${item.clientSlug}-${item.id}`} className="px-4 py-3 flex items-center gap-3">
-                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${STATUS_DOT[item.status || "planning"]}`} />
-                <span className="text-xs text-gray-500 w-20 flex-shrink-0">{formatDate(item.date)}</span>
+              <div key={`${item.clientSlug}-${item.id}`} className="px-5 py-4 flex items-center gap-4">
+                <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${STATUS_DOT[item.status || "planning"]}`} />
+                <span className="text-sm font-medium text-gray-500 w-10 flex-shrink-0">{formatDateShort(item.date)}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-gray-900 truncate">{item.title}</p>
+                  <p className="text-sm font-medium text-gray-900 truncate">{item.title}</p>
+                  <p className="text-xs text-gray-400">{item.clientName}</p>
                 </div>
-                <span className="text-[11px] text-gray-400 flex-shrink-0">{item.clientName}</span>
-                <span className="text-[10px] text-gray-400 flex-shrink-0">
+                <span className={`text-xs font-medium flex-shrink-0 ${STATUS_TEXT[item.status || "planning"]}`}>
                   {STATUS_LABELS[item.status || "planning"]}
                 </span>
               </div>
@@ -172,28 +189,20 @@ function OverviewPanel({ data }: { data: SummaryData }) {
         <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">
           브랜드별 현황
         </h2>
-        <div className="bg-white rounded-xl border border-gray-100 divide-y divide-gray-50">
+        <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
           {active.map((s) => (
-            <div key={s.slug} className="px-4 py-3 flex items-center gap-3">
-              <span className="text-sm flex-shrink-0 w-5 text-center">{s.emoji || "📁"}</span>
-              <span className="text-sm font-medium text-gray-700 w-28 flex-shrink-0 truncate">{s.name}</span>
-              <div className="flex gap-1 flex-shrink-0">
-                {s.channels.map((ch) => (
-                  <span key={ch} className="text-[9px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-500">
-                    {CHANNEL_ICONS[ch]}
-                  </span>
-                ))}
+            <div key={s.slug} className="px-5 py-4 flex items-center gap-4">
+              <span className="text-base flex-shrink-0">{s.emoji || "📁"}</span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-gray-900">{s.name}</p>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  {s.channels.map((ch) => CHANNEL_LABELS[ch]).join(" · ")}
+                </p>
               </div>
-              <div className="flex-1 min-w-0 text-right">
-                <span className="text-xs text-gray-400">
-                  {s.stats.total}개 ({s.stats.uploaded} 완료)
-                </span>
+              <div className="text-right flex-shrink-0">
+                <p className="text-sm font-medium text-gray-900">{s.stats.total}개</p>
+                <p className="text-xs text-gray-400">{s.stats.uploaded} 완료</p>
               </div>
-              {s.nextContent && (
-                <span className="text-[11px] text-gray-400 flex-shrink-0 truncate max-w-40">
-                  {formatDate(s.nextContent.date)} {s.nextContent.title}
-                </span>
-              )}
             </div>
           ))}
         </div>
@@ -226,54 +235,56 @@ function OverviewPanel({ data }: { data: SummaryData }) {
 
 function InstagramPanel({ project }: { project: ProjectSummary }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Stats */}
-      <div className="grid grid-cols-4 gap-3">
-        <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
-          <p className="text-2xl font-bold text-gray-900">{project.stats.total}</p>
-          <p className="text-[11px] text-gray-400 mt-1">전체</p>
+      <div className="grid grid-cols-4 gap-4">
+        <div className="bg-white rounded-xl border border-gray-200 p-5">
+          <p className="text-4xl font-bold text-gray-900">{project.stats.total}</p>
+          <p className="text-xs text-gray-400 mt-2">전체</p>
         </div>
-        <div className="bg-white rounded-xl border border-gray-100 p-4 text-center">
-          <p className="text-2xl font-bold text-gray-500">{project.stats.planning}</p>
-          <p className="text-[11px] text-gray-400 mt-1">기획</p>
+        <div className="bg-white rounded-xl border border-gray-200 p-5">
+          <p className="text-4xl font-bold text-gray-400">{project.stats.planning}</p>
+          <p className="text-xs text-gray-400 mt-2">기획</p>
         </div>
-        <div className="bg-white rounded-xl border border-amber-100 p-4 text-center">
-          <p className="text-2xl font-bold text-amber-600">{project.stats.needsConfirm}</p>
-          <p className="text-[11px] text-amber-500 mt-1">컨펌 필요</p>
+        <div className="bg-white rounded-xl border border-dashed border-amber-300 p-5">
+          <p className="text-4xl font-bold text-amber-600">{project.stats.needsConfirm}</p>
+          <p className="text-xs text-amber-500 mt-2">컨펌 필요</p>
         </div>
-        <div className="bg-white rounded-xl border border-emerald-100 p-4 text-center">
-          <p className="text-2xl font-bold text-emerald-600">{project.stats.uploaded}</p>
-          <p className="text-[11px] text-emerald-500 mt-1">완료</p>
+        <div className="bg-white rounded-xl border border-dashed border-emerald-300 p-5">
+          <p className="text-4xl font-bold text-emerald-600">{project.stats.uploaded}</p>
+          <p className="text-xs text-emerald-500 mt-2">완료</p>
         </div>
       </div>
 
       {/* Next content */}
       {project.nextContent && (
-        <div className="bg-white rounded-xl border border-gray-100 p-4">
-          <p className="text-xs text-gray-400 mb-1">다음 콘텐츠</p>
-          <p className="text-sm font-medium text-gray-900">{project.nextContent.title}</p>
-          <p className="text-xs text-gray-500 mt-1">{formatDate(project.nextContent.date)}</p>
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <p className="text-xs text-gray-400 mb-2">다음 콘텐츠</p>
+          <p className="text-base font-semibold text-gray-900">{project.nextContent.title}</p>
+          <p className="text-sm text-gray-500 mt-1">{formatDateKorean(project.nextContent.date)}</p>
         </div>
       )}
 
       {/* This week content */}
       <div>
-        <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">이번 주 콘텐츠</h3>
+        <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">이번 주 콘텐츠</h3>
         {project.thisWeekItems.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-100 p-6 text-center text-sm text-gray-400">
+          <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-sm text-gray-400">
             이번 주 콘텐츠가 없습니다
           </div>
         ) : (
-          <div className="bg-white rounded-xl border border-gray-100 divide-y divide-gray-50">
+          <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
             {project.thisWeekItems.sort((a, b) => a.date.localeCompare(b.date)).map((item) => (
-              <div key={item.id} className="px-4 py-3 flex items-center gap-3">
-                <div className={`w-2 h-2 rounded-full flex-shrink-0 ${STATUS_DOT[item.status || "planning"]}`} />
-                <span className="text-xs text-gray-500 w-20 flex-shrink-0">{formatDate(item.date)}</span>
+              <div key={item.id} className="px-5 py-4 flex items-center gap-4">
+                <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${STATUS_DOT[item.status || "planning"]}`} />
+                <span className="text-sm font-medium text-gray-500 w-10 flex-shrink-0">{formatDateShort(item.date)}</span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-gray-900 truncate">{item.title}</p>
-                  {item.subtitle && <p className="text-[11px] text-gray-400">{item.subtitle}</p>}
+                  <p className="text-sm font-medium text-gray-900 truncate">{item.title}</p>
+                  {item.subtitle && <p className="text-xs text-gray-400 mt-0.5">{item.subtitle}</p>}
                 </div>
-                <span className="text-[10px] text-gray-400 flex-shrink-0">{STATUS_LABELS[item.status || "planning"]}</span>
+                <span className={`text-xs font-medium flex-shrink-0 ${STATUS_TEXT[item.status || "planning"]}`}>
+                  {STATUS_LABELS[item.status || "planning"]}
+                </span>
               </div>
             ))}
           </div>
@@ -285,7 +296,7 @@ function InstagramPanel({ project }: { project: ProjectSummary }) {
         href={`/clients/${project.slug}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="block bg-white rounded-xl border border-gray-100 p-4 text-center text-sm text-gray-500 hover:text-gray-700 hover:border-gray-200 transition-colors"
+        className="block bg-white rounded-xl border border-gray-200 p-4 text-center text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors"
       >
         캘린더 전체 보기 &rarr;
       </a>
@@ -437,45 +448,45 @@ function ClientPanel({ project }: { project: ProjectSummary }) {
   }, [project.slug]);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Client header */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-4">
         {project.logo ? (
           <img src={project.logo.src} alt={project.logo.alt} className="h-10 w-10 object-contain rounded-lg" />
-        ) : (
-          <span className="text-2xl flex-shrink-0">{project.emoji || "📁"}</span>
-        )}
+        ) : project.emoji ? (
+          <div
+            className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
+            style={{ backgroundColor: `${project.brandColor}15` }}
+          >
+            {project.emoji}
+          </div>
+        ) : null}
         <div>
-          <h2 className="text-base font-semibold text-gray-900">{project.name}</h2>
+          <h2 className="text-lg font-bold text-gray-900">{project.name}</h2>
           {project.brands && (
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-gray-400 mt-0.5">
               {project.brands.map((b) => `${b.emoji} ${b.label}`).join(" · ")}
             </p>
           )}
         </div>
-        {project.status === "paused" && (
-          <span className="ml-auto text-[10px] px-2 py-1 rounded-full bg-gray-100 text-gray-400">PAUSED</span>
-        )}
       </div>
 
       {/* Channel sub-tabs */}
-      {availableTabs.length > 1 && (
-        <div className="flex gap-1 border-b border-gray-100 pb-0">
-          {availableTabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setChannelTab(tab)}
-              className={`px-4 py-2 text-xs font-medium border-b-2 transition-colors -mb-px ${
-                channelTab === tab
-                  ? "border-gray-900 text-gray-900"
-                  : "border-transparent text-gray-400 hover:text-gray-600"
-              }`}
-            >
-              {CHANNEL_LABELS[tab]}
-            </button>
-          ))}
-        </div>
-      )}
+      <div className="flex gap-0 border-b border-gray-200">
+        {availableTabs.map((tab) => (
+          <button
+            key={tab}
+            onClick={() => setChannelTab(tab)}
+            className={`px-5 py-3 text-sm font-medium border-b-2 transition-colors -mb-px ${
+              channelTab === tab
+                ? "border-gray-900 text-gray-900"
+                : "border-transparent text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            {CHANNEL_LABELS[tab]}
+          </button>
+        ))}
+      </div>
 
       {/* Channel content */}
       {channelTab === "instagram" && <InstagramPanel project={project} />}
@@ -538,46 +549,47 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
       <aside className="w-56 bg-white border-r border-gray-100 flex flex-col fixed h-screen">
-        <div className="px-5 py-5 border-b border-gray-50">
-          <h1 className="text-sm font-semibold text-gray-900">Brand Dashboard</h1>
-          <p className="text-[11px] text-gray-400 mt-0.5">{formatMonthLabel(data.currentMonth)}</p>
+        <div className="px-6 py-6">
+          <h1 className="text-base font-bold text-gray-900">Brand Dashboard</h1>
+          <p className="text-xs text-gray-400 mt-1">{formatMonthLabel(data.currentMonth)}</p>
         </div>
 
-        <nav className="flex-1 py-3 overflow-y-auto">
+        <nav className="flex-1 py-2 overflow-y-auto">
           {/* Overview */}
           <button
             onClick={() => setActiveTab("overview")}
-            className={`w-full px-5 py-2.5 flex items-center gap-3 text-left text-sm transition-colors ${
+            className={`w-full px-6 py-3 flex items-center gap-3 text-left text-sm transition-colors ${
               activeTab === "overview"
                 ? "bg-gray-50 text-gray-900 font-medium"
                 : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
             }`}
           >
-            <div className="w-5 h-5 rounded bg-gray-900 flex items-center justify-center flex-shrink-0">
-              <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
-              </svg>
-            </div>
+            <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h7" />
+            </svg>
             <span>전체</span>
           </button>
 
-          <div className="mx-5 my-2 border-t border-gray-100" />
-          <p className="px-5 py-1 text-[10px] text-gray-300 uppercase tracking-wider">Active</p>
+          <div className="mx-6 my-3 border-t border-gray-100" />
+          <p className="px-6 py-1.5 text-[10px] text-gray-300 font-semibold uppercase tracking-wider">Active</p>
 
           {activeProjects.map((project) => (
             <button
               key={project.slug}
               onClick={() => setActiveTab(project.slug)}
-              className={`w-full px-5 py-2.5 flex items-center gap-3 text-left text-sm transition-colors ${
+              className={`w-full px-6 py-3 flex items-center gap-3 text-left text-sm transition-colors ${
                 activeTab === project.slug
                   ? "bg-gray-50 text-gray-900 font-medium"
                   : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
               }`}
             >
-              <span className="text-base flex-shrink-0 w-5 text-center">{project.emoji || "📁"}</span>
+              <div
+                className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{ backgroundColor: project.brandColor }}
+              />
               <span className="truncate flex-1">{project.name}</span>
               {project.stats.needsConfirm > 0 && (
-                <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-600 text-[10px] flex items-center justify-center font-medium flex-shrink-0">
+                <span className="text-[11px] font-semibold text-amber-500 flex-shrink-0">
                   {project.stats.needsConfirm}
                 </span>
               )}
@@ -587,19 +599,22 @@ export default function AdminDashboard() {
           {/* Completed */}
           {completedProjects.length > 0 && (
             <>
-              <div className="mx-5 my-2 border-t border-gray-100" />
-              <p className="px-5 py-1 text-[10px] text-gray-300 uppercase tracking-wider">완료</p>
+              <div className="mx-6 my-3 border-t border-gray-100" />
+              <p className="px-6 py-1.5 text-[10px] text-gray-300 font-semibold uppercase tracking-wider">완료</p>
               {completedProjects.map((project) => (
                 <button
                   key={project.slug}
                   onClick={() => setActiveTab(project.slug)}
-                  className={`w-full px-5 py-2.5 flex items-center gap-3 text-left text-sm transition-colors opacity-50 ${
+                  className={`w-full px-6 py-3 flex items-center gap-3 text-left text-sm transition-colors ${
                     activeTab === project.slug
-                      ? "bg-gray-50 text-gray-900 font-medium opacity-100"
-                      : "text-gray-400 hover:bg-gray-50 hover:opacity-75"
+                      ? "bg-gray-50 text-gray-700 font-medium"
+                      : "text-gray-300 hover:bg-gray-50 hover:text-gray-500"
                   }`}
                 >
-                  <span className="text-base flex-shrink-0 w-5 text-center grayscale">{project.emoji || "📁"}</span>
+                  <div
+                    className="w-2 h-2 rounded-full flex-shrink-0 opacity-40"
+                    style={{ backgroundColor: project.brandColor }}
+                  />
                   <span className="truncate">{project.name}</span>
                 </button>
               ))}
@@ -607,10 +622,10 @@ export default function AdminDashboard() {
           )}
         </nav>
 
-        <div className="px-5 py-3 border-t border-gray-50">
+        <div className="px-6 py-4 border-t border-gray-100">
           <button
             onClick={handleLogout}
-            className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-xs text-gray-300 hover:text-gray-500 transition-colors"
           >
             로그아웃
           </button>
@@ -618,7 +633,7 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 ml-56 p-6 max-w-4xl">
+      <main className="flex-1 ml-56 px-10 py-8 max-w-4xl">
         {activeTab === "overview" ? (
           <OverviewPanel data={data} />
         ) : activeProject ? (
