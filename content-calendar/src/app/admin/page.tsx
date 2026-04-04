@@ -32,7 +32,7 @@ interface SummaryData {
   currentMonth: string;
 }
 
-type ChannelTab = "instagram" | "naver-place" | "finance";
+type ChannelTab = "instagram" | "naver-place" | "blog" | "finance";
 
 const CHANNEL_LABELS: Record<string, string> = {
   instagram: "Instagram",
@@ -359,6 +359,31 @@ function NaverPlacePanel({ project }: { project: ProjectSummary }) {
   );
 }
 
+// ─── Blog Panel ───
+
+function BlogPanel({ project }: { project: ProjectSummary }) {
+  return (
+    <div className="space-y-6">
+      {/* Blog uses same calendar structure as Instagram, just different data key */}
+      <div className="bg-white rounded-xl border border-gray-100 p-4">
+        <p className="text-xs text-gray-400 mb-1">블로그 콘텐츠</p>
+        <p className="text-sm text-gray-600">
+          블로그 콘텐츠 캘린더는 클라이언트 캘린더 뷰에서 관리됩니다.
+        </p>
+      </div>
+
+      <a
+        href={`/clients/${project.slug}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block bg-white rounded-xl border border-gray-100 p-4 text-center text-sm text-gray-500 hover:text-gray-700 hover:border-gray-200 transition-colors"
+      >
+        블로그 캘린더 열기 &rarr;
+      </a>
+    </div>
+  );
+}
+
 // ─── Finance Panel ───
 
 function FinancePanel({ project }: { project: ProjectSummary }) {
@@ -399,6 +424,7 @@ function ClientPanel({ project }: { project: ProjectSummary }) {
   const availableTabs: ChannelTab[] = [];
   if (project.channels.includes("instagram")) availableTabs.push("instagram");
   if (project.channels.includes("naver-place")) availableTabs.push("naver-place");
+  if (project.channels.includes("blog")) availableTabs.push("blog");
   if (project.finance) availableTabs.push("finance");
 
   const [channelTab, setChannelTab] = useState<ChannelTab>(availableTabs[0] || "instagram");
@@ -458,6 +484,7 @@ function ClientPanel({ project }: { project: ProjectSummary }) {
       {/* Channel content */}
       {channelTab === "instagram" && <InstagramPanel project={project} />}
       {channelTab === "naver-place" && <NaverPlacePanel project={project} />}
+      {channelTab === "blog" && <BlogPanel project={project} />}
       {channelTab === "finance" && <FinancePanel project={project} />}
     </div>
   );
