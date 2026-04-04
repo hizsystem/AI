@@ -1,18 +1,21 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import { listClientConfigs } from "@/lib/client-config-storage";
+import { listProjectConfigs } from "@/lib/client-config-storage";
 import { getCalendar } from "@/lib/storage";
 import type { ContentItem } from "@/data/types";
+import type { ChannelType, FinanceConfig } from "@/data/client-config";
 
 export const dynamic = "force-dynamic";
 
-interface ClientSummary {
+interface ProjectSummary {
   slug: string;
   name: string;
   brandColor: string;
   logo: { src: string; alt: string } | null;
-  tabs: string[];
+  status: "active" | "paused";
+  channels: ChannelType[];
   brands?: { id: string; label: string; emoji: string }[];
+  finance?: FinanceConfig;
   currentMonth: string;
   stats: {
     total: number;
@@ -21,7 +24,7 @@ interface ClientSummary {
     uploaded: number;
   };
   nextContent: { date: string; title: string } | null;
-  thisWeekItems: ContentItem[];
+  thisWeekItems: (ContentItem & { brandLabel?: string })[];
 }
 
 function getCurrentMonth(): string {
@@ -43,69 +46,82 @@ function getWeekRange(): { start: string; end: string } {
 }
 
 export async function GET() {
-  // Admin auth check
   const cookieStore = await cookies();
   const adminAuth = cookieStore.get("cc-admin-auth");
   if (adminAuth?.value !== "authenticated") {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
+
   try {
-    const configs = await listClientConfigs();
+    const projects = await listProjectConfigs();
     const currentMonth = getCurrentMonth();
     const week = getWeekRange();
     const today = new Date().toISOString().slice(0, 10);
 
-    const summaries: ClientSummary[] = await Promise.all(
-      configs.map(async (config) => {
-        // Determine which calendar keys to fetch
-        let calendarKeys: string[];
-        if (config.brands && config.calendarClientPrefix) {
-          calendarKeys = config.brands.map(
-            (b) => `${config.calendarClientPrefix}-${b.id}`
-          );
-        } else {
-          calendarKeys = [config.slug];
-        }
+    const summaries: ProjectSummary[] = await Promise.all(
+      projects.map(async (project) => {
+        const igChannel = project.channels.find(
+          (c) => c.type === "instagram" && c.enabled
+        );
 
+        // Fetch calendar data
         let allItems: ContentItem[] = [];
-        for (const key of calendarKeys) {
-          const data = await getCalendar(key, currentMonth);
-          if (data) {
-            allItems = allItems.concat(data.items);
+        if (igChannel) {
+          let calendarKeys: string[];
+          if (project.brands && igChannel.calendarClientPrefix) {
+            calendarKeys = project.brands.map(
+              (b) => `${igChannel.calendarClientPrefix}-${b.id}`
+            );
+          } else {
+            calendarKeys = [project.slug];
+          }
+
+          for (const key of calendarKeys) {
+            const data = await getCalendar(key, currentMonth);
+            if (data) {
+              allItems = allItems.concat(data.items);
+            }
           }
         }
 
         const stats = {
           total: allItems.length,
-          planning: allItems.filter((i) => (i.status || "planning") === "planning").length,
-          needsConfirm: allItems.filter((i) => i.status === "needs-confirm").length,
+          planning: allItems.filter(
+            (i) => (i.status || "planning") === "planning"
+          ).length,
+          needsConfirm: allItems.filter(
+            (i) => i.status === "needs-confirm"
+          ).length,
           uploaded: allItems.filter((i) => i.status === "uploaded").length,
         };
 
-        // Next upcoming content (from today onward)
         const upcoming = allItems
           .filter((i) => i.date >= today)
           .sort((a, b) => a.date.localeCompare(b.date));
-        const nextContent = upcoming.length > 0
-          ? { date: upcoming[0].date, title: upcoming[0].title }
-          : null;
+        const nextContent =
+          upcoming.length > 0
+            ? { date: upcoming[0].date, title: upcoming[0].title }
+            : null;
 
-        // This week's items
         const thisWeekItems = allItems
           .filter((i) => i.date >= week.start && i.date <= week.end)
           .sort((a, b) => a.date.localeCompare(b.date));
 
         return {
-          slug: config.slug,
-          name: config.name,
-          brandColor: config.brandColor,
-          logo: config.logo,
-          tabs: config.tabs,
-          brands: config.brands?.map((b) => ({
+          slug: project.slug,
+          name: project.name,
+          brandColor: project.brandColor,
+          logo: project.logo,
+          status: project.status,
+          channels: project.channels
+            .filter((c) => c.enabled)
+            .map((c) => c.type),
+          brands: project.brands?.map((b) => ({
             id: b.id,
             label: b.label,
             emoji: b.emoji,
           })),
+          finance: project.finance,
           currentMonth,
           stats,
           nextContent,

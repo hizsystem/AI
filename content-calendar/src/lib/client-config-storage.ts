@@ -1,16 +1,19 @@
 import { put, list } from "@vercel/blob";
-import type { ClientConfig } from "@/data/client-config";
-import { DEFAULT_CLIENT_CONFIGS } from "@/data/client-configs";
+import type { ProjectConfig, ClientConfig } from "@/data/client-config";
+import { toClientConfig } from "@/data/client-config";
+import { DEFAULT_PROJECT_CONFIGS } from "@/data/client-configs";
 
 function configBlobPath(slug: string): string {
   return `config/clients/${slug}.json`;
 }
 
-const CONFIG_CACHE: Record<string, ClientConfig> = {};
+const CONFIG_CACHE: Record<string, ProjectConfig> = {};
 
-export async function getClientConfig(
+// ─── ProjectConfig API ───
+
+export async function getProjectConfig(
   slug: string
-): Promise<ClientConfig | null> {
+): Promise<ProjectConfig | null> {
   if (CONFIG_CACHE[slug]) return CONFIG_CACHE[slug];
 
   // Try Blob first
@@ -23,7 +26,7 @@ export async function getClientConfig(
           cache: "no-store",
         });
         if (res.ok) {
-          const config = (await res.json()) as ClientConfig;
+          const config = (await res.json()) as ProjectConfig;
           CONFIG_CACHE[slug] = config;
           return config;
         }
@@ -34,20 +37,21 @@ export async function getClientConfig(
   }
 
   // Fallback to hardcoded defaults
-  const fallback = DEFAULT_CLIENT_CONFIGS.find((c) => c.slug === slug) ?? null;
+  const fallback =
+    DEFAULT_PROJECT_CONFIGS.find((c) => c.slug === slug) ?? null;
   if (fallback) CONFIG_CACHE[slug] = fallback;
   return fallback;
 }
 
-export async function listClientConfigs(): Promise<ClientConfig[]> {
-  const configs = new Map<string, ClientConfig>();
+export async function listProjectConfigs(): Promise<ProjectConfig[]> {
+  const configs = new Map<string, ProjectConfig>();
 
   // Start with hardcoded defaults
-  for (const c of DEFAULT_CLIENT_CONFIGS) {
+  for (const c of DEFAULT_PROJECT_CONFIGS) {
     configs.set(c.slug, c);
   }
 
-  // Overlay with Blob configs (may add new clients or override defaults)
+  // Overlay with Blob configs
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
       const { blobs } = await list({ prefix: "config/clients/", limit: 100 });
@@ -59,7 +63,7 @@ export async function listClientConfigs(): Promise<ClientConfig[]> {
             cache: "no-store",
           });
           if (res.ok) {
-            const config = (await res.json()) as ClientConfig;
+            const config = (await res.json()) as ProjectConfig;
             configs.set(config.slug, config);
           }
         } catch {
@@ -74,7 +78,9 @@ export async function listClientConfigs(): Promise<ClientConfig[]> {
   return Array.from(configs.values());
 }
 
-export async function saveClientConfig(config: ClientConfig): Promise<void> {
+export async function saveProjectConfig(
+  config: ProjectConfig
+): Promise<void> {
   if (!process.env.BLOB_READ_WRITE_TOKEN) return;
 
   const path = configBlobPath(config.slug);
@@ -86,4 +92,26 @@ export async function saveClientConfig(config: ClientConfig): Promise<void> {
   });
 
   CONFIG_CACHE[config.slug] = config;
+}
+
+// ─── Legacy compat (used by existing components) ───
+
+export async function getClientConfig(
+  slug: string
+): Promise<ClientConfig | null> {
+  const project = await getProjectConfig(slug);
+  return project ? toClientConfig(project) : null;
+}
+
+export async function listClientConfigs(): Promise<ClientConfig[]> {
+  const projects = await listProjectConfigs();
+  return projects.map(toClientConfig);
+}
+
+export async function saveClientConfig(config: ClientConfig): Promise<void> {
+  // Legacy: convert to minimal ProjectConfig and save
+  const existing = await getProjectConfig(config.slug);
+  if (existing) {
+    await saveProjectConfig({ ...existing, name: config.name });
+  }
 }
