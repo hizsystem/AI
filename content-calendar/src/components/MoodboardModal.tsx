@@ -37,68 +37,59 @@ export default function MoodboardModal({ moodboard, onClose }: MoodboardModalPro
     <>
       <div
         ref={overlayRef}
-        className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+        className="fixed inset-0 z-50 flex justify-end bg-black/30"
         onClick={(e) => {
           if (e.target === overlayRef.current) onClose();
         }}
       >
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-white/80 hover:text-white z-50"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
-
-        <div className="bg-white rounded-xl shadow-2xl max-w-[720px] w-full max-h-[85vh] overflow-y-auto">
-          <div className="px-6 py-5 border-b border-gray-100">
-            <div className="flex items-start justify-between gap-4">
-            <h2 className="text-lg font-bold text-gray-900">Visual Moodboard</h2>
-            <p className="text-[11px] text-red-500 flex-shrink-0 mt-1">이미지를 클릭하면 전체화면으로 확인할 수 있습니다</p>
-          </div>
-            {moodboard.description && (
-              <p className="text-[13px] text-gray-500 mt-1.5 leading-relaxed">
-                {moodboard.description}
-              </p>
-            )}
+        <div className="bg-white shadow-2xl w-full max-w-[480px] h-full overflow-hidden flex flex-col animate-slide-in-right">
+          {/* Header */}
+          <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+            <div>
+              <h2 className="text-base font-semibold text-gray-900">Feed Preview</h2>
+              {moodboard.description && (
+                <p className="text-[11px] text-gray-400 mt-0.5">{moodboard.description}</p>
+              )}
+            </div>
+            <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </button>
           </div>
 
-          <div className="p-6">
+          {/* Instagram-style 3-column grid */}
+          <div className="flex-1 overflow-y-auto p-1">
             {moodboard.items.length > 0 ? (
-              <div className={moodboard.items.length === 1 ? "space-y-3" : "grid grid-cols-2 gap-3"}>
+              <div className="grid grid-cols-3 gap-0.5">
                 {moodboard.items.map((item, i) => (
-                  <div key={i} className="relative group">
-                    <button
-                      onClick={() => setFullView(item.image)}
-                      className="w-full text-left"
-                    >
-                      <div className={`${moodboard.items.length === 1 ? "" : "aspect-square"} bg-gray-100 rounded-lg overflow-hidden cursor-zoom-in`}>
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={item.image}
-                          alt={item.label || `Mood ${i + 1}`}
-                          className={`w-full ${moodboard.items.length === 1 ? "h-auto object-contain" : "h-full object-cover"}`}
-                          onError={(e) => {
-                            const target = e.target as HTMLImageElement;
-                            target.style.display = "none";
-                            target.parentElement!.classList.add("flex", "items-center", "justify-center");
-                            const placeholder = document.createElement("span");
-                            placeholder.className = "text-gray-300 text-xs";
-                            placeholder.textContent = item.label || "이미지 준비 중";
-                            target.parentElement!.appendChild(placeholder);
-                          }}
-                        />
-                      </div>
-                    </button>
+                  <button
+                    key={i}
+                    onClick={() => setFullView(item.image)}
+                    className="relative aspect-square bg-gray-100 overflow-hidden group"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={item.image}
+                      alt={item.label || `Feed ${i + 1}`}
+                      className="w-full h-full object-cover transition-opacity group-hover:opacity-90"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = "none";
+                      }}
+                    />
                     {item.label && (
-                      <p className="text-[11px] text-gray-400 mt-1.5 text-center">{item.label}</p>
+                      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end">
+                        <p className="text-[10px] text-white px-2 py-1.5 opacity-0 group-hover:opacity-100 transition-opacity truncate w-full">
+                          {item.label}
+                        </p>
+                      </div>
                     )}
-                  </div>
+                  </button>
                 ))}
               </div>
             ) : (
-              <div className="text-center py-12 text-gray-300 text-sm">
+              <div className="flex items-center justify-center h-full text-gray-300 text-sm">
                 무드보드 이미지 준비 중
               </div>
             )}

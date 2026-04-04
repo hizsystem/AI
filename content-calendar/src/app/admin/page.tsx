@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ContentItem } from "@/data/types";
 import type { ChannelType, FinanceConfig } from "@/data/client-config";
+import AuditScoreCard from "@/components/np/AuditScoreCard";
+import WeeklyMissions from "@/components/np/WeeklyMissions";
 
 // ─── Types ───
 
@@ -291,24 +293,18 @@ function InstagramPanel({ project }: { project: ProjectSummary }) {
 // ─── Naver Place Panel ───
 
 function NaverPlacePanel({ project }: { project: ProjectSummary }) {
+  // TODO: Fetch NP data from Blob storage
+  // For now, render empty-state components
   return (
     <div className="space-y-6">
-      {/* Audit score placeholder */}
       <div>
         <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">진단 점수</h3>
-        <div className="bg-white rounded-xl border border-gray-100 p-6 text-center">
-          <p className="text-4xl font-bold text-gray-900">—</p>
-          <p className="text-xs text-gray-400 mt-2">/ 100점</p>
-          <p className="text-[11px] text-gray-300 mt-4">진단 데이터를 등록하면 점수가 표시됩니다</p>
-        </div>
+        <AuditScoreCard audit={null} />
       </div>
 
-      {/* Weekly missions placeholder */}
       <div>
         <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">주간 미션</h3>
-        <div className="bg-white rounded-xl border border-gray-100 p-6 text-center text-sm text-gray-400">
-          진단 후 주간 미션이 자동 생성됩니다
-        </div>
+        <WeeklyMissions missions={null} />
       </div>
     </div>
   );
