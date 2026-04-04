@@ -13,9 +13,10 @@ import AuditInputForm from "@/components/np/AuditInputForm";
 interface ProjectSummary {
   slug: string;
   name: string;
+  emoji?: string;
   brandColor: string;
   logo: { src: string; alt: string } | null;
-  status: "active" | "paused";
+  status: "active" | "paused" | "completed";
   channels: ChannelType[];
   npStoreId?: string;
   brands?: { id: string; label: string; emoji: string }[];
@@ -174,7 +175,7 @@ function OverviewPanel({ data }: { data: SummaryData }) {
         <div className="bg-white rounded-xl border border-gray-100 divide-y divide-gray-50">
           {active.map((s) => (
             <div key={s.slug} className="px-4 py-3 flex items-center gap-3">
-              <div className="w-2 h-6 rounded-full flex-shrink-0" style={{ backgroundColor: s.brandColor }} />
+              <span className="text-sm flex-shrink-0 w-5 text-center">{s.emoji || "📁"}</span>
               <span className="text-sm font-medium text-gray-700 w-28 flex-shrink-0 truncate">{s.name}</span>
               <div className="flex gap-1 flex-shrink-0">
                 {s.channels.map((ch) => (
@@ -442,12 +443,7 @@ function ClientPanel({ project }: { project: ProjectSummary }) {
         {project.logo ? (
           <img src={project.logo.src} alt={project.logo.alt} className="h-10 w-10 object-contain rounded-lg" />
         ) : (
-          <div
-            className="h-10 w-10 rounded-lg flex items-center justify-center text-white text-sm font-bold"
-            style={{ backgroundColor: project.brandColor }}
-          >
-            {project.name.charAt(0)}
-          </div>
+          <span className="text-2xl flex-shrink-0">{project.emoji || "📁"}</span>
         )}
         <div>
           <h2 className="text-base font-semibold text-gray-900">{project.name}</h2>
@@ -535,7 +531,7 @@ export default function AdminDashboard() {
   if (!data) return null;
 
   const activeProjects = data.summaries.filter((s) => s.status === "active");
-  const pausedProjects = data.summaries.filter((s) => s.status === "paused");
+  const completedProjects = data.summaries.filter((s) => s.status === "paused" || s.status === "completed");
   const activeProject = data.summaries.find((s) => s.slug === activeTab);
 
   return (
@@ -578,12 +574,7 @@ export default function AdminDashboard() {
                   : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
               }`}
             >
-              <div
-                className="w-5 h-5 rounded flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0"
-                style={{ backgroundColor: project.brandColor }}
-              >
-                {project.name.charAt(0)}
-              </div>
+              <span className="text-base flex-shrink-0 w-5 text-center">{project.emoji || "📁"}</span>
               <span className="truncate flex-1">{project.name}</span>
               {project.stats.needsConfirm > 0 && (
                 <span className="w-5 h-5 rounded-full bg-amber-100 text-amber-600 text-[10px] flex items-center justify-center font-medium flex-shrink-0">
@@ -593,24 +584,22 @@ export default function AdminDashboard() {
             </button>
           ))}
 
-          {/* Paused */}
-          {pausedProjects.length > 0 && (
+          {/* Completed */}
+          {completedProjects.length > 0 && (
             <>
               <div className="mx-5 my-2 border-t border-gray-100" />
-              <p className="px-5 py-1 text-[10px] text-gray-300 uppercase tracking-wider">Paused</p>
-              {pausedProjects.map((project) => (
+              <p className="px-5 py-1 text-[10px] text-gray-300 uppercase tracking-wider">완료</p>
+              {completedProjects.map((project) => (
                 <button
                   key={project.slug}
                   onClick={() => setActiveTab(project.slug)}
                   className={`w-full px-5 py-2.5 flex items-center gap-3 text-left text-sm transition-colors opacity-50 ${
                     activeTab === project.slug
-                      ? "bg-gray-50 text-gray-900 font-medium"
-                      : "text-gray-400 hover:bg-gray-50"
+                      ? "bg-gray-50 text-gray-900 font-medium opacity-100"
+                      : "text-gray-400 hover:bg-gray-50 hover:opacity-75"
                   }`}
                 >
-                  <div className="w-5 h-5 rounded bg-gray-300 flex items-center justify-center text-white text-[10px] font-bold flex-shrink-0">
-                    {project.name.charAt(0)}
-                  </div>
+                  <span className="text-base flex-shrink-0 w-5 text-center grayscale">{project.emoji || "📁"}</span>
                   <span className="truncate">{project.name}</span>
                 </button>
               ))}

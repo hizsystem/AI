@@ -50,9 +50,10 @@ export interface FinanceConfig {
 export interface ProjectConfig {
   slug: string;
   name: string;
+  emoji?: string;
   logo: { src: string; alt: string } | null;
   brandColor: string;
-  status: "active" | "paused";
+  status: "active" | "paused" | "completed";
 
   channels: ChannelConfig[];
   brands?: BrandConfig[];

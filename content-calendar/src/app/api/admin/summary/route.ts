@@ -10,9 +10,10 @@ export const dynamic = "force-dynamic";
 interface ProjectSummary {
   slug: string;
   name: string;
+  emoji?: string;
   brandColor: string;
   logo: { src: string; alt: string } | null;
-  status: "active" | "paused";
+  status: "active" | "paused" | "completed";
   channels: ChannelType[];
   brands?: { id: string; label: string; emoji: string }[];
   finance?: FinanceConfig;
@@ -110,6 +111,7 @@ export async function GET() {
         return {
           slug: project.slug,
           name: project.name,
+          emoji: project.emoji,
           brandColor: project.brandColor,
           logo: project.logo,
           status: project.status,

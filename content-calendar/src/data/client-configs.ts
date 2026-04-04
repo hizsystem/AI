@@ -5,6 +5,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
   {
     slug: "huenic",
     name: "HUENIC",
+    emoji: "🌱",
     logo: null,
     brandColor: "#10b981",
     status: "active",
@@ -39,6 +40,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
   {
     slug: "mirye-gukbap",
     name: "미례국밥",
+    emoji: "🍲",
     logo: null,
     brandColor: "#d97706",
     status: "active",
@@ -68,6 +70,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
   {
     slug: "dancingcup",
     name: "댄싱컵",
+    emoji: "💃",
     logo: null,
     brandColor: "#ec4899",
     status: "active",
@@ -97,6 +100,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
   {
     slug: "goventure",
     name: "고벤처포럼",
+    emoji: "🚀",
     logo: null,
     brandColor: "#1e40af",
     status: "active",
@@ -124,6 +128,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
   {
     slug: "brandrise",
     name: "브랜드라이즈",
+    emoji: "✦",
     logo: null,
     brandColor: "#111827",
     status: "active",
@@ -150,6 +155,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
   {
     slug: "hdoilbank",
     name: "HD현대오일뱅크",
+    emoji: "⛽",
     logo: null,
     brandColor: "#dc2626",
     status: "active",
@@ -171,10 +177,11 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
   // ─── 탭샵바 (PAUSED) ───
   {
     slug: "tabshopbar",
-    name: "탭샵바 (TAP SHOP BAR)",
+    name: "탭샵바",
+    emoji: "🍷",
     logo: { src: "/tsb-logo.png", alt: "TAP SHOP BAR" },
     brandColor: "#4A7BF7",
-    status: "paused",
+    status: "completed",
     channels: [
       {
         type: "instagram",
