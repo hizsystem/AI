@@ -35,10 +35,10 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
     finance: { monthlyBudget: 8900000, invoiceDay: 10, currency: "KRW" },
   },
 
-  // ─── 위드런 - 미레국밥 ───
+  // ─── 위드런 - 미례국밥 ───
   {
     slug: "mirye-gukbap",
-    name: "미레국밥",
+    name: "미례국밥",
     logo: null,
     brandColor: "#d97706",
     status: "active",

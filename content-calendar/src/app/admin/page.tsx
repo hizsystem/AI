@@ -16,6 +16,7 @@ interface ProjectSummary {
   logo: { src: string; alt: string } | null;
   status: "active" | "paused";
   channels: ChannelType[];
+  npStoreId?: string;
   brands?: { id: string; label: string; emoji: string }[];
   finance?: FinanceConfig;
   currentMonth: string;
@@ -293,18 +294,36 @@ function InstagramPanel({ project }: { project: ProjectSummary }) {
 // ─── Naver Place Panel ───
 
 function NaverPlacePanel({ project }: { project: ProjectSummary }) {
-  // TODO: Fetch NP data from Blob storage
-  // For now, render empty-state components
+  const [audit, setAudit] = useState<import("@/data/np-types").NpAuditData | null>(null);
+  const [missions, setMissions] = useState<import("@/data/np-types").NpMissionsData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!project.npStoreId) { setLoading(false); return; }
+    const storeId = project.npStoreId;
+    Promise.all([
+      fetch(`/api/np/${storeId}/audit`).then((r) => r.ok ? r.json() : null),
+      fetch(`/api/np/${storeId}/missions`).then((r) => r.ok ? r.json() : null),
+    ])
+      .then(([a, m]) => { setAudit(a); setMissions(m); })
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [project.npStoreId]);
+
+  if (loading) {
+    return <div className="text-center py-12 text-sm text-gray-400">로딩 중...</div>;
+  }
+
   return (
     <div className="space-y-6">
       <div>
         <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">진단 점수</h3>
-        <AuditScoreCard audit={null} />
+        <AuditScoreCard audit={audit} />
       </div>
 
       <div>
         <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">주간 미션</h3>
-        <WeeklyMissions missions={null} />
+        <WeeklyMissions missions={missions} />
       </div>
     </div>
   );

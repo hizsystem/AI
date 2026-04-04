@@ -58,20 +58,9 @@ export default function ContentModal({
         if (e.target === overlayRef.current) onClose();
       }}
     >
-      {/* Close button */}
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 text-white/80 hover:text-white z-50"
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-        </svg>
-      </button>
-
-      {/* Instagram-style container */}
       <div className="bg-white shadow-2xl flex flex-col w-full max-w-[480px] h-full overflow-hidden animate-slide-in-right">
-        {/* Left: Media area — min-h prevents collapse, object-contain keeps ratio */}
-        <div className="w-[420px] min-h-[320px] bg-gray-950 flex-shrink-0 flex items-center justify-center self-stretch">
+        {/* Media area */}
+        <div className="w-full h-[320px] bg-gray-950 flex-shrink-0 flex items-center justify-center">
           {overview.images && overview.images.length > 1 ? (
             <div className="relative w-full h-full">
               <ImageCarousel images={overview.images} alt={item.title} />
@@ -134,8 +123,8 @@ export default function ContentModal({
           )}
         </div>
 
-        {/* Right: Content area */}
-        <div className="flex-1 flex flex-col min-w-0 w-[440px]">
+        {/* Content area */}
+        <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
 
           {/* Profile header */}
           <div className="flex items-center gap-3 px-5 py-3.5 border-b border-gray-100">
