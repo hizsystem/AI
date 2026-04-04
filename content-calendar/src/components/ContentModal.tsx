@@ -53,7 +53,7 @@ export default function ContentModal({
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      className="fixed inset-0 z-50 flex justify-end bg-black/30"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
       }}
@@ -69,7 +69,7 @@ export default function ContentModal({
       </button>
 
       {/* Instagram-style container */}
-      <div className="bg-white shadow-2xl flex max-w-[860px] w-full max-h-[80vh] overflow-hidden rounded">
+      <div className="bg-white shadow-2xl flex flex-col w-full max-w-[480px] h-full overflow-hidden animate-slide-in-right">
         {/* Left: Media area — min-h prevents collapse, object-contain keeps ratio */}
         <div className="w-[420px] min-h-[320px] bg-gray-950 flex-shrink-0 flex items-center justify-center self-stretch">
           {overview.images && overview.images.length > 1 ? (

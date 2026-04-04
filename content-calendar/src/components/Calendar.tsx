@@ -382,6 +382,17 @@ export default function Calendar({
                                 }}
                                 className="w-full text-left group cursor-pointer"
                               >
+                                {/* Thumbnail */}
+                                {item.overview?.images?.[0] && (
+                                  <div className="w-full h-12 rounded overflow-hidden mb-1">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                      src={item.overview.images[0]}
+                                      alt=""
+                                      className="w-full h-full object-cover"
+                                    />
+                                  </div>
+                                )}
                                 <div
                                   className="px-1.5 py-1 rounded text-xs font-medium truncate transition-all duration-150 group-hover:-translate-y-px group-hover:shadow-sm group-active:translate-y-0 group-active:shadow-none"
                                   style={{

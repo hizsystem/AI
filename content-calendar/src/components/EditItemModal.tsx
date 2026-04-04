@@ -189,15 +189,15 @@ export default function EditItemModal({
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+      className="fixed inset-0 z-50 flex justify-end bg-black/30"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
       }}
     >
-      <div className="bg-white rounded-xl shadow-2xl max-w-[560px] w-full max-h-[85vh] overflow-hidden flex flex-col" onPaste={handlePaste}>
+      <div className="bg-white shadow-2xl w-full max-w-[480px] h-full overflow-hidden flex flex-col animate-slide-in-right" onPaste={handlePaste}>
         {/* Header */}
         <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-900">
+          <h2 className="text-base font-semibold text-gray-900">
             {isNew ? "콘텐츠 추가" : "콘텐츠 수정"}
           </h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
