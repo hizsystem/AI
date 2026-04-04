@@ -7,6 +7,7 @@ import type { ChannelType, FinanceConfig } from "@/data/client-config";
 import AuditScoreCard from "@/components/np/AuditScoreCard";
 import WeeklyMissions from "@/components/np/WeeklyMissions";
 import AuditInputForm from "@/components/np/AuditInputForm";
+import ProjectSettingsPanel from "@/components/admin/ProjectSettingsPanel";
 
 // ─── Types ───
 
@@ -36,10 +37,10 @@ interface SummaryData {
 type ChannelTab = "instagram" | "naver-place" | "blog" | "finance";
 
 const CHANNEL_LABELS: Record<string, string> = {
-  instagram: "Instagram",
-  "naver-place": "Naver Place",
-  blog: "Blog",
-  finance: "Finance",
+  instagram: "📸 Instagram",
+  "naver-place": "📍 Naver Place",
+  blog: "📝 Blog",
+  finance: "💰 Finance",
 };
 
 const CHANNEL_ICONS: Record<string, string> = {
@@ -495,14 +496,24 @@ function FinancePanel({ project }: { project: ProjectSummary }) {
 
 function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefresh: () => void }) {
   const [copied, setCopied] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   function handleCopyShareLink() {
-    const token = project.slug; // Simple token = slug for now
+    const token = project.slug;
     const url = `${window.location.origin}/clients/${project.slug}?token=${token}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
+  }
+
+  async function handleSaveSettings(config: import("@/data/client-config").ProjectConfig) {
+    const res = await fetch("/api/admin/project", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(config),
+    });
+    if (res.ok) onRefresh();
   }
   const availableTabs: ChannelTab[] = [];
   if (project.channels.includes("instagram")) availableTabs.push("instagram");
@@ -540,16 +551,28 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
             </p>
           )}
         </div>
-        <button
-          onClick={handleCopyShareLink}
-          className="ml-auto text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1.5"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" strokeLinecap="round"/>
-            <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" strokeLinecap="round"/>
-          </svg>
-          {copied ? "복사됨!" : "공유 링크"}
-        </button>
+        <div className="ml-auto flex items-center gap-3">
+          <button
+            onClick={handleCopyShareLink}
+            className="text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1.5"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" strokeLinecap="round"/>
+              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" strokeLinecap="round"/>
+            </svg>
+            {copied ? "복사됨!" : "공유 링크"}
+          </button>
+          <button
+            onClick={() => setShowSettings(true)}
+            className="text-xs text-gray-400 hover:text-gray-600 transition-colors flex items-center gap-1.5"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" strokeLinecap="round"/>
+              <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" strokeLinecap="round"/>
+            </svg>
+            설정
+          </button>
+        </div>
       </div>
 
       {/* Channel sub-tabs */}
@@ -596,6 +619,15 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
       {channelTab === "naver-place" && <NaverPlacePanel project={project} />}
       {channelTab === "blog" && <BlogPanel project={project} />}
       {channelTab === "finance" && <FinancePanel project={project} />}
+
+      {/* Settings panel */}
+      {showSettings && (
+        <ProjectSettingsPanel
+          project={project as unknown as import("@/data/client-config").ProjectConfig}
+          onSave={handleSaveSettings}
+          onClose={() => setShowSettings(false)}
+        />
+      )}
     </div>
   );
 }
@@ -726,10 +758,32 @@ export default function AdminDashboard() {
           )}
         </nav>
 
-        <div className="px-6 py-4 border-t border-gray-100">
+        <div className="px-6 py-4 border-t border-gray-100 space-y-2">
+          <button
+            onClick={() => {
+              const name = prompt("새 프로젝트 이름:");
+              if (!name) return;
+              const slug = name.toLowerCase().replace(/[^a-z0-9가-힣]/g, "-").replace(/-+/g, "-");
+              fetch("/api/admin/project", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  slug,
+                  name,
+                  logo: null,
+                  brandColor: "#6366f1",
+                  status: "active",
+                  channels: [{ type: "instagram", enabled: true, blocks: ["ig-calendar", "ig-moodboard"] }],
+                }),
+              }).then(() => setFetchKey((n) => n + 1));
+            }}
+            className="w-full text-xs text-gray-400 hover:text-gray-600 transition-colors text-left"
+          >
+            + 새 프로젝트
+          </button>
           <button
             onClick={handleLogout}
-            className="text-xs text-gray-300 hover:text-gray-500 transition-colors"
+            className="w-full text-xs text-gray-300 hover:text-gray-500 transition-colors text-left"
           >
             로그아웃
           </button>

@@ -1,0 +1,232 @@
+"use client";
+
+import { useState } from "react";
+import type { ProjectConfig, ChannelType, ChannelConfig } from "@/data/client-config";
+
+interface ProjectSettingsPanelProps {
+  project: ProjectConfig;
+  onSave: (config: ProjectConfig) => Promise<void>;
+  onClose: () => void;
+}
+
+const AVAILABLE_CHANNELS: { type: ChannelType; label: string; emoji: string }[] = [
+  { type: "instagram", label: "Instagram", emoji: "📸" },
+  { type: "naver-place", label: "Naver Place", emoji: "📍" },
+  { type: "blog", label: "Blog", emoji: "📝" },
+];
+
+const DEFAULT_CHANNEL_BLOCKS: Record<ChannelType, string[]> = {
+  instagram: ["ig-calendar", "ig-moodboard", "ig-reference"],
+  "naver-place": ["np-audit", "np-missions"],
+  blog: ["blog-calendar"],
+};
+
+export default function ProjectSettingsPanel({
+  project,
+  onSave,
+  onClose,
+}: ProjectSettingsPanelProps) {
+  const [name, setName] = useState(project.name);
+  const [emoji, setEmoji] = useState(project.emoji || "");
+  const [brandColor, setBrandColor] = useState(project.brandColor);
+  const [status, setStatus] = useState(project.status);
+  const [channels, setChannels] = useState<ChannelConfig[]>(project.channels);
+  const [budget, setBudget] = useState(project.finance?.monthlyBudget || 0);
+  const [invoiceDay, setInvoiceDay] = useState(project.finance?.invoiceDay || 10);
+  const [saving, setSaving] = useState(false);
+
+  function toggleChannel(type: ChannelType) {
+    setChannels((prev) => {
+      const existing = prev.find((c) => c.type === type);
+      if (existing) {
+        return prev.map((c) =>
+          c.type === type ? { ...c, enabled: !c.enabled } : c
+        );
+      }
+      return [
+        ...prev,
+        {
+          type,
+          enabled: true,
+          blocks: DEFAULT_CHANNEL_BLOCKS[type] as any[],
+        },
+      ];
+    });
+  }
+
+  function isChannelEnabled(type: ChannelType): boolean {
+    return channels.some((c) => c.type === type && c.enabled);
+  }
+
+  async function handleSave() {
+    setSaving(true);
+    try {
+      const updated: ProjectConfig = {
+        ...project,
+        name,
+        emoji: emoji || undefined,
+        brandColor,
+        status,
+        channels,
+        finance: budget > 0 ? { monthlyBudget: budget, invoiceDay, currency: "KRW" } : undefined,
+      };
+      await onSave(updated);
+      onClose();
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex justify-end bg-black/30" onClick={onClose}>
+      <div
+        className="bg-white shadow-2xl w-full max-w-[440px] h-full overflow-hidden flex flex-col animate-slide-in-right"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+          <h2 className="text-base font-semibold text-gray-900">프로젝트 설정</h2>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+
+        {/* Form */}
+        <div className="flex-1 overflow-y-auto px-6 py-5 space-y-6">
+          {/* Basic info */}
+          <div className="space-y-4">
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">기본 정보</h3>
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <label className="block text-xs text-gray-500 mb-1.5">브랜드명</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+                />
+              </div>
+              <div className="w-20">
+                <label className="block text-xs text-gray-500 mb-1.5">이모지</label>
+                <input
+                  type="text"
+                  value={emoji}
+                  onChange={(e) => setEmoji(e.target.value)}
+                  placeholder="🌱"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm text-center focus:outline-none focus:ring-1 focus:ring-gray-300"
+                />
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <label className="block text-xs text-gray-500 mb-1.5">브랜드 컬러</label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={brandColor}
+                    onChange={(e) => setBrandColor(e.target.value)}
+                    className="w-8 h-8 rounded border border-gray-200 cursor-pointer"
+                  />
+                  <input
+                    type="text"
+                    value={brandColor}
+                    onChange={(e) => setBrandColor(e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm font-mono focus:outline-none focus:ring-1 focus:ring-gray-300"
+                  />
+                </div>
+              </div>
+              <div className="w-28">
+                <label className="block text-xs text-gray-500 mb-1.5">상태</label>
+                <select
+                  value={status}
+                  onChange={(e) => setStatus(e.target.value as ProjectConfig["status"])}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-1 focus:ring-gray-300"
+                >
+                  <option value="active">Active</option>
+                  <option value="paused">Paused</option>
+                  <option value="completed">완료</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* Channels */}
+          <div className="space-y-3">
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">채널</h3>
+            {AVAILABLE_CHANNELS.map((ch) => (
+              <button
+                key={ch.type}
+                onClick={() => toggleChannel(ch.type)}
+                className={`w-full px-4 py-3 rounded-lg border text-left flex items-center gap-3 transition-colors ${
+                  isChannelEnabled(ch.type)
+                    ? "border-gray-900 bg-gray-50"
+                    : "border-gray-200 hover:border-gray-300"
+                }`}
+              >
+                <span className="text-base">{ch.emoji}</span>
+                <span className="text-sm font-medium text-gray-700 flex-1">{ch.label}</span>
+                <div
+                  className={`w-8 h-5 rounded-full transition-colors flex items-center ${
+                    isChannelEnabled(ch.type) ? "bg-gray-900 justify-end" : "bg-gray-200 justify-start"
+                  }`}
+                >
+                  <div className="w-4 h-4 bg-white rounded-full mx-0.5 shadow-sm" />
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* Finance */}
+          <div className="space-y-4">
+            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">재무</h3>
+            <div className="flex gap-3">
+              <div className="flex-1">
+                <label className="block text-xs text-gray-500 mb-1.5">월 예산 (원)</label>
+                <input
+                  type="number"
+                  value={budget || ""}
+                  onChange={(e) => setBudget(parseInt(e.target.value) || 0)}
+                  placeholder="0"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+                />
+              </div>
+              <div className="w-24">
+                <label className="block text-xs text-gray-500 mb-1.5">발행일</label>
+                <input
+                  type="number"
+                  min={1}
+                  max={31}
+                  value={invoiceDay}
+                  onChange={(e) => setInvoiceDay(parseInt(e.target.value) || 10)}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm text-center focus:outline-none focus:ring-1 focus:ring-gray-300"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Slug (read-only) */}
+          <div>
+            <label className="block text-xs text-gray-400 mb-1.5">Slug (변경 불가)</label>
+            <p className="text-sm font-mono text-gray-300">{project.slug}</p>
+          </div>
+        </div>
+
+        {/* Footer */}
+        <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-end gap-2">
+          <button onClick={onClose} className="px-4 py-2 text-sm text-gray-500 hover:text-gray-700">
+            취소
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={saving || !name.trim()}
+            className="px-5 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 disabled:opacity-50 transition-colors"
+          >
+            {saving ? "저장 중..." : "저장"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
