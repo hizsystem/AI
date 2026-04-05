@@ -253,7 +253,7 @@ const STATUS_CYCLE: Record<string, string> = {
   uploaded: "planning",
 };
 
-type IgSubView = "summary" | "kpi" | "report";
+type IgSubView = "summary" | "grid" | "kpi" | "report";
 
 function InstagramPanel({ project, onStatusChange, onRefresh }: { project: ProjectSummary; onStatusChange?: (item: ContentItem, newStatus: string) => void; onRefresh?: () => void }) {
   const [activeBrand, setActiveBrand] = useState(project.brands?.[0]?.id || "");
@@ -326,7 +326,7 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
 
       {/* Sub-view tabs */}
       <div className="flex gap-1 border-b border-gray-200">
-        {(["summary", "kpi", "report"] as IgSubView[]).map((v) => (
+        {(["summary", "grid", "kpi", "report"] as IgSubView[]).map((v) => (
           <button
             key={v}
             onClick={() => setSubView(v)}
@@ -336,7 +336,7 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
                 : "border-transparent text-gray-400 hover:text-gray-600"
             }`}
           >
-            {v === "summary" ? "요약" : v === "kpi" ? "KPI" : "주간 리포트"}
+            {v === "summary" ? "요약" : v === "grid" ? "피드 프리뷰" : v === "kpi" ? "KPI" : "주간 리포트"}
           </button>
         ))}
       </div>
@@ -423,6 +423,58 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
             캘린더 전체 보기 &rarr;
           </a>
         </>;
+      })()}
+
+      {/* Grid preview — Instagram feed simulation */}
+      {subView === "grid" && (() => {
+        const gridItems = (activeBrand
+          ? project.thisWeekItems.filter((i: any) => i._brandId === activeBrand || !i._brandId)
+          : project.thisWeekItems
+        ).filter((i) => i.overview?.images?.[0]);
+
+        // Also show all month items with images (not just this week)
+        // For now, use thisWeekItems since we don't have full month in summary
+        return (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <p className="text-xs text-gray-400">
+                {activeBrand ? project.brands?.find((b) => b.id === activeBrand)?.label : project.name} 피드 프리뷰
+              </p>
+              <a
+                href={`/clients/${project.slug}?tab=moodboard&brand=${activeBrand}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs text-gray-400 hover:text-gray-600"
+              >
+                무드보드 보기 &rarr;
+              </a>
+            </div>
+            {gridItems.length === 0 ? (
+              <div className="bg-white rounded-xl border border-gray-200 p-10 text-center text-sm text-gray-400">
+                이미지가 등록된 콘텐츠가 없습니다
+              </div>
+            ) : (
+              <div className="grid grid-cols-3 gap-0.5 rounded-xl overflow-hidden">
+                {gridItems.map((item) => (
+                  <div key={item.id} className="relative aspect-square bg-gray-100 group">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={item.overview?.images?.[0] || ""}
+                      alt={item.title}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end">
+                      <div className="p-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <p className="text-[11px] text-white font-medium truncate">{item.title}</p>
+                        <p className="text-[10px] text-white/60">{formatDateShort(item.date)}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        );
       })()}
 
       {/* KPI view */}
