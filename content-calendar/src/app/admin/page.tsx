@@ -35,12 +35,13 @@ interface SummaryData {
   currentMonth: string;
 }
 
-type ChannelTab = "instagram" | "naver-place" | "blog" | "finance";
+type ChannelTab = "instagram" | "naver-place" | "blog" | "schedule" | "finance";
 
 const CHANNEL_LABELS: Record<string, string> = {
   instagram: "📸 Instagram",
   "naver-place": "📍 Naver Place",
   blog: "📝 Blog",
+  schedule: "📅 일정",
   finance: "💰 Finance",
 };
 
@@ -555,6 +556,184 @@ function BlogPanel({ project }: { project: ProjectSummary }) {
 
 // ─── Finance Panel ───
 
+// ─── Schedule Panel ───
+
+function SchedulePanel({ project }: { project: ProjectSummary }) {
+  const [items, setItems] = useState<import("@/data/schedule-types").ScheduleItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showAdd, setShowAdd] = useState(false);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDate, setNewDate] = useState("");
+  const [newType, setNewType] = useState<import("@/data/schedule-types").ScheduleType>("meeting");
+
+  useEffect(() => {
+    fetch(`/api/schedule/${project.slug}`)
+      .then((r) => r.ok ? r.json() : null)
+      .then((d) => { if (d?.items) setItems(d.items); })
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [project.slug]);
+
+  async function saveItems(updated: import("@/data/schedule-types").ScheduleItem[]) {
+    setItems(updated);
+    await fetch(`/api/schedule/${project.slug}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ clientSlug: project.slug, items: updated }),
+    });
+  }
+
+  async function handleAdd() {
+    if (!newTitle.trim() || !newDate) return;
+    const item: import("@/data/schedule-types").ScheduleItem = {
+      id: `sch-${Date.now()}`,
+      date: newDate,
+      title: newTitle.trim(),
+      type: newType,
+      completed: false,
+    };
+    await saveItems([...items, item].sort((a, b) => a.date.localeCompare(b.date)));
+    setNewTitle("");
+    setNewDate("");
+    setShowAdd(false);
+  }
+
+  async function toggleComplete(id: string) {
+    const updated = items.map((i) => i.id === id ? { ...i, completed: !i.completed } : i);
+    await saveItems(updated);
+  }
+
+  async function deleteItem(id: string) {
+    await saveItems(items.filter((i) => i.id !== id));
+  }
+
+  const TYPE_CONFIG: Record<string, { label: string; emoji: string; color: string }> = {
+    meeting: { label: "미팅", emoji: "📅", color: "#6366f1" },
+    campaign: { label: "체험단/캠페인", emoji: "📣", color: "#f59e0b" },
+    milestone: { label: "마일스톤", emoji: "🎯", color: "#10b981" },
+    deadline: { label: "마감", emoji: "⏰", color: "#ef4444" },
+    other: { label: "기타", emoji: "📌", color: "#6b7280" },
+  };
+
+  if (loading) return <div className="text-center py-12 text-sm text-gray-400">로딩 중...</div>;
+
+  const upcoming = items.filter((i) => !i.completed).sort((a, b) => a.date.localeCompare(b.date));
+  const completed = items.filter((i) => i.completed);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider">예정 일정</h3>
+        <button
+          onClick={() => setShowAdd(!showAdd)}
+          className="text-xs font-medium text-gray-500 hover:text-gray-700"
+        >
+          + 일정 추가
+        </button>
+      </div>
+
+      {/* Add form */}
+      {showAdd && (
+        <div className="bg-white rounded-xl border border-gray-200 p-4 space-y-3">
+          <input
+            type="text"
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+            placeholder="일정 제목"
+            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+            autoFocus
+          />
+          <div className="flex gap-3">
+            <input
+              type="date"
+              value={newDate}
+              onChange={(e) => setNewDate(e.target.value)}
+              className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+            />
+            <select
+              value={newType}
+              onChange={(e) => setNewType(e.target.value as any)}
+              className="px-3 py-2 border border-gray-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-1 focus:ring-gray-300"
+            >
+              {Object.entries(TYPE_CONFIG).map(([k, v]) => (
+                <option key={k} value={k}>{v.emoji} {v.label}</option>
+              ))}
+            </select>
+          </div>
+          <div className="flex justify-end gap-2">
+            <button onClick={() => setShowAdd(false)} className="px-3 py-1.5 text-xs text-gray-500">취소</button>
+            <button
+              onClick={handleAdd}
+              disabled={!newTitle.trim() || !newDate}
+              className="px-4 py-1.5 text-xs font-medium text-white bg-gray-900 rounded-lg disabled:opacity-50"
+            >
+              추가
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Upcoming items */}
+      {upcoming.length === 0 && !showAdd ? (
+        <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-sm text-gray-400">
+          예정된 일정이 없습니다
+        </div>
+      ) : (
+        <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+          {upcoming.map((item) => {
+            const tc = TYPE_CONFIG[item.type] || TYPE_CONFIG.other;
+            return (
+              <div key={item.id} className="px-5 py-4 flex items-center gap-4">
+                <button onClick={() => toggleComplete(item.id)} className="flex-shrink-0">
+                  <div className="w-4 h-4 rounded border-2 border-gray-300 hover:border-gray-500 transition-colors" />
+                </button>
+                <span className="text-sm font-medium text-gray-500 w-10 flex-shrink-0">{formatDateShort(item.date)}</span>
+                <span className="text-base flex-shrink-0">{tc.emoji}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">{item.title}</p>
+                  {item.description && <p className="text-xs text-gray-400 mt-0.5">{item.description}</p>}
+                </div>
+                <span className="text-[10px] px-1.5 py-0.5 rounded text-white flex-shrink-0" style={{ backgroundColor: tc.color }}>
+                  {tc.label}
+                </span>
+                <button onClick={() => deleteItem(item.id)} className="text-gray-300 hover:text-red-400 flex-shrink-0">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Completed */}
+      {completed.length > 0 && (
+        <div>
+          <h3 className="text-xs font-medium text-gray-300 uppercase tracking-wider mb-3">완료 ({completed.length})</h3>
+          <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+            {completed.map((item) => (
+              <div key={item.id} className="px-5 py-3 flex items-center gap-4 opacity-50">
+                <button onClick={() => toggleComplete(item.id)} className="flex-shrink-0">
+                  <div className="w-4 h-4 rounded border-2 border-emerald-500 bg-emerald-500 flex items-center justify-center">
+                    <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+                      <path d="M2 5l2.5 2.5L8 3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                </button>
+                <span className="text-xs text-gray-400 w-10 flex-shrink-0">{formatDateShort(item.date)}</span>
+                <p className="text-sm text-gray-400 line-through truncate flex-1">{item.title}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Finance Panel ───
+
 const MODEL_LABELS: Record<string, string> = {
   retainer: "연간 리테이너",
   monthly: "월 정산",
@@ -689,6 +868,7 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
   if (project.channels.includes("instagram")) availableTabs.push("instagram");
   if (project.channels.includes("naver-place")) availableTabs.push("naver-place");
   if (project.channels.includes("blog")) availableTabs.push("blog");
+  availableTabs.push("schedule"); // 모든 프로젝트에 일정 탭
   if (project.finance) availableTabs.push("finance");
 
   const [channelTab, setChannelTab] = useState<ChannelTab>(availableTabs[0] || "instagram");
@@ -788,6 +968,7 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
       )}
       {channelTab === "naver-place" && <NaverPlacePanel project={project} />}
       {channelTab === "blog" && <BlogPanel project={project} />}
+      {channelTab === "schedule" && <SchedulePanel project={project} />}
       {channelTab === "finance" && <FinancePanel project={project} />}
 
       {/* Settings panel */}
