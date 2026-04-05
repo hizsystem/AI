@@ -1,0 +1,75 @@
+{
+  "client": "HUENIC - VINKER",
+  "clientSlug": "huenic-vinker",
+  "month": "2026-04",
+  "title": "VINKER April Content Calendar",
+  "description": "Now Available in Canada — Retail launch prep with 4 strategic posts",
+  "coreMessage": "April marks the start of Canadian retail demos. Every post must signal 'alive brand' to buyers.",
+  "categories": [
+    { "id": "recipe", "name": "Recipe/Product", "color": "#10b981" },
+    { "id": "branding", "name": "Branding", "color": "#3b82f6" },
+    { "id": "reels", "name": "Reels", "color": "#f97316" },
+    { "id": "seeding", "name": "Seeding/Collab", "color": "#8b5cf6" }
+  ],
+  "items": [
+    {
+      "id": "vk04-001",
+      "date": "2026-04-02",
+      "title": "Brand Reintroduction — Plant-based protein, crafted in Korea.",
+      "subtitle": "Brand Foundation",
+      "category": "branding",
+      "status": "planning",
+      "overview": {
+        "description": "VINKER brand 1-page summary for buyers and new visitors. Clean product lineup shot, cream background, natural light.",
+        "format": "Feed image",
+        "caption": "Plant-based protein, crafted in Korea.\n\nVINKER believes in one thing:\nwhat you put in your body should be simple, clean, and gentle.\n\n100% plant-based. No compromises.",
+        "hashtags": ["#VINKER", "#PlantBasedProtein", "#CraftedInKorea", "#CleanProtein"],
+        "notes": "Upload: Wednesday (North America Tuesday evening)."
+      }
+    },
+    {
+      "id": "vk04-002",
+      "date": "2026-04-09",
+      "title": "Product Spotlight — Why Black Bean?",
+      "subtitle": "Product Education",
+      "category": "recipe",
+      "status": "planning",
+      "overview": {
+        "description": "3-slide carousel: 1) Black bean close-up + 'Why Black Bean?' 2) Protein per scoop, key nutrients (hair health) 3) Product shot + 'Gentle on your stomach.'",
+        "format": "Carousel 3 slides",
+        "caption": "Why black bean?\n\nKorean black soybeans are rich in protein,\nisoflavones, and anthocyanins — known to support\nhair health and overall wellness.\n\nOne scoop. No bloating. Just clean plant protein.",
+        "hashtags": ["#VINKER", "#BlackBeanProtein", "#PlantPowered", "#KBeautyFromInside"]
+      }
+    },
+    {
+      "id": "vk04-003",
+      "date": "2026-04-16",
+      "title": "Now in Canada — Find VINKER near you",
+      "subtitle": "Retail Launch",
+      "category": "branding",
+      "status": "planning",
+      "overview": {
+        "description": "Retail availability announcement. Use store photo if available, or minimal graphic with Canada flag colors.",
+        "format": "Feed image",
+        "caption": "Now available in Canada.\n\nFind VINKER at [store name], [city].\nYour plant-based protein journey starts here.",
+        "captionAlts": ["Coming to a store near you.\n\nVINKER is bringing clean, plant-based protein to Canada.\nStay tuned for where to find us."],
+        "hashtags": ["#VINKER", "#NowInCanada", "#PlantBasedProtein"],
+        "notes": "Use confirmed version if store is finalized, alt caption if still TBD."
+      }
+    },
+    {
+      "id": "vk04-004",
+      "date": "2026-04-23",
+      "title": "How to Enjoy — Morning routine with VINKER",
+      "subtitle": "Lifestyle",
+      "category": "reels",
+      "status": "planning",
+      "overview": {
+        "description": "30s reels: shaker + pour + sip. Minimal kitchen/desk background. Subtitle: 'Morning routine with VINKER'. End: product shot + logo.",
+        "format": "Reels 30s",
+        "caption": "Morning routine: simplified.\n\nOne scoop of VINKER Black Bean Protein.\nSmooth, nutty, and easy on your stomach.\n\nHow do you start your morning?",
+        "hashtags": ["#VINKER", "#MorningRoutine", "#PlantProtein", "#CleanEating"]
+      }
+    }
+  ]
+}

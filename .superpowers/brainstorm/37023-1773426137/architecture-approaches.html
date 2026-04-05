@@ -1,0 +1,82 @@
+<h2>HUENIC 대시보드 — 아키텍처 접근법</h2>
+<p class="subtitle">3가지 구조 중 하나를 선택해주세요</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>탭 네비게이션 (추천)</h3>
+      <p>상단에 <strong>캘린더 | 리포트 | KPI</strong> 탭. 한 화면에 하나의 기능에 집중. 심플하고 직관적.</p>
+      <div style="margin-top:12px; padding:16px; background:#f8fafc; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.8;">
+        ┌─────────────────────────────────────┐<br>
+        │ 🌱 VEGGIET&nbsp;&nbsp; [캘린더] [리포트] [KPI]&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        ├─────────────────────────────────────┤<br>
+        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │&nbsp;&nbsp;&nbsp; 선택한 탭의 콘텐츠가&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │&nbsp;&nbsp;&nbsp; 여기에 풀스크린으로 표시&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        └─────────────────────────────────────┘
+      </div>
+      <div style="margin-top:8px;">
+        <span style="color:#16a34a; font-size:13px;">✓ 가장 심플</span>&nbsp;&nbsp;
+        <span style="color:#16a34a; font-size:13px;">✓ 모바일 대응 쉬움</span>&nbsp;&nbsp;
+        <span style="color:#16a34a; font-size:13px;">✓ 기존 캘린더 재사용 100%</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>사이드바 네비게이션</h3>
+      <p>왼쪽에 사이드바 메뉴 (캘린더, 리포트, KPI, 설정). 오른쪽에 메인 콘텐츠. 확장성 좋음.</p>
+      <div style="margin-top:12px; padding:16px; background:#f8fafc; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.8;">
+        ┌──────┬──────────────────────────────┐<br>
+        │ 🌱&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;VEGGIET 콘텐츠 캘린더&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │──────│──────────────────────────────│<br>
+        │ 📅&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │ 📊&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp; 메인 콘텐츠 영역&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │ 📈&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │ ⚙️&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        └──────┴──────────────────────────────┘
+      </div>
+      <div style="margin-top:8px;">
+        <span style="color:#16a34a; font-size:13px;">✓ 확장성 좋음</span>&nbsp;&nbsp;
+        <span style="color:#ca8a04; font-size:13px;">△ 모바일에서 사이드바 처리 필요</span>&nbsp;&nbsp;
+        <span style="color:#ca8a04; font-size:13px;">△ 약간 복잡한 느낌</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>대시보드 홈 + 서브페이지</h3>
+      <p>메인 홈에 KPI 요약 + 이번 주 콘텐츠 미리보기. 각 영역 클릭하면 상세 페이지로 이동.</p>
+      <div style="margin-top:12px; padding:16px; background:#f8fafc; border-radius:8px; font-family:monospace; font-size:12px; line-height:1.8;">
+        ┌─────────────────────────────────────┐<br>
+        │ 🌱 VEGGIET Dashboard&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        ├──────────────────┬──────────────────┤<br>
+        │ 팔로워: 8,234&nbsp;&nbsp;&nbsp;&nbsp;│ 이번주 콘텐츠&nbsp;&nbsp;&nbsp;│<br>
+        │ ER: 4.2%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ☑ 레시피 피드&nbsp;&nbsp;&nbsp;│<br>
+        │ [상세보기→]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ☐ 릴스&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        ├──────────────────┴──────────────────┤<br>
+        │ 📋 주간 코치 코멘트&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        │ "이번 주 릴스 초반 훅이..."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│<br>
+        └─────────────────────────────────────┘
+      </div>
+      <div style="margin-top:8px;">
+        <span style="color:#16a34a; font-size:13px;">✓ 한눈에 현황 파악</span>&nbsp;&nbsp;
+        <span style="color:#16a34a; font-size:13px;">✓ 코치 코멘트 눈에 띔</span>&nbsp;&nbsp;
+        <span style="color:#ca8a04; font-size:13px;">△ 개발 공수 가장 큼</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:24px; padding:16px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:8px;">
+  <p style="margin:0; font-size:14px;"><strong>추천: A (탭 네비게이션)</strong></p>
+  <p style="margin:4px 0 0 0; font-size:13px; color:#555;">
+    휴닉팀이 사용할 코칭 도구라서 심플함이 가장 중요합니다. 기존 캘린더 컴포넌트를 그대로 재사용하면서 리포트/KPI 탭만 추가하면 빠르게 완성 가능. 나중에 필요하면 C안의 대시보드 홈을 추가할 수 있습니다.
+  </p>
+</div>

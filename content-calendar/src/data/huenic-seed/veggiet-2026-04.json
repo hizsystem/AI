@@ -1,0 +1,173 @@
+{
+  "client": "HUENIC - VEGGIET",
+  "clientSlug": "huenic-veggiet",
+  "month": "2026-04",
+  "title": "VEGGIET 4월 콘텐츠 캘린더",
+  "description": "8개 시리즈 체계 + 올리브베러픽 캠페인 + 딸기맛 런칭",
+  "coreMessage": "피드는 브랜딩 감도 유지, 릴스/스토리는 세일즈 CTA. 시리즈별 역할 분담으로 채널 체계화.",
+  "categories": [
+    { "id": "vegieter", "name": "이달의 베지어터", "color": "#10b981" },
+    { "id": "lab", "name": "VEGGIET LAB", "color": "#3b82f6" },
+    { "id": "attack", "name": "베지어택!", "color": "#f59e0b" },
+    { "id": "my", "name": "MY VEGGIET", "color": "#f97316" },
+    { "id": "moment", "name": "VEGGIET MOMENT", "color": "#8b5cf6" },
+    { "id": "interview", "name": "베지터뷰", "color": "#ec4899" },
+    { "id": "lets", "name": "Let's Veggiet", "color": "#ef4444" },
+    { "id": "event", "name": "SNS 이벤트", "color": "#14b8a6" },
+    { "id": "promo", "name": "프로모션", "color": "#6b7280" }
+  ],
+  "items": [
+    {
+      "id": "v04-001",
+      "date": "2026-04-01",
+      "title": "베러픽 D-Day + 강남점 입점",
+      "subtitle": "올리브베러픽",
+      "category": "promo",
+      "status": "planning",
+      "overview": {
+        "description": "올리브베러픽 런칭일. 강남점 입점 홍보.",
+        "format": "피드/스토리"
+      }
+    },
+    {
+      "id": "v04-002",
+      "date": "2026-04-03",
+      "title": "베러픽 + 강남점 홍보 이벤트",
+      "subtitle": "올리브베러픽",
+      "category": "promo",
+      "status": "planning",
+      "overview": {
+        "description": "올리브베러픽 + 강남점 오픈 연계 홍보 이벤트 콘텐츠.",
+        "format": "피드/스토리"
+      }
+    },
+    {
+      "id": "v04-003",
+      "date": "2026-04-06",
+      "title": "4월의 베지어터 — 러너 지은씨가 선택한 속 편한 프로틴",
+      "subtitle": "#1 이달의 베지어터",
+      "category": "vegieter",
+      "status": "planning",
+      "overview": {
+        "description": "인플루언서의 베지어트 체험 릴스 재가공. 러닝 전 가벼운 연료가 필요할 때 or 러닝 이후 단백질 보충이 필요할 때 꼭 챙겨먹는 베지어트.",
+        "format": "릴스",
+        "notes": "인트로 프레임: '4월의 베지어터' 브랜드 텍스트 + 섬네일 커버 붙여 업로드. 톤: 29CM_HOME 일상 공간, 자연광."
+      }
+    },
+    {
+      "id": "v04-004",
+      "date": "2026-04-08",
+      "title": "고벤처포럼에서 만난 베지어트",
+      "subtitle": "#7 Let's Veggiet",
+      "category": "lets",
+      "status": "planning",
+      "overview": {
+        "description": "3/31 고벤처포럼 현장 스케치. 대표님 참여.",
+        "format": "릴스",
+        "notes": "오프닝: 포럼 현장 스케치 컷 → 대표님 무대/패널 장면. 짧은 인터뷰 or 현장 코멘트 (베지어트 철학 한 마디). 클로징: 제품컷 + '이런 사람이 만드는 브랜드입니다'. 의도: 런칭 주간 브랜드 무게감."
+      }
+    },
+    {
+      "id": "v04-005",
+      "date": "2026-04-09",
+      "title": "딸기 출시 기념 — 딸기 이모지 댓글로 참여하세요",
+      "subtitle": "#8 SNS 이벤트",
+      "category": "event",
+      "status": "planning",
+      "overview": {
+        "description": "딸기맛 출시 기념 댓글 이벤트. 부제 투표: '이번 여름 시원하게 먹으면 맛있는 맛은? 딸기 vs 서리태'",
+        "format": "피드",
+        "notes": "추첨 5명, 딸기맛 베지어트 1박스 증정. 기간 3~4일, 결과 스토리로 발표."
+      }
+    },
+    {
+      "id": "v04-006",
+      "date": "2026-04-12",
+      "title": "벚꽃 산책 후 한 스쿱, 4월의 베지어트 모먼트",
+      "subtitle": "#5 VEGGIET MOMENT",
+      "category": "moment",
+      "status": "planning",
+      "overview": {
+        "description": "피드 그리드 톤을 지키는 앵커 콘텐츠. 인스타 스토리 컨셉 캐러셀.",
+        "format": "피드 캐러셀 3~4장",
+        "notes": "1장: 봄 야외 컷(벚꽃·공원 배경) + '봄날의 베지어트 모먼트' 스토리 텍스트 박스. 2장: 돗자리 위에서 파우치 꺼내는 장면 + '벚꽃이랑 찰떡 컬러' 손글씨 스티커 자막. 3장: 벚꽃길 걷는 장면. 4장(선택): 파우치 + 봄 소품 플랫레이. 스타일: 재봉틀 디테일 + 스토리 텍스트 박스."
+      }
+    },
+    {
+      "id": "v04-007",
+      "date": "2026-04-14",
+      "title": "봄 한 입! 딸기 프로틴 스무디",
+      "subtitle": "#4 MY VEGGIET",
+      "category": "my",
+      "status": "planning",
+      "overview": {
+        "description": "탑뷰 레시피 릴스. 딸기맛 1스쿱 + 냉동딸기 한 줌 + 두유 200ml + 얼음.",
+        "format": "릴스 30초",
+        "notes": "탑뷰 구성: 동결건조 딸기 원물 클로즈업 → 파우더 스쿱 계량 → 세이커 담기 → 얼음 넣는 소리 → 세이커 흔들기 → 투명 컵에 따르기 → 한 모금 + '신제품으로 만드는 봄 한 입' 자막. 저장 유도: '봄 스무디 레시피 저장'."
+      }
+    },
+    {
+      "id": "v04-008",
+      "date": "2026-04-16",
+      "title": "진짜 딸기맛을 찾는 여정",
+      "subtitle": "#2 VEGGIET LAB",
+      "category": "lab",
+      "status": "planning",
+      "overview": {
+        "description": "딸기 스토리 캐러셀 5장. 브랜드 인터뷰 기반.",
+        "format": "캐러셀 5장",
+        "notes": "1장(커버): '딸기맛, 이렇게까지 해야 했을까요?' 2장: '시중 딸기맛의 비밀' 3장: '23% 동결건조 딸기를 고집한 이유' 4장: '모두가 말렸지만' 5장: '미션임파서블을 미션파서블로'."
+      }
+    },
+    {
+      "id": "v04-009",
+      "date": "2026-04-20",
+      "title": "베지터뷰 길터뷰 — 올리브베러 강남점",
+      "subtitle": "#6 베지터뷰",
+      "category": "interview",
+      "status": "planning",
+      "overview": {
+        "description": "올리브베러 강남점 오픈 기념 바이럴 길터뷰. 외국인 타겟 섭외로 타겟 확장.",
+        "format": "릴스",
+        "notes": "인터뷰 응해주면 1박스 증정. 레퍼런스 보다는 조금 더 캐주얼하게."
+      }
+    },
+    {
+      "id": "v04-010",
+      "date": "2026-04-21",
+      "title": "딸기행거 밈",
+      "subtitle": "딸기맛 프로모션",
+      "category": "promo",
+      "status": "planning",
+      "overview": {
+        "description": "딸기맛 강조 밈 릴스.",
+        "format": "릴스"
+      }
+    },
+    {
+      "id": "v04-011",
+      "date": "2026-04-24",
+      "title": "베지어택 ep.1 — 프사오에 베지어트가 나타났다",
+      "subtitle": "#3 베지어택!",
+      "category": "attack",
+      "status": "planning",
+      "overview": {
+        "description": "시딩 현장(프사오)에서 촬영 병행. 수업 후 제품 건네고 자연스럽게 반응 포착.",
+        "format": "릴스",
+        "notes": "오프닝: '베지어트가 프사오에 찾아갔습니다' 자막 + 수업 마무리 현장. 중반: 파우치 건네는 장면 → 첫 한 모금 → 표정 + 한 마디 (2~3인 편집). 클로징: 제품 컷 + '다음엔 어디에 찾아갈까요?'"
+      }
+    },
+    {
+      "id": "v04-012",
+      "date": "2026-04-28",
+      "title": "베러픽 마감 D-3 + 강남점 현장",
+      "subtitle": "올리브베러픽",
+      "category": "promo",
+      "status": "planning",
+      "overview": {
+        "description": "베러픽 종료 임박 카운트다운 + 강남점 현장 콘텐츠.",
+        "format": "릴스"
+      }
+    }
+  ]
+}

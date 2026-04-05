@@ -2,6 +2,10 @@
 .secrets/
 *.json
 !package.json
+!package-lock.json
+!tsconfig.json
+!eslint.config.mjs
+!content-calendar/src/data/**/*.json
 
 # Python
 __pycache__/
@@ -10,19 +14,8 @@ __pycache__/
 venv/
 
 # Git Worktrees
-.worktrees/
-
-# Node
-node_modules/
-package-lock.json
-
-# Exports (large PNGs)
-**/exports/*.png
-**/exports/*.jpg
+.claude/worktrees/
 
 # OS
 .DS_Store
-content/node_modules/
-content/package-lock.json
-content/package.json
-.env
+.superpowers/

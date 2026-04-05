@@ -1,0 +1,124 @@
+{
+  "client": "HUENIC - VEGGIET",
+  "clientSlug": "huenic-veggiet",
+  "month": "2026-05",
+  "title": "VEGGIET 5월 콘텐츠 캘린더",
+  "description": "8개 시리즈 체계 기반 월간 디폴트 콘텐츠 플랜",
+  "coreMessage": "피드는 브랜딩 감도 유지, 릴스/스토리는 세일즈 CTA. 시리즈별 역할 분담으로 채널 체계화.",
+  "categories": [
+    { "id": "vegieter", "name": "이달의 베지어터", "color": "#10b981" },
+    { "id": "lab", "name": "VEGGIET LAB", "color": "#3b82f6" },
+    { "id": "attack", "name": "베지어택!", "color": "#f59e0b" },
+    { "id": "my", "name": "MY VEGGIET", "color": "#f97316" },
+    { "id": "moment", "name": "VEGGIET MOMENT", "color": "#8b5cf6" },
+    { "id": "interview", "name": "베지터뷰", "color": "#ec4899" },
+    { "id": "lets", "name": "Let's Veggiet", "color": "#ef4444" },
+    { "id": "event", "name": "SNS 이벤트", "color": "#14b8a6" },
+    { "id": "promo", "name": "프로모션", "color": "#6b7280" }
+  ],
+  "items": [
+    {
+      "id": "v05-001",
+      "date": "2026-05-04",
+      "title": "5월의 베지어터",
+      "subtitle": "#1 이달의 베지어터",
+      "category": "vegieter",
+      "status": "planning",
+      "overview": {
+        "description": "인플루언서의 베지어트 체험 릴스 재가공. '나랑 비슷한 사람이 먹네' — 진입 장벽을 없애는 콘텐츠.",
+        "format": "릴스",
+        "notes": "인트로 프레임: '5월의 베지어터' 브랜드 텍스트 + 섬네일 커버. 톤: 29CM_HOME 일상 공간, 자연광."
+      }
+    },
+    {
+      "id": "v05-002",
+      "date": "2026-05-07",
+      "title": "VEGGIET LAB",
+      "subtitle": "#2 VEGGIET LAB",
+      "category": "lab",
+      "status": "planning",
+      "overview": {
+        "description": "이 한 스쿱이 만들어지기까지. 원재료 고집과 개발 비하인드 스토리.",
+        "format": "캐러셀 (4~5장)",
+        "notes": "Sweetgreen 레퍼런스: 단색 배경에 원재료 누끼를 크게 올리고 타이포그래피로 스토리 전달. 성분 나열이 아니라 재료 자체가 말하는 방식."
+      }
+    },
+    {
+      "id": "v05-003",
+      "date": "2026-05-11",
+      "title": "베지어택!",
+      "subtitle": "#3 베지어택!",
+      "category": "attack",
+      "status": "planning",
+      "overview": {
+        "description": "베지어트를 처음 먹어본 사람들의 찐반응. 시딩 현장에서 자연스럽게 포착.",
+        "format": "릴스",
+        "notes": "감도 있는 사진 + 텍스트 컬러 플레이. 마지막에 'Where's next?' 엔딩."
+      }
+    },
+    {
+      "id": "v05-004",
+      "date": "2026-05-14",
+      "title": "MY VEGGIET 레시피",
+      "subtitle": "#4 MY VEGGIET",
+      "category": "my",
+      "status": "planning",
+      "overview": {
+        "description": "'이렇게 먹으라고 알려드리는 게 아니라, 이렇게 먹고 있어요.' 탑뷰 레시피 릴스.",
+        "format": "릴스 (30~60초, 탑뷰/사이드뷰)",
+        "notes": "식욕 자극 소리(얼음, 세이커, 따르는 소리) + 속도감 있는 편집. 핑크빛 비주얼이 화면의 주인공."
+      }
+    },
+    {
+      "id": "v05-005",
+      "date": "2026-05-18",
+      "title": "VEGGIET MOMENT",
+      "subtitle": "#5 VEGGIET MOMENT",
+      "category": "moment",
+      "status": "planning",
+      "overview": {
+        "description": "베지어트가 있는 일상의 한 장면. 피드 그리드 톤을 지키는 앵커 콘텐츠.",
+        "format": "피드 캐러셀 (3~4장)",
+        "notes": "인스타 스토리 컨셉: 자연스러운 사진 + 스토리 텍스트 박스, 꾸밈요소. 재봉틀 디테일."
+      }
+    },
+    {
+      "id": "v05-006",
+      "date": "2026-05-21",
+      "title": "SNS 이벤트",
+      "subtitle": "#8 SNS 이벤트",
+      "category": "event",
+      "status": "planning",
+      "overview": {
+        "description": "트렌디한 아이디어를 이벤트에 접목시켜 채널 확장. 브랜드 무드를 해치지 않는 선에서의 트렌디함.",
+        "format": "피드 or 릴스 (이벤트 성격에 따라)"
+      }
+    },
+    {
+      "id": "v05-007",
+      "date": "2026-05-25",
+      "title": "베지터뷰",
+      "subtitle": "#6 베지터뷰",
+      "category": "interview",
+      "status": "planning",
+      "overview": {
+        "description": "베지어트를 만든 사람들, 베지어트와 만난 사람들. 동일 질문을 여러 사람에게 빠르게 편집.",
+        "format": "릴스 (인터뷰 릴스)",
+        "notes": "네이버 오프 더 레코드 레퍼런스. 예상 밖 답변이 보는 재미. 대표님 → 직원 → 고객으로 확장."
+      }
+    },
+    {
+      "id": "v05-008",
+      "date": "2026-05-28",
+      "title": "Let's Veggiet",
+      "subtitle": "#7 Let's Veggiet",
+      "category": "lets",
+      "status": "planning",
+      "overview": {
+        "description": "브랜드의 다양한 활동을 보여주는 스케치 콘텐츠. 현장감 있는 흔들리는 사진 + 퀘시 영상 플레이.",
+        "format": "릴스",
+        "notes": "편집 과하지 않게. 실제 현장 에너지를 담는 방식."
+      }
+    }
+  ]
+}

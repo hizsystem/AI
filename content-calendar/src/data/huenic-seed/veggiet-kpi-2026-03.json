@@ -1,0 +1,24 @@
+{
+  "brand": "veggiet",
+  "year": 2026,
+  "month": 3,
+  "summary": {
+    "followers": { "value": 12340, "change": 890, "changePercent": 7.8 },
+    "monthlyPosts": { "value": 12, "change": 2, "changePercent": 20.0 },
+    "avgER": { "value": 4.2, "change": 0.5 },
+    "monthlyReach": { "value": 187500, "change": 23400, "changePercent": 14.3 }
+  },
+  "followerTrend": {
+    "labels": ["10월", "11월", "12월", "1월", "2월", "3월"],
+    "total": [8200, 8950, 9600, 10450, 11450, 12340],
+    "organic": [6800, 7300, 7800, 8400, 9100, 9800],
+    "paid": [1400, 1650, 1800, 2050, 2350, 2540]
+  },
+  "erTrend": {
+    "labels": ["W8", "W9", "W10", "W11"],
+    "total": [3.5, 3.8, 3.7, 4.2],
+    "feed": [3.2, 3.5, 3.4, 3.8],
+    "reels": [5.1, 5.4, 5.2, 6.1],
+    "story": [2.1, 2.3, 2.0, 2.5]
+  }
+}

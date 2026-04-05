@@ -1,0 +1,127 @@
+{
+  "client": "탭샵바 (TAP SHOP BAR)",
+  "clientSlug": "tabshopbar",
+  "month": "2026-04",
+  "title": "4월 콘텐츠 캘린더",
+  "coreMessage": "비싼 와인, 유명한 와인도 한 잔만 트라이해볼 수 있는 곳",
+  "moodboard": {
+    "description": "탭샵바의 비주얼 무드를 잡아가는 단계입니다. 와인 특유의 딥하고 무거운 톤을 배제하고, 사람과 와인이 함께하는 캐주얼한 순간을 중심으로 구성합니다. 타이포그래피와 그래픽 요소를 포인트로 활용해 탭샵바만의 가볍고 위트 있는 비주얼 언어를 만들어갑니다.",
+    "items": [
+      { "image": "/moodboard/tsb-moodboard-march.png", "label": "3월 비주얼 무드보드" }
+    ]
+  },
+  "categories": [
+    { "id": "place", "name": "#탭샵바플레이스", "color": "#4A7BF7", "description": "지점·공간 소개" },
+    { "id": "pairing", "name": "#탭샵바페어링", "color": "#E8A838", "description": "와인과 음식 페어링" },
+    { "id": "scene", "name": "#탭샵바씬", "color": "#45B26B", "description": "촬영·대관·브랜드 활동" },
+    { "id": "new-menu", "name": "#탭샵바뉴", "color": "#9B59B6", "description": "신메뉴 출시 소개" },
+    { "id": "monthly-tap", "name": "#이달의탭", "color": "#E05555", "description": "이달의 프로모션 와인" },
+    { "id": "guide", "name": "#탭샵바가이드", "color": "#14B8A6", "description": "초보자 가이드 시리즈" }
+  ],
+  "items": [
+    {
+      "id": "content-1774187303103",
+      "date": "2026-04-01",
+      "title": "이달의 탭 - NZ 소비뇽블랑",
+      "category": "monthly-tap",
+      "status": "planning",
+      "overview": {
+        "format": "피드(단일이미지)",
+        "caption": "4월의 이달의 탭 🍷\n\n이번 달 탭샵바의 와인은\n쇼비뇽 블랑입니다.\n\n가볍고 산뜻한 한 잔,\n지금 날씨에 가장 잘 어울리는 와인 🌿\n\n어렵게 고르지 않아도 괜찮습니다.\n일단 쇼비뇽 블랑부터 시작해보세요.\n\n그리고 4월 한정 프로모션\n\n쇼비뇽 블랑과\n페어링 메뉴를 함께 주문하면\n와인과 메뉴 모두 10% 할인됩니다.\n\n📍Place\ntap.shop.bar\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔",
+        "hashtags": ["#이달의탭", "#탭샵바", "#쇼비뇽블랑", "#화이트와인", "#와인입문"],
+        "images": ["https://x0jvgs5jl0ct4opu.public.blob.vercel-storage.com/uploads/default/1774582373651-%EC%87%BC%EB%B9%84%EB%87%BD_%EB%B8%94%EB%9E%91_%EB%8B%A8%EC%9D%BC_%EC%9D%B4%EB%AF%B8%EC%A7%80_%EC%B5%9C%EC%A2%85.png"]
+      }
+    },
+    {
+      "id": "content-1774841396588",
+      "date": "2026-04-03",
+      "title": "4월 소비뇨블랑 시음회 프로모션 관련 콘텐츠",
+      "category": "scene",
+      "status": "planning",
+      "overview": {
+        "format": "피드(캐러셀)"
+      }
+    },
+    {
+      "id": "content-1774187442970",
+      "date": "2026-04-06",
+      "title": "상암점 - 모닝/런치/디너",
+      "category": "pairing",
+      "status": "planning",
+      "overview": {
+        "format": "피드(캐러셀)",
+        "caption": "상암점에서 즐기는 하루 ☀️🍽️🌙\n\n아침에는 잠을 깨우고,\n저녁에는 하루를 잠들게 하는 곳\n\nTAP SHOP BAR\n\n☀️ MORNING\n무화과 크림치즈 베이글 + 아메리카노\n\n🍽️ LUNCH\n루꼴라 치즈 떡볶이 + 순대 튀김\n\n🌙 DINNER\n삼배체 생굴 + 프라임 채끝 스테이크\n\n아침은 커피 한 잔으로 시작하고,\n저녁은 와인 한 잔으로 마무리하세요.\n\n그 사이의 하루까지,\n탭샵바에서 채워집니다.\n\n\n📍Place\ntap.shop.bar 상암점\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔",
+        "hashtags": ["#탭샵바", "#상암맛집", "#상암와인바", "#브런치", "#서울맛집"],
+        "videoUrl": "https://www.instagram.com/reel/DSmpHSUkjaf/?igsh=MWMzdXBrOXhuaG9oMg=="
+      }
+    },
+    {
+      "id": "content-1774314374566",
+      "date": "2026-04-08",
+      "title": "대학 러너블 콘텐츠",
+      "category": "scene",
+      "status": "planning",
+      "overview": {
+        "format": "영상(릴스)",
+        "caption": "탭샵바에 사람들이 모이는 이유\n\n같이 뛰고,\n같이 모이고,\n같이 즐기는 시간 🏃🍷\n\n대학 러닝 리그와 함께한\n개강총회 & MEET-UP RUN\n\n달리고 난 뒤 이어지는 자리,\n처음 만난 사람도 자연스럽게 가까워지고\n하루의 에너지가 그대로 이어집니다.\n\n탭샵바는\n이렇게 사람들이 모이고, 연결되고,\n즐거운 순간이 만들어지는 모든 활동을\n함께 응원합니다.\n\n📍Place\ntap.shop.bar 합정점\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔",
+        "hashtags": ["#탭샵바", "#러너블", "#러닝리그", "#대학생모임", "#러닝"]
+      }
+    },
+    {
+      "id": "content-1774187250966",
+      "date": "2026-04-10",
+      "title": "여의도점 소개 릴스",
+      "category": "place",
+      "status": "planning",
+      "overview": {
+        "format": "영상(릴스)",
+        "caption": "벚꽃 보고,\n와인 한 잔까지 🌸🍷\n\n여의도에서 완성되는 데이트 코스\n\n한강 따라 걷다가\n자연스럽게 이어지는 다음 장소\n\nTap Shop Bar 여의도\n\n가볍게 들르기 좋고,\n분위기는 충분히 좋은 공간\n\n벚꽃 시즌,\n여의도 데이트의 마지막은 여기에서\n\n📍Place\ntap.shop.bar 여의도점\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔",
+        "hashtags": ["#탭샵바플레이스", "#탭샵바여의도", "#탭샵바", "#tapshopbar", "#여의도벚꽃", "#여의도데이트", "#벚꽃데이트", "#셀프탭와인바"],
+        "videoUrl": "https://www.instagram.com/reels/DAIyAESSInG/"
+      }
+    },
+    {
+      "id": "content-1774485790071",
+      "date": "2026-04-13",
+      "title": "추카추카추 - 빅나티편",
+      "category": "scene",
+      "status": "planning",
+      "overview": {
+        "caption": "빅나티님이 흐르는 밤,\n그날의 탭샵바는 조금 더 깊어졌습니다 🎶\n\n와인을 마시던 순간 위로\n자연스럽게 음악이 더해지고 🍷\n\n그날의 분위기를 완성한 건\n빅나티님의 목소리였습니다.\n\n뒤로 펼쳐진 와인과 공간,\n그리고 그 사이를 채운 음악까지.\n\n이 모든 순간이\n탭샵바에서 만들어집니다.\n\n무대와 바가 하나로 이어지는 순간,\n탭샵바가 왜 특별한지 더 선명하게 보입니다.\n\n직접 느껴보면 더 확실해요 😏\n\n📍Place: 탭샵바 합정점\n🎬Full ver: 김희철의 '추카추카추' EP.15 빅나티 편\n\n—\n\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔"
+      }
+    },
+    {
+      "id": "content-1774187375366",
+      "date": "2026-04-15",
+      "title": "추가추가추 - 헤이즈",
+      "category": "scene",
+      "status": "planning",
+      "overview": {
+        "format": "영상(릴스)",
+        "caption": "헤이즈님까지…? 👀\n\n이 정도 라인업이면\n다음엔 도대체 누가 올지 더 궁금해지는 공간\n\n와인을 마시는 곳이지만,\n음악이 흐르는 순간\n완전히 다른 분위기가 만들어집니다 🎤🍷\n\n공간이 무대가 되고,\n자연스럽게 사람들이 모이고,\n그날의 무드가 완성되는 곳\n\nTap Shop Bar\n\n단순한 와인바를 넘어서\n다양한 순간이 만들어지는 공간입니다\n\n🎶이 분위기, 직접 느껴보세요\n\n📍Place: 탭샵바 합정점\n🎬Full ver: 김희철의 '추카추카추' EP.15 헤이즈 편\n\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔"
+      }
+    },
+    {
+      "id": "content-1774191333194",
+      "date": "2026-04-22",
+      "title": "탭샵바 신메뉴 소개",
+      "category": "new-menu",
+      "status": "planning",
+      "overview": {
+        "format": "피드(캐러셀)"
+      }
+    },
+    {
+      "id": "content-1774189063875",
+      "date": "2026-04-28",
+      "title": "셀프탭 이용 가이드",
+      "category": "guide",
+      "status": "planning",
+      "overview": {
+        "format": "영상(릴스)",
+        "caption": "와인을 가장 쉽게 즐기는 방법 🍷\n\n탭샵바에서는\n원하는 만큼, 한 잔부터 가볍게 즐길 수 있습니다\n\n이용 방법도 간단합니다\n\n1️⃣ 카운터 QR 또는 탭샵바 앱으로\n간편 회원가입 후 원하는 금액 충전\n\n2️⃣ 디스펜서 아래 준비된 와인잔을 들고\n마음에 드는 와인을 선택\n\n3️⃣ QR코드 스캔 후\n원하는 만큼 TAP 🍷\n\n4️⃣ 천천히, 한 모금씩 즐기기 🎵\n\n한 잔부터 여러 가지 와인을\n자유롭게 경험할 수 있는 방식\n\n와인을 잘 몰라도 괜찮습니다\n직접 고르고, 직접 따라 마시면서\n나만의 취향을 찾아보세요\n\n📍Place\ntap.shop.bar\n\n-\nwine is second americano\n아침엔 커피 한 잔, 저녁엔 와인 한 잔",
+        "hashtags": ["#탭샵바", "#탭와인", "#셀프와인", "#와인입문", "#와인초보"]
+      }
+    }
+  ]
+}

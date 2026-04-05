@@ -1,0 +1,33 @@
+{
+  "brand": "veggiet",
+  "year": 2026,
+  "week": 11,
+  "period": "2026-03-09 ~ 2026-03-15",
+  "metrics": {
+    "followers": 12340,
+    "followersChange": 127,
+    "postsCount": 3,
+    "engagementRate": 4.2,
+    "erChange": 0.3,
+    "topLikes": 342,
+    "reach": 45200,
+    "reachChange": 3200
+  },
+  "topContent": [
+    { "id": "v-003", "title": "아침 스무디 레시피", "type": "feed", "likes": 342, "comments": 28 },
+    { "id": "v-002", "title": "프로틴바 언박싱 릴스", "type": "reels", "likes": 287, "comments": 15 },
+    { "id": "v-001", "title": "프로틴바 신제품 티저", "type": "feed", "likes": 198, "comments": 12 }
+  ],
+  "coachComment": {
+    "author": "Green",
+    "wellDone": "스무디 레시피 콘텐츠가 저장수 89건으로 역대 최고! 실용적 콘텐츠에 대한 수요가 확실합니다.",
+    "improvement": "릴스 초반 3초 훅이 약합니다. 결과물(완성된 스무디)을 먼저 보여주고 → 과정을 보여주는 구조를 테스트해보세요.",
+    "tryNext": "다음 주 릴스는 '15초 안에 끝내는 프로틴 루틴' 처럼 숫자+시간제한 포맷을 시도해보세요. 요즘 숏폼 트렌드입니다.",
+    "createdAt": "2026-03-15"
+  },
+  "nextWeekPlan": [
+    "월: 운동 후 프로틴 루틴 릴스 (예랑)",
+    "수: @건강맛집 시딩 콜라보 리그램 (인국)",
+    "금: 브랜드 스토리 — 대표 인터뷰 카드뉴스 최종 컨펌"
+  ]
+}

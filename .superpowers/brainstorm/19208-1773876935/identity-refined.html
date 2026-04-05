@@ -1,0 +1,94 @@
+<h2>Objekt — Identity Refinement</h2>
+<p class="subtitle">B를 기반으로 디테일을 다듬자. 프로필 구성 전체를 확정할게.</p>
+
+<div style="max-width:400px;margin:0 auto 32px;">
+  <!-- Instagram Profile Mockup -->
+  <div style="background:#fafafa;border-radius:12px;overflow:hidden;border:1px solid #dbdbdb;">
+    <!-- Profile Header -->
+    <div style="padding:20px;display:flex;align-items:center;gap:20px;">
+      <!-- Profile Picture -->
+      <div style="width:80px;height:80px;border-radius:50%;background:#f5f0eb;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid #e0d8ce;">
+        <span style="font-family:'Helvetica Neue',sans-serif;font-size:28px;color:#2a2a2a;letter-spacing:2px;font-weight:200;">O</span>
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:600;color:#262626;">objekt.studio</div>
+        <div style="font-size:13px;color:#8e8e8e;margin-top:2px;">Visual Direction</div>
+      </div>
+    </div>
+    <!-- Bio -->
+    <div style="padding:0 20px 16px;font-size:13px;color:#262626;line-height:1.5;">
+      <div style="font-weight:600;margin-bottom:4px;">OBJEKT</div>
+      Every object tells a brand story.<br>
+      Visual direction & still life.<br>
+      <span style="color:#00376b;">Seoul</span> — Open for projects
+    </div>
+    <!-- Stats -->
+    <div style="display:flex;border-top:1px solid #efefef;padding:12px 0;text-align:center;">
+      <div style="flex:1;"><div style="font-weight:600;color:#262626;font-size:14px;">—</div><div style="font-size:12px;color:#8e8e8e;">posts</div></div>
+      <div style="flex:1;"><div style="font-weight:600;color:#262626;font-size:14px;">—</div><div style="font-size:12px;color:#8e8e8e;">followers</div></div>
+      <div style="flex:1;"><div style="font-weight:600;color:#262626;font-size:14px;">—</div><div style="font-size:12px;color:#8e8e8e;">following</div></div>
+    </div>
+    <!-- Grid Preview -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;">
+      <div style="aspect-ratio:1;background:#e8e0d4;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999;">BRAND SET</div>
+      <div style="aspect-ratio:1;background:#d4c8b8;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;">OBJECT</div>
+      <div style="aspect-ratio:1;background:#c8bca8;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;">OBJECT</div>
+      <div style="aspect-ratio:1;background:#beb2a0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;">BRAND SET</div>
+      <div style="aspect-ratio:1;background:#d0c4b0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;">OBJECT</div>
+      <div style="aspect-ratio:1;background:#e0d4c4;display:flex;align-items:center;justify-content:center;font-size:9px;color:#999;">OBJECT</div>
+    </div>
+  </div>
+</div>
+
+<h3>Confirm Details</h3>
+
+<div class="options">
+  <div class="option" data-choice="name-objekt" onclick="toggleSelect(this)">
+    <div class="letter">1</div>
+    <div class="content">
+      <h3>Handle: @objekt.studio</h3>
+      <p>"objekt" 단독보다 ".studio"를 붙여서 스튜디오 운영자 느낌. 검색성도 좋음. 대안: @objekt.visual, @by.objekt</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="bio-v1" onclick="toggleSelect(this)">
+    <div class="letter">2</div>
+    <div class="content">
+      <h3>Bio Option A — 영문</h3>
+      <p>
+        <strong>OBJEKT</strong><br>
+        Every object tells a brand story.<br>
+        Visual direction & still life.<br>
+        Seoul — Open for projects
+      </p>
+      <p style="font-size:12px;color:#888;margin-top:6px;">글로벌 타겟. 국내 브랜드도 영문 바이오에 반응. 깔끔.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="bio-v2" onclick="toggleSelect(this)">
+    <div class="letter">3</div>
+    <div class="content">
+      <h3>Bio Option B — 영문 + 한 줄 한국어</h3>
+      <p>
+        <strong>OBJEKT</strong><br>
+        Every object tells a brand story.<br>
+        Visual direction & still life.<br>
+        브랜드를 해석하는 스튜디오<br>
+        Seoul — DM for collabs
+      </p>
+      <p style="font-size:12px;color:#888;margin-top:6px;">국내 브랜드 담당자가 바로 이해 가능. 이중 언어.</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="pfp-minimal" onclick="toggleSelect(this)">
+    <div class="letter">4</div>
+    <div class="content">
+      <h3>Profile Picture — Minimal Wordmark</h3>
+      <p>"O" 또는 "OBJEKT" 워드마크를 베이지/오프화이트 배경에 배치. 사진 대신 타이포 로고. 스튜디오 브랜드 느낌 극대화.</p>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:24px;padding:16px;border-left:2px solid #444;color:#aaa;font-size:13px;">
+  <strong>Click items you approve</strong>, or tell me in the terminal what you'd like to change. Handle, bio, profile picture 각각 따로 피드백해도 돼.
+</div>
