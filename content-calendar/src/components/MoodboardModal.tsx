@@ -42,7 +42,7 @@ export default function MoodboardModal({ moodboard, onClose }: MoodboardModalPro
           if (e.target === overlayRef.current) onClose();
         }}
       >
-        <div className="bg-white shadow-2xl w-full max-w-[480px] h-full overflow-hidden flex flex-col animate-slide-in-right">
+        <div className="bg-white shadow-2xl w-full max-w-[720px] h-full overflow-hidden flex flex-col animate-slide-in-right">
           {/* Header */}
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <div>
@@ -59,9 +59,9 @@ export default function MoodboardModal({ moodboard, onClose }: MoodboardModalPro
           </div>
 
           {/* Instagram-style 3-column grid */}
-          <div className="flex-1 overflow-y-auto p-1">
+          <div className="flex-1 overflow-y-auto p-3">
             {moodboard.items.length > 0 ? (
-              <div className="grid grid-cols-3 gap-0.5">
+              <div className="grid grid-cols-2 gap-2">
                 {moodboard.items.map((item, i) => (
                   <button
                     key={i}

@@ -243,16 +243,7 @@ export default function Calendar({
             {/* Moodboard button */}
             {(data.moodboard || editMode) && (
               <button
-                onClick={() => {
-                  if (editMode) {
-                    setEditMoodboard(true);
-                  } else {
-                    // Navigate to moodboard tab
-                    const url = new URL(window.location.href);
-                    url.searchParams.set("tab", "moodboard");
-                    window.location.href = url.toString();
-                  }
-                }}
+                onClick={() => editMode ? setEditMoodboard(true) : setShowMoodboard(true)}
                 className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border transition-colors ${
                   editMode
                     ? "border-blue-200 hover:border-blue-300 hover:bg-blue-50"
