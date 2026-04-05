@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ProjectConfig, ChannelType, ChannelConfig } from "@/data/client-config";
 
 interface ProjectSettingsPanelProps {
-  project: ProjectConfig;
+  slug: string;
   onSave: (config: ProjectConfig) => Promise<void>;
   onClose: () => void;
 }
@@ -22,18 +22,41 @@ const DEFAULT_CHANNEL_BLOCKS: Record<ChannelType, string[]> = {
 };
 
 export default function ProjectSettingsPanel({
-  project,
+  slug,
   onSave,
   onClose,
 }: ProjectSettingsPanelProps) {
-  const [name, setName] = useState(project.name);
-  const [emoji, setEmoji] = useState(project.emoji || "");
-  const [brandColor, setBrandColor] = useState(project.brandColor);
-  const [status, setStatus] = useState(project.status);
-  const [channels, setChannels] = useState<ChannelConfig[]>(project.channels);
-  const [budget, setBudget] = useState(project.finance?.monthlyBudget || 0);
-  const [invoiceDay, setInvoiceDay] = useState(project.finance?.invoiceDay || 10);
+  const [config, setConfig] = useState<ProjectConfig | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [name, setName] = useState("");
+  const [emoji, setEmoji] = useState("");
+  const [brandColor, setBrandColor] = useState("#6366f1");
+  const [status, setStatus] = useState<ProjectConfig["status"]>("active");
+  const [channels, setChannels] = useState<ChannelConfig[]>([]);
+  const [budget, setBudget] = useState(0);
+  const [invoiceDay, setInvoiceDay] = useState(10);
   const [saving, setSaving] = useState(false);
+
+  // Fetch real config from API
+  useEffect(() => {
+    fetch("/api/admin/project")
+      .then((r) => r.json())
+      .then((configs: ProjectConfig[]) => {
+        const found = configs.find((c) => c.slug === slug);
+        if (found) {
+          setConfig(found);
+          setName(found.name);
+          setEmoji(found.emoji || "");
+          setBrandColor(found.brandColor);
+          setStatus(found.status);
+          setChannels(found.channels || []);
+          setBudget(found.finance?.monthlyBudget || found.finance?.monthlyFee || 0);
+          setInvoiceDay(found.finance?.invoiceDay || 10);
+        }
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, [slug]);
 
   function toggleChannel(type: ChannelType) {
     setChannels((prev) => {
@@ -59,22 +82,35 @@ export default function ProjectSettingsPanel({
   }
 
   async function handleSave() {
+    if (!config) return;
     setSaving(true);
     try {
       const updated: ProjectConfig = {
-        ...project,
+        ...config,
         name,
         emoji: emoji || undefined,
         brandColor,
         status,
         channels,
-        finance: budget > 0 ? { model: project.finance?.model || "monthly", monthlyBudget: budget, monthlyFee: budget, invoiceDay, currency: "KRW" } : project.finance,
+        finance: budget > 0
+          ? { ...config.finance, model: config.finance?.model || "monthly", monthlyBudget: budget, monthlyFee: budget, invoiceDay, currency: "KRW" as const }
+          : config.finance,
       };
       await onSave(updated);
       onClose();
     } finally {
       setSaving(false);
     }
+  }
+
+  if (loading) {
+    return (
+      <div className="fixed inset-0 z-50 flex justify-end bg-black/30" onClick={onClose}>
+        <div className="bg-white shadow-2xl w-full max-w-[440px] h-full flex items-center justify-center animate-slide-in-right">
+          <span className="text-sm text-gray-400">로딩 중...</span>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -209,7 +245,7 @@ export default function ProjectSettingsPanel({
           {/* Slug (read-only) */}
           <div>
             <label className="block text-xs text-gray-400 mb-1.5">Slug (변경 불가)</label>
-            <p className="text-sm font-mono text-gray-300">{project.slug}</p>
+            <p className="text-sm font-mono text-gray-300">{slug}</p>
           </div>
         </div>
 

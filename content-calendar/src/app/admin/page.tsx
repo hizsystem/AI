@@ -974,7 +974,7 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
       {/* Settings panel */}
       {showSettings && (
         <ProjectSettingsPanel
-          project={project as unknown as import("@/data/client-config").ProjectConfig}
+          slug={project.slug}
           onSave={handleSaveSettings}
           onClose={() => setShowSettings(false)}
         />
