@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect, useCallback as useCallbackReact, useMemo, useCallback } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useCalendarData } from "@/hooks/useCalendarData";
 import type { HuenicBrand } from "@/data/huenic-types";
 import type { ContentItem } from "@/data/types";
 import InstagramGrid from "./InstagramGrid";
-import BrandMoodboard from "./BrandMoodboard";
 import ContentModal from "@/components/ContentModal";
 
 function getCurrentMonth(): string {
@@ -60,33 +60,6 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
     if (!data) return {};
     return Object.fromEntries(data.categories.map((c) => [c.id, c]));
   }, [data]);
-
-  // Moodboard images from CalendarData.moodboard
-  const moodboardImages = useMemo(() => {
-    if (!data?.moodboard?.items) return [];
-    return data.moodboard.items.map((item) => ({
-      url: item.image,
-      label: item.label,
-    }));
-  }, [data]);
-
-  const handleMoodboardSave = useCallback(
-    async (
-      images: { url: string; label?: string }[]
-    ) => {
-      if (!saveCalendar) return;
-      await saveCalendar({
-        moodboard: {
-          description: data?.moodboard?.description,
-          items: images.map((img) => ({
-            image: img.url,
-            label: img.label,
-          })),
-        },
-      });
-    },
-    [saveCalendar, data?.moodboard?.description]
-  );
 
   const handleGridReorder = useCallback(
     async (reorderedItems: ContentItem[]) => {
@@ -246,24 +219,9 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
         </button>
       </div>
 
-      {/* Section 1: Brand Moodboard */}
+      {/* Instagram Profile Preview */}
       <section>
-        <h2 className="text-sm font-semibold text-gray-900 mb-3">
-          비주얼 무드보드
-        </h2>
-        <BrandMoodboard
-          images={moodboardImages}
-          editMode={editMode}
-          onSave={handleMoodboardSave}
-        />
-      </section>
-
-      {/* Section 2: Instagram Grid Preview */}
-      <section>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-gray-900">
-            Instagram Grid Preview
-          </h2>
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3 text-xs text-gray-400">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
@@ -280,40 +238,67 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
           </div>
         </div>
 
-        {/* Instagram phone frame */}
-        <div className="max-w-md mx-auto">
-          {/* Profile header mock */}
-          <div className="border border-gray-200 rounded-t-xl bg-white px-4 py-3">
-            <div className="flex items-center gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={brand === "veggiet" ? "/content/veggiet-profile.jpg" : "/content/vinker-profile.jpg"}
-                alt={brand === "veggiet" ? "veggiet" : "vinker"}
-                className="w-10 h-10 rounded-full object-cover"
-                onError={(e) => {
-                  const el = e.currentTarget;
-                  el.style.display = "none";
-                  const fallback = el.nextElementSibling as HTMLElement;
-                  if (fallback) fallback.style.display = "flex";
-                }}
-              />
+        {/* Instagram profile frame */}
+        <div className="max-w-2xl mx-auto border border-gray-200 rounded-2xl bg-white overflow-hidden">
+          {/* Profile header */}
+          <div className="px-6 py-5">
+            <div className="flex items-center gap-5">
+              {/* Profile pic */}
               <div
-                className="w-10 h-10 rounded-full items-center justify-center text-white text-xs font-bold hidden"
-                style={{
-                  backgroundColor:
-                    brand === "veggiet" ? "#10b981" : "#8b5cf6",
-                }}
+                className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl ring-2 ring-offset-2 ${
+                  brand === "veggiet" ? "bg-emerald-500 ring-emerald-500" : "bg-purple-500 ring-purple-500"
+                }`}
               >
-                {brand === "veggiet" ? "V" : "VK"}
+                {brand === "veggiet" ? "🌱" : "🫘"}
               </div>
-              <div>
-                <p className="text-sm font-semibold text-gray-900">
-                  {brand === "veggiet" ? "veggiet_official" : "vinker_official"}
+              <div className="flex-1">
+                <p className="text-base font-bold text-gray-900">
+                  {brand === "veggiet" ? "veggiet.official" : "vinkerfoods"}
                 </p>
-                <p className="text-xs text-gray-400">
-                  {sortedItems.length} posts
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {brand === "veggiet"
+                    ? "veggiet 베지어트 | 지속 가능한 먹거리"
+                    : "VINKER | Plant-based Protein"}
                 </p>
+                <div className="flex gap-6 mt-2">
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-900">{sortedItems.length}</p>
+                    <p className="text-[10px] text-gray-400">게시물</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-900">
+                      {brand === "veggiet" ? "5,168" : "312"}
+                    </p>
+                    <p className="text-[10px] text-gray-400">팔로워</p>
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-bold text-gray-900">
+                      {brand === "veggiet" ? "1,134" : "89"}
+                    </p>
+                    <p className="text-[10px] text-gray-400">팔로잉</p>
+                  </div>
+                </div>
               </div>
+            </div>
+          </div>
+
+          {/* Tab bar */}
+          <div className="flex border-t border-gray-100">
+            <div className="flex-1 py-2.5 flex justify-center border-b-2 border-gray-900">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+              </svg>
+            </div>
+            <div className="flex-1 py-2.5 flex justify-center text-gray-300">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M14.5 10.5L21 4M21 4h-5.5M21 4v5.5M10 14L3 21m0 0h5m-5 0v-5"/>
+              </svg>
+            </div>
+            <div className="flex-1 py-2.5 flex justify-center text-gray-300">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
             </div>
           </div>
 
@@ -325,15 +310,11 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
             onReorder={handleGridReorder}
             onItemClick={(item) => setSelectedItem(item)}
           />
-
-          {/* Bottom rounded corners */}
-          <div className="h-3 border-x border-b border-gray-200 rounded-b-xl bg-white" />
         </div>
 
         {editMode && (
           <p className="text-center text-xs text-gray-400 mt-3">
-            드래그하여 그리드 순서를 조정할 수 있습니다. 캘린더에서 콘텐츠를
-            추가/수정하면 자동 반영됩니다.
+            드래그하여 그리드 순서를 조정할 수 있습니다
           </p>
         )}
       </section>
