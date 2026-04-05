@@ -18,6 +18,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
           username: "veggiet.official",
           displayName: "veggiet 베지어트 | 지속 가능한 먹거리",
           bio: "100% Plant-Based Wellness Protein\n속이 편한 100% 식물성 단백질, 베지어트",
+          profileImage: "https://x0jvgs5jl0ct4opu.public.blob.vercel-storage.com/profile/veggiet-profile.png",
           posts: 79,
           followers: 5168,
           following: 1134,
