@@ -328,17 +328,17 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
 
       {/* Sub-view tabs */}
       <div className="flex gap-1 border-b border-gray-200">
-        {(["summary", "grid", "playbook", "kpi", "report"] as IgSubView[]).map((v) => (
+        {(["summary", "grid", "kpi", "report", "playbook"] as IgSubView[]).map((v) => (
           <button
             key={v}
             onClick={() => setSubView(v)}
             className={`px-4 py-2 text-xs font-medium border-b-2 transition-colors -mb-px ${
               subView === v
-                ? "border-gray-900 text-gray-900"
+                ? v === "playbook" ? "border-violet-500 text-violet-600" : "border-gray-900 text-gray-900"
                 : "border-transparent text-gray-400 hover:text-gray-600"
             }`}
           >
-            {v === "summary" ? "요약" : v === "grid" ? "피드 프리뷰" : v === "playbook" ? "플레이북" : v === "kpi" ? "KPI" : "주간 리포트"}
+            {v === "summary" ? "요약" : v === "grid" ? "피드 프리뷰" : v === "kpi" ? "KPI" : v === "report" ? "주간 리포트" : "📋 플레이북"}
           </button>
         ))}
       </div>
