@@ -9,6 +9,7 @@ import WeeklyMissions from "@/components/np/WeeklyMissions";
 import AuditInputForm from "@/components/np/AuditInputForm";
 import ProjectSettingsPanel from "@/components/admin/ProjectSettingsPanel";
 import OnboardingModal from "@/components/admin/OnboardingModal";
+import PlaybookPanel from "@/components/admin/PlaybookPanel";
 
 // ─── Types ───
 
@@ -254,7 +255,7 @@ const STATUS_CYCLE: Record<string, string> = {
   uploaded: "planning",
 };
 
-type IgSubView = "summary" | "grid" | "kpi" | "report";
+type IgSubView = "summary" | "grid" | "playbook" | "kpi" | "report";
 
 function InstagramPanel({ project, onStatusChange, onRefresh }: { project: ProjectSummary; onStatusChange?: (item: ContentItem, newStatus: string) => void; onRefresh?: () => void }) {
   const [activeBrand, setActiveBrand] = useState(project.brands?.[0]?.id || "");
@@ -327,7 +328,7 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
 
       {/* Sub-view tabs */}
       <div className="flex gap-1 border-b border-gray-200">
-        {(["summary", "grid", "kpi", "report"] as IgSubView[]).map((v) => (
+        {(["summary", "grid", "playbook", "kpi", "report"] as IgSubView[]).map((v) => (
           <button
             key={v}
             onClick={() => setSubView(v)}
@@ -337,7 +338,7 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
                 : "border-transparent text-gray-400 hover:text-gray-600"
             }`}
           >
-            {v === "summary" ? "요약" : v === "grid" ? "피드 프리뷰" : v === "kpi" ? "KPI" : "주간 리포트"}
+            {v === "summary" ? "요약" : v === "grid" ? "피드 프리뷰" : v === "playbook" ? "플레이북" : v === "kpi" ? "KPI" : "주간 리포트"}
           </button>
         ))}
       </div>
@@ -478,6 +479,11 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
         );
       })()}
 
+      {/* Playbook view */}
+      {subView === "playbook" && (
+        <PlaybookPanel clientSlug={project.slug} blockType="instagram" blockLabel="Instagram" />
+      )}
+
       {/* KPI view */}
       {subView === "kpi" && (
         <div className="bg-white rounded-xl border border-gray-200 p-6">
@@ -573,6 +579,11 @@ function NaverPlacePanel({ project }: { project: ProjectSummary }) {
       <div>
         <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">주간 미션</h3>
         <WeeklyMissions missions={missions} />
+      </div>
+
+      <div>
+        <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">플레이북</h3>
+        <PlaybookPanel clientSlug={project.slug} blockType="naver-place" blockLabel="Naver Place" />
       </div>
 
       {showAuditForm && project.npStoreId && (
