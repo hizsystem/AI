@@ -68,7 +68,7 @@ export default function ProjectSettingsPanel({
         brandColor,
         status,
         channels,
-        finance: budget > 0 ? { monthlyBudget: budget, invoiceDay, currency: "KRW" } : undefined,
+        finance: budget > 0 ? { model: project.finance?.model || "monthly", monthlyBudget: budget, monthlyFee: budget, invoiceDay, currency: "KRW" } : project.finance,
       };
       await onSave(updated);
       onClose();

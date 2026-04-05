@@ -36,6 +36,11 @@ export default async function ClientPage({
     }
   }
 
+  // Determine if admin or client (read-only)
+  const cookieStoreForRole = await cookies();
+  const isAdmin = cookieStoreForRole.get("cc-admin-auth")?.value === "authenticated";
+  const readOnly = !isAdmin;
+
   // Convert to legacy ClientConfig for existing components
   const config = toClientConfig(project);
 
@@ -74,7 +79,7 @@ export default async function ClientPage({
       }
     >
       {isSimple ? (
-        <CalendarOnlyClient config={config} />
+        <CalendarOnlyClient config={config} readOnly={readOnly} />
       ) : (
         <DashboardClient config={config} />
       )}

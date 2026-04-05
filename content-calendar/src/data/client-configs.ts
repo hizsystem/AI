@@ -9,6 +9,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
     logo: null,
     brandColor: "#10b981",
     status: "active",
+    accessToken: "hn-2026-view",
     brands: [
       { id: "veggiet", label: "VEGGIET", emoji: "\uD83C\uDF31", accent: "bg-emerald-500" },
       { id: "vinker", label: "VINKER", emoji: "\uD83E\uDED8", accent: "bg-purple-500" },
@@ -33,7 +34,16 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
         blocks: ["blog-calendar"],
       },
     ],
-    finance: { monthlyBudget: 8900000, invoiceDay: 10, currency: "KRW" },
+    finance: {
+      model: "retainer",
+      currency: "KRW",
+      annualQuote: 107000000,
+      monthlyBudget: 8900000,
+      recurringCosts: [
+        { name: "올영 체험단", amount: 500000, frequency: "월" },
+      ],
+      notes: "연간 견적 확정, 청구 시점 협의 필요",
+    },
   },
 
   // ─── 위드런 - 미례국밥 ───
@@ -44,6 +54,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
     logo: null,
     brandColor: "#d97706",
     status: "active",
+    accessToken: "mr-2026-view",
     channels: [
       {
         type: "instagram",
@@ -63,7 +74,14 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
         storeId: "mirye-gukbap",
       },
     ],
-    finance: { monthlyBudget: 1500000, invoiceDay: 10, currency: "KRW" },
+    finance: {
+      model: "monthly",
+      currency: "KRW",
+      monthlyFee: 1500000,
+      advanceRate: 0.5,
+      invoiceDay: 1,
+      notes: "선금 50% → 잔금 50% 정산",
+    },
   },
 
   // ─── 위드런 - 댄싱컵 ───
@@ -74,6 +92,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
     logo: null,
     brandColor: "#ec4899",
     status: "active",
+    accessToken: "dc-2026-view",
     channels: [
       {
         type: "instagram",
@@ -93,7 +112,14 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
         storeId: "dancingcup",
       },
     ],
-    finance: { monthlyBudget: 1500000, invoiceDay: 10, currency: "KRW" },
+    finance: {
+      model: "monthly",
+      currency: "KRW",
+      monthlyFee: 1500000,
+      advanceRate: 0.5,
+      invoiceDay: 1,
+      notes: "선금 50% → 잔금 50% 정산",
+    },
   },
 
   // ─── 고벤처포럼 ───
@@ -104,6 +130,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
     logo: null,
     brandColor: "#1e40af",
     status: "active",
+    accessToken: "gv-2026-view",
     channels: [
       {
         type: "instagram",
@@ -121,7 +148,11 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
         blocks: ["blog-calendar"],
       },
     ],
-    finance: { monthlyBudget: 3000000, invoiceDay: 10, currency: "KRW" },
+    finance: {
+      model: "expense-only",
+      currency: "KRW",
+      notes: "수익사업 아님, 지출 기록만",
+    },
   },
 
   // ─── 브랜드라이즈 ───
@@ -149,6 +180,11 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
         blocks: ["blog-calendar"],
       },
     ],
+    finance: {
+      model: "expense-only",
+      currency: "KRW",
+      notes: "수익사업 아님, 지출 기록만",
+    },
   },
 
   // ─── HD현대오일뱅크 ───
@@ -171,10 +207,40 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
         ],
       },
     ],
-    finance: { monthlyBudget: 5000000, invoiceDay: 25, currency: "KRW" },
+    finance: {
+      model: "tbd",
+      currency: "KRW",
+      notes: "확정 전",
+    },
   },
 
-  // ─── 탭샵바 (PAUSED) ───
+  // ─── 명동식당 ───
+  {
+    slug: "myeongdong",
+    name: "명동식당",
+    emoji: "🍜",
+    logo: null,
+    brandColor: "#b45309",
+    status: "active",
+    accessToken: "md-2026-view",
+    channels: [
+      {
+        type: "naver-place",
+        enabled: true,
+        blocks: ["np-audit", "np-missions", "np-keywords"],
+        storeId: "myeongdong",
+      },
+    ],
+    finance: {
+      model: "monthly",
+      currency: "KRW",
+      monthlyFee: 500000,
+      invoiceDay: 1,
+      notes: "NP만 1개월 진행",
+    },
+  },
+
+  // ─── 탭샵바 (완료) ───
   {
     slug: "tabshopbar",
     name: "탭샵바",

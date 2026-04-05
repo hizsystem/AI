@@ -41,10 +41,22 @@ export interface BrandConfig {
   accent: string;
 }
 
+export type FinanceModel = "retainer" | "monthly" | "expense-only" | "tbd";
+
 export interface FinanceConfig {
-  monthlyBudget: number;
-  invoiceDay: number;
+  model: FinanceModel;
   currency: "KRW";
+  // retainer: 연간 견적 기반 (휴닉)
+  annualQuote?: number;
+  monthlyBudget?: number;
+  invoiceDay?: number;
+  // monthly: 월 정산 선금/잔금 (위드런)
+  monthlyFee?: number;
+  advanceRate?: number; // 선금 비율 (0.5 = 50%)
+  // recurring costs (체험단 등)
+  recurringCosts?: { name: string; amount: number; frequency: string }[];
+  // notes
+  notes?: string;
 }
 
 export interface ProjectConfig {

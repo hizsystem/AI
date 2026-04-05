@@ -127,6 +127,7 @@ export async function GET() {
             emoji: b.emoji,
           })),
           finance: project.finance,
+          accessToken: project.accessToken,
           currentMonth,
           stats,
           nextContent,

@@ -22,6 +22,7 @@ interface ProjectSummary {
   npStoreId?: string;
   brands?: { id: string; label: string; emoji: string }[];
   finance?: FinanceConfig;
+  accessToken?: string;
   currentMonth: string;
   stats: { total: number; planning: number; needsConfirm: number; uploaded: number };
   nextContent: { date: string; title: string } | null;
@@ -124,8 +125,13 @@ function OverviewPanel({ data }: { data: SummaryData }) {
 
   // Finance summary
   const invoices = active
-    .filter((s) => s.finance)
-    .map((s) => ({ name: s.name, day: s.finance!.invoiceDay, budget: s.finance!.monthlyBudget }));
+    .filter((s) => s.finance && s.finance.model !== "expense-only" && s.finance.model !== "tbd")
+    .map((s) => ({
+      name: s.name,
+      model: s.finance!.model,
+      amount: s.finance!.monthlyFee || s.finance!.monthlyBudget || 0,
+      invoiceDay: s.finance!.invoiceDay,
+    }));
 
   return (
     <div className="space-y-8">
@@ -218,10 +224,15 @@ function OverviewPanel({ data }: { data: SummaryData }) {
           <div className="bg-white rounded-xl border border-gray-100 divide-y divide-gray-50">
             {invoices.map((inv) => (
               <div key={inv.name} className="px-4 py-3 flex items-center justify-between">
-                <span className="text-sm text-gray-700">{inv.name}</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-gray-700">{inv.name}</span>
+                  <span className="text-[10px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-500">
+                    {MODEL_LABELS[inv.model]}
+                  </span>
+                </div>
                 <div className="flex items-center gap-4">
-                  <span className="text-xs text-gray-400">매월 {inv.day}일 발행</span>
-                  <span className="text-sm font-medium text-gray-900">{formatBudget(inv.budget)}원</span>
+                  {inv.invoiceDay && <span className="text-xs text-gray-400">매월 {inv.invoiceDay}일</span>}
+                  {inv.amount > 0 && <span className="text-sm font-medium text-gray-900">{formatBudget(inv.amount)}원</span>}
                 </div>
               </div>
             ))}
@@ -460,10 +471,18 @@ function BlogPanel({ project }: { project: ProjectSummary }) {
 
 // ─── Finance Panel ───
 
+const MODEL_LABELS: Record<string, string> = {
+  retainer: "연간 리테이너",
+  monthly: "월 정산",
+  "expense-only": "지출 기록",
+  tbd: "미정",
+};
+
 function FinancePanel({ project }: { project: ProjectSummary }) {
-  if (!project.finance) {
+  const f = project.finance;
+  if (!f) {
     return (
-      <div className="bg-white rounded-xl border border-gray-100 p-6 text-center text-sm text-gray-400">
+      <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-sm text-gray-400">
         재무 정보가 설정되지 않았습니다
       </div>
     );
@@ -471,23 +490,91 @@ function FinancePanel({ project }: { project: ProjectSummary }) {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-white rounded-xl border border-gray-100 p-5">
-          <p className="text-xs text-gray-400 mb-2">월 예산</p>
-          <p className="text-xl font-bold text-gray-900">{project.finance.monthlyBudget.toLocaleString()}원</p>
-        </div>
-        <div className="bg-white rounded-xl border border-gray-100 p-5">
-          <p className="text-xs text-gray-400 mb-2">세금계산서</p>
-          <p className="text-xl font-bold text-gray-900">매월 {project.finance.invoiceDay}일</p>
-        </div>
+      {/* Model badge */}
+      <div className="flex items-center gap-2">
+        <span className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 font-medium">
+          {MODEL_LABELS[f.model] || f.model}
+        </span>
+        {f.notes && <span className="text-xs text-gray-400">{f.notes}</span>}
       </div>
 
-      <div>
-        <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">지출 현황</h3>
-        <div className="bg-white rounded-xl border border-gray-100 p-6 text-center text-sm text-gray-400">
-          지출 데이터를 등록하면 현황이 표시됩니다
+      {/* Retainer model (휴닉) */}
+      {f.model === "retainer" && (
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            {f.annualQuote && (
+              <div className="bg-white rounded-xl border border-gray-200 p-5">
+                <p className="text-xs text-gray-400 mb-2">연간 견적</p>
+                <p className="text-xl font-bold text-gray-900">{(f.annualQuote / 10000).toLocaleString()}만원</p>
+              </div>
+            )}
+            {f.monthlyBudget && (
+              <div className="bg-white rounded-xl border border-gray-200 p-5">
+                <p className="text-xs text-gray-400 mb-2">월 예산</p>
+                <p className="text-xl font-bold text-gray-900">{(f.monthlyBudget / 10000).toLocaleString()}만원</p>
+              </div>
+            )}
+          </div>
+          {f.recurringCosts && f.recurringCosts.length > 0 && (
+            <div>
+              <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">반복 비용</h3>
+              <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+                {f.recurringCosts.map((cost, i) => (
+                  <div key={i} className="px-5 py-3 flex items-center justify-between">
+                    <span className="text-sm text-gray-700">{cost.name}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium text-gray-900">{cost.amount.toLocaleString()}원</span>
+                      <span className="text-xs text-gray-400">/ {cost.frequency}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      )}
+
+      {/* Monthly model (위드런) */}
+      {f.model === "monthly" && (
+        <div className="grid grid-cols-2 gap-4">
+          {f.monthlyFee && (
+            <div className="bg-white rounded-xl border border-gray-200 p-5">
+              <p className="text-xs text-gray-400 mb-2">월 비용</p>
+              <p className="text-xl font-bold text-gray-900">{(f.monthlyFee / 10000).toLocaleString()}만원</p>
+            </div>
+          )}
+          {f.advanceRate && (
+            <div className="bg-white rounded-xl border border-gray-200 p-5">
+              <p className="text-xs text-gray-400 mb-2">정산 구조</p>
+              <p className="text-sm font-medium text-gray-900">
+                선금 {Math.round(f.advanceRate * 100)}% / 잔금 {Math.round((1 - f.advanceRate) * 100)}%
+              </p>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Expense-only model */}
+      {f.model === "expense-only" && (
+        <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-sm text-gray-400">
+          구글시트에서 지출 기록 관리 중
+        </div>
+      )}
+
+      {/* TBD model */}
+      {f.model === "tbd" && (
+        <div className="bg-white rounded-xl border border-dashed border-gray-300 p-6 text-center text-sm text-gray-400">
+          재무 모델 미확정
+        </div>
+      )}
+
+      {/* Invoice day */}
+      {f.invoiceDay && (
+        <div className="bg-white rounded-xl border border-gray-200 p-5">
+          <p className="text-xs text-gray-400 mb-2">세금계산서</p>
+          <p className="text-sm font-medium text-gray-900">매월 {f.invoiceDay}일 발행</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -499,7 +586,7 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
   const [showSettings, setShowSettings] = useState(false);
 
   function handleCopyShareLink() {
-    const token = project.slug;
+    const token = project.accessToken || project.slug;
     const url = `${window.location.origin}/clients/${project.slug}?token=${token}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);

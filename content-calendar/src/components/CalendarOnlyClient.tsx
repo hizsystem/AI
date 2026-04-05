@@ -7,9 +7,10 @@ import type { ClientConfig } from "@/data/client-config";
 
 interface Props {
   config: ClientConfig;
+  readOnly?: boolean;
 }
 
-export default function CalendarOnlyClient({ config }: Props) {
+export default function CalendarOnlyClient({ config, readOnly = false }: Props) {
   const CLIENT = config.slug;
   const LOGO = config.logo;
 
@@ -91,13 +92,13 @@ export default function CalendarOnlyClient({ config }: Props) {
       data={data}
       allMonths={months}
       onMonthChange={setCurrentMonth}
-      editMode={editMode}
-      onToggleEditMode={() => setEditMode((prev) => !prev)}
-      onAddItem={addItem}
-      onUpdateItem={updateItem}
-      onDeleteItem={deleteItem}
-      onSaveCalendar={saveCalendar}
-      onAddMonth={handleAddMonth}
+      editMode={readOnly ? false : editMode}
+      onToggleEditMode={readOnly ? undefined : () => setEditMode((prev) => !prev)}
+      onAddItem={readOnly ? undefined : addItem}
+      onUpdateItem={readOnly ? undefined : updateItem}
+      onDeleteItem={readOnly ? undefined : deleteItem}
+      onSaveCalendar={readOnly ? undefined : saveCalendar}
+      onAddMonth={readOnly ? undefined : handleAddMonth}
       logo={LOGO ?? undefined}
     />
   );
