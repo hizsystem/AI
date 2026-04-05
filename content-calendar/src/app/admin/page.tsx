@@ -251,8 +251,18 @@ const STATUS_CYCLE: Record<string, string> = {
   uploaded: "planning",
 };
 
+type IgSubView = "summary" | "kpi" | "report";
+
 function InstagramPanel({ project, onStatusChange, onRefresh }: { project: ProjectSummary; onStatusChange?: (item: ContentItem, newStatus: string) => void; onRefresh?: () => void }) {
+  const [activeBrand, setActiveBrand] = useState(project.brands?.[0]?.id || "");
+  const [subView, setSubView] = useState<IgSubView>("summary");
   const [initializing, setInitializing] = useState(false);
+
+  // Reset brand when project changes
+  useEffect(() => {
+    setActiveBrand(project.brands?.[0]?.id || "");
+    setSubView("summary");
+  }, [project.slug, project.brands]);
 
   async function handleInitCalendar() {
     setInitializing(true);
@@ -274,7 +284,7 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
     }
   }
 
-  // For brands with sub-brands, show link to full calendar instead of init
+  // For brands without sub-brands and no data
   if (project.stats.total === 0 && !project.brands && !initializing) {
     return (
       <div className="space-y-8">
@@ -287,93 +297,166 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
             캘린더 시작하기
           </button>
         </div>
-        <a
-          href={`/clients/${project.slug}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block bg-white rounded-xl border border-gray-200 p-4 text-center text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors"
-        >
-          캘린더 전체 보기 &rarr;
-        </a>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
-      {/* Stats */}
-      <div className="grid grid-cols-4 gap-4">
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <p className="text-4xl font-bold text-gray-900">{project.stats.total}</p>
-          <p className="text-xs text-gray-400 mt-2">전체</p>
-        </div>
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <p className="text-4xl font-bold text-gray-400">{project.stats.planning}</p>
-          <p className="text-xs text-gray-400 mt-2">기획</p>
-        </div>
-        <div className="bg-white rounded-xl border border-dashed border-amber-300 p-5">
-          <p className="text-4xl font-bold text-amber-600">{project.stats.needsConfirm}</p>
-          <p className="text-xs text-amber-500 mt-2">컨펌 필요</p>
-        </div>
-        <div className="bg-white rounded-xl border border-dashed border-emerald-300 p-5">
-          <p className="text-4xl font-bold text-emerald-600">{project.stats.uploaded}</p>
-          <p className="text-xs text-emerald-500 mt-2">완료</p>
-        </div>
-      </div>
-
-      {/* Next content */}
-      {project.nextContent && (
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <p className="text-xs text-gray-400 mb-2">다음 콘텐츠</p>
-          <p className="text-base font-semibold text-gray-900">{project.nextContent.title}</p>
-          <p className="text-sm text-gray-500 mt-1">{formatDateKorean(project.nextContent.date)}</p>
+    <div className="space-y-6">
+      {/* Brand switcher (for multi-brand like HUENIC) */}
+      {project.brands && project.brands.length > 1 && (
+        <div className="flex gap-2">
+          {project.brands.map((b) => (
+            <button
+              key={b.id}
+              onClick={() => setActiveBrand(b.id)}
+              className={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+                activeBrand === b.id
+                  ? "bg-gray-900 text-white"
+                  : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+              }`}
+            >
+              {b.emoji} {b.label}
+            </button>
+          ))}
         </div>
       )}
 
-      {/* This week content */}
-      <div>
-        <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">이번 주 콘텐츠</h3>
-        {project.thisWeekItems.length === 0 ? (
-          <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-sm text-gray-400">
-            이번 주 콘텐츠가 없습니다
-          </div>
-        ) : (
-          <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
-            {project.thisWeekItems.sort((a, b) => a.date.localeCompare(b.date)).map((item) => (
-              <div key={item.id} className="px-5 py-4 flex items-center gap-4">
-                <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${STATUS_DOT[item.status || "planning"]}`} />
-                <span className="text-sm font-medium text-gray-500 w-10 flex-shrink-0">{formatDateShort(item.date)}</span>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900 truncate">{item.title}</p>
-                  {item.subtitle && <p className="text-xs text-gray-400 mt-0.5">{item.subtitle}</p>}
-                </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const current = item.status || "planning";
-                    const next = STATUS_CYCLE[current] || "planning";
-                    onStatusChange?.(item, next);
-                  }}
-                  className={`text-xs font-medium flex-shrink-0 hover:underline cursor-pointer ${STATUS_TEXT[item.status || "planning"]}`}
-                  title="클릭하여 상태 변경"
-                >
-                  {STATUS_LABELS[item.status || "planning"]}
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
+      {/* Sub-view tabs */}
+      <div className="flex gap-1 border-b border-gray-200">
+        {(["summary", "kpi", "report"] as IgSubView[]).map((v) => (
+          <button
+            key={v}
+            onClick={() => setSubView(v)}
+            className={`px-4 py-2 text-xs font-medium border-b-2 transition-colors -mb-px ${
+              subView === v
+                ? "border-gray-900 text-gray-900"
+                : "border-transparent text-gray-400 hover:text-gray-600"
+            }`}
+          >
+            {v === "summary" ? "요약" : v === "kpi" ? "KPI" : "주간 리포트"}
+          </button>
+        ))}
       </div>
 
-      {/* Link to full calendar */}
-      <a
-        href={`/clients/${project.slug}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block bg-white rounded-xl border border-gray-200 p-4 text-center text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors"
-      >
-        캘린더 전체 보기 &rarr;
-      </a>
+      {/* Summary view */}
+      {subView === "summary" && (
+        <>
+          {/* Stats */}
+          <div className="grid grid-cols-4 gap-4">
+            <div className="bg-white rounded-xl border border-gray-200 p-5">
+              <p className="text-4xl font-bold text-gray-900">{project.stats.total}</p>
+              <p className="text-xs text-gray-400 mt-2">전체</p>
+            </div>
+            <div className="bg-white rounded-xl border border-gray-200 p-5">
+              <p className="text-4xl font-bold text-gray-400">{project.stats.planning}</p>
+              <p className="text-xs text-gray-400 mt-2">기획</p>
+            </div>
+            <div className="bg-white rounded-xl border border-dashed border-amber-300 p-5">
+              <p className="text-4xl font-bold text-amber-600">{project.stats.needsConfirm}</p>
+              <p className="text-xs text-amber-500 mt-2">컨펌 필요</p>
+            </div>
+            <div className="bg-white rounded-xl border border-dashed border-emerald-300 p-5">
+              <p className="text-4xl font-bold text-emerald-600">{project.stats.uploaded}</p>
+              <p className="text-xs text-emerald-500 mt-2">완료</p>
+            </div>
+          </div>
+
+          {/* Next content */}
+          {project.nextContent && (
+            <div className="bg-white rounded-xl border border-gray-200 p-6">
+              <p className="text-xs text-gray-400 mb-2">다음 콘텐츠</p>
+              <p className="text-base font-semibold text-gray-900">{project.nextContent.title}</p>
+              <p className="text-sm text-gray-500 mt-1">{formatDateKorean(project.nextContent.date)}</p>
+            </div>
+          )}
+
+          {/* This week content */}
+          <div>
+            <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">이번 주 콘텐츠</h3>
+            {project.thisWeekItems.length === 0 ? (
+              <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-sm text-gray-400">
+                이번 주 콘텐츠가 없습니다
+              </div>
+            ) : (
+              <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+                {project.thisWeekItems.sort((a, b) => a.date.localeCompare(b.date)).map((item) => (
+                  <div key={item.id} className="px-5 py-4 flex items-center gap-4">
+                    <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${STATUS_DOT[item.status || "planning"]}`} />
+                    <span className="text-sm font-medium text-gray-500 w-10 flex-shrink-0">{formatDateShort(item.date)}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-900 truncate">{item.title}</p>
+                      {item.subtitle && <p className="text-xs text-gray-400 mt-0.5">{item.subtitle}</p>}
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        const current = item.status || "planning";
+                        const next = STATUS_CYCLE[current] || "planning";
+                        onStatusChange?.(item, next);
+                      }}
+                      className={`text-xs font-medium flex-shrink-0 hover:underline cursor-pointer ${STATUS_TEXT[item.status || "planning"]}`}
+                      title="클릭하여 상태 변경"
+                    >
+                      {STATUS_LABELS[item.status || "planning"]}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Link to full calendar */}
+          <a
+            href={`/clients/${project.slug}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block bg-white rounded-xl border border-gray-200 p-4 text-center text-sm text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors"
+          >
+            캘린더 전체 보기 &rarr;
+          </a>
+        </>
+      )}
+
+      {/* KPI view */}
+      {subView === "kpi" && (
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-gray-900">
+              {activeBrand ? project.brands?.find((b) => b.id === activeBrand)?.label : project.name} KPI
+            </h3>
+            <a
+              href={`/clients/${project.slug}?tab=kpi&brand=${activeBrand}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-400 hover:text-gray-600"
+            >
+              상세 보기 &rarr;
+            </a>
+          </div>
+          <p className="text-sm text-gray-400">KPI 데이터는 클라이언트 대시보드에서 확인하세요.</p>
+        </div>
+      )}
+
+      {/* Weekly report view */}
+      {subView === "report" && (
+        <div className="bg-white rounded-xl border border-gray-200 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-sm font-semibold text-gray-900">
+              {activeBrand ? project.brands?.find((b) => b.id === activeBrand)?.label : project.name} 주간 리포트
+            </h3>
+            <a
+              href={`/clients/${project.slug}?tab=report&brand=${activeBrand}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-gray-400 hover:text-gray-600"
+            >
+              상세 보기 &rarr;
+            </a>
+          </div>
+          <p className="text-sm text-gray-400">주간 리포트는 클라이언트 대시보드에서 확인하세요.</p>
+        </div>
+      )}
     </div>
   );
 }
