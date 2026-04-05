@@ -28,10 +28,9 @@ export default async function ClientPage({
   // Convert to legacy ClientConfig for existing components
   const config = toClientConfig(project);
 
-  const isSimple =
-    config.tabs.length === 1 &&
-    config.tabs[0] === "calendar" &&
-    !config.brands;
+  // DashboardClient is huenic-specific (uses brand switching).
+  // All other projects use CalendarOnlyClient.
+  const useMultiBrandDashboard = !!config.brands && config.brands.length > 0;
 
   return (
     <Suspense
@@ -62,10 +61,10 @@ export default async function ClientPage({
         </div>
       }
     >
-      {isSimple ? (
-        <CalendarOnlyClient config={config} readOnly={readOnly} />
-      ) : (
+      {useMultiBrandDashboard ? (
         <DashboardClient config={config} />
+      ) : (
+        <CalendarOnlyClient config={config} readOnly={readOnly} />
       )}
     </Suspense>
   );

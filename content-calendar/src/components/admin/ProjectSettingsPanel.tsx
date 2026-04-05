@@ -36,6 +36,14 @@ export default function ProjectSettingsPanel({
   const [budget, setBudget] = useState(0);
   const [invoiceDay, setInvoiceDay] = useState(10);
   const [saving, setSaving] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const EMOJI_OPTIONS = [
+    "☕", "🍜", "🍲", "🍷", "🍺", "🥐", "🍰", "🍕",
+    "🏪", "🏬", "🏥", "🏫", "💇", "🏋️", "🧘", "🐾",
+    "🌱", "🚀", "✦", "💎", "🎯", "📱", "🎨", "🎵",
+    "⛽", "🚗", "✈️", "🏠", "👕", "👟", "💄", "🧴",
+  ];
 
   // Fetch real config from API
   useEffect(() => {
@@ -144,15 +152,25 @@ export default function ProjectSettingsPanel({
                   className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
                 />
               </div>
-              <div className="w-20">
+              <div className="w-20 relative">
                 <label className="block text-xs text-gray-500 mb-1.5">이모지</label>
-                <input
-                  type="text"
-                  value={emoji}
-                  onChange={(e) => setEmoji(e.target.value)}
-                  placeholder="🌱"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm text-center focus:outline-none focus:ring-1 focus:ring-gray-300"
-                />
+                <button
+                  type="button"
+                  onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-lg text-center hover:border-gray-300 transition-colors"
+                >
+                  {emoji || "😀"}
+                </button>
+                {showEmojiPicker && (
+                  <div className="absolute mt-1 right-0 bg-white rounded-xl shadow-lg border border-gray-200 p-2 z-10 w-52">
+                    <div className="grid grid-cols-8 gap-0.5">
+                      {EMOJI_OPTIONS.map((e) => (
+                        <button key={e} type="button" onClick={() => { setEmoji(e); setShowEmojiPicker(false); }}
+                          className="w-7 h-7 flex items-center justify-center text-lg hover:bg-gray-100 rounded transition-colors">{e}</button>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex gap-3">
