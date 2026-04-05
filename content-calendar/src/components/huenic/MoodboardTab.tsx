@@ -15,9 +15,11 @@ function getCurrentMonth(): string {
 
 interface MoodboardTabProps {
   brand: HuenicBrand;
+  brandConfig?: import("@/data/client-config").BrandConfig;
 }
 
-export default function MoodboardTab({ brand }: MoodboardTabProps) {
+export default function MoodboardTab({ brand, brandConfig }: MoodboardTabProps) {
+  const igProfile = brandConfig?.instagram;
   const client = `huenic-${brand}`;
   const [months, setMonths] = useState<string[]>([]);
   const [currentMonth, setCurrentMonth] = useState("");
@@ -242,40 +244,54 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
         <div className="max-w-2xl mx-auto border border-gray-200 rounded-2xl bg-white overflow-hidden">
           {/* Profile header */}
           <div className="px-6 py-5">
-            <div className="flex items-center gap-5">
+            <div className="flex items-start gap-5">
               {/* Profile pic */}
-              <div
-                className={`w-16 h-16 rounded-full flex items-center justify-center text-2xl ring-2 ring-offset-2 ${
-                  brand === "veggiet" ? "bg-emerald-500 ring-emerald-500" : "bg-purple-500 ring-purple-500"
-                }`}
-              >
-                {brand === "veggiet" ? "🌱" : "🫘"}
-              </div>
+              {igProfile?.profileImage ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={igProfile.profileImage}
+                  alt={igProfile.username}
+                  className="w-20 h-20 rounded-full object-cover ring-2 ring-offset-2 ring-pink-400"
+                />
+              ) : (
+                <div
+                  className={`w-20 h-20 rounded-full flex items-center justify-center text-3xl ring-2 ring-offset-2 ${
+                    brand === "veggiet" ? "bg-emerald-50 ring-emerald-400" : "bg-purple-50 ring-purple-400"
+                  }`}
+                >
+                  {brandConfig?.emoji || "📷"}
+                </div>
+              )}
               <div className="flex-1">
                 <p className="text-base font-bold text-gray-900">
-                  {brand === "veggiet" ? "veggiet.official" : "vinkerfoods"}
+                  {igProfile?.username || `${brand}_official`}
                 </p>
-                <p className="text-xs text-gray-500 mt-0.5">
-                  {brand === "veggiet"
-                    ? "veggiet 베지어트 | 지속 가능한 먹거리"
-                    : "VINKER | Plant-based Protein"}
+                <p className="text-xs text-gray-500 mt-0.5 whitespace-pre-line">
+                  {igProfile?.displayName || brand}
                 </p>
-                <div className="flex gap-6 mt-2">
-                  <div className="text-center">
-                    <p className="text-sm font-bold text-gray-900">{sortedItems.length}</p>
-                    <p className="text-[10px] text-gray-400">게시물</p>
+                {igProfile?.bio && (
+                  <p className="text-xs text-gray-600 mt-1.5 whitespace-pre-line leading-relaxed">
+                    {igProfile.bio}
+                  </p>
+                )}
+                <div className="flex gap-6 mt-3">
+                  <div>
+                    <span className="text-sm font-bold text-gray-900">
+                      {igProfile?.posts || sortedItems.length}
+                    </span>
+                    <span className="text-xs text-gray-400 ml-1">게시물</span>
                   </div>
-                  <div className="text-center">
-                    <p className="text-sm font-bold text-gray-900">
-                      {brand === "veggiet" ? "5,168" : "312"}
-                    </p>
-                    <p className="text-[10px] text-gray-400">팔로워</p>
+                  <div>
+                    <span className="text-sm font-bold text-gray-900">
+                      {igProfile?.followers?.toLocaleString() || "—"}
+                    </span>
+                    <span className="text-xs text-gray-400 ml-1">팔로워</span>
                   </div>
-                  <div className="text-center">
-                    <p className="text-sm font-bold text-gray-900">
-                      {brand === "veggiet" ? "1,134" : "89"}
-                    </p>
-                    <p className="text-[10px] text-gray-400">팔로잉</p>
+                  <div>
+                    <span className="text-sm font-bold text-gray-900">
+                      {igProfile?.following?.toLocaleString() || "—"}
+                    </span>
+                    <span className="text-xs text-gray-400 ml-1">팔로잉</span>
                   </div>
                 </div>
               </div>

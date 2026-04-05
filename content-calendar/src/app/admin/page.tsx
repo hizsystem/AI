@@ -8,6 +8,7 @@ import AuditScoreCard from "@/components/np/AuditScoreCard";
 import WeeklyMissions from "@/components/np/WeeklyMissions";
 import AuditInputForm from "@/components/np/AuditInputForm";
 import ProjectSettingsPanel from "@/components/admin/ProjectSettingsPanel";
+import OnboardingModal from "@/components/admin/OnboardingModal";
 
 // ─── Types ───
 
@@ -1048,6 +1049,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<string>("overview");
   const [fetchKey, setFetchKey] = useState(0);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -1169,23 +1171,7 @@ export default function AdminDashboard() {
 
         <div className="px-6 py-4 border-t border-gray-100 space-y-2">
           <button
-            onClick={() => {
-              const name = prompt("새 프로젝트 이름:");
-              if (!name) return;
-              const slug = name.toLowerCase().replace(/[^a-z0-9가-힣]/g, "-").replace(/-+/g, "-");
-              fetch("/api/admin/project", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  slug,
-                  name,
-                  logo: null,
-                  brandColor: "#6366f1",
-                  status: "active",
-                  channels: [{ type: "instagram", enabled: true, blocks: ["ig-calendar", "ig-moodboard"] }],
-                }),
-              }).then(() => setFetchKey((n) => n + 1));
-            }}
+            onClick={() => setShowOnboarding(true)}
             className="w-full text-xs text-gray-400 hover:text-gray-600 transition-colors text-left"
           >
             + 새 프로젝트
@@ -1207,6 +1193,25 @@ export default function AdminDashboard() {
           <ClientPanel project={activeProject} onRefresh={() => setFetchKey((n) => n + 1)} />
         ) : null}
       </main>
+
+      {/* Onboarding Modal */}
+      {showOnboarding && (
+        <OnboardingModal
+          onComplete={async (config) => {
+            const res = await fetch("/api/admin/project", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(config),
+            });
+            if (res.ok) {
+              setShowOnboarding(false);
+              setFetchKey((n) => n + 1);
+              setActiveTab(config.slug);
+            }
+          }}
+          onClose={() => setShowOnboarding(false)}
+        />
+      )}
     </div>
   );
 }

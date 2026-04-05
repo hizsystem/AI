@@ -83,7 +83,7 @@ export default function DashboardClient({ config }: Props) {
         {/* Tab Content */}
         <div className="mt-6">
           {tab === "calendar" && <CalendarTab brand={brand as HuenicBrand} />}
-          {tab === "moodboard" && <MoodboardTab brand={brand as HuenicBrand} />}
+          {tab === "moodboard" && <MoodboardTab brand={brand as HuenicBrand} brandConfig={brands.find((b) => b.id === brand)} />}
           {tab === "ref" && <RefTab brand={brand as HuenicBrand} />}
           {tab === "guide" && <GuideTab brand={brand as HuenicBrand} />}
           {tab === "report" && <WeeklyReportTab brand={brand as HuenicBrand} />}

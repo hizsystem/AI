@@ -12,8 +12,30 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
     accessToken: "hn-2026-view",
     clientEditable: true,
     brands: [
-      { id: "veggiet", label: "VEGGIET", emoji: "\uD83C\uDF31", accent: "bg-emerald-500" },
-      { id: "vinker", label: "VINKER", emoji: "\uD83E\uDED8", accent: "bg-purple-500" },
+      {
+        id: "veggiet", label: "VEGGIET", emoji: "\uD83C\uDF31", accent: "bg-emerald-500",
+        instagram: {
+          username: "veggiet.official",
+          displayName: "veggiet 베지어트 | 지속 가능한 먹거리",
+          bio: "100% Plant-Based Wellness Protein\n속이 편한 100% 식물성 단백질, 베지어트",
+          profileImage: "https://x0jvgs5jl0ct4opu.public.blob.vercel-storage.com/profile/veggiet-profile.png",
+          posts: 79,
+          followers: 5168,
+          following: 1134,
+        },
+      },
+      {
+        id: "vinker", label: "VINKER", emoji: "\uD83E\uDED8", accent: "bg-purple-500",
+        instagram: {
+          username: "vinkerfoods",
+          displayName: "VINKER",
+          bio: "I'M PLANT-BASED ! VINKER",
+          profileImage: "https://x0jvgs5jl0ct4opu.public.blob.vercel-storage.com/profile/vinker-profile.png",
+          posts: 120,
+          followers: 1302,
+          following: 608,
+        },
+      },
     ],
     dashboardTitle: "HUENIC DASHBOARD",
     channels: [
@@ -238,6 +260,43 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
       monthlyFee: 500000,
       invoiceDay: 1,
       notes: "NP만 1개월 진행",
+    },
+  },
+
+  // ─── 데모 프로젝트 (세일즈 시연용) ───
+  {
+    slug: "demo-cafe",
+    name: "[DEMO] 카페 브랜드",
+    emoji: "☕",
+    logo: null,
+    brandColor: "#92400e",
+    status: "active",
+    channels: [
+      {
+        type: "instagram",
+        enabled: true,
+        blocks: ["ig-calendar", "ig-moodboard", "ig-reference", "ig-kpi", "ig-report"],
+        defaultCategories: [
+          { id: "menu", name: "메뉴/음료", color: "#92400e" },
+          { id: "mood", name: "공간/무드", color: "#6366f1" },
+          { id: "event", name: "이벤트", color: "#ef4444" },
+          { id: "daily", name: "일상", color: "#10b981" },
+        ],
+      },
+      {
+        type: "naver-place",
+        enabled: true,
+        blocks: ["np-audit", "np-missions", "np-keywords"],
+        storeId: "demo-cafe",
+      },
+    ],
+    finance: {
+      model: "monthly",
+      currency: "KRW",
+      monthlyFee: 2000000,
+      advanceRate: 0.5,
+      invoiceDay: 1,
+      notes: "데모 — 실제 프로젝트가 아닙니다",
     },
   },
 
