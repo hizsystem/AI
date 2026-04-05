@@ -263,6 +263,43 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
     },
   },
 
+  // ─── 데모 프로젝트 (세일즈 시연용) ───
+  {
+    slug: "demo-cafe",
+    name: "[DEMO] 카페 브랜드",
+    emoji: "☕",
+    logo: null,
+    brandColor: "#92400e",
+    status: "active",
+    channels: [
+      {
+        type: "instagram",
+        enabled: true,
+        blocks: ["ig-calendar", "ig-moodboard", "ig-reference", "ig-kpi", "ig-report"],
+        defaultCategories: [
+          { id: "menu", name: "메뉴/음료", color: "#92400e" },
+          { id: "mood", name: "공간/무드", color: "#6366f1" },
+          { id: "event", name: "이벤트", color: "#ef4444" },
+          { id: "daily", name: "일상", color: "#10b981" },
+        ],
+      },
+      {
+        type: "naver-place",
+        enabled: true,
+        blocks: ["np-audit", "np-missions", "np-keywords"],
+        storeId: "demo-cafe",
+      },
+    ],
+    finance: {
+      model: "monthly",
+      currency: "KRW",
+      monthlyFee: 2000000,
+      advanceRate: 0.5,
+      invoiceDay: 1,
+      notes: "데모 — 실제 프로젝트가 아닙니다",
+    },
+  },
+
   // ─── 탭샵바 (완료) ───
   {
     slug: "tabshopbar",
