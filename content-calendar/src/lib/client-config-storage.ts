@@ -26,11 +26,26 @@ export async function getProjectConfig(
           cache: "no-store",
         });
         if (res.ok) {
-          const config = (await res.json()) as ProjectConfig;
-          // Skip old-format configs
-          if (config.channels && Array.isArray(config.channels)) {
-            CONFIG_CACHE[slug] = config;
-            return config;
+          const blobConfig = await res.json();
+          // Skip old ClientConfig format — fall through to hardcoded
+          if (blobConfig.channels && Array.isArray(blobConfig.channels)) {
+          // Merge with hardcoded default if exists
+          const hardcoded = DEFAULT_PROJECT_CONFIGS.find((c) => c.slug === slug);
+          if (hardcoded) {
+            const merged = {
+              ...hardcoded,
+              name: blobConfig.name || hardcoded.name,
+              emoji: blobConfig.emoji ?? hardcoded.emoji,
+              brandColor: blobConfig.brandColor || hardcoded.brandColor,
+              status: blobConfig.status || hardcoded.status,
+              finance: blobConfig.finance || hardcoded.finance,
+              accessToken: blobConfig.accessToken ?? hardcoded.accessToken,
+            };
+            CONFIG_CACHE[slug] = merged;
+            return merged;
+          }
+          CONFIG_CACHE[slug] = blobConfig as ProjectConfig;
+          return blobConfig as ProjectConfig;
           }
         }
       }
@@ -54,7 +69,7 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
     configs.set(c.slug, c);
   }
 
-  // Overlay with Blob configs (only if they have the new ProjectConfig format)
+  // Overlay with Blob configs — merge onto hardcoded defaults to preserve channel details
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
       const { blobs } = await list({ prefix: "config/clients/", limit: 100 });
@@ -66,10 +81,29 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
             cache: "no-store",
           });
           if (res.ok) {
-            const config = (await res.json()) as ProjectConfig;
-            // Skip old-format configs (no channels array = legacy ClientConfig)
-            if (!config.channels || !Array.isArray(config.channels)) continue;
-            configs.set(config.slug, config);
+            const blobConfig = await res.json();
+            // Skip old ClientConfig format entirely (has tabs, no channels)
+            if (!blobConfig.channels || !Array.isArray(blobConfig.channels)) continue;
+            // Merge: use hardcoded as base, overlay blob for basic fields,
+            // but keep hardcoded channel details (calendarClientPrefix etc.)
+            const base = configs.get(blobConfig.slug);
+            if (base) {
+              configs.set(blobConfig.slug, {
+                ...base,
+                name: blobConfig.name || base.name,
+                emoji: blobConfig.emoji ?? base.emoji,
+                brandColor: blobConfig.brandColor || base.brandColor,
+                status: blobConfig.status || base.status,
+                finance: blobConfig.finance || base.finance,
+                accessToken: blobConfig.accessToken ?? base.accessToken,
+                // Keep hardcoded channels (with calendarClientPrefix etc.)
+                channels: base.channels,
+                brands: base.brands,
+              });
+            } else {
+              // New project from Blob (not in hardcoded defaults)
+              configs.set(blobConfig.slug, blobConfig as ProjectConfig);
+            }
           }
         } catch {
           // skip invalid configs
