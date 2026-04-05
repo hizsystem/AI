@@ -12,8 +12,28 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
     accessToken: "hn-2026-view",
     clientEditable: true,
     brands: [
-      { id: "veggiet", label: "VEGGIET", emoji: "\uD83C\uDF31", accent: "bg-emerald-500" },
-      { id: "vinker", label: "VINKER", emoji: "\uD83E\uDED8", accent: "bg-purple-500" },
+      {
+        id: "veggiet", label: "VEGGIET", emoji: "\uD83C\uDF31", accent: "bg-emerald-500",
+        instagram: {
+          username: "veggiet.official",
+          displayName: "veggiet 베지어트 | 지속 가능한 먹거리",
+          bio: "100% Plant-Based Wellness Protein\n속이 편한 100% 식물성 단백질, 베지어트",
+          posts: 79,
+          followers: 5168,
+          following: 1134,
+        },
+      },
+      {
+        id: "vinker", label: "VINKER", emoji: "\uD83E\uDED8", accent: "bg-purple-500",
+        instagram: {
+          username: "vinkerfoods",
+          displayName: "VINKER | Plant-based Protein",
+          bio: "Plant-based protein, crafted in Korea.",
+          posts: 24,
+          followers: 312,
+          following: 89,
+        },
+      },
     ],
     dashboardTitle: "HUENIC DASHBOARD",
     channels: [

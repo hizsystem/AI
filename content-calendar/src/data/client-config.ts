@@ -34,11 +34,22 @@ export interface ChannelConfig {
   defaultCategories?: Category[];
 }
 
+export interface InstagramProfile {
+  username: string;
+  displayName: string;
+  bio?: string;
+  profileImage?: string;
+  posts?: number;
+  followers?: number;
+  following?: number;
+}
+
 export interface BrandConfig {
   id: string;
   label: string;
   emoji: string;
   accent: string;
+  instagram?: InstagramProfile;
 }
 
 export type FinanceModel = "retainer" | "monthly" | "expense-only" | "tbd";
