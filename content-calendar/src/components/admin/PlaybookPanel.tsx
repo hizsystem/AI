@@ -71,6 +71,27 @@ export default function PlaybookPanel({ clientSlug, blockType, blockLabel }: Pla
     );
   }
 
+  async function handleReset() {
+    if (!confirm("플레이북을 초기화하시겠습니까? 진행 상황이 모두 리셋됩니다.")) return;
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/playbook/${clientSlug}/${blockType}`, { method: "POST" });
+      if (res.ok) setPlaybook(await res.json());
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleDelete() {
+    if (!confirm("플레이북을 삭제하시겠습니까?")) return;
+    await fetch(`/api/playbook/${clientSlug}/${blockType}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(null),
+    });
+    setPlaybook(null);
+  }
+
   // Calculate progress
   const allTasks = playbook.phases.flatMap((p) => p.tasks);
   const completedCount = allTasks.filter((t) => t.completed).length;
@@ -83,7 +104,11 @@ export default function PlaybookPanel({ clientSlug, blockType, blockLabel }: Pla
       <div className="bg-white rounded-xl border border-gray-200 p-4">
         <div className="flex items-center justify-between mb-2">
           <span className="text-xs font-medium text-gray-600">전체 진행률</span>
-          <span className="text-sm font-bold text-gray-900">{pct}%</span>
+          <div className="flex items-center gap-3">
+            <button onClick={handleReset} className="text-[10px] text-gray-400 hover:text-amber-500 transition-colors">초기화</button>
+            <button onClick={handleDelete} className="text-[10px] text-gray-400 hover:text-red-500 transition-colors">삭제</button>
+            <span className="text-sm font-bold text-gray-900">{pct}%</span>
+          </div>
         </div>
         <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
           <div

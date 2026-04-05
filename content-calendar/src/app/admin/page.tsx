@@ -529,11 +529,14 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
 
 // ─── Naver Place Panel ───
 
+type NpSubView = "summary" | "playbook";
+
 function NaverPlacePanel({ project }: { project: ProjectSummary }) {
   const [audit, setAudit] = useState<import("@/data/np-types").NpAuditData | null>(null);
   const [missions, setMissions] = useState<import("@/data/np-types").NpMissionsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showAuditForm, setShowAuditForm] = useState(false);
+  const [npSubView, setNpSubView] = useState<NpSubView>("summary");
 
   useEffect(() => {
     if (!project.npStoreId) { setLoading(false); return; }
@@ -563,28 +566,48 @@ function NaverPlacePanel({ project }: { project: ProjectSummary }) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider">진단 점수</h3>
+      {/* NP sub-tabs */}
+      <div className="flex gap-1 border-b border-gray-200">
+        {(["summary", "playbook"] as NpSubView[]).map((v) => (
           <button
-            onClick={() => setShowAuditForm(true)}
-            className="text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors"
+            key={v}
+            onClick={() => setNpSubView(v)}
+            className={`px-4 py-2 text-xs font-medium border-b-2 transition-colors -mb-px ${
+              npSubView === v
+                ? v === "playbook" ? "border-violet-500 text-violet-600" : "border-gray-900 text-gray-900"
+                : "border-transparent text-gray-400 hover:text-gray-600"
+            }`}
           >
-            {audit ? "재진단" : "진단하기"}
+            {v === "summary" ? "진단/미션" : "📋 플레이북"}
           </button>
-        </div>
-        <AuditScoreCard audit={audit} />
+        ))}
       </div>
 
-      <div>
-        <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">주간 미션</h3>
-        <WeeklyMissions missions={missions} />
-      </div>
+      {npSubView === "summary" && (
+        <>
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider">진단 점수</h3>
+              <button
+                onClick={() => setShowAuditForm(true)}
+                className="text-xs font-medium text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                {audit ? "재진단" : "진단하기"}
+              </button>
+            </div>
+            <AuditScoreCard audit={audit} />
+          </div>
 
-      <div>
-        <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">플레이북</h3>
+          <div>
+            <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">주간 미션</h3>
+            <WeeklyMissions missions={missions} />
+          </div>
+        </>
+      )}
+
+      {npSubView === "playbook" && (
         <PlaybookPanel clientSlug={project.slug} blockType="naver-place" blockLabel="Naver Place" />
-      </div>
+      )}
 
       {showAuditForm && project.npStoreId && (
         <AuditInputForm
