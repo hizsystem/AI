@@ -478,6 +478,48 @@ HTML 진단서: clients/{store-slug}/np-audit-report.html
 open clients/{store-slug}/np-audit-report.html
 ```
 
+### Phase 8-1: Brand Dashboard 동기화
+
+진단 완료 후, 결과를 Brand Dashboard에 자동 동기화한다.
+
+1. 아래 JSON 구조로 진단 데이터를 구성한다:
+
+```json
+{
+  "storeId": "{store-slug}",
+  "storeName": "{매장명}",
+  "auditDate": "{진단일 YYYY-MM-DD}",
+  "totalScore": {총점},
+  "grade": "{등급}",
+  "items": [
+    { "id": "S1", "category": "S", "name": "리뷰", "maxScore": 20, "score": {점수}, "status": "{good|needs-improve|urgent}" },
+    { "id": "S2", "category": "S", "name": "플레이스 광고", "maxScore": 15, "score": {점수}, "status": "{...}" },
+    { "id": "S3", "category": "S", "name": "솔루션(예약/쿠폰/톡톡)", "maxScore": 15, "score": {점수}, "status": "{...}" },
+    { "id": "A1", "category": "A", "name": "사진 & 영상", "maxScore": 8, "score": {점수}, "status": "{...}" },
+    { "id": "A2", "category": "A", "name": "대표 키워드", "maxScore": 8, "score": {점수}, "status": "{...}" },
+    { "id": "A3", "category": "A", "name": "소식 & 이벤트", "maxScore": 7, "score": {점수}, "status": "{...}" },
+    { "id": "A4", "category": "A", "name": "블로그 체험단", "maxScore": 7, "score": {점수}, "status": "{...}" },
+    { "id": "B1", "category": "B", "name": "기본정보", "maxScore": 6, "score": {점수}, "status": "{...}" },
+    { "id": "B2", "category": "B", "name": "소개문", "maxScore": 5, "score": {점수}, "status": "{...}" },
+    { "id": "B3", "category": "B", "name": "AI브리핑 & 매장명", "maxScore": 4, "score": {점수}, "status": "{...}" },
+    { "id": "X1", "category": "X", "name": "외부채널", "maxScore": 3, "score": {점수}, "status": "{...}" },
+    { "id": "X2", "category": "X", "name": "커넥트", "maxScore": 2, "score": {점수}, "status": "{...}" }
+  ]
+}
+```
+
+status 판정: 점수/만점 비율 ≥ 70% → "good", ≥ 40% → "needs-improve", 나머지 → "urgent"
+
+2. `clients/{store-slug}/np-audit-score.json`으로 저장한다.
+
+3. 동기화 실행:
+```bash
+node content-calendar/scripts/sync-np-audit.mjs {store-slug} clients/{store-slug}/np-audit-score.json
+```
+
+성공하면: "대시보드 동기화 완료 ✓"
+실패하면: "대시보드 동기화 실패 — JSON 파일은 저장되었으니 수동으로 실행하세요"
+
 ---
 
 ## 주의사항

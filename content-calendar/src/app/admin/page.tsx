@@ -586,8 +586,7 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
   const [showSettings, setShowSettings] = useState(false);
 
   function handleCopyShareLink() {
-    const token = project.accessToken || project.slug;
-    const url = `${window.location.origin}/clients/${project.slug}?token=${token}`;
+    const url = `${window.location.origin}/${project.slug}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
