@@ -59,8 +59,8 @@ export default function ContentModal({
       }}
     >
       <div className="bg-white shadow-2xl flex flex-col w-full max-w-[480px] h-full overflow-hidden animate-slide-in-right">
-        {/* Media area */}
-        <div className="w-full h-[320px] bg-gray-950 flex-shrink-0 flex items-center justify-center">
+        {/* Media area — preserve original aspect ratio */}
+        <div className="w-full max-h-[60vh] bg-gray-950 flex-shrink-0 flex items-center justify-center overflow-hidden">
           {overview.images && overview.images.length > 1 ? (
             <div className="relative w-full h-full">
               <ImageCarousel images={overview.images} alt={item.title} />
@@ -285,13 +285,13 @@ function ImageCarousel({ images, alt }: { images: string[]; alt: string }) {
   if (images.length === 1) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img src={images[0]} alt={alt} className="w-full h-full object-cover" />
+      <img src={images[0]} alt={alt} className="w-full h-full object-contain" />
     );
   }
   return (
     <div className="relative w-full h-full group">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={images[idx]} alt={`${alt} ${idx + 1}`} className="w-full h-full object-cover" />
+      <img src={images[idx]} alt={`${alt} ${idx + 1}`} className="w-full h-full object-contain" />
       {/* Left arrow */}
       {idx > 0 && (
         <button

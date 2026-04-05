@@ -29,9 +29,17 @@ export async function getProjectConfig(
           const blobConfig = await res.json();
           // Skip old ClientConfig format — fall through to hardcoded
           if (blobConfig.channels && Array.isArray(blobConfig.channels)) {
-          // Merge with hardcoded default if exists
           const hardcoded = DEFAULT_PROJECT_CONFIGS.find((c) => c.slug === slug);
           if (hardcoded) {
+            const mergedChannels = hardcoded.channels.map((baseCh) => {
+              const blobCh = blobConfig.channels?.find((c: any) => c.type === baseCh.type);
+              return blobCh ? { ...baseCh, enabled: blobCh.enabled } : baseCh;
+            });
+            for (const blobCh of blobConfig.channels || []) {
+              if (!mergedChannels.some((c: any) => c.type === blobCh.type)) {
+                mergedChannels.push(blobCh);
+              }
+            }
             const merged = {
               ...hardcoded,
               name: blobConfig.name || hardcoded.name,
@@ -40,6 +48,8 @@ export async function getProjectConfig(
               status: blobConfig.status || hardcoded.status,
               finance: blobConfig.finance || hardcoded.finance,
               accessToken: blobConfig.accessToken ?? hardcoded.accessToken,
+              clientEditable: blobConfig.clientEditable ?? hardcoded.clientEditable,
+              channels: mergedChannels,
             };
             CONFIG_CACHE[slug] = merged;
             return merged;
@@ -88,6 +98,17 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
             // but keep hardcoded channel details (calendarClientPrefix etc.)
             const base = configs.get(blobConfig.slug);
             if (base) {
+              // Merge Blob channel enabled/disabled onto hardcoded channel details
+              const mergedChannels = base.channels.map((baseCh) => {
+                const blobCh = blobConfig.channels?.find((c: any) => c.type === baseCh.type);
+                return blobCh ? { ...baseCh, enabled: blobCh.enabled } : baseCh;
+              });
+              // Add any new channels from Blob that aren't in hardcoded
+              for (const blobCh of blobConfig.channels || []) {
+                if (!mergedChannels.some((c: any) => c.type === blobCh.type)) {
+                  mergedChannels.push(blobCh);
+                }
+              }
               configs.set(blobConfig.slug, {
                 ...base,
                 name: blobConfig.name || base.name,
@@ -96,8 +117,8 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
                 status: blobConfig.status || base.status,
                 finance: blobConfig.finance || base.finance,
                 accessToken: blobConfig.accessToken ?? base.accessToken,
-                // Keep hardcoded channels (with calendarClientPrefix etc.)
-                channels: base.channels,
+                clientEditable: blobConfig.clientEditable ?? base.clientEditable,
+                channels: mergedChannels,
                 brands: base.brands,
               });
             } else {
