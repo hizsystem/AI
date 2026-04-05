@@ -23,6 +23,7 @@ interface ProjectSummary {
   brands?: { id: string; label: string; emoji: string }[];
   finance?: FinanceConfig;
   accessToken?: string;
+  brandStats?: Record<string, { total: number; planning: number; needsConfirm: number; uploaded: number }>;
   currentMonth: string;
   stats: { total: number; planning: number; needsConfirm: number; uploaded: number };
   nextContent: { date: string; title: string } | null;
@@ -341,24 +342,29 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
       </div>
 
       {/* Summary view */}
-      {subView === "summary" && (
-        <>
+      {subView === "summary" && (() => {
+        // Use brand-specific stats if available
+        const displayStats = (activeBrand && project.brandStats?.[activeBrand]) || project.stats;
+        const brandItems = activeBrand
+          ? project.thisWeekItems.filter((i: any) => i._brandId === activeBrand || !i._brandId)
+          : project.thisWeekItems;
+        return <>
           {/* Stats */}
           <div className="grid grid-cols-4 gap-4">
             <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <p className="text-4xl font-bold text-gray-900">{project.stats.total}</p>
+              <p className="text-4xl font-bold text-gray-900">{displayStats.total}</p>
               <p className="text-xs text-gray-400 mt-2">전체</p>
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <p className="text-4xl font-bold text-gray-400">{project.stats.planning}</p>
+              <p className="text-4xl font-bold text-gray-400">{displayStats.planning}</p>
               <p className="text-xs text-gray-400 mt-2">기획</p>
             </div>
             <div className="bg-white rounded-xl border border-dashed border-amber-300 p-5">
-              <p className="text-4xl font-bold text-amber-600">{project.stats.needsConfirm}</p>
+              <p className="text-4xl font-bold text-amber-600">{displayStats.needsConfirm}</p>
               <p className="text-xs text-amber-500 mt-2">컨펌 필요</p>
             </div>
             <div className="bg-white rounded-xl border border-dashed border-emerald-300 p-5">
-              <p className="text-4xl font-bold text-emerald-600">{project.stats.uploaded}</p>
+              <p className="text-4xl font-bold text-emerald-600">{displayStats.uploaded}</p>
               <p className="text-xs text-emerald-500 mt-2">완료</p>
             </div>
           </div>
@@ -375,13 +381,13 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
           {/* This week content */}
           <div>
             <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-4">이번 주 콘텐츠</h3>
-            {project.thisWeekItems.length === 0 ? (
+            {brandItems.length === 0 ? (
               <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-sm text-gray-400">
                 이번 주 콘텐츠가 없습니다
               </div>
             ) : (
               <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
-                {project.thisWeekItems.sort((a, b) => a.date.localeCompare(b.date)).map((item) => (
+                {brandItems.sort((a, b) => a.date.localeCompare(b.date)).map((item) => (
                   <div key={item.id} className="px-5 py-4 flex items-center gap-4">
                     <div className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${STATUS_DOT[item.status || "planning"]}`} />
                     <span className="text-sm font-medium text-gray-500 w-10 flex-shrink-0">{formatDateShort(item.date)}</span>
@@ -416,8 +422,8 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
           >
             캘린더 전체 보기 &rarr;
           </a>
-        </>
-      )}
+        </>;
+      })()}
 
       {/* KPI view */}
       {subView === "kpi" && (

@@ -66,37 +66,45 @@ export async function GET() {
         );
 
         // Fetch calendar data
-        let allItems: (ContentItem & { _calendarKey?: string })[] = [];
+        let allItems: (ContentItem & { _calendarKey?: string; _brandId?: string })[] = [];
         if (igChannel) {
-          let calendarKeys: string[];
           if (project.brands && igChannel.calendarClientPrefix) {
-            calendarKeys = project.brands.map(
-              (b) => `${igChannel.calendarClientPrefix}-${b.id}`
-            );
+            for (const brand of project.brands) {
+              const key = `${igChannel.calendarClientPrefix}-${brand.id}`;
+              const data = await getCalendar(key, currentMonth);
+              if (data) {
+                allItems = allItems.concat(
+                  data.items.map((item) => ({ ...item, _calendarKey: key, _brandId: brand.id }))
+                );
+              }
+            }
           } else {
-            calendarKeys = [project.slug];
-          }
-
-          for (const key of calendarKeys) {
-            const data = await getCalendar(key, currentMonth);
+            const data = await getCalendar(project.slug, currentMonth);
             if (data) {
               allItems = allItems.concat(
-                data.items.map((item) => ({ ...item, _calendarKey: key }))
+                data.items.map((item) => ({ ...item, _calendarKey: project.slug }))
               );
             }
           }
         }
 
-        const stats = {
-          total: allItems.length,
-          planning: allItems.filter(
-            (i) => (i.status || "planning") === "planning"
-          ).length,
-          needsConfirm: allItems.filter(
-            (i) => i.status === "needs-confirm"
-          ).length,
-          uploaded: allItems.filter((i) => i.status === "uploaded").length,
-        };
+        const calcStats = (items: ContentItem[]) => ({
+          total: items.length,
+          planning: items.filter((i) => (i.status || "planning") === "planning").length,
+          needsConfirm: items.filter((i) => i.status === "needs-confirm").length,
+          uploaded: items.filter((i) => i.status === "uploaded").length,
+        });
+
+        const stats = calcStats(allItems);
+
+        // Per-brand stats
+        const brandStats: Record<string, typeof stats> = {};
+        if (project.brands) {
+          for (const brand of project.brands) {
+            const brandItems = allItems.filter((i) => i._brandId === brand.id);
+            brandStats[brand.id] = calcStats(brandItems);
+          }
+        }
 
         const upcoming = allItems
           .filter((i) => i.date >= today)
@@ -128,6 +136,7 @@ export async function GET() {
           })),
           finance: project.finance,
           accessToken: project.accessToken,
+          brandStats: Object.keys(brandStats).length > 0 ? brandStats : undefined,
           currentMonth,
           stats,
           nextContent,

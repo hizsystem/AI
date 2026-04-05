@@ -31,8 +31,11 @@ export async function getProjectConfig(
           if (blobConfig.channels && Array.isArray(blobConfig.channels)) {
           const hardcoded = DEFAULT_PROJECT_CONFIGS.find((c) => c.slug === slug);
           if (hardcoded) {
+            const blobChs = blobConfig.channels || [];
+            const allBlobDisabled = blobChs.length > 0 && blobChs.every((c: any) => c.enabled === false);
             const mergedChannels = hardcoded.channels.map((baseCh) => {
-              const blobCh = blobConfig.channels?.find((c: any) => c.type === baseCh.type);
+              if (allBlobDisabled) return baseCh;
+              const blobCh = blobChs.find((c: any) => c.type === baseCh.type);
               return blobCh ? { ...baseCh, enabled: blobCh.enabled } : baseCh;
             });
             for (const blobCh of blobConfig.channels || []) {
@@ -98,9 +101,13 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
             // but keep hardcoded channel details (calendarClientPrefix etc.)
             const base = configs.get(blobConfig.slug);
             if (base) {
-              // Merge Blob channel enabled/disabled onto hardcoded channel details
+              // Guard: if ALL Blob channels are disabled, it's likely a bug save — ignore
+              const blobChannels = blobConfig.channels || [];
+              const allBlobDisabled = blobChannels.length > 0 && blobChannels.every((c: any) => c.enabled === false);
+
               const mergedChannels = base.channels.map((baseCh) => {
-                const blobCh = blobConfig.channels?.find((c: any) => c.type === baseCh.type);
+                if (allBlobDisabled) return baseCh; // Keep hardcoded state
+                const blobCh = blobChannels.find((c: any) => c.type === baseCh.type);
                 return blobCh ? { ...baseCh, enabled: blobCh.enabled } : baseCh;
               });
               // Add any new channels from Blob that aren't in hardcoded
