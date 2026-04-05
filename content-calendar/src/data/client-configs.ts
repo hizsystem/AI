@@ -10,6 +10,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
     brandColor: "#10b981",
     status: "active",
     accessToken: "hn-2026-view",
+    clientEditable: true,
     brands: [
       { id: "veggiet", label: "VEGGIET", emoji: "\uD83C\uDF31", accent: "bg-emerald-500" },
       { id: "vinker", label: "VINKER", emoji: "\uD83E\uDED8", accent: "bg-purple-500" },

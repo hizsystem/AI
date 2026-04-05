@@ -27,8 +27,11 @@ export async function getProjectConfig(
         });
         if (res.ok) {
           const config = (await res.json()) as ProjectConfig;
-          CONFIG_CACHE[slug] = config;
-          return config;
+          // Skip old-format configs
+          if (config.channels && Array.isArray(config.channels)) {
+            CONFIG_CACHE[slug] = config;
+            return config;
+          }
         }
       }
     } catch (e) {
@@ -51,7 +54,7 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
     configs.set(c.slug, c);
   }
 
-  // Overlay with Blob configs
+  // Overlay with Blob configs (only if they have the new ProjectConfig format)
   if (process.env.BLOB_READ_WRITE_TOKEN) {
     try {
       const { blobs } = await list({ prefix: "config/clients/", limit: 100 });
@@ -64,6 +67,8 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
           });
           if (res.ok) {
             const config = (await res.json()) as ProjectConfig;
+            // Skip old-format configs (no channels array = legacy ClientConfig)
+            if (!config.channels || !Array.isArray(config.channels)) continue;
             configs.set(config.slug, config);
           }
         } catch {

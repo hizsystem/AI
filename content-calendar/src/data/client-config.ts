@@ -71,8 +71,10 @@ export interface ProjectConfig {
   brands?: BrandConfig[];
   finance?: FinanceConfig;
 
-  /** Token for client-specific access. If set, /clients/[slug] requires ?token=xxx */
+  /** Token for client-specific access */
   accessToken?: string;
+  /** Allow client view to edit (for brands managed by client team) */
+  clientEditable?: boolean;
   /** Dashboard title override */
   dashboardTitle?: string;
 }

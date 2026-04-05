@@ -20,10 +20,10 @@ export default async function ClientPage({
     notFound();
   }
 
-  // Admin = edit, everyone else = read-only
+  // Admin = edit, clientEditable brands = edit, others = read-only
   const cookieStore = await cookies();
   const isAdmin = cookieStore.get("cc-admin-auth")?.value === "authenticated";
-  const readOnly = !isAdmin;
+  const readOnly = !isAdmin && !project.clientEditable;
 
   // Convert to legacy ClientConfig for existing components
   const config = toClientConfig(project);

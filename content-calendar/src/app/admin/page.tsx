@@ -274,7 +274,8 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
     }
   }
 
-  if (project.stats.total === 0 && !initializing) {
+  // For brands with sub-brands, show link to full calendar instead of init
+  if (project.stats.total === 0 && !project.brands && !initializing) {
     return (
       <div className="space-y-8">
         <div className="bg-white rounded-xl border border-gray-200 p-10 text-center">
