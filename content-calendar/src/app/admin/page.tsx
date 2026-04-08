@@ -10,6 +10,7 @@ import AuditInputForm from "@/components/np/AuditInputForm";
 import ProjectSettingsPanel from "@/components/admin/ProjectSettingsPanel";
 import OnboardingModal from "@/components/admin/OnboardingModal";
 import PlaybookPanel from "@/components/admin/PlaybookPanel";
+import ArchivePanel from "@/components/admin/ArchivePanel";
 
 // ─── Types ───
 
@@ -38,7 +39,7 @@ interface SummaryData {
   currentMonth: string;
 }
 
-type ChannelTab = "instagram" | "naver-place" | "blog" | "schedule" | "finance";
+type ChannelTab = "instagram" | "naver-place" | "blog" | "schedule" | "finance" | "archive";
 
 const CHANNEL_LABELS: Record<string, string> = {
   instagram: "📸 Instagram",
@@ -46,6 +47,7 @@ const CHANNEL_LABELS: Record<string, string> = {
   blog: "📝 Blog",
   schedule: "📅 일정",
   finance: "💰 Finance",
+  archive: "📦 Archive",
 };
 
 const CHANNEL_ICONS: Record<string, string> = {
@@ -53,6 +55,7 @@ const CHANNEL_ICONS: Record<string, string> = {
   "naver-place": "NP",
   blog: "BL",
   finance: "FN",
+  archive: "AR",
 };
 
 const STATUS_LABELS: Record<string, string> = {
@@ -963,6 +966,7 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
   if (project.channels.includes("blog")) availableTabs.push("blog");
   availableTabs.push("schedule"); // 모든 프로젝트에 일정 탭
   if (project.finance) availableTabs.push("finance");
+  availableTabs.push("archive"); // 모든 프로젝트에 아카이브 탭
 
   const [channelTab, setChannelTab] = useState<ChannelTab>(availableTabs[0] || "instagram");
 
@@ -1063,6 +1067,12 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
       {channelTab === "blog" && <BlogPanel project={project} />}
       {channelTab === "schedule" && <SchedulePanel project={project} />}
       {channelTab === "finance" && <FinancePanel project={project} />}
+      {channelTab === "archive" && (
+        <ArchivePanel
+          projects={[{ slug: project.slug, name: project.name, brandColor: project.brandColor, emoji: project.emoji }]}
+          filterSlug={project.slug}
+        />
+      )}
 
       {/* Settings panel */}
       {showSettings && (
@@ -1151,6 +1161,21 @@ export default function AdminDashboard() {
             <span>전체</span>
           </button>
 
+          {/* Archive */}
+          <button
+            onClick={() => setActiveTab("archive")}
+            className={`w-full px-6 py-3 flex items-center gap-3 text-left text-sm transition-colors ${
+              activeTab === "archive"
+                ? "bg-gray-50 text-gray-900 font-medium"
+                : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+            }`}
+          >
+            <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+            </svg>
+            <span>Archive</span>
+          </button>
+
           <div className="mx-6 my-3 border-t border-gray-100" />
           <p className="px-6 py-1.5 text-[10px] text-gray-300 font-semibold uppercase tracking-wider">Active</p>
 
@@ -1223,6 +1248,15 @@ export default function AdminDashboard() {
       <main className="flex-1 ml-56 px-10 py-8 max-w-4xl">
         {activeTab === "overview" ? (
           <OverviewPanel data={data} />
+        ) : activeTab === "archive" ? (
+          <ArchivePanel
+            projects={data.summaries.map((s) => ({
+              slug: s.slug,
+              name: s.name,
+              brandColor: s.brandColor,
+              emoji: s.emoji,
+            }))}
+          />
         ) : activeProject ? (
           <ClientPanel project={activeProject} onRefresh={() => setFetchKey((n) => n + 1)} />
         ) : null}

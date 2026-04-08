@@ -36,6 +36,21 @@ export interface MoodboardItem {
   label?: string;
 }
 
+// ─── Archive ───
+
+export type ArchiveItemType = "url" | "html" | "external";
+
+export interface ArchiveItem {
+  id: string;
+  title: string;
+  url: string;
+  type: ArchiveItemType;
+  clientSlug: string;
+  category: string;
+  date: string;
+  description?: string;
+}
+
 export interface CalendarData {
   client: string;
   clientSlug: string;
