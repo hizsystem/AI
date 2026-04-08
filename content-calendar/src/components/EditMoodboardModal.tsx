@@ -24,6 +24,8 @@ export default function EditMoodboardModal({
   const [description, setDescription] = useState(moodboard.description ?? "");
   const [items, setItems] = useState<MoodboardItem[]>([...moodboard.items]);
   const [uploading, setUploading] = useState(false);
+  const [dragOver, setDragOver] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -40,21 +42,37 @@ export default function EditMoodboardModal({
   async function handleUpload(files: FileList | null) {
     if (!files || files.length === 0) return;
     setUploading(true);
+    setUploadError(null);
+    let failCount = 0;
     try {
       for (const file of Array.from(files)) {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("client", clientId);
         const res = await fetch("/api/upload", { method: "POST", body: formData });
-        if (!res.ok) continue;
+        if (!res.ok) {
+          failCount++;
+          console.error(`Upload failed for ${file.name}: ${res.status}`);
+          continue;
+        }
         const { url } = await res.json();
         setItems((prev) => [...prev, { image: url, label: file.name.replace(/\.[^.]+$/, "") }]);
       }
+      if (failCount > 0) {
+        setUploadError(`${failCount}개 이미지 업로드에 실패했습니다.`);
+      }
     } catch (e) {
       console.error("Moodboard upload error:", e);
+      setUploadError("업로드 중 오류가 발생했습니다.");
     } finally {
       setUploading(false);
     }
+  }
+
+  function handleDrop(e: React.DragEvent) {
+    e.preventDefault();
+    setDragOver(false);
+    handleUpload(e.dataTransfer.files);
   }
 
   function removeItem(index: number) {
@@ -156,11 +174,21 @@ export default function EditMoodboardModal({
               className="hidden"
               onChange={(e) => handleUpload(e.target.files)}
             />
+            {uploadError && (
+              <p className="text-xs text-red-500 mb-2">{uploadError}</p>
+            )}
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
+              onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+              onDragLeave={() => setDragOver(false)}
+              onDrop={handleDrop}
               disabled={uploading}
-              className="w-full py-6 border-2 border-dashed border-gray-200 rounded-lg flex flex-col items-center gap-2 text-gray-400 hover:border-blue-300 hover:text-blue-400 hover:bg-blue-50/30 transition-colors disabled:opacity-50"
+              className={`w-full py-6 border-2 border-dashed rounded-lg flex flex-col items-center gap-2 transition-colors disabled:opacity-50 ${
+                dragOver
+                  ? "border-blue-400 text-blue-500 bg-blue-50/50"
+                  : "border-gray-200 text-gray-400 hover:border-blue-300 hover:text-blue-400 hover:bg-blue-50/30"
+              }`}
             >
               {uploading ? (
                 <>
