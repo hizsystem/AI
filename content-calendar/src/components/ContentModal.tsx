@@ -13,7 +13,6 @@ interface ContentModalProps {
   item: ContentItem;
   category: Category;
   onClose: () => void;
-  onEdit?: (item: ContentItem) => void;
   logo?: { src: string; alt: string };
   accountName?: string;
 }
@@ -22,20 +21,14 @@ export default function ContentModal({
   item,
   category,
   onClose,
-  onEdit,
   logo = { src: "", alt: "" },
   accountName = "",
 }: ContentModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
-  const [imageIndex, setImageIndex] = useState(0);
-
-  const imageCount = item.overview?.images?.length ?? 0;
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft" && imageCount > 1) setImageIndex((i) => Math.max(0, i - 1));
-      if (e.key === "ArrowRight" && imageCount > 1) setImageIndex((i) => Math.min(imageCount - 1, i + 1));
     }
     document.addEventListener("keydown", handleKeyDown);
     document.body.style.overflow = "hidden";
@@ -43,88 +36,83 @@ export default function ContentModal({
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
     };
-  }, [onClose, imageCount]);
-
-  // Reset index when item changes
-  useEffect(() => { setImageIndex(0); }, [item.id]);
+  }, [onClose]);
 
   const { overview } = item;
 
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex justify-end bg-black/30"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
       onClick={(e) => {
         if (e.target === overlayRef.current) onClose();
       }}
     >
-      <div className="bg-white shadow-2xl flex flex-col w-full max-w-[480px] h-full overflow-hidden animate-slide-in-right">
-        {/* Media area — preserve original aspect ratio */}
-        <div className="w-full max-h-[60vh] bg-gray-950 flex-shrink-0 flex items-center justify-center overflow-hidden">
-          {overview.images && overview.images.length > 1 ? (
-            <div className="relative w-full h-full">
-              <ImageCarousel images={overview.images} alt={item.title} />
-              {overview.localVideo && (
-                <VideoOverlayButton
-                  src={overview.localVideo}
-                  poster={overview.images[0]}
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 text-white/80 hover:text-white z-50"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+      </button>
+
+      {/* Instagram-style container */}
+      <div className="bg-white shadow-2xl flex max-w-[860px] w-full max-h-[80vh] overflow-hidden rounded">
+        {/* Left: Media area */}
+        <div className="w-[420px] bg-gray-950 flex-shrink-0 flex items-center justify-center">
+          {(() => {
+            const mediaSlides = buildMediaSlides(overview);
+            if (mediaSlides.length > 0) {
+              return <MediaCarousel slides={mediaSlides} alt={item.title} />;
+            }
+            if (overview.videoUrl && isEmbeddable(overview.videoUrl)) {
+              return (
+                <iframe
+                  src={toEmbedUrl(overview.videoUrl)}
+                  title={item.title}
+                  className="w-full h-full"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
                 />
-              )}
-            </div>
-          ) : overview.localVideo ? (
-            <div className="relative w-full h-full flex items-center justify-center">
-              <video
-                src={overview.localVideo}
-                poster={overview.images?.[0]}
-                controls
-                className="w-full h-full object-contain"
-                playsInline
-              />
-              <div className="absolute bottom-12 right-2 bg-black/80 text-white text-[10px] px-2.5 py-1 rounded-full pointer-events-none animate-pulse">
-                전체화면으로 확인하세요
+              );
+            }
+            if (overview.videoUrl && !isEmbeddable(overview.videoUrl)) {
+              return (
+                <a
+                  href={overview.videoUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full h-full flex flex-col items-center justify-center gap-4 hover:opacity-80 transition-opacity"
+                >
+                  <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                      <path d="M10 8l6 4-6 4V8z" fill="white"/>
+                    </svg>
+                  </div>
+                  <span className="text-white/50 text-[11px] tracking-wide">Instagram에서 보기</span>
+                </a>
+              );
+            }
+            return (
+              <div className="w-full h-full flex flex-col items-center justify-center gap-5">
+                <div
+                  className="w-14 h-14 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: `${category.color}20` }}
+                >
+                  <FormatIcon format={overview.format} color={category.color} />
+                </div>
+                <span className="text-white/30 text-[11px] tracking-wide">
+                  {overview.format || "PREVIEW"}
+                </span>
               </div>
-            </div>
-          ) : overview.videoUrl && isEmbeddable(overview.videoUrl) ? (
-            <iframe
-              src={toEmbedUrl(overview.videoUrl)}
-              title={item.title}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            />
-          ) : overview.videoUrl && !isEmbeddable(overview.videoUrl) ? (
-            <a
-              href={overview.videoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full h-full flex flex-col items-center justify-center gap-4 hover:opacity-80 transition-opacity"
-            >
-              <div className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center">
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-                  <path d="M10 8l6 4-6 4V8z" fill="white"/>
-                </svg>
-              </div>
-              <span className="text-white/50 text-[11px] tracking-wide">Instagram에서 보기</span>
-            </a>
-          ) : overview.images && overview.images.length > 0 ? (
-            <ImageCarousel images={overview.images} alt={item.title} />
-          ) : (
-            <div className="w-full h-full flex flex-col items-center justify-center gap-5">
-              <div
-                className="w-14 h-14 rounded-full flex items-center justify-center"
-                style={{ backgroundColor: `${category.color}20` }}
-              >
-                <FormatIcon format={overview.format} color={category.color} />
-              </div>
-              <span className="text-white/30 text-[11px] tracking-wide">
-                {overview.format || "PREVIEW"}
-              </span>
-            </div>
-          )}
+            );
+          })()}
         </div>
 
-        {/* Content area */}
-        <div className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+        {/* Right: Content area */}
+        <div className="flex-1 flex flex-col min-w-0 w-[440px]">
 
           {/* Profile header */}
           <div className="flex items-center gap-3 px-5 py-3.5 border-b border-gray-100">
@@ -135,27 +123,12 @@ export default function ContentModal({
             <div className="flex-1 min-w-0">
               {accountName && <p className="text-[13px] font-semibold text-gray-900 leading-none">{accountName}</p>}
             </div>
-            <div className="flex items-center gap-2">
-              <span
-                className="px-2 py-0.5 rounded text-[10px] font-medium text-white tracking-wide"
-                style={{ backgroundColor: category.color }}
-              >
-                {category.name}
-              </span>
-              {onEdit && (
-                <button
-                  onClick={() => { onClose(); onEdit(item); }}
-                  className="px-2.5 py-1 rounded-md flex items-center gap-1.5 text-[11px] font-medium text-gray-500 hover:text-blue-600 hover:bg-blue-50 border border-gray-200 hover:border-blue-200 transition-colors"
-                  title="수정"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                  수정
-                </button>
-              )}
-            </div>
+            <span
+              className="px-2 py-0.5 rounded text-[10px] font-medium text-white tracking-wide"
+              style={{ backgroundColor: category.color }}
+            >
+              {category.name}
+            </span>
           </div>
 
           {/* Scrollable content */}
@@ -280,18 +253,54 @@ export default function ContentModal({
   );
 }
 
-function ImageCarousel({ images, alt }: { images: string[]; alt: string }) {
-  const [idx, setIdx] = useState(0);
-  if (images.length === 1) {
-    return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img src={images[0]} alt={alt} className="w-full h-full object-contain" />
-    );
+type MediaSlide = { type: "image"; src: string } | { type: "video"; src: string };
+
+function buildMediaSlides(overview: ContentItem["overview"]): MediaSlide[] {
+  const slides: MediaSlide[] = [];
+  if (overview.images) {
+    for (const src of overview.images) slides.push({ type: "image", src });
   }
+  if (overview.localVideo) {
+    slides.push({ type: "video", src: overview.localVideo });
+  }
+  return slides;
+}
+
+function MediaCarousel({ slides, alt }: { slides: MediaSlide[]; alt: string }) {
+  const [idx, setIdx] = useState(0);
+
+  if (slides.length === 1) {
+    const slide = slides[0];
+    if (slide.type === "video") {
+      return (
+        <div className="relative w-full h-full">
+          <video src={slide.src} controls className="w-full h-full object-cover" playsInline />
+          <div className="absolute bottom-12 right-2 bg-black/80 text-white text-[10px] px-2.5 py-1 rounded-full pointer-events-none animate-pulse">
+            전체화면으로 확인하세요
+          </div>
+        </div>
+      );
+    }
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={slide.src} alt={alt} className="w-full h-full object-cover" />;
+  }
+
+  const current = slides[idx];
+
   return (
     <div className="relative w-full h-full group">
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={images[idx]} alt={`${alt} ${idx + 1}`} className="w-full h-full object-contain" />
+      {current.type === "video" ? (
+        <video
+          key={current.src}
+          src={current.src}
+          controls
+          className="w-full h-full object-cover"
+          playsInline
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={current.src} alt={`${alt} ${idx + 1}`} className="w-full h-full object-cover" />
+      )}
       {/* Left arrow */}
       {idx > 0 && (
         <button
@@ -302,7 +311,7 @@ function ImageCarousel({ images, alt }: { images: string[]; alt: string }) {
         </button>
       )}
       {/* Right arrow */}
-      {idx < images.length - 1 && (
+      {idx < slides.length - 1 && (
         <button
           onClick={(e) => { e.stopPropagation(); setIdx(idx + 1); }}
           className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-white/80 flex items-center justify-center shadow opacity-0 group-hover:opacity-100 transition-opacity"
@@ -312,54 +321,21 @@ function ImageCarousel({ images, alt }: { images: string[]; alt: string }) {
       )}
       {/* Dots */}
       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
-        {images.map((_, i) => (
+        {slides.map((_, i) => (
           <button key={i} onClick={(e) => { e.stopPropagation(); setIdx(i); }}
             className={`w-1.5 h-1.5 rounded-full transition-colors ${i === idx ? "bg-white" : "bg-white/40"}`}
           />
         ))}
       </div>
+      {/* Slide counter */}
+      <div className="absolute top-3 right-3 bg-black/60 text-white text-[11px] px-2 py-0.5 rounded-full">
+        {idx + 1}/{slides.length}
+      </div>
     </div>
   );
 }
 
-function VideoOverlayButton({ src, poster }: { src: string; poster?: string | null }) {
-  const [playing, setPlaying] = useState(false);
-  if (playing) {
-    return (
-      <div className="absolute inset-0 z-10 bg-black flex items-center justify-center">
-        <video
-          src={src}
-          poster={poster ?? undefined}
-          controls
-          autoPlay
-          className="w-full h-full object-contain"
-          playsInline
-        />
-        <button
-          onClick={(e) => { e.stopPropagation(); setPlaying(false); }}
-          className="absolute top-3 right-3 w-8 h-8 bg-black/70 rounded-full flex items-center justify-center text-white/80 hover:text-white z-20"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
-            <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-          </svg>
-        </button>
-      </div>
-    );
-  }
-  return (
-    <button
-      onClick={(e) => { e.stopPropagation(); setPlaying(true); }}
-      className="absolute bottom-3 left-3 z-10 flex items-center gap-1.5 px-3 py-1.5 bg-black/70 rounded-full text-white text-[11px] hover:bg-black/90 transition-colors"
-    >
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-        <path d="M10 8l6 4-6 4V8z" fill="white"/>
-      </svg>
-      영상 보기
-    </button>
-  );
-}
-
-function FormatIcon({ format, color }: { format?: string | null; color: string }) {
+function FormatIcon({ format, color }: { format?: string; color: string }) {
   if (format?.includes("릴스")) {
     return (
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none">

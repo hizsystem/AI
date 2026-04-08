@@ -502,6 +502,7 @@ export default function Calendar({
       {editMoodboard && editMode && (
         <EditMoodboardModal
           moodboard={data.moodboard ?? { items: [] }}
+          clientId={data.clientSlug}
           onSave={async (moodboard) => {
             if (onSaveCalendar) {
               setSaving(true);

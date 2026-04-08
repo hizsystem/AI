@@ -224,27 +224,136 @@ export default function BrandMoodboard({
     );
   }
 
-  // View mode — with images (full-width, scrollable)
+  // View mode — with images (click to enlarge)
   return (
-    <div className="columns-2 sm:columns-3 gap-2 space-y-2">
-      {images.map((img, idx) => (
-        <div
-          key={idx}
-          className="relative rounded-lg overflow-hidden group break-inside-avoid"
+    <MoodboardViewGrid images={images} />
+  );
+}
+
+function MoodboardViewGrid({ images }: { images: MoodboardImage[] }) {
+  const [lightboxIdx, setLightboxIdx] = useState<number | null>(null);
+
+  return (
+    <>
+      <p className="text-xs text-gray-400 mb-3">
+        이미지를 클릭하면 크게 볼 수 있습니다
+      </p>
+      <div className="columns-2 sm:columns-3 gap-2 space-y-2">
+        {images.map((img, idx) => (
+          <div
+            key={idx}
+            className="relative rounded-lg overflow-hidden group break-inside-avoid cursor-pointer"
+            onClick={() => setLightboxIdx(idx)}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={img.url}
+              alt={img.label || ""}
+              className="w-full h-auto object-cover transition-transform group-hover:scale-[1.02]"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+            {img.label && (
+              <div className="absolute bottom-0 inset-x-0 bg-black/50 px-1.5 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                <p className="text-[10px] text-white truncate">{img.label}</p>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Lightbox */}
+      {lightboxIdx !== null && (
+        <MoodboardLightbox
+          images={images}
+          startIdx={lightboxIdx}
+          onClose={() => setLightboxIdx(null)}
+        />
+      )}
+    </>
+  );
+}
+
+function MoodboardLightbox({
+  images,
+  startIdx,
+  onClose,
+}: {
+  images: MoodboardImage[];
+  startIdx: number;
+  onClose: () => void;
+}) {
+  const [idx, setIdx] = useState(startIdx);
+  const overlayRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft" && idx > 0) setIdx(idx - 1);
+      if (e.key === "ArrowRight" && idx < images.length - 1) setIdx(idx + 1);
+    }
+    document.addEventListener("keydown", handleKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose, idx, images.length]);
+
+  return (
+    <div
+      ref={overlayRef}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+      onClick={(e) => { if (e.target === overlayRef.current) onClose(); }}
+    >
+      {/* Close */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 text-white/70 hover:text-white z-50"
+      >
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+          <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+        </svg>
+      </button>
+
+      {/* Counter */}
+      <div className="absolute top-4 left-4 text-white/60 text-sm">
+        {idx + 1} / {images.length}
+      </div>
+
+      {/* Image */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={images[idx].url}
+        alt={images[idx].label || ""}
+        className="max-w-full max-h-[85vh] object-contain rounded"
+      />
+
+      {/* Left arrow */}
+      {idx > 0 && (
+        <button
+          onClick={(e) => { e.stopPropagation(); setIdx(idx - 1); }}
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
         >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={img.url}
-            alt={img.label || ""}
-            className="w-full h-auto object-cover"
-          />
-          {img.label && (
-            <div className="absolute bottom-0 inset-x-0 bg-black/50 px-1.5 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-              <p className="text-[10px] text-white truncate">{img.label}</p>
-            </div>
-          )}
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M15 19l-7-7 7-7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+      )}
+
+      {/* Right arrow */}
+      {idx < images.length - 1 && (
+        <button
+          onClick={(e) => { e.stopPropagation(); setIdx(idx + 1); }}
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 5l7 7-7 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+        </button>
+      )}
+
+      {/* Label */}
+      {images[idx].label && (
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-black/60 text-white text-sm px-4 py-1.5 rounded-full">
+          {images[idx].label}
         </div>
-      ))}
+      )}
     </div>
   );
 }
