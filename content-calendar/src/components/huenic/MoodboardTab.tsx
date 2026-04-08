@@ -1,24 +1,47 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback as useCallbackReact, useMemo, useCallback } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useCalendarData } from "@/hooks/useCalendarData";
 import type { HuenicBrand } from "@/data/huenic-types";
 import type { ContentItem } from "@/data/types";
 import InstagramGrid from "./InstagramGrid";
-import BrandMoodboard from "./BrandMoodboard";
 import ContentModal from "@/components/ContentModal";
 
-const AVAILABLE_MONTHS = ["2026-04"];
+function getCurrentMonth(): string {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+}
 
 interface MoodboardTabProps {
   brand: HuenicBrand;
+  brandConfig?: import("@/data/client-config").BrandConfig;
 }
 
-export default function MoodboardTab({ brand }: MoodboardTabProps) {
+export default function MoodboardTab({ brand, brandConfig }: MoodboardTabProps) {
+  const igProfile = brandConfig?.instagram;
   const client = `huenic-${brand}`;
-  const [currentMonth, setCurrentMonth] = useState(
-    AVAILABLE_MONTHS[AVAILABLE_MONTHS.length - 1]
-  );
+  const [months, setMonths] = useState<string[]>([]);
+  const [currentMonth, setCurrentMonth] = useState("");
+
+  const fetchMonths = useCallbackReact(async () => {
+    try {
+      const res = await fetch(`/api/calendar-months/${client}`);
+      if (res.ok) {
+        const { months: m } = await res.json();
+        setMonths(m);
+        if (m.length > 0 && !currentMonth) {
+          const now = getCurrentMonth();
+          setCurrentMonth(m.includes(now) ? now : m[m.length - 1]);
+        }
+      }
+    } catch {
+      // fallback
+    }
+  }, [client, currentMonth]);
+
+  useEffect(() => { fetchMonths(); }, [fetchMonths]);
+  useEffect(() => { setCurrentMonth(""); setMonths([]); }, [brand]);
   const [editMode, setEditMode] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null);
 
@@ -27,11 +50,11 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
     currentMonth
   );
 
-  // Sort items by date for grid display
+  // Sort items by date descending (newest first, like Instagram)
   const sortedItems = useMemo(() => {
     if (!data) return [];
     return [...data.items].sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
   }, [data]);
 
@@ -39,33 +62,6 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
     if (!data) return {};
     return Object.fromEntries(data.categories.map((c) => [c.id, c]));
   }, [data]);
-
-  // Moodboard images from CalendarData.moodboard
-  const moodboardImages = useMemo(() => {
-    if (!data?.moodboard?.items) return [];
-    return data.moodboard.items.map((item) => ({
-      url: item.image,
-      label: item.label,
-    }));
-  }, [data]);
-
-  const handleMoodboardSave = useCallback(
-    async (
-      images: { url: string; label?: string }[]
-    ) => {
-      if (!saveCalendar) return;
-      await saveCalendar({
-        moodboard: {
-          description: data?.moodboard?.description,
-          items: images.map((img) => ({
-            image: img.url,
-            label: img.label,
-          })),
-        },
-      });
-    },
-    [saveCalendar, data?.moodboard?.description]
-  );
 
   const handleGridReorder = useCallback(
     async (reorderedItems: ContentItem[]) => {
@@ -97,13 +93,13 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
   const displayMonth = `${yearStr}년 ${monthNames[Number(monthStr)]}`;
 
   // Month navigation
-  const monthIdx = AVAILABLE_MONTHS.indexOf(currentMonth);
+  const monthIdx = months.indexOf(currentMonth);
   const handlePrevMonth = () => {
-    if (monthIdx > 0) setCurrentMonth(AVAILABLE_MONTHS[monthIdx - 1]);
+    if (monthIdx > 0) setCurrentMonth(months[monthIdx - 1]);
   };
   const handleNextMonth = () => {
-    if (monthIdx < AVAILABLE_MONTHS.length - 1)
-      setCurrentMonth(AVAILABLE_MONTHS[monthIdx + 1]);
+    if (monthIdx < months.length - 1)
+      setCurrentMonth(months[monthIdx + 1]);
   };
 
   if (loading) {
@@ -172,7 +168,7 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
           </span>
           <button
             onClick={handleNextMonth}
-            disabled={monthIdx >= AVAILABLE_MONTHS.length - 1}
+            disabled={monthIdx >= months.length - 1}
             className="p-1.5 text-gray-400 hover:text-gray-700 rounded-lg hover:bg-gray-100 disabled:opacity-30 disabled:hover:bg-transparent"
           >
             <svg
@@ -225,24 +221,9 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
         </button>
       </div>
 
-      {/* Section 1: Brand Moodboard */}
+      {/* Instagram Profile Preview */}
       <section>
-        <h2 className="text-sm font-semibold text-gray-900 mb-3">
-          비주얼 무드보드
-        </h2>
-        <BrandMoodboard
-          images={moodboardImages}
-          editMode={editMode}
-          onSave={handleMoodboardSave}
-        />
-      </section>
-
-      {/* Section 2: Instagram Grid Preview */}
-      <section>
-        <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-gray-900">
-            Instagram Grid Preview
-          </h2>
+        <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3 text-xs text-gray-400">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
@@ -259,40 +240,81 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
           </div>
         </div>
 
-        {/* Instagram phone frame */}
-        <div className="max-w-md mx-auto">
-          {/* Profile header mock */}
-          <div className="border border-gray-200 rounded-t-xl bg-white px-4 py-3">
-            <div className="flex items-center gap-3">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={brand === "veggiet" ? "/content/veggiet-profile.jpg" : "/content/vinker-profile.jpg"}
-                alt={brand === "veggiet" ? "veggiet" : "vinker"}
-                className="w-10 h-10 rounded-full object-cover"
-                onError={(e) => {
-                  const el = e.currentTarget;
-                  el.style.display = "none";
-                  const fallback = el.nextElementSibling as HTMLElement;
-                  if (fallback) fallback.style.display = "flex";
-                }}
-              />
-              <div
-                className="w-10 h-10 rounded-full items-center justify-center text-white text-xs font-bold hidden"
-                style={{
-                  backgroundColor:
-                    brand === "veggiet" ? "#10b981" : "#8b5cf6",
-                }}
-              >
-                {brand === "veggiet" ? "V" : "VK"}
-              </div>
-              <div>
-                <p className="text-sm font-semibold text-gray-900">
-                  {brand === "veggiet" ? "veggiet_official" : "vinker_official"}
+        {/* Instagram profile frame */}
+        <div className="max-w-2xl mx-auto border border-gray-200 rounded-2xl bg-white overflow-hidden">
+          {/* Profile header */}
+          <div className="px-6 py-5">
+            <div className="flex items-start gap-5">
+              {/* Profile pic */}
+              {igProfile?.profileImage ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={igProfile.profileImage}
+                  alt={igProfile.username}
+                  className="w-20 h-20 rounded-full object-cover ring-2 ring-offset-2 ring-pink-400"
+                />
+              ) : (
+                <div
+                  className={`w-20 h-20 rounded-full flex items-center justify-center text-3xl ring-2 ring-offset-2 ${
+                    brand === "veggiet" ? "bg-emerald-50 ring-emerald-400" : "bg-purple-50 ring-purple-400"
+                  }`}
+                >
+                  {brandConfig?.emoji || "📷"}
+                </div>
+              )}
+              <div className="flex-1">
+                <p className="text-base font-bold text-gray-900">
+                  {igProfile?.username || `${brand}_official`}
                 </p>
-                <p className="text-xs text-gray-400">
-                  {sortedItems.length} posts
+                <p className="text-xs text-gray-500 mt-0.5 whitespace-pre-line">
+                  {igProfile?.displayName || brand}
                 </p>
+                {igProfile?.bio && (
+                  <p className="text-xs text-gray-600 mt-1.5 whitespace-pre-line leading-relaxed">
+                    {igProfile.bio}
+                  </p>
+                )}
+                <div className="flex gap-6 mt-3">
+                  <div>
+                    <span className="text-sm font-bold text-gray-900">
+                      {igProfile?.posts || sortedItems.length}
+                    </span>
+                    <span className="text-xs text-gray-400 ml-1">게시물</span>
+                  </div>
+                  <div>
+                    <span className="text-sm font-bold text-gray-900">
+                      {igProfile?.followers?.toLocaleString() || "—"}
+                    </span>
+                    <span className="text-xs text-gray-400 ml-1">팔로워</span>
+                  </div>
+                  <div>
+                    <span className="text-sm font-bold text-gray-900">
+                      {igProfile?.following?.toLocaleString() || "—"}
+                    </span>
+                    <span className="text-xs text-gray-400 ml-1">팔로잉</span>
+                  </div>
+                </div>
               </div>
+            </div>
+          </div>
+
+          {/* Tab bar */}
+          <div className="flex border-t border-gray-100">
+            <div className="flex-1 py-2.5 flex justify-center border-b-2 border-gray-900">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
+              </svg>
+            </div>
+            <div className="flex-1 py-2.5 flex justify-center text-gray-300">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M14.5 10.5L21 4M21 4h-5.5M21 4v5.5M10 14L3 21m0 0h5m-5 0v-5"/>
+              </svg>
+            </div>
+            <div className="flex-1 py-2.5 flex justify-center text-gray-300">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+              </svg>
             </div>
           </div>
 
@@ -304,15 +326,11 @@ export default function MoodboardTab({ brand }: MoodboardTabProps) {
             onReorder={handleGridReorder}
             onItemClick={(item) => setSelectedItem(item)}
           />
-
-          {/* Bottom rounded corners */}
-          <div className="h-3 border-x border-b border-gray-200 rounded-b-xl bg-white" />
         </div>
 
         {editMode && (
           <p className="text-center text-xs text-gray-400 mt-3">
-            드래그하여 그리드 순서를 조정할 수 있습니다. 캘린더에서 콘텐츠를
-            추가/수정하면 자동 반영됩니다.
+            드래그하여 그리드 순서를 조정할 수 있습니다
           </p>
         )}
       </section>

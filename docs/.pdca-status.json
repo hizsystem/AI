@@ -1,6 +1,6 @@
 {
   "version": "2.0",
-  "lastUpdated": "2026-04-08T03:52:07.150Z",
+  "lastUpdated": "2026-04-08T15:22:26.160Z",
   "activeFeatures": [
     ".claude",
     "scripts",
@@ -55,7 +55,9 @@
     "[blockType]",
     "archive",
     "js",
-    "api"
+    "api",
+    "brandrise-survey-review",
+    "[sessionId]"
   ],
   "primaryFeature": ".claude",
   "features": {
@@ -185,9 +187,9 @@
       "documents": {},
       "timestamps": {
         "started": "2026-03-08T02:27:34.061Z",
-        "lastUpdated": "2026-04-05T17:31:29.795Z"
+        "lastUpdated": "2026-04-08T15:22:26.160Z"
       },
-      "lastFile": "/Users/wooseongmin/AI/content-calendar/src/lib/playbook-storage.ts"
+      "lastFile": "/Users/wooseongmin/AI/.claude/worktrees/huenic/content-calendar/src/components/Calendar.tsx"
     },
     "goventureforum": {
       "phase": "do",
@@ -760,6 +762,32 @@
         "lastUpdated": "2026-04-08T03:52:07.150Z"
       },
       "lastFile": "/Users/wooseongmin/AI/clients/brandrise-pages/diagnosis/api/submit.js"
+    },
+    "brandrise-survey-review": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-04-08T09:05:48.920Z",
+        "lastUpdated": "2026-04-08T09:07:18.233Z"
+      },
+      "lastFile": "/tmp/brandrise-survey-review/src/lib/constants.ts"
+    },
+    "[sessionId]": {
+      "phase": "do",
+      "phaseNumber": 3,
+      "matchRate": null,
+      "iterationCount": 0,
+      "requirements": [],
+      "documents": {},
+      "timestamps": {
+        "started": "2026-04-08T09:07:31.177Z",
+        "lastUpdated": "2026-04-08T09:12:29.904Z"
+      },
+      "lastFile": "/tmp/brandrise-survey-review/src/app/(result)/[sessionId]/page.tsx"
     }
   },
   "pipeline": {
@@ -770,7 +798,7 @@
   "session": {
     "startedAt": "2026-02-21T15:55:09.018Z",
     "onboardingCompleted": false,
-    "lastActivity": "2026-04-08T03:52:07.150Z"
+    "lastActivity": "2026-04-08T15:22:26.160Z"
   },
   "history": [
     {
@@ -6056,6 +6084,60 @@
     {
       "timestamp": "2026-04-08T03:52:07.150Z",
       "feature": "api",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-08T09:05:48.920Z",
+      "feature": "brandrise-survey-review",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-08T09:07:18.234Z",
+      "feature": "brandrise-survey-review",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-08T09:07:31.177Z",
+      "feature": "[sessionId]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-08T09:12:18.018Z",
+      "feature": "[sessionId]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-08T09:12:29.904Z",
+      "feature": "[sessionId]",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-08T15:21:47.653Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-08T15:21:59.251Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-08T15:22:17.944Z",
+      "feature": "content-calendar",
+      "phase": "do",
+      "action": "updated"
+    },
+    {
+      "timestamp": "2026-04-08T15:22:26.160Z",
+      "feature": "content-calendar",
       "phase": "do",
       "action": "updated"
     }
