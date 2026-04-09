@@ -264,11 +264,13 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
   const [activeBrand, setActiveBrand] = useState(project.brands?.[0]?.id || "");
   const [subView, setSubView] = useState<IgSubView>("summary");
   const [initializing, setInitializing] = useState(false);
+  const [calendarExists, setCalendarExists] = useState(false);
 
   // Reset brand when project changes
   useEffect(() => {
     setActiveBrand(project.brands?.[0]?.id || "");
     setSubView("summary");
+    setCalendarExists(false);
   }, [project.slug, project.brands]);
 
   async function handleInitCalendar() {
@@ -285,14 +287,18 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
           title: `${project.name} ${now.getMonth() + 1}월 콘텐츠 캘린더`,
         }),
       });
-      if (res.ok) onRefresh?.();
+      // ok = 새로 생성됨, 409 = 이미 존재함 → 둘 다 캘린더 뷰 진입
+      if (res.ok || res.status === 409) {
+        setCalendarExists(true);
+        onRefresh?.();
+      }
     } finally {
       setInitializing(false);
     }
   }
 
   // For brands without sub-brands and no data
-  if (project.stats.total === 0 && !project.brands && !initializing) {
+  if (!calendarExists && project.stats.total === 0 && !project.brands && !initializing) {
     return (
       <div className="space-y-8">
         <div className="bg-white rounded-xl border border-gray-200 p-10 text-center">
