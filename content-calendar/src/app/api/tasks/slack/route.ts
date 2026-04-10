@@ -2,8 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 const SLACK_WEBHOOK_URL = process.env.SLACK_TASK_WEBHOOK_URL;
 
+function isAdmin(req: NextRequest): boolean {
+  if (req.cookies.get("cc-admin-auth")?.value === "authenticated") return true;
+  const auth = req.headers.get("authorization");
+  if (auth && process.env.ADMIN_PASSWORD) {
+    return auth.replace(/^Bearer\s+/i, "") === process.env.ADMIN_PASSWORD;
+  }
+  return false;
+}
+
 export async function POST(req: NextRequest) {
-  if (req.cookies.get("cc-admin-auth")?.value !== "authenticated") {
+  if (!isAdmin(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

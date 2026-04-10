@@ -3,7 +3,15 @@ import { getTaskBoard, saveTaskBoard } from "@/lib/task-storage";
 import type { TaskItem, TeamMember } from "@/data/task-types";
 
 function isAdmin(req: NextRequest): boolean {
-  return req.cookies.get("cc-admin-auth")?.value === "authenticated";
+  // Cookie auth (browser)
+  if (req.cookies.get("cc-admin-auth")?.value === "authenticated") return true;
+  // Bearer token auth (API / skill)
+  const auth = req.headers.get("authorization");
+  if (auth && process.env.ADMIN_PASSWORD) {
+    const token = auth.replace(/^Bearer\s+/i, "");
+    if (token === process.env.ADMIN_PASSWORD) return true;
+  }
+  return false;
 }
 
 // GET — full board (tasks + members)
