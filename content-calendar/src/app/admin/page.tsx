@@ -10,6 +10,7 @@ import AuditInputForm from "@/components/np/AuditInputForm";
 import ProjectSettingsPanel from "@/components/admin/ProjectSettingsPanel";
 import OnboardingModal from "@/components/admin/OnboardingModal";
 import PlaybookPanel from "@/components/admin/PlaybookPanel";
+import TaskSchedulePanel from "@/components/admin/TaskSchedulePanel";
 
 // ─── Types ───
 
@@ -1151,6 +1152,20 @@ export default function AdminDashboard() {
             <span>전체</span>
           </button>
 
+          <button
+            onClick={() => setActiveTab("tasks")}
+            className={`w-full px-6 py-3 flex items-center gap-3 text-left text-sm transition-colors ${
+              activeTab === "tasks"
+                ? "bg-gray-50 text-gray-900 font-medium"
+                : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+            }`}
+          >
+            <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+            <span>Tasks</span>
+          </button>
+
           <div className="mx-6 my-3 border-t border-gray-100" />
           <p className="px-6 py-1.5 text-[10px] text-gray-300 font-semibold uppercase tracking-wider">Active</p>
 
@@ -1220,9 +1235,15 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 ml-56 px-10 py-8 max-w-4xl">
+      <main className={`flex-1 ml-56 px-10 py-8 ${activeTab === "tasks" ? "max-w-6xl" : "max-w-4xl"}`}>
         {activeTab === "overview" ? (
           <OverviewPanel data={data} />
+        ) : activeTab === "tasks" ? (
+          <TaskSchedulePanel
+            projects={data.summaries
+              .filter((s) => s.status === "active")
+              .map((s) => ({ slug: s.slug, name: s.name, emoji: s.emoji, brandColor: s.brandColor }))}
+          />
         ) : activeProject ? (
           <ClientPanel project={activeProject} onRefresh={() => setFetchKey((n) => n + 1)} />
         ) : null}
