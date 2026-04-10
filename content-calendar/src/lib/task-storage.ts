@@ -28,6 +28,8 @@ export async function getTaskBoard(): Promise<TaskBoard> {
       const res = await fetch(blobs[0].url + `?t=${Date.now()}`, { cache: "no-store" });
       if (res.ok) {
         const data = (await res.json()) as TaskBoard;
+        // Always sync members from code (source of truth)
+        data.members = [...DEFAULT_MEMBERS];
         CACHE = data;
         return data;
       }
