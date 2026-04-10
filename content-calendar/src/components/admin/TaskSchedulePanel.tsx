@@ -412,7 +412,7 @@ export default function TaskSchedulePanel({
     const done = board.tasks.filter((t) => t.status === "done").length;
     const pending = board.tasks.filter((t) => t.status === "pending").length;
 
-    // Slack Block Kit format
+    // Slack Block Kit — summary + per-project assignee breakdown
     const blocks: object[] = [
       {
         type: "header",
@@ -421,7 +421,7 @@ export default function TaskSchedulePanel({
       {
         type: "context",
         elements: [
-          { type: "mrkdwn", text: `🔵 진행 *${inProgress}*  ·  ⬜ 대기 *${pending}*  ·  ✅ 완료 *${done}*` },
+          { type: "mrkdwn", text: `전체 *${board.tasks.length}*개  |  🔵 진행 *${inProgress}*  ⬜ 대기 *${pending}*  ✅ 완료 *${done}*` },
         ],
       },
       { type: "divider" },
@@ -429,17 +429,22 @@ export default function TaskSchedulePanel({
 
     for (const [slug, tasks] of Object.entries(grouped)) {
       const meta = PROJECT_META[slug] || { name: slug, emoji: "📁" };
-      const taskLines = tasks.map((task) => {
-        const m = board.members.find((m) => m.id === task.assigneeId);
-        const emoji = task.status === "done" ? "✅" : task.status === "in-progress" ? "🔵" : "⬜";
-        return `${emoji}  ${task.title}  ·  ${m?.name || "미정"}  ·  ${formatShort(toDate(task.startDate))}~${formatShort(toDate(task.endDate))}`;
-      });
+
+      // Count per assignee
+      const assigneeCounts: Record<string, number> = {};
+      for (const t of tasks) {
+        const name = board.members.find((m) => m.id === t.assigneeId)?.name || "미정";
+        assigneeCounts[name] = (assigneeCounts[name] || 0) + 1;
+      }
+      const assigneeTags = Object.entries(assigneeCounts)
+        .map(([name, count]) => `\`${name} ${count}\``)
+        .join("  ");
 
       blocks.push({
         type: "section",
         text: {
           type: "mrkdwn",
-          text: `*${meta.emoji} ${meta.name}*  (${tasks.length})\n${taskLines.join("\n")}`,
+          text: `*${meta.emoji} ${meta.name}*\ntask *${tasks.length}*개  ${assigneeTags}`,
         },
       });
     }
@@ -447,9 +452,13 @@ export default function TaskSchedulePanel({
     blocks.push(
       { type: "divider" },
       {
-        type: "context",
+        type: "actions",
         elements: [
-          { type: "mrkdwn", text: `<https://hiz-brand-dashboard.vercel.app/admin|📊 대시보드에서 보기>` },
+          {
+            type: "button",
+            text: { type: "plain_text", text: "📊 대시보드에서 보기" },
+            url: "https://hiz-brand-dashboard.vercel.app/admin",
+          },
         ],
       }
     );
