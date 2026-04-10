@@ -459,7 +459,7 @@ export default function TaskSchedulePanel({
           {
             type: "button",
             text: { type: "plain_text", text: "📊 대시보드에서 보기" },
-            url: "https://hiz-brand-dashboard.vercel.app/admin",
+            url: "https://hiz-brand-dashboard.vercel.app/admin?tab=tasks",
           },
         ],
       }

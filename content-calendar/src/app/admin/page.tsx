@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import type { ContentItem } from "@/data/types";
 import type { ChannelType, FinanceConfig } from "@/data/client-config";
 import AuditScoreCard from "@/components/np/AuditScoreCard";
@@ -1098,7 +1098,8 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
 export default function AdminDashboard() {
   const [data, setData] = useState<SummaryData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<string>("overview");
+  const searchParams = useSearchParams();
+  const [activeTab, setActiveTab] = useState<string>(searchParams.get("tab") || "overview");
   const [fetchKey, setFetchKey] = useState(0);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [wideMode, setWideMode] = useState(false);
