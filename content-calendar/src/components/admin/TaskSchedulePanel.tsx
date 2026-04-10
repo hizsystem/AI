@@ -343,6 +343,8 @@ export default function TaskSchedulePanel({
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [showAdd, setShowAdd] = useState(false);
   const [slackSending, setSlackSending] = useState(false);
+  const [slackConfirm, setSlackConfirm] = useState(false);
+  const [slackDone, setSlackDone] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const headerScrollRef = useRef<HTMLDivElement>(null);
 
@@ -471,10 +473,12 @@ export default function TaskSchedulePanel({
       });
       if (res.status === 503) alert("Slack 웹훅이 설정되지 않았습니다.\nSLACK_TASK_WEBHOOK_URL 환경변수를 추가해주세요.");
       else if (!res.ok) alert("Slack 전송 실패");
+      else { setSlackDone(true); setTimeout(() => setSlackDone(false), 2000); }
     } catch {
       alert("Slack 전송 오류");
     } finally {
       setSlackSending(false);
+      setSlackConfirm(false);
     }
   }
 
@@ -539,14 +543,14 @@ export default function TaskSchedulePanel({
             </button>
           )}
           <button
-            onClick={handleSlackShare}
+            onClick={() => setSlackConfirm(true)}
             disabled={slackSending}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 disabled:opacity-40"
           >
             <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="currentColor">
               <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.122 2.521a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.268 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zm-2.523 10.122a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.268a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z" />
             </svg>
-            {slackSending ? "전송중..." : "Slack 공유"}
+            Slack 공유
           </button>
           <button
             onClick={() => setShowAdd(true)}
@@ -729,6 +733,47 @@ export default function TaskSchedulePanel({
           onAdd={handleAddTask}
           onClose={() => setShowAdd(false)}
         />
+      )}
+
+      {/* Slack Confirm Modal */}
+      {slackConfirm && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50" onClick={() => !slackSending && setSlackConfirm(false)}>
+          <div onClick={(e) => e.stopPropagation()} className="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 text-center space-y-4">
+            <div className="w-12 h-12 mx-auto bg-gray-100 rounded-full flex items-center justify-center">
+              <svg viewBox="0 0 24 24" className="w-6 h-6 text-gray-600" fill="currentColor">
+                <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.122 2.521a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.268 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zm-2.523 10.122a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.268a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z" />
+              </svg>
+            </div>
+            <p className="text-sm font-medium text-gray-900">Slack에 공유하시겠습니까?</p>
+            <p className="text-xs text-gray-400">현재 태스크 현황이 Slack 채널로 전송됩니다</p>
+            <div className="flex justify-center gap-2 pt-1">
+              <button
+                onClick={() => setSlackConfirm(false)}
+                disabled={slackSending}
+                className="px-4 py-2 text-sm text-gray-500 hover:text-gray-700 disabled:opacity-40"
+              >
+                취소
+              </button>
+              <button
+                onClick={handleSlackShare}
+                disabled={slackSending}
+                className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 disabled:opacity-40"
+              >
+                {slackSending ? "전송중..." : "공유하기"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Slack Done Toast */}
+      {slackDone && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white text-sm font-medium px-5 py-3 rounded-xl shadow-lg flex items-center gap-2 animate-[fadeIn_0.2s_ease-out]">
+          <svg className="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          Slack에 공유되었습니다
+        </div>
       )}
     </div>
   );
