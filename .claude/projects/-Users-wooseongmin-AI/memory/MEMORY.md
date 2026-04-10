@@ -17,6 +17,7 @@
 - [탭샵바 주간미팅 루틴](project_tapshopbar_weekly_meeting.md) — 매주 월요일, 우성민/김희종/박창규. Sheets 태스크+캘린더 연동 준비/랩업 시스템
 - [콘텐츠 캘린더 플랫폼화](project_content_calendar_platform.md) — 멀티 클라이언트 관리자 대시보드, 동적 라우팅, 토큰 접근 제어. 4/10 데드라인, Phase 1~3 목표
 - [모수 프로젝트](project_mosu.md) — 불특정 다수 유입 환경 구축 특명. 성민 총괄. 정부지원사업/홈페이지/진단/메타광고
+- [말렌(MALEN) 프로젝트](project_malen.md) — 동생 지인, 7년차 유니섹스 내추럴웨어. 상담 4/8 완료. 진단→제안서 단계
 
 ## Feedback
 - [콘텐츠 제작 후 반드시 파일 저장](feedback_save_content.md) — 세션 종료 전 md 파일 저장 필수, 대화만으로는 다음 세션에서 복구 불가
@@ -40,6 +41,7 @@
 - [부회장님 보고 스타일](feedback_reporting_style_vc.md) — 핵심 우선, 중요도 1→10, 나이스보다 실기. 기업 써머리 포맷.
 
 ## Reference
+- [패션 브랜드 마케팅 생태계](reference_fashion_marketing_ecosystem.md) — 시즌구조, 수익구조, CRM, 포터리/ALO/세터 벤치마크, 대표님 필수 질문 3개
 - [베지어트 브랜드 디자인 가이드라인](reference_veggiet_brand_guideline.md) — HIZ팀 제작 VEGGIET 리뉴얼 가이드라인 PDF, 콘텐츠/디자인 브랜드 일관성 기준
 - [빙커 BI 가이드라인](reference_vinker_brand_guideline.md) — FRONTKIT 제작 VINKER BI 가이드라인 PDF (NAS), 해외 콘텐츠/디자인 기준
 - [네이버플레이스 전문가 조형원](reference_naver_place_expert.md) — 주유별장, 외식업 마케팅 5년, 교육/자문 파트너

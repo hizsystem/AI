@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>모수 확보 주간 보고 — {{REPORT_DATE}}</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif; background: #f4f7f9; color: #1a1b18; line-height: 1.7; font-size: 14px; padding-top: 56px; }
+  .toolbar { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: #1a1b18; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 100; }
+  .toolbar-brand { color: #fff; font-weight: 700; font-size: 15px; letter-spacing: -0.3px; }
+  .toolbar-brand span { color: #a2c7e2; }
+  .toolbar-meta { color: rgba(255,255,255,.5); font-size: 12px; }
+  .container { max-width: 900px; margin: 0 auto; padding: 24px 20px 60px; }
+  .report-header { background: #fff; border-radius: 12px; padding: 40px; border: 1px solid #e8edf1; margin-bottom: 24px; }
+  .report-badge { display: inline-block; padding: 4px 12px; background: #1a1b18; color: #a2c7e2; font-size: 11px; letter-spacing: 1px; border-radius: 4px; font-weight: 600; text-transform: uppercase; }
+  .report-title { font-size: 24px; font-weight: 700; margin-top: 16px; line-height: 1.4; }
+  .report-subtitle { font-size: 15px; color: #636569; margin-top: 8px; }
+  .meta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; padding-top: 24px; border-top: 1px solid #e8edf1; }
+  .meta-item .label { font-size: 11px; color: #636569; font-weight: 500; letter-spacing: 0.5px; }
+  .meta-item .value { font-size: 14px; font-weight: 600; margin-top: 2px; }
+  .section { background: #fff; border-radius: 12px; padding: 32px 40px; margin-bottom: 20px; border: 1px solid #e8edf1; }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #e8edf1; }
+  .section-number { width: 32px; height: 32px; border-radius: 8px; background: #1a1b18; color: #a2c7e2; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+  .section-title { font-size: 17px; font-weight: 600; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 16px 0; }
+  .kpi-card { background: #f8fafb; border-radius: 10px; padding: 20px; text-align: center; border: 1px solid #e8edf1; }
+  .kpi-card .label { font-size: 11px; color: #636569; font-weight: 500; letter-spacing: 0.5px; }
+  .kpi-card .value { font-size: 24px; font-weight: 700; margin-top: 6px; }
+  .kpi-card .sub { font-size: 12px; color: #636569; margin-top: 4px; }
+  .kpi-card.highlight { background: #1a1b18; }
+  .kpi-card.highlight .label { color: #a2c7e2; }
+  .kpi-card.highlight .value { color: #fff; }
+  .kpi-card.highlight .sub { color: rgba(255,255,255,.6); }
+  .kpi-card .trend-up { color: #2ea043; }
+  .kpi-card .trend-down { color: #cf222e; }
+  .funnel-wrap { margin: 24px auto; max-width: 680px; }
+  .funnel-row { display: flex; align-items: center; gap: 20px; }
+  .funnel-bar-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; width: 280px; }
+  .funnel-bar { width: 100%; text-align: center; padding: 14px 12px; color: #fff; }
+  .funnel-bar:nth-child(1) { background: #1a1b18; border-radius: 10px 10px 0 0; width: 100%; }
+  .funnel-bar:nth-child(2) { background: #2d3748; width: 80%; }
+  .funnel-bar:nth-child(3) { background: #4a6fa5; width: 58%; }
+  .funnel-bar:nth-child(4) { background: #a2c7e2; color: #1a1b18; width: 38%; border-radius: 0 0 10px 10px; }
+  .funnel-bar .f-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; opacity: 0.7; }
+  .funnel-bar .f-title { font-size: 15px; font-weight: 700; margin-top: 2px; }
+  .funnel-details { display: flex; flex-direction: column; width: 100%; }
+  .funnel-detail-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f0f2f5; }
+  .funnel-detail-row:last-child { border-bottom: none; }
+  .funnel-detail-row .fd-num { font-size: 20px; font-weight: 700; min-width: 60px; text-align: right; }
+  .funnel-detail-row .fd-text { font-size: 13px; color: #636569; }
+  .funnel-detail-row .fd-text strong { color: #1a1b18; }
+  .funnel-detail-row .fd-rate { font-size: 11px; color: #a2c7e2; background: #1a1b18; padding: 2px 8px; border-radius: 4px; margin-left: auto; font-weight: 600; }
+  .channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
+  .channel-card { background: #f8fafb; border-radius: 10px; padding: 16px 20px; border: 1px solid #e8edf1; }
+  .channel-card.primary { border: 2px solid #1a1b18; background: #fff; }
+  .channel-card .c-type { font-size: 10px; font-weight: 600; color: #636569; letter-spacing: 0.5px; }
+  .channel-card .c-name { font-size: 15px; font-weight: 700; margin-top: 4px; }
+  .channel-card .c-detail { font-size: 12px; color: #636569; margin-top: 4px; }
+  .channel-card .c-badge { display: inline-block; padding: 2px 8px; background: #1a1b18; color: #a2c7e2; font-size: 10px; border-radius: 3px; margin-top: 8px; font-weight: 600; }
+  .info-box { background: #f0f7ff; border-left: 4px solid #a2c7e2; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0; font-size: 13px; line-height: 1.7; }
+  .highlight-box { background: #fff8e1; border-left: 4px solid #f5a623; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0; font-size: 13px; line-height: 1.7; }
+  .risk-box { background: #fef2f2; border-left: 4px solid #cf222e; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0; font-size: 13px; line-height: 1.7; }
+  .success-box { background: #f0fdf4; border-left: 4px solid #2ea043; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 16px 0; font-size: 13px; line-height: 1.7; }
+  .priority-box { background: #1a1b18; color: #fff; border-radius: 12px; padding: 32px 40px; margin-bottom: 20px; }
+  .priority-box h2 { color: #a2c7e2; font-size: 17px; margin-bottom: 20px; }
+  .priority-item { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
+  .priority-item:last-child { margin-bottom: 0; }
+  .priority-num { width: 28px; height: 28px; border-radius: 50%; background: #a2c7e2; color: #1a1b18; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+  .priority-text { font-size: 14px; line-height: 1.6; }
+  .priority-text strong { color: #a2c7e2; }
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 13px; }
+  th { background: #f8fafb; padding: 10px 14px; text-align: left; font-weight: 600; border-bottom: 2px solid #e8edf1; font-size: 12px; }
+  td { padding: 10px 14px; border-bottom: 1px solid #f0f2f5; }
+  tr:hover td { background: #fafbfc; }
+  .report-footer { text-align: center; padding: 24px; font-size: 12px; color: #636569; }
+  @media print {
+    body { background: #fff; padding-top: 0; }
+    .toolbar { display: none; }
+    .section, .priority-box { break-inside: avoid; }
+    .priority-box { background: #333 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+  @media (max-width: 768px) {
+    .meta-grid { grid-template-columns: repeat(2, 1fr); }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .funnel-row { flex-direction: column; }
+    .funnel-bar-wrap { width: 100%; max-width: 280px; }
+    .channel-grid { grid-template-columns: 1fr; }
+    .section { padding: 24px 20px; }
+    .report-header { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-brand">brand<span>rise</span></div>
+  <div class="toolbar-meta">내부 보고용</div>
+</div>
+
+<div class="container">
+
+  <!-- Header -->
+  <div class="report-header">
+    <div class="report-badge">WEEKLY REPORT — W{{WEEK_NUM}}</div>
+    <h1 class="report-title">모수 확보 주간 보고</h1>
+    <p class="report-subtitle">{{PERIOD}} 실행 결과 및 다음 주 계획</p>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="label">보고일</div>
+        <div class="value">{{REPORT_DATE}}</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">담당</div>
+        <div class="value">우성민</div>
+      </div>
+      <div class="meta-item">
+        <div class="label">보고 대상</div>
+        <div class="value">이상학 부회장님</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 1: 핵심 지표 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">1</div>
+      <div class="section-title">핵심 지표</div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="label">진단 유입</div>
+        <div class="value">{{DIAG_TOTAL}}</div>
+        <div class="sub">누적 {{DIAG_CUMULATIVE}}건</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">진단 완료</div>
+        <div class="value">{{DIAG_COMPLETE}}</div>
+        <div class="sub">완료율 {{COMPLETE_RATE}}%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="label">상담 전환</div>
+        <div class="value">{{CONSULT_COUNT}}</div>
+        <div class="sub">전환율 {{CONVERT_RATE}}%</div>
+      </div>
+      <div class="kpi-card highlight">
+        <div class="label">수주</div>
+        <div class="value">{{DEAL_COUNT}}</div>
+        <div class="sub">누적 {{DEAL_CUMULATIVE}}건</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 2: 퍼널 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">2</div>
+      <div class="section-title">퍼널 현황</div>
+    </div>
+    <div class="funnel-wrap">
+      <div class="funnel-row">
+        <div class="funnel-bar-wrap">
+          <div class="funnel-bar">
+            <div class="f-label">EXPOSURE</div>
+            <div class="f-title">노출</div>
+          </div>
+          <div class="funnel-bar">
+            <div class="f-label">LANDING</div>
+            <div class="f-title">유입</div>
+          </div>
+          <div class="funnel-bar">
+            <div class="f-label">CONVERSION</div>
+            <div class="f-title">전환</div>
+          </div>
+          <div class="funnel-bar">
+            <div class="f-label">REVENUE</div>
+            <div class="f-title">수주</div>
+          </div>
+        </div>
+        <div class="funnel-details">
+          <div class="funnel-detail-row">
+            <div class="fd-num">{{EXPOSURE_NUM}}</div>
+            <div class="fd-text">총 노출</div>
+          </div>
+          <div class="funnel-detail-row">
+            <div class="fd-num">{{LANDING_NUM}}</div>
+            <div class="fd-text">진단 페이지 유입</div>
+            <div class="fd-rate">{{LANDING_RATE}}%</div>
+          </div>
+          <div class="funnel-detail-row">
+            <div class="fd-num">{{CONVERT_NUM}}</div>
+            <div class="fd-text">상담 신청</div>
+            <div class="fd-rate">{{FUNNEL_CONVERT_RATE}}%</div>
+          </div>
+          <div class="funnel-detail-row">
+            <div class="fd-num">{{DEAL_NUM}}</div>
+            <div class="fd-text">수주</div>
+            <div class="fd-rate">{{DEAL_RATE}}%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: 채널별 성과 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">3</div>
+      <div class="section-title">채널별 성과</div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>채널</th>
+          <th>유입</th>
+          <th>진단 완료</th>
+          <th>상담 전환</th>
+          <th>CPA</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{CHANNEL_ROWS}}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Section 4: 이번 주 인사이트 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">4</div>
+      <div class="section-title">이번 주 인사이트</div>
+    </div>
+    {{INSIGHTS}}
+  </div>
+
+  <!-- Priority: 다음 주 액션 -->
+  <div class="priority-box">
+    <h2>다음 주 핵심 액션</h2>
+    {{NEXT_ACTIONS}}
+  </div>
+
+  <div class="report-footer">
+    brandrise &mdash; 내부 보고용 &middot; {{REPORT_DATE}}
+  </div>
+
+</div>
+
+</body>
+</html>

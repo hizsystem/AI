@@ -364,7 +364,27 @@
       "WebFetch(domain:www.notion.so)",
       "Bash(git ls-tree:*)",
       "WebFetch(domain:onoffmix.com)",
-      "Bash(kill %1)"
+      "Bash(kill %1)",
+      "WebFetch(domain:bodinote.kr)",
+      "WebFetch(domain:www.rocketpunch.com)",
+      "WebFetch(domain:bizno.net)",
+      "WebFetch(domain:m.etnews.com)",
+      "Bash(git clone:*)",
+      "WebFetch(domain:localhost)",
+      "WebFetch(domain:resaltz-platform.vercel.app)",
+      "Bash(gh run:*)",
+      "WebFetch(domain:www.mycw.co.kr)",
+      "WebFetch(domain:www.digitaljournal.com)",
+      "WebFetch(domain:miryegukbap.com)",
+      "Bash(env)",
+      "Bash(npx -p typescript tsc --noEmit --pretty)",
+      "WebFetch(domain:hiz-brand-dashboard.vercel.app)",
+      "Bash(awk '{print $2/1024/1024/1024 \" GB\"}')",
+      "Bash(chmod +x /Users/wooseongmin/AI/.claude/worktrees/meta-ads/scripts/meta/run_daily_report.sh)",
+      "Bash(launchctl load:*)",
+      "Bash(launchctl list:*)",
+      "Bash(/bin/bash:*)",
+      "Bash(system_profiler SPHardwareDataType)"
     ]
   },
   "hooks": {
