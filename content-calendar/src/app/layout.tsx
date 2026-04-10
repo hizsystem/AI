@@ -8,8 +8,8 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Content Calendar",
-  description: "Monthly content calendar for brand clients",
+  title: "BC3T Dashboard",
+  description: "BC3T Brand Dashboard for client management",
 };
 
 export default function RootLayout({
