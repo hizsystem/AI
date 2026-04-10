@@ -12,7 +12,7 @@ from pathlib import Path
 import requests
 
 from meta.auth import load_config, validate_token
-from meta.insights_fetcher import fetch_daily, save_insights, load_insights
+from meta.insights_fetcher import fetch_daily, fetch_by_ad, save_insights, load_insights
 from meta.performance_analyzer import compare_daily, detect_anomalies
 
 logger = logging.getLogger(__name__)
@@ -53,6 +53,85 @@ def format_account_block(
 
     for alert in anomalies:
         lines.append(f">> 주의: {alert['message']}")
+
+    # Pixel 퍼널 데이터
+    funnel = insights.get("funnel", {})
+    pv = funnel.get("page_view", 0)
+    ic = funnel.get("initiate_checkout", 0)
+    cr = funnel.get("complete_registration", 0)
+    lead = funnel.get("lead", 0)
+    clicks = insights.get("clicks", 0)
+
+    if pv > 0 or ic > 0 or cr > 0 or lead > 0:
+        lines.append("")
+        lines.append("🔄 진단 퍼널")
+
+        # 전환율 계산
+        click_to_land = f" ({round(pv / clicks * 100)}%)" if clicks > 0 else ""
+        land_to_start = f" ({round(ic / pv * 100)}%)" if pv > 0 else ""
+        start_to_done = f" ({round(cr / ic * 100)}%)" if ic > 0 else ""
+        done_to_lead = f" ({round(lead / cr * 100)}%)" if cr > 0 else ""
+
+        lines.append(
+            f"  클릭 {clicks} → 랜딩 {pv}{click_to_land} → "
+            f"진단시작 {ic}{land_to_start} → "
+            f"진단완료 {cr}{start_to_done} → "
+            f"상담신청 {lead}{done_to_lead}"
+        )
+
+    return "\n".join(lines)
+
+
+def format_ad_breakdown(
+    account_key: str,
+    date_str: str,
+    config_path: Path | None = None,
+) -> str:
+    """소재별 성과 상세 블록."""
+    try:
+        ads = fetch_by_ad(
+            adset_id="",  # 빈 값이면 계정 전체 ad-level 조회
+            date_str=date_str,
+            account_key=account_key,
+            config_path=config_path,
+        )
+    except Exception as e:
+        logger.warning(f"소재별 조회 실패: {e}")
+        return ""
+
+    if not ads:
+        return ""
+
+    # 지출 기준 내림차순 정렬
+    ads.sort(key=lambda x: x.get("spend", 0), reverse=True)
+
+    lines = ["\n📊 소재별 상세"]
+    for ad in ads:
+        name = ad.get("ad_name", "?")
+        spend = ad.get("spend", 0)
+        impressions = ad.get("impressions", 0)
+        clicks = ad.get("clicks", 0)
+        ctr = ad.get("ctr", 0)
+        cpc = ad.get("cpc", 0)
+
+        if spend == 0 and impressions == 0:
+            continue
+
+        lines.append(
+            f"  {name}\n"
+            f"    지출 ₩{spend:,} | 노출 {impressions:,} | 클릭 {clicks} | "
+            f"CTR {ctr}% | CPC ₩{cpc:,}"
+        )
+
+    # 최고/최저 CTR 하이라이트
+    active_ads = [a for a in ads if a.get("impressions", 0) > 0]
+    if len(active_ads) >= 2:
+        best = max(active_ads, key=lambda x: x.get("ctr", 0))
+        worst = min(active_ads, key=lambda x: x.get("ctr", 0))
+        lines.append(
+            f"\n  🏆 최고 CTR: {best.get('ad_name', '?')} ({best.get('ctr', 0)}%)"
+            f"\n  ⚠️ 최저 CTR: {worst.get('ad_name', '?')} ({worst.get('ctr', 0)}%)"
+        )
 
     return "\n".join(lines)
 
@@ -118,7 +197,8 @@ def run_daily_report(
 
     weekday = ["월", "화", "수", "목", "금", "토", "일"]
     dt = datetime.strptime(date_str, "%Y-%m-%d")
-    header = f"Meta 광고 데일리 — {date_str} ({weekday[dt.weekday()]})\n"
+    date_kr = f"{dt.year}년 {dt.month}월 {dt.day}일 ({weekday[dt.weekday()]})"
+    header = f"Meta 광고 데일리 — {date_kr}\n"
 
     all_accounts_data = []
     accounts = config["accounts"]
@@ -134,11 +214,15 @@ def run_daily_report(
                                              config_path=config_path or CONFIG_DIR / "config.yaml")
 
                 block = format_account_block(account_info["name"], insights, comparison, anomalies)
+                ad_detail = format_ad_breakdown(
+                    account_key, date_str,
+                    config_path=config_path or CONFIG_DIR / "config.yaml",
+                )
                 all_accounts_data.append({
                     "name": account_info["name"],
                     "insights": insights,
                     "anomalies": anomalies,
-                    "block": block,
+                    "block": block + ad_detail,
                 })
                 break  # 성공 시 재시도 루프 탈출
             except Exception as e:

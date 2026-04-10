@@ -27,11 +27,37 @@ def _parse_actions(raw: list[dict] | None, action_type: str = "offsite_conversio
     return 0.0
 
 
+def _parse_pixel_funnel(raw: list[dict] | None) -> dict:
+    """actions 배열에서 Pixel 퍼널 이벤트 추출."""
+    funnel = {
+        "page_view": 0,
+        "initiate_checkout": 0,
+        "complete_registration": 0,
+        "lead": 0,
+        "schedule": 0,
+    }
+    if not raw:
+        return funnel
+    event_map = {
+        "offsite_conversion.fb_pixel_page_view": "page_view",
+        "offsite_conversion.fb_pixel_initiate_checkout": "initiate_checkout",
+        "offsite_conversion.fb_pixel_complete_registration": "complete_registration",
+        "offsite_conversion.fb_pixel_lead": "lead",
+        "offsite_conversion.fb_pixel_schedule": "schedule",
+    }
+    for action in raw:
+        key = event_map.get(action.get("action_type", ""))
+        if key:
+            funnel[key] = int(float(action.get("value", 0)))
+    return funnel
+
+
 def _parse_insights(raw_row: dict) -> dict:
     """API 응답 1행을 정제된 metrics dict로 변환."""
     spend = float(raw_row.get("spend", 0))
     conversions = _parse_actions(raw_row.get("actions"))
     revenue = _parse_actions(raw_row.get("action_values"))
+    funnel = _parse_pixel_funnel(raw_row.get("actions"))
 
     return {
         "spend": round(spend),
@@ -43,6 +69,7 @@ def _parse_insights(raw_row: dict) -> dict:
         "conversions": int(conversions),
         "cpa": round(spend / conversions) if conversions > 0 else 0,
         "roas": round(revenue / spend, 1) if spend > 0 else 0.0,
+        "funnel": funnel,
     }
 
 

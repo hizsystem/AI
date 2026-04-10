@@ -1,0 +1,142 @@
+{
+  "campaign": {
+    "name": "[BR] 모수확보_무료진단_0410",
+    "objective": "OUTCOME_TRAFFIC",
+    "special_ad_categories": [],
+    "status": "PAUSED",
+    "buying_type": "AUCTION"
+  },
+
+  "adset": {
+    "name": "[BR] 스타트업대표_관심사타겟",
+    "daily_budget": 7143,
+    "billing_event": "IMPRESSIONS",
+    "optimization_goal": "LINK_CLICKS",
+    "bid_strategy": "LOWEST_COST_WITHOUT_CAP",
+    "schedule": {
+      "start_date": "2026-04-11",
+      "end_date": "2026-04-17"
+    },
+    "targeting": {
+      "age_min": 27,
+      "age_max": 45,
+      "genders": [0],
+      "geo_locations": {
+        "countries": ["KR"]
+      },
+      "publisher_platforms": ["instagram"],
+      "instagram_positions": ["stream", "story", "reels", "explore", "explore_home"],
+      "device_platforms": ["mobile"],
+      "flexible_spec": [
+        {
+          "interests": [
+            {"id": "6003384241633", "name": "Entrepreneurship"},
+            {"id": "6003310913105", "name": "Small business"},
+            {"id": "6003020834693", "name": "Marketing"},
+            {"id": "6003397425735", "name": "Digital marketing"},
+            {"id": "6003253882530", "name": "Branding"},
+            {"id": "6003139266461", "name": "Startup company"},
+            {"id": "6003277229371", "name": "Online advertising"},
+            {"id": "6003349442271", "name": "Social media marketing"},
+            {"id": "6003107902433", "name": "Business"},
+            {"id": "6003648432552", "name": "Content marketing"}
+          ]
+        }
+      ],
+      "exclusions": {
+        "interests": [
+          {"id": "6003171858510", "name": "Marketing (대행사/종사자 제외용)"}
+        ]
+      }
+    },
+    "notes": {
+      "estimated_reach": "300,000~800,000",
+      "rationale": {
+        "age": "27-45: 스타트업 대표 핵심 연령대. 25 이하는 학생 비율 높아 제외",
+        "gender": "전체 (0). 스타트업 대표는 성별 무관",
+        "geo": "한국 전체. 서울 한정 시 CPM 상승 + 도달 축소",
+        "platform": "Instagram Only. 브랜드라이즈 메인 채널이 인스타. FB은 타겟 미스매치 높음",
+        "placements": "전체 자동배치(Feed+Stories+Reels+Explore). 저예산에서 수동배치는 학습 부족",
+        "interests": "창업/마케팅/브랜딩/디지털마케팅 관심사 OR 조합. 하나라도 해당되면 타겟",
+        "bid": "최저비용(자동입찰). 저예산에서 수동입찰은 노출 자체가 안 될 위험"
+      }
+    }
+  },
+
+  "ads": [
+    {
+      "name": "[BR] 공통점",
+      "creative": {
+        "image_feed": "0410_공통점_정방향.png",
+        "image_story": "0410_공통점_세로형.png",
+        "primary_text": "안 되는 브랜드는 실행이 부족한 게 아니었습니다.\n오히려 열심히 하고 있었어요.\n\n문제는 브랜드 기초 체력이 없는 상태에서\n광고, 콘텐츠, 바이럴을 돌리고 있었다는 거예요.\n\n기반 없이 쌓은 마케팅은\n광고 끄는 순간 같이 사라집니다.\n\n우리 브랜드의 기초 체력이 어느 정도인지,\n7문항 무료 진단으로 확인해보세요.",
+        "headline": "무료 브랜드 진단 → 맞춤 상담까지",
+        "description": "2분 진단 후 전문가 상담을 받아보세요",
+        "call_to_action": "APPLY_NOW",
+        "link": "https://start.brandrise.co.kr?utm_source=meta&utm_medium=paid&utm_campaign=mosu_test_0410&utm_content=common"
+      }
+    },
+    {
+      "name": "[BR] 괜찮은지",
+      "creative": {
+        "image_feed": "0410_괜찮은지_정방향.png",
+        "image_story": "0410_괜찮은지_세로형.png",
+        "primary_text": "주변에 물어봐도 \"잘하고 있는 것 같은데?\" 뿐이고\n대행사한테 물어봐도 \"더 태우세요\"뿐이고.\n\n객관적으로 우리 브랜드 상태를 알려주는 곳,\n생각보다 없잖아요.\n\n브랜드라이즈 무료 진단은\n포지셔닝, 비주얼, 고객 이해, 차별화 등\n7가지 영역을 점수로 보여드립니다.\n\n지금 뭐가 부족한지,\n어디부터 손대야 하는지,\n2분이면 알 수 있어요.",
+        "headline": "무료 브랜드 진단 → 맞춤 상담까지",
+        "description": "2분 진단 후 전문가 상담을 받아보세요",
+        "call_to_action": "APPLY_NOW",
+        "link": "https://start.brandrise.co.kr?utm_source=meta&utm_medium=paid&utm_campaign=mosu_test_0410&utm_content=okay"
+      }
+    },
+    {
+      "name": "[BR] 딱하나",
+      "creative": {
+        "image_feed": "0410_딱하나_정방향.png",
+        "image_story": "0410_딱하나_세로형.png",
+        "primary_text": "제품은 좋고, 열정도 있고, 실행력도 있는데\n딱 하나가 빠져 있어요.\n\n브랜드 포지셔닝.\n\n\"우리는 ○○한 브랜드입니다\"를\n대표도, 팀원도, 고객도 같은 말로 설명할 수 있어야\n콘텐츠도 광고도 방향이 생깁니다.\n\n브랜드라이즈 무료 진단은\n포지셔닝을 포함한 7가지 영역을 점수로 보여주고\n지금 당장 고칠 수 있는 액션까지 알려드립니다.\n\n2분이면 됩니다. 비용은 0원.",
+        "headline": "무료 브랜드 진단 → 맞춤 상담까지",
+        "description": "2분 진단 후 전문가 상담을 받아보세요",
+        "call_to_action": "APPLY_NOW",
+        "link": "https://start.brandrise.co.kr?utm_source=meta&utm_medium=paid&utm_campaign=mosu_test_0410&utm_content=one"
+      }
+    },
+    {
+      "name": "[BR] 솔직히",
+      "creative": {
+        "image_feed": "0410_솔직히_정방향.png",
+        "image_story": "0410_솔직히_세로형.png",
+        "primary_text": "SNS? 광고? 브랜딩? 블로그? 체험단?\n할 건 많은데 예산은 한정되어 있고\n뭐부터 해야 효과가 날지 감이 안 잡히는 거잖아요.\n\n브랜드라이즈 무료 진단을 받으시면\n7가지 영역 중 지금 가장 약한 곳이 어딘지,\n거기서부터 뭘 해야 하는지 알 수 있습니다.\n\n다 할 필요 없어요.\n지금 제일 급한 거 하나부터.",
+        "headline": "무료 브랜드 진단 → 맞춤 상담까지",
+        "description": "2분 진단 후 전문가 상담을 받아보세요",
+        "call_to_action": "APPLY_NOW",
+        "link": "https://start.brandrise.co.kr?utm_source=meta&utm_medium=paid&utm_campaign=mosu_test_0410&utm_content=honest"
+      }
+    },
+    {
+      "name": "[BR] 왜안돼",
+      "creative": {
+        "image_feed": "0410_왜안돼_정방향.png",
+        "image_story": "0410_왜안돼_세로형.png",
+        "primary_text": "SNS도 하고, 광고도 하고, 체험단도 하고.\n할 수 있는 건 다 하고 있는데\n성과는 안 따라오는 거예요.\n\n100건 넘게 상담하면서 알게 됐습니다.\n\"다 하고 있는데 안 되는\" 브랜드는\n실행이 아니라 방향에 문제가 있었습니다.\n\n브랜드라이즈 무료 진단은\n방향이 맞는지 틀렸는지를\n점수와 차트로 보여드립니다.\n\n원인을 알아야 고칠 수 있으니까요.",
+        "headline": "무료 브랜드 진단 → 맞춤 상담까지",
+        "description": "2분 진단 후 전문가 상담을 받아보세요",
+        "call_to_action": "APPLY_NOW",
+        "link": "https://start.brandrise.co.kr?utm_source=meta&utm_medium=paid&utm_campaign=mosu_test_0410&utm_content=why"
+      }
+    }
+  ],
+
+  "meta": {
+    "created": "2026-04-10",
+    "test_period": "2026-04-11 ~ 2026-04-17",
+    "total_budget": 50000,
+    "daily_budget": 7143,
+    "goal": "데이터 확보 (랜딩율, 완료율, 전환율 측정)",
+    "expected_clicks": "125~250",
+    "kpi": {
+      "primary": "링크 클릭수",
+      "secondary": "CTR, CPC",
+      "tracking": "진단 시작율, 진단 완료율, 상담 신청율"
+    }
+  }
+}

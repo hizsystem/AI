@@ -3,8 +3,11 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 from datetime import datetime
 from pathlib import Path
+
+import requests
 
 from meta.auth import load_config, get_account
 
@@ -59,12 +62,17 @@ def create_campaign(
     name: str,
     objective: str,
     daily_budget: int = 20000,
+    bid_strategy: str = "LOWEST_COST_WITHOUT_CAP",
     schedule: dict | None = None,
     dry_run: bool = False,
     config_path: Path | None = None,
     log_dir: Path | None = None,
 ) -> str:
-    """캠페인 생성. 항상 PAUSED 상태로 생성."""
+    """캠페인 생성. 항상 PAUSED 상태로 생성.
+
+    Args:
+        daily_budget: 원 단위 일예산 (예: 7143 → ₩7,143/일)
+    """
     _check_budget_limit(account_key, daily_budget, config_path=config_path)
 
     params = {
@@ -72,7 +80,8 @@ def create_campaign(
         "objective": objective,
         "status": "PAUSED",
         "special_ad_categories": [],
-        "daily_budget": daily_budget * 100,  # Meta API는 cents 단위
+        "daily_budget": daily_budget,  # 원 단위 그대로 전달 (Meta KRW 계정은 센트 변환 불필요)
+        "bid_strategy": bid_strategy,
     }
     if schedule:
         params.update(schedule)
@@ -96,22 +105,36 @@ def create_adset(
     name: str,
     targeting: dict,
     placements: dict | None = None,
-    daily_budget: int = 10000,
+    daily_budget: int | None = None,
+    optimization_goal: str = "LINK_CLICKS",
+    advantage_audience: bool = False,
     account_key: str = "",
     dry_run: bool = False,
     config_path: Path | None = None,
     log_dir: Path | None = None,
 ) -> str:
-    """광고세트 생성."""
+    """광고세트 생성.
+
+    Args:
+        daily_budget: 원 단위. None이면 캠페인 예산(CBO) 사용.
+        advantage_audience: True면 Meta Advantage 타겟 확장 활성화.
+    """
+    # Advantage 타겟 플래그 (Meta API v25+ 필수)
+    targeting["targeting_automation"] = {
+        "advantage_audience": 1 if advantage_audience else 0,
+    }
+
     params = {
         "campaign_id": campaign_id,
         "name": name,
         "targeting": targeting,
-        "daily_budget": daily_budget * 100,
         "billing_event": "IMPRESSIONS",
-        "optimization_goal": "LINK_CLICKS",
+        "optimization_goal": optimization_goal,
         "status": "PAUSED",
     }
+    if daily_budget is not None:
+        params["daily_budget"] = daily_budget  # 원 단위 그대로
+
     if placements:
         params["targeting"]["publisher_platforms"] = placements.get("platforms", ["instagram"])
 
@@ -159,6 +182,87 @@ def create_ad(
     return ad_id
 
 
+def upload_image(
+    account_key: str,
+    image_path: str,
+    config_path: Path | None = None,
+    log_dir: Path | None = None,
+) -> str:
+    """이미지 업로드 → image_hash 반환. REST API 사용."""
+    config = load_config(config_path)
+    account_id = config["accounts"][account_key]["ad_account_id"]
+    token = os.environ.get("META_ACCESS_TOKEN", "")
+    base = "https://graph.facebook.com/v25.0"
+
+    with open(image_path, "rb") as f:
+        resp = requests.post(
+            f"{base}/{account_id}/adimages",
+            files={"filename": f},
+            data={"access_token": token},
+            timeout=60,
+        )
+    data = resp.json()
+    image_hash = list(data.get("images", {}).values())[0]["hash"]
+
+    _log_action("upload_image", {"image_hash": image_hash, "path": image_path}, log_dir=log_dir)
+    logger.info(f"이미지 업로드: {image_hash} ({image_path})")
+    return image_hash
+
+
+def create_creative(
+    account_key: str,
+    name: str,
+    image_hash: str,
+    page_id: str,
+    link: str,
+    primary_text: str,
+    headline: str,
+    description: str = "",
+    call_to_action: str = "APPLY_NOW",
+    config_path: Path | None = None,
+    log_dir: Path | None = None,
+) -> str:
+    """AdCreative 생성. REST API 사용 (페이지 권한 이슈 우회)."""
+    config = load_config(config_path)
+    account_id = config["accounts"][account_key]["ad_account_id"]
+    token = os.environ.get("META_ACCESS_TOKEN", "")
+    base = "https://graph.facebook.com/v25.0"
+
+    resp = requests.post(
+        f"{base}/{account_id}/adcreatives",
+        json={
+            "name": name,
+            "object_story_spec": {
+                "page_id": page_id,
+                "link_data": {
+                    "image_hash": image_hash,
+                    "link": link,
+                    "message": primary_text,
+                    "name": headline,
+                    "description": description,
+                    "call_to_action": {
+                        "type": call_to_action,
+                        "value": {"link": link},
+                    },
+                },
+            },
+            "access_token": token,
+        },
+        timeout=30,
+    )
+    data = resp.json()
+    creative_id = data.get("id")
+    if not creative_id:
+        error_msg = data.get("error", {}).get("error_user_msg", str(data))
+        raise ValueError(f"크리에이티브 생성 실패: {error_msg}")
+
+    _log_action("create_creative", {
+        "creative_id": creative_id, "name": name, "image_hash": image_hash,
+    }, log_dir=log_dir)
+    logger.info(f"크리에이티브 생성: {creative_id} ({name})")
+    return creative_id
+
+
 def upload_creative(
     account_key: str,
     image_path: str,
@@ -166,16 +270,14 @@ def upload_creative(
     config_path: Path | None = None,
     log_dir: Path | None = None,
 ) -> str:
-    """이미지 업로드 -> AdCreative 생성 -> creative_id 반환."""
+    """[레거시] 이미지 업로드 -> AdCreative 생성 -> creative_id 반환."""
     account = get_account(account_key, config_path)
 
-    # 이미지 업로드
     image = AdImage(parent_id=account["id"])
     image[AdImage.Field.filename] = image_path
     image.remote_create()
     image_hash = image[AdImage.Field.hash]
 
-    # AdCreative 생성
     creative = account.create_ad_creative(params={
         "name": name,
         "object_story_spec": {
@@ -227,7 +329,7 @@ def update_budget(
         _check_budget_limit(account_key, new_daily_budget, config_path=config_path)
 
     adset = AdSet(adset_id)
-    adset.api_update(params={"daily_budget": new_daily_budget * 100})
+    adset.api_update(params={"daily_budget": new_daily_budget})  # 원 단위 그대로
 
     _log_action("update_budget", {
         "adset_id": adset_id, "new_daily_budget": new_daily_budget,
