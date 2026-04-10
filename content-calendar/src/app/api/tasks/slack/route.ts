@@ -20,12 +20,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Slack webhook not configured" }, { status: 503 });
   }
 
-  const { text } = await req.json();
+  const body = await req.json();
+
+  // Support both plain text and Block Kit
+  const payload = body.blocks
+    ? { blocks: body.blocks, text: body.text || "Task Schedule Update" }
+    : { text: body.text };
 
   const res = await fetch(SLACK_WEBHOOK_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify(payload),
   });
 
   if (!res.ok) {

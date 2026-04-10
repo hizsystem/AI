@@ -408,24 +408,57 @@ export default function TaskSchedulePanel({
     setSlackSending(true);
 
     const grouped = groupByProject(board.tasks);
-    const lines: string[] = [`*📋 Task Schedule Update* (${toYMD(today)})`, ""];
+    const inProgress = board.tasks.filter((t) => t.status === "in-progress").length;
+    const done = board.tasks.filter((t) => t.status === "done").length;
+    const pending = board.tasks.filter((t) => t.status === "pending").length;
+
+    // Slack Block Kit format
+    const blocks: object[] = [
+      {
+        type: "header",
+        text: { type: "plain_text", text: `📋 Task Schedule  ·  ${toYMD(today)}` },
+      },
+      {
+        type: "context",
+        elements: [
+          { type: "mrkdwn", text: `🔵 진행 *${inProgress}*  ·  ⬜ 대기 *${pending}*  ·  ✅ 완료 *${done}*` },
+        ],
+      },
+      { type: "divider" },
+    ];
 
     for (const [slug, tasks] of Object.entries(grouped)) {
       const meta = PROJECT_META[slug] || { name: slug, emoji: "📁" };
-      lines.push(`*${meta.emoji} ${meta.name}* (${tasks.length})`);
-      for (const task of tasks) {
+      const taskLines = tasks.map((task) => {
         const m = board.members.find((m) => m.id === task.assigneeId);
         const emoji = task.status === "done" ? "✅" : task.status === "in-progress" ? "🔵" : "⬜";
-        lines.push(`  ${emoji} ${task.title} | ${m?.name || "미정"} | ${formatShort(toDate(task.startDate))}~${formatShort(toDate(task.endDate))}`);
-      }
-      lines.push("");
+        return `${emoji}  ${task.title}  ·  ${m?.name || "미정"}  ·  ${formatShort(toDate(task.startDate))}~${formatShort(toDate(task.endDate))}`;
+      });
+
+      blocks.push({
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `*${meta.emoji} ${meta.name}*  (${tasks.length})\n${taskLines.join("\n")}`,
+        },
+      });
     }
+
+    blocks.push(
+      { type: "divider" },
+      {
+        type: "context",
+        elements: [
+          { type: "mrkdwn", text: `<https://hiz-brand-dashboard.vercel.app/admin|📊 대시보드에서 보기>` },
+        ],
+      }
+    );
 
     try {
       const res = await fetch("/api/tasks/slack", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: lines.join("\n") }),
+        body: JSON.stringify({ blocks }),
       });
       if (res.status === 503) alert("Slack 웹훅이 설정되지 않았습니다.\nSLACK_TASK_WEBHOOK_URL 환경변수를 추가해주세요.");
       else if (!res.ok) alert("Slack 전송 실패");
