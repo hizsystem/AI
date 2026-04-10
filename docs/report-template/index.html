@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>월간 리포트 — 브랜드라이즈</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #f4f7f9; color: #1a1b18; line-height: 1.7; font-size: 14px; }
+
+.toolbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #0D0D0D; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
+.toolbar-left { display: flex; align-items: center; gap: 16px; }
+.toolbar-logo { font-size: 13px; font-weight: 700; color: #EA580C; letter-spacing: 0.05em; }
+.toolbar-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.15); }
+.toolbar-title { font-size: 14px; font-weight: 500; color: #fff; }
+.toolbar-actions { display: flex; gap: 8px; }
+.btn-toolbar { padding: 7px 16px; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; background: transparent; color: #fff; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.btn-toolbar:hover { background: rgba(255,255,255,0.1); }
+.btn-toolbar.active { background: #EA580C; color: #fff; border-color: #EA580C; }
+
+.edit-banner { display: none; position: fixed; top: 56px; left: 0; right: 0; z-index: 99; background: #FFF7ED; border-bottom: 2px solid #EA580C; padding: 8px 32px; font-size: 12px; color: #EA580C; font-weight: 600; text-align: center; }
+body.editing .edit-banner { display: block; }
+body.editing .container { padding-top: 110px; }
+body.editing [contenteditable="true"] { outline: 2px dashed rgba(234,88,12,0.3); outline-offset: 2px; border-radius: 4px; }
+body.editing [contenteditable="true"]:focus { outline-color: #EA580C; background: #FFF7ED; }
+
+.container { max-width: 900px; margin: 0 auto; padding: 80px 24px 60px; transition: padding-top 0.2s; }
+
+/* HEADER */
+.report-header { background: #fff; border-radius: 12px; padding: 40px; margin-bottom: 20px; border: 1px solid #e8edf1; }
+.report-header .label { font-size: 11px; font-weight: 700; color: #EA580C; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
+.report-header h1 { font-size: 36px; font-weight: 900; line-height: 1.35; letter-spacing: -0.02em; }
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 28px; padding-top: 24px; border-top: 1px solid #e8edf1; }
+.meta-item .mk { font-size: 11px; color: #999; letter-spacing: 0.04em; margin-bottom: 4px; }
+.meta-item .mv { font-size: 13px; font-weight: 600; }
+
+/* SECTION */
+.section { background: #fff; border-radius: 12px; padding: 32px 40px; margin-bottom: 20px; border: 1px solid #e8edf1; }
+.section h2 { font-size: 18px; font-weight: 800; margin-bottom: 6px; letter-spacing: -0.02em; }
+.section h2 em { color: #EA580C; font-style: normal; }
+.section .sec-sub { font-size: 13px; color: #999; margin-bottom: 24px; }
+
+/* KPI GRID */
+.kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 8px; }
+.kpi-grid.g3 { grid-template-columns: repeat(3, 1fr); }
+.kpi-card { background: #f8fafb; border-radius: 10px; padding: 22px 18px; text-align: center; border: 1px solid #e8edf1; }
+.kpi-card .kc-label { font-size: 11px; color: #999; font-weight: 500; letter-spacing: 0.04em; margin-bottom: 8px; }
+.kpi-card .kc-value { font-size: 26px; font-weight: 900; color: #1a1b18; letter-spacing: -0.02em; }
+.kpi-card .kc-unit { font-size: 13px; font-weight: 500; color: #999; }
+.kpi-card .kc-change { font-size: 11px; margin-top: 4px; font-weight: 600; }
+.kpi-card .kc-change.up { color: #16a34a; }
+.kpi-card .kc-change.down { color: #dc2626; }
+.kpi-card .kc-change.neutral { color: #999; }
+.kpi-card.dark { background: #0D0D0D; border-color: #0D0D0D; }
+.kpi-card.dark .kc-label { color: #EA580C; }
+.kpi-card.dark .kc-value { color: #fff; }
+.kpi-card.dark .kc-change { color: rgba(255,255,255,0.4); }
+
+/* HIGHLIGHT BOX */
+.highlight-box { background: #0D0D0D; border-radius: 12px; padding: 28px 36px; margin-bottom: 20px; color: #fff; }
+.highlight-box .hl-label { font-size: 11px; font-weight: 700; color: #EA580C; letter-spacing: 0.08em; margin-bottom: 10px; }
+.highlight-box .hl-text { font-size: 20px; font-weight: 800; line-height: 1.45; }
+.highlight-box .hl-text em { color: #EA580C; font-style: normal; }
+
+/* TABLE */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: #f8fafb; padding: 10px 16px; font-weight: 600; border-bottom: 2px solid #e8edf1; color: #999; font-size: 11px; text-align: left; white-space: nowrap; }
+td { padding: 11px 16px; border-bottom: 1px solid #f0f2f5; vertical-align: middle; }
+td.item { font-weight: 600; color: #1a1b18; white-space: nowrap; }
+td.desc { color: #636569; font-size: 12px; }
+td.num { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:hover td { background: #fafbfc; }
+tr.total-row td { background: #f8fafb; font-weight: 700; border-top: 1px solid #e8edf1; }
+
+/* CHANNEL HEADER */
+.ch-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 14px; border-bottom: 1px solid #e8edf1; }
+.ch-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: #fff; flex-shrink: 0; }
+.ch-icon.np { background: #16a34a; }
+.ch-icon.ig { background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+.ch-icon.blog { background: #16a34a; }
+.ch-icon.meta { background: #1877f2; }
+.ch-header h3 { font-size: 15px; font-weight: 700; }
+.ch-header .ch-badge { font-size: 11px; color: #999; font-weight: 500; }
+
+/* PROGRESS BAR */
+.prog-wrap { margin: 16px 0; }
+.prog-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
+.prog-label .pl-name { font-weight: 600; }
+.prog-label .pl-val { color: #EA580C; font-weight: 700; }
+.prog-bar { height: 8px; background: #e8edf1; border-radius: 4px; overflow: hidden; }
+.prog-fill { height: 100%; border-radius: 4px; background: #EA580C; transition: width 0.3s; }
+
+/* ACTION LIST */
+.action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 16px; }
+.action-card { padding: 18px 16px; border-radius: 10px; border: 1px solid #e8edf1; }
+.action-card .ac-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 6px; }
+.action-card .ac-label.keep { color: #16a34a; }
+.action-card .ac-label.boost { color: #EA580C; }
+.action-card .ac-label.cut { color: #dc2626; }
+.action-card .ac-text { font-size: 12px; color: #636569; line-height: 1.7; }
+.action-card .ac-text strong { color: #1a1b18; }
+
+/* BUDGET TABLE */
+.budget-bar { display: flex; height: 36px; border-radius: 8px; overflow: hidden; margin: 16px 0 12px; }
+.budget-bar .bb { display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff; }
+
+/* INFO BOX */
+.info-box { background: #FFF7ED; border-left: 4px solid #EA580C; border-radius: 0 8px 8px 0; padding: 14px 20px; margin-top: 16px; font-size: 12px; color: #636569; line-height: 1.8; }
+.info-box strong { color: #1a1b18; }
+
+/* FOOTER */
+.footer { text-align: center; padding: 40px 0; color: #999; font-size: 12px; line-height: 2; }
+.footer .brand { font-size: 15px; font-weight: 800; color: #1a1b18; margin-bottom: 4px; }
+
+@media (max-width: 768px) {
+  .container { padding: 70px 16px 40px; }
+  .meta-grid { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .action-grid { grid-template-columns: 1fr; }
+  .section { padding: 24px 20px; }
+}
+@media print {
+  .toolbar, .edit-banner { display: none !important; }
+  .container { padding: 20px; }
+  body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <div class="toolbar-logo">BRANDRISE</div>
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-title">월간 리포트</div>
+  </div>
+  <div class="toolbar-actions">
+    <button class="btn-toolbar" id="editToggle" onclick="toggleEdit()">편집</button>
+    <button class="btn-toolbar" onclick="window.print()">PDF 저장</button>
+  </div>
+</div>
+
+<div class="edit-banner">편집 모드 — 텍스트와 숫자를 클릭해서 수정하세요.</div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="report-header">
+    <div class="label" contenteditable="false">미례국밥 x 브랜드라이즈</div>
+    <h1 contenteditable="false">4월 월간 리포트</h1>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="mk">기간</div>
+        <div class="mv" contenteditable="false">2026. 04. 01 — 04. 30</div>
+      </div>
+      <div class="meta-item">
+        <div class="mk">작성</div>
+        <div class="mv" contenteditable="false">브랜드라이즈</div>
+      </div>
+      <div class="meta-item">
+        <div class="mk">작성일</div>
+        <div class="mv" contenteditable="false">2026. 05. 02</div>
+      </div>
+      <div class="meta-item">
+        <div class="mk">버전</div>
+        <div class="mv" contenteditable="false">v1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HIGHLIGHT -->
+  <div class="highlight-box">
+    <div class="hl-label">SUMMARY</div>
+    <div class="hl-text" contenteditable="false">콘텐츠 65건 → <em>82건</em>으로 증가.<br>"미례국밥" 검색 시 <em>볼 게 있는 상태</em>가 만들어졌습니다.</div>
+  </div>
+
+  <!-- KPI 한눈에 보기 -->
+  <div class="section">
+    <h2>핵심 <em>KPI</em></h2>
+    <div class="sec-sub">목표 대비 실적</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kc-label">월 콘텐츠 발행</div>
+        <div class="kc-value" contenteditable="false">82<span class="kc-unit">건</span></div>
+        <div class="kc-change up" contenteditable="false">목표 80건 ✓ 달성</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">월 검색량</div>
+        <div class="kc-value" contenteditable="false">3,210<span class="kc-unit">건</span></div>
+        <div class="kc-change up" contenteditable="false">+19% (2,690 → 3,210)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">플레이스 리뷰</div>
+        <div class="kc-value" contenteditable="false">+34<span class="kc-unit">건</span></div>
+        <div class="kc-change up" contenteditable="false">목표 30건 ✓ 달성</div>
+      </div>
+      <div class="kpi-card dark">
+        <div class="kc-label">콘텐츠 포화도</div>
+        <div class="kc-value" contenteditable="false">3.8<span class="kc-unit">%</span></div>
+        <div class="kc-change" contenteditable="false">2.42% → 3.8%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 채널 1: 네이버플레이스 -->
+  <div class="section">
+    <div class="ch-header">
+      <div class="ch-icon np">NP</div>
+      <div>
+        <h3>네이버플레이스</h3>
+        <div class="ch-badge">센텀점 + 전포점</div>
+      </div>
+    </div>
+
+    <div class="kpi-grid g3">
+      <div class="kpi-card">
+        <div class="kc-label">센텀점 점수</div>
+        <div class="kc-value" contenteditable="false">68<span class="kc-unit">점</span></div>
+        <div class="kc-change up" contenteditable="false">+24 (44 → 68)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">전포점 점수</div>
+        <div class="kc-value" contenteditable="false">72<span class="kc-unit">점</span></div>
+        <div class="kc-change up" contenteditable="false">+33 (39 → 72)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">총 리뷰 증가</div>
+        <div class="kc-value" contenteditable="false">+34<span class="kc-unit">건</span></div>
+        <div class="kc-change neutral" contenteditable="false">체험단 15 + 자연유입 19</div>
+      </div>
+    </div>
+
+    <table style="margin-top:16px;">
+      <thead><tr><th>매장</th><th>키워드</th><th>월 검색</th><th>변경 전 순위</th><th>현재 순위</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="item" contenteditable="false">센텀점</td>
+          <td contenteditable="false">센텀 맛집</td>
+          <td class="num" contenteditable="false">14,230</td>
+          <td class="num" contenteditable="false">42위</td>
+          <td class="num" style="color:#EA580C;" contenteditable="false">9위</td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">센텀점</td>
+          <td contenteditable="false">재송동 맛집</td>
+          <td class="num" contenteditable="false">4,460</td>
+          <td class="num" contenteditable="false">24위</td>
+          <td class="num" style="color:#EA580C;" contenteditable="false">3위</td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">전포점</td>
+          <td contenteditable="false">전포 맛집</td>
+          <td class="num" contenteditable="false">33,850</td>
+          <td class="num" contenteditable="false">12위</td>
+          <td class="num" style="color:#EA580C;" contenteditable="false">8위</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 채널 2: 인스타그램 -->
+  <div class="section">
+    <div class="ch-header">
+      <div class="ch-icon ig">IG</div>
+      <div>
+        <h3>인스타그램</h3>
+        <div class="ch-badge">@miryegukbap_official</div>
+      </div>
+    </div>
+
+    <div class="kpi-grid g3">
+      <div class="kpi-card">
+        <div class="kc-label">팔로워</div>
+        <div class="kc-value" contenteditable="false">486<span class="kc-unit">명</span></div>
+        <div class="kc-change up" contenteditable="false">+486 (신규 개설)</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">피드 발행</div>
+        <div class="kc-value" contenteditable="false">8<span class="kc-unit">건</span></div>
+        <div class="kc-change neutral" contenteditable="false">피드 6 + 릴스 2</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">총 도달</div>
+        <div class="kc-value" contenteditable="false">12.4K</div>
+        <div class="kc-change neutral" contenteditable="false">릴스 평균 도달 3.2K</div>
+      </div>
+    </div>
+
+    <div class="prog-wrap" style="margin-top:20px;">
+      <div class="prog-label">
+        <span class="pl-name">톤앤매너 확정</span>
+        <span class="pl-val">100%</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:100%;"></div></div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-label">
+        <span class="pl-name">콘텐츠 가이드라인</span>
+        <span class="pl-val">100%</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:100%;"></div></div>
+    </div>
+    <div class="prog-wrap">
+      <div class="prog-label">
+        <span class="pl-name">프로필 + 리틀리 세팅</span>
+        <span class="pl-val">100%</span>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:100%;"></div></div>
+    </div>
+  </div>
+
+  <!-- 채널 3: 체험단 & 씨딩 -->
+  <div class="section">
+    <div class="ch-header">
+      <div class="ch-icon blog">B</div>
+      <div>
+        <h3>체험단 & 인플루언서 씨딩</h3>
+        <div class="ch-badge">블로그 + 인스타</div>
+      </div>
+    </div>
+
+    <div class="kpi-grid g3">
+      <div class="kpi-card">
+        <div class="kc-label">블로그 체험단</div>
+        <div class="kc-value" contenteditable="false">12<span class="kc-unit">건</span></div>
+        <div class="kc-change up" contenteditable="false">목표 10~15건 범위 내</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">인플루언서 씨딩</div>
+        <div class="kc-value" contenteditable="false">5<span class="kc-unit">명</span></div>
+        <div class="kc-change neutral" contenteditable="false">릴스 5건 확보</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">씨딩 총 도달</div>
+        <div class="kc-value" contenteditable="false">38K</div>
+        <div class="kc-change neutral" contenteditable="false">인플루언서 합산</div>
+      </div>
+    </div>
+
+    <table style="margin-top:16px;">
+      <thead><tr><th>인플루언서</th><th>팔로워</th><th>콘텐츠</th><th>도달</th><th>참여율</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="item" contenteditable="false">@busan_zzzzzin_</td>
+          <td class="num" contenteditable="false">18K</td>
+          <td contenteditable="false">릴스 1건</td>
+          <td class="num" contenteditable="false">12,400</td>
+          <td class="num" style="color:#EA580C;" contenteditable="false">4.2%</td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">@broculri13</td>
+          <td class="num" contenteditable="false">14K</td>
+          <td contenteditable="false">릴스 + 블로그</td>
+          <td class="num" contenteditable="false">9,800</td>
+          <td class="num" style="color:#EA580C;" contenteditable="false">3.8%</td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">@busan.local.food</td>
+          <td class="num" contenteditable="false">8K</td>
+          <td contenteditable="false">릴스 1건</td>
+          <td class="num" contenteditable="false">6,200</td>
+          <td class="num" style="color:#EA580C;" contenteditable="false">5.1%</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 채널 4: 메타 광고 -->
+  <div class="section">
+    <div class="ch-header">
+      <div class="ch-icon meta">M</div>
+      <div>
+        <h3>메타 광고</h3>
+        <div class="ch-badge">Instagram Reels Ads</div>
+      </div>
+    </div>
+
+    <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
+      <div class="kpi-card">
+        <div class="kc-label">광고비 집행</div>
+        <div class="kc-value" contenteditable="false">50<span class="kc-unit">만원</span></div>
+        <div class="kc-change neutral" contenteditable="false">예산 100% 집행</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">도달</div>
+        <div class="kc-value" contenteditable="false">45K</div>
+        <div class="kc-change neutral" contenteditable="false">CPM 11,100원</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">영상 조회</div>
+        <div class="kc-value" contenteditable="false">28K</div>
+        <div class="kc-change neutral" contenteditable="false">조회율 62%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">프로필 방문</div>
+        <div class="kc-value" contenteditable="false">1,240</div>
+        <div class="kc-change neutral" contenteditable="false">클릭당 403원</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 예산 집행 -->
+  <div class="section">
+    <h2>예산 <em>집행 현황</em></h2>
+    <div class="sec-sub">견적 600만원 대비 실 집행</div>
+
+    <div class="budget-bar">
+      <div class="bb" style="width:50%; background:#EA580C;">채널 전략 300만</div>
+      <div class="bb" style="width:33%; background:#1a1b18;">체험단·광고 200만</div>
+      <div class="bb" style="width:17%; background:#636569;">출장 100만</div>
+    </div>
+
+    <table>
+      <thead><tr><th>항목</th><th style="text-align:right;">견적</th><th style="text-align:right;">집행</th><th style="text-align:right;">잔액</th></tr></thead>
+      <tbody>
+        <tr>
+          <td class="item">Part 1 — 채널 전략 & 운영</td>
+          <td class="num" contenteditable="false">3,000,000</td>
+          <td class="num" contenteditable="false">3,000,000</td>
+          <td class="num" contenteditable="false">0</td>
+        </tr>
+        <tr>
+          <td class="item">Part 2 — 체험단 & 씨딩 & 광고</td>
+          <td class="num" contenteditable="false">2,000,000</td>
+          <td class="num" contenteditable="false">1,850,000</td>
+          <td class="num" style="color:#16a34a;" contenteditable="false">150,000</td>
+        </tr>
+        <tr>
+          <td class="item">Part 3 — 부산 출장 + 촬영</td>
+          <td class="num" contenteditable="false">1,000,000</td>
+          <td class="num" contenteditable="false">980,000</td>
+          <td class="num" style="color:#16a34a;" contenteditable="false">20,000</td>
+        </tr>
+        <tr class="total-row">
+          <td class="item">합계</td>
+          <td class="num">6,000,000</td>
+          <td class="num" contenteditable="false">5,830,000</td>
+          <td class="num" style="color:#16a34a;" contenteditable="false">170,000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 다음 달 방향 -->
+  <div class="section">
+    <h2>5월 <em>방향</em></h2>
+    <div class="sec-sub">유지 · 강화 · 커팅 판단</div>
+
+    <div class="action-grid">
+      <div class="action-card">
+        <div class="ac-label keep">유지</div>
+        <div class="ac-text" contenteditable="false">
+          <strong>네이버플레이스</strong><br>
+          키워드 순위 유지, 소식 주 1회 발행 유지, 리뷰 답변 루틴 유지
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="ac-label boost">강화</div>
+        <div class="ac-text" contenteditable="false">
+          <strong>얼큰돼지우동 바이럴</strong><br>
+          씨딩 릴스 → 메타 광고 스케일업, 검색량 1,000건 돌파 목표
+        </div>
+      </div>
+      <div class="action-card">
+        <div class="ac-label boost">강화</div>
+        <div class="ac-text" contenteditable="false">
+          <strong>인스타 콘텐츠</strong><br>
+          릴스 비중 확대 (월 4건→6건), 씨즐 영상 아카이브 구축
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box" style="margin-top:20px;">
+      <strong>5월 핵심 목표</strong><br>
+      얼큰돼지우동 검색량 310건 → 1,000건 돌파 · 인스타 팔로워 1,000명 · 센텀점 플레이스 70점+ 안정화
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="brand">BRANDRISE</div>
+    본 리포트는 내부 공유 목적으로 작성되었습니다.<br>
+    데이터 기준일: 2026. 04. 30
+  </div>
+
+</div>
+
+<script>
+function toggleEdit() {
+  const body = document.body;
+  const btn = document.getElementById('editToggle');
+  body.classList.toggle('editing');
+  const isEditing = body.classList.contains('editing');
+  btn.textContent = isEditing ? '편집 완료' : '편집';
+  btn.classList.toggle('active', isEditing);
+  document.querySelectorAll('[contenteditable]').forEach(el => {
+    el.contentEditable = isEditing ? 'true' : 'false';
+  });
+}
+</script>
+</body>
+</html>
