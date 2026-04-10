@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>월간 운영 견적서 — 브랜드라이즈</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans KR', -apple-system, sans-serif; background: #f4f7f9; color: #1a1b18; line-height: 1.7; font-size: 14px; }
+
+/* TOOLBAR */
+.toolbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: #0D0D0D; height: 56px; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; }
+.toolbar-left { display: flex; align-items: center; gap: 16px; }
+.toolbar-logo { font-size: 13px; font-weight: 700; color: #EA580C; letter-spacing: 0.05em; }
+.toolbar-sep { width: 1px; height: 20px; background: rgba(255,255,255,0.15); }
+.toolbar-title { font-size: 14px; font-weight: 500; color: #fff; }
+.toolbar-actions { display: flex; gap: 8px; }
+.btn-toolbar { padding: 7px 16px; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; background: transparent; color: #fff; font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+.btn-toolbar:hover { background: rgba(255,255,255,0.1); }
+.btn-toolbar.active { background: #EA580C; color: #fff; border-color: #EA580C; }
+.btn-toolbar.save { background: #EA580C; color: #fff; border-color: #EA580C; font-weight: 600; }
+
+/* EDIT MODE INDICATOR */
+.edit-banner { display: none; position: fixed; top: 56px; left: 0; right: 0; z-index: 99; background: #FFF7ED; border-bottom: 2px solid #EA580C; padding: 8px 32px; font-size: 12px; color: #EA580C; font-weight: 600; text-align: center; }
+body.editing .edit-banner { display: block; }
+body.editing .container { padding-top: 110px; }
+body.editing [contenteditable="true"] { outline: 2px dashed rgba(234,88,12,0.3); outline-offset: 2px; border-radius: 4px; }
+body.editing [contenteditable="true"]:focus { outline-color: #EA580C; background: #FFF7ED; }
+body.editing .amount-input { background: #FFF7ED; border: 1px solid #EA580C; }
+
+/* CONTAINER */
+.container { max-width: 900px; margin: 0 auto; padding: 80px 24px 60px; transition: padding-top 0.2s; }
+
+/* HEADER */
+.report-header { background: #fff; border-radius: 12px; padding: 40px; margin-bottom: 20px; border: 1px solid #e8edf1; }
+.report-header .label { font-size: 11px; font-weight: 700; color: #EA580C; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 14px; }
+.report-header h1 { font-size: 36px; font-weight: 900; line-height: 1.35; letter-spacing: -0.02em; }
+.meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 28px; padding-top: 24px; border-top: 1px solid #e8edf1; }
+.meta-item .mk { font-size: 11px; color: #999; letter-spacing: 0.04em; margin-bottom: 4px; }
+.meta-item .mv { font-size: 13px; font-weight: 600; }
+
+/* SECTION */
+.section { background: #fff; border-radius: 12px; padding: 32px 40px; margin-bottom: 20px; border: 1px solid #e8edf1; }
+
+/* PART HEADER */
+.part-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.part-header h3 { font-size: 16px; font-weight: 700; }
+.part-price { font-size: 18px; font-weight: 900; color: #EA580C; }
+
+/* TABLE */
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th { background: #f8fafb; padding: 10px 16px; font-weight: 600; border-bottom: 2px solid #e8edf1; color: #999; font-size: 11px; text-align: left; white-space: nowrap; }
+th:last-child { text-align: right; }
+td { padding: 12px 16px; border-bottom: 1px solid #f0f2f5; vertical-align: middle; }
+td.item { font-weight: 600; color: #1a1b18; white-space: nowrap; width: 200px; }
+td.desc { color: #636569; font-size: 12px; }
+td.amount { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; width: 120px; }
+tr:hover td { background: #fafbfc; }
+tr.subtotal-row td { background: #f8fafb; font-weight: 700; border-top: 1px solid #e8edf1; }
+tr.add-row { display: none; }
+body.editing tr.add-row { display: table-row; }
+tr.add-row td { text-align: center; color: #EA580C; cursor: pointer; font-size: 12px; font-weight: 600; padding: 8px; }
+tr.add-row td:hover { background: #FFF7ED; }
+
+/* AMOUNT INPUT */
+.amount-input { width: 100px; text-align: right; font-weight: 700; font-size: 13px; font-family: inherit; border: 1px solid transparent; background: transparent; padding: 2px 4px; border-radius: 4px; font-variant-numeric: tabular-nums; }
+.amount-input:focus { outline: none; border-color: #EA580C; background: #FFF7ED; }
+
+/* KPI GRID */
+.kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.kpi-card { background: #f8fafb; border-radius: 10px; padding: 24px 20px; text-align: center; border: 1px solid #e8edf1; }
+.kpi-card .kc-label { font-size: 11px; color: #999; font-weight: 500; letter-spacing: 0.05em; margin-bottom: 8px; }
+.kpi-card .kc-value { font-size: 28px; font-weight: 900; color: #1a1b18; letter-spacing: -0.02em; }
+.kpi-card .kc-unit { font-size: 14px; font-weight: 500; color: #999; }
+.kpi-card .kc-desc { font-size: 11px; color: #999; margin-top: 6px; }
+.kpi-card.dark { background: #0D0D0D; border-color: #0D0D0D; }
+.kpi-card.dark .kc-label { color: #EA580C; }
+.kpi-card.dark .kc-value { color: #fff; }
+.kpi-card.dark .kc-value em { color: #EA580C; font-style: normal; }
+.kpi-card.dark .kc-desc { color: rgba(255,255,255,0.4); }
+
+/* TOTAL BOX */
+.total-box { background: #0D0D0D; border-radius: 12px; padding: 32px 40px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
+.total-box .tl { font-size: 15px; font-weight: 600; color: #fff; }
+.total-box .ts { font-size: 12px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+.total-box .ta { font-size: 40px; font-weight: 900; color: #fff; letter-spacing: -0.03em; }
+.total-box .ta span { font-size: 16px; font-weight: 600; }
+
+/* INFO BOX */
+.info-box { background: #FFF7ED; border-left: 4px solid #EA580C; border-radius: 0 8px 8px 0; padding: 14px 20px; margin-top: 16px; font-size: 12px; color: #636569; line-height: 1.8; }
+.info-box strong { color: #1a1b18; }
+
+/* BADGE */
+.badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; background: #FFF7ED; color: #EA580C; margin-left: 8px; vertical-align: middle; }
+
+/* DELETE BTN */
+.del-btn { display: none; width: 20px; height: 20px; border: none; background: #fee2e2; color: #dc2626; border-radius: 50%; cursor: pointer; font-size: 11px; font-weight: 700; line-height: 20px; text-align: center; margin-left: 8px; vertical-align: middle; }
+body.editing .del-btn { display: inline-block; }
+
+/* FOOTER */
+.footer { text-align: center; padding: 40px 0; color: #999; font-size: 12px; line-height: 2; }
+.footer .brand { font-size: 15px; font-weight: 800; color: #1a1b18; margin-bottom: 4px; }
+
+@media (max-width: 768px) {
+  .container { padding: 70px 16px 40px; }
+  .meta-grid { grid-template-columns: repeat(2, 1fr); }
+  .kpi-grid { grid-template-columns: 1fr; }
+  .section { padding: 24px 20px; }
+  .total-box { flex-direction: column; text-align: center; gap: 16px; }
+  td.item { white-space: normal; width: auto; }
+}
+@media print {
+  .toolbar, .edit-banner, .del-btn, tr.add-row { display: none !important; }
+  .container { padding: 20px; }
+  body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .amount-input { border: none !important; background: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <div class="toolbar-left">
+    <div class="toolbar-logo">BRANDRISE</div>
+    <div class="toolbar-sep"></div>
+    <div class="toolbar-title">월간 운영 견적서</div>
+  </div>
+  <div class="toolbar-actions">
+    <button class="btn-toolbar" id="editToggle" onclick="toggleEdit()">편집</button>
+    <button class="btn-toolbar" onclick="window.print()">PDF 저장</button>
+  </div>
+</div>
+
+<div class="edit-banner">편집 모드 — 텍스트를 클릭해서 수정하세요. 금액을 바꾸면 합계가 자동 계산됩니다.</div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="report-header">
+    <div class="label" contenteditable="false">미례국밥 x 브랜드라이즈</div>
+    <h1 contenteditable="false">4월 운영 견적서</h1>
+    <div class="meta-grid">
+      <div class="meta-item">
+        <div class="mk">공급자</div>
+        <div class="mv" contenteditable="false">브랜드라이즈 by HIZ</div>
+      </div>
+      <div class="meta-item">
+        <div class="mk">수신</div>
+        <div class="mv" contenteditable="false">(주)위드런 · 미례국밥</div>
+      </div>
+      <div class="meta-item">
+        <div class="mk">기준일</div>
+        <div class="mv" contenteditable="false">2026. 04. 10</div>
+      </div>
+      <div class="meta-item">
+        <div class="mk">유효기간</div>
+        <div class="mv" contenteditable="false">발행일로부터 30일</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOTAL -->
+  <div class="total-box">
+    <div>
+      <div class="tl">합계</div>
+      <div class="ts">VAT 별도</div>
+    </div>
+    <div class="ta" id="grandTotal">6,000,000<span>원</span></div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="section">
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kc-label">Part 1</div>
+        <div class="kc-value" id="ov1">300<span class="kc-unit">만원</span></div>
+        <div class="kc-desc" contenteditable="false">채널 전략 & 운영</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kc-label">Part 2</div>
+        <div class="kc-value" id="ov2">200<span class="kc-unit">만원</span></div>
+        <div class="kc-desc" contenteditable="false">체험단 & 씨딩 & 광고</div>
+      </div>
+      <div class="kpi-card dark">
+        <div class="kc-label">Part 3</div>
+        <div class="kc-value" id="ov3"><em>100</em><span class="kc-unit" style="color:rgba(255,255,255,0.4);">만원</span></div>
+        <div class="kc-desc" contenteditable="false">부산 출장 + 촬영</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PART 1 -->
+  <div class="section" data-part="1">
+    <div class="part-header">
+      <h3 contenteditable="false">Part 1 — 채널 전략 & 운영</h3>
+      <div class="part-price" id="part1Total">3,000,000원</div>
+    </div>
+    <table>
+      <thead><tr><th>항목</th><th>내용</th><th>금액</th></tr></thead>
+      <tbody id="part1Body">
+        <tr>
+          <td class="item" contenteditable="false">인스타그램 채널 전략</td>
+          <td class="desc" contenteditable="false">톤앤매너 확정, 무드보드, 콘텐츠 가이드라인, 프로필 설계</td>
+          <td class="amount"><input class="amount-input" type="text" value="700,000" data-part="1" onchange="recalc()"></td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">인스타그램 콘텐츠 운영</td>
+          <td class="desc" contenteditable="false">월간 콘텐츠 제작, 캡션 작성, 해시태그 관리, 피드 발행</td>
+          <td class="amount"><input class="amount-input" type="text" value="1,000,000" data-part="1" onchange="recalc()"></td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">네이버플레이스 최적화</td>
+          <td class="desc" contenteditable="false">센텀점 + 전포점 키워드 교체, 소개문, 예약/쿠폰 세팅</td>
+          <td class="amount"><input class="amount-input" type="text" value="600,000" data-part="1" onchange="recalc()"></td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">키워드 전략 + 모니터링</td>
+          <td class="desc" contenteditable="false">검색량 측정, 키워드 순위 추적, 주간 리포트</td>
+          <td class="amount"><input class="amount-input" type="text" value="400,000" data-part="1" onchange="recalc()"></td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">얼큰돼지우동 바이럴 전략</td>
+          <td class="desc" contenteditable="false">바이럴 설계, 릴스 포맷 가이드, 콘텐츠 방향 수립</td>
+          <td class="amount"><input class="amount-input" type="text" value="300,000" data-part="1" onchange="recalc()"></td>
+        </tr>
+        <tr class="add-row"><td colspan="3" onclick="addRow('part1Body',1)">+ 항목 추가</td></tr>
+        <tr class="subtotal-row">
+          <td class="item" colspan="2">Part 1 소계</td>
+          <td class="amount" id="part1Sub">3,000,000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PART 2 -->
+  <div class="section" data-part="2">
+    <div class="part-header">
+      <h3 contenteditable="false">Part 2 — 체험단 & 씨딩 & 광고</h3>
+      <div class="part-price" id="part2Total">2,000,000원</div>
+    </div>
+    <table>
+      <thead><tr><th>항목</th><th>내용</th><th>금액</th></tr></thead>
+      <tbody id="part2Body">
+        <tr>
+          <td class="item" contenteditable="false">블로그 체험단 운영</td>
+          <td class="desc" contenteditable="false">키워드 기반 월 10~15건, 영수증 리뷰 동시 수집</td>
+          <td class="amount"><input class="amount-input" type="text" value="400,000" data-part="2" onchange="recalc()"></td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">인플루언서 씨딩</td>
+          <td class="desc" contenteditable="false">부산 로컬 5~7명 선정, 촬영 가이드, 방문 코디, 릴스 QC</td>
+          <td class="amount"><input class="amount-input" type="text" value="700,000" data-part="2" onchange="recalc()"></td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">메타 광고</td>
+          <td class="desc" contenteditable="false">계정 세팅, 씨딩 릴스 기반 광고 집행 (광고비 50만 포함)</td>
+          <td class="amount"><input class="amount-input" type="text" value="800,000" data-part="2" onchange="recalc()"></td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">리뷰 시스템 구축</td>
+          <td class="desc" contenteditable="false">리뷰 답변 템플릿, 별점 가이드</td>
+          <td class="amount"><input class="amount-input" type="text" value="100,000" data-part="2" onchange="recalc()"></td>
+        </tr>
+        <tr class="add-row"><td colspan="3" onclick="addRow('part2Body',2)">+ 항목 추가</td></tr>
+        <tr class="subtotal-row">
+          <td class="item" colspan="2">Part 2 소계</td>
+          <td class="amount" id="part2Sub">2,000,000</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- PART 3 -->
+  <div class="section" data-part="3">
+    <div class="part-header">
+      <h3 contenteditable="false">Part 3 — 부산 출장 + 촬영<span class="badge">NEW</span></h3>
+      <div class="part-price" id="part3Total">1,000,000원</div>
+    </div>
+    <table>
+      <thead><tr><th>항목</th><th>내용</th><th>금액</th></tr></thead>
+      <tbody id="part3Body">
+        <tr>
+          <td class="item" contenteditable="false">KTX 왕복 (4명)</td>
+          <td class="desc" contenteditable="false">서울 ↔ 부산 왕복</td>
+          <td class="amount"><input class="amount-input" type="text" value="500,000" data-part="3" onchange="recalc()"></td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">부산 내 이동</td>
+          <td class="desc" contenteditable="false">부산역 ↔ 센텀점 택시</td>
+          <td class="amount"><input class="amount-input" type="text" value="50,000" data-part="3" onchange="recalc()"></td>
+        </tr>
+        <tr>
+          <td class="item" contenteditable="false">촬영 디렉팅 (반일)</td>
+          <td class="desc" contenteditable="false">주요 메뉴 촬영, 매장 내부/외관, 조리 과정, 씨즐컷</td>
+          <td class="amount"><input class="amount-input" type="text" value="450,000" data-part="3" onchange="recalc()"></td>
+        </tr>
+        <tr class="add-row"><td colspan="3" onclick="addRow('part3Body',3)">+ 항목 추가</td></tr>
+        <tr class="subtotal-row">
+          <td class="item" colspan="2">Part 3 소계</td>
+          <td class="amount" id="part3Sub">1,000,000</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info-box">
+      <strong>참고</strong> 식사는 매장 제공 · 촬영 장비 별도 렌탈 없음 · 촬영 소스는 인스타 + 광고 + 가이드에 다중 활용
+    </div>
+  </div>
+
+  <!-- FINAL TOTAL -->
+  <div class="total-box">
+    <div>
+      <div class="tl">최종 합계</div>
+      <div class="ts">VAT 별도</div>
+    </div>
+    <div class="ta" id="grandTotal2">6,000,000<span>원</span></div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="brand">BRANDRISE</div>
+    본 견적서는 발행일로부터 30일간 유효합니다.<br>
+    금액은 VAT 별도이며, 실 집행 시 조정될 수 있습니다.
+  </div>
+
+</div>
+
+<script>
+function fmt(n) { return n.toLocaleString('ko-KR'); }
+function parse(s) { return parseInt(s.replace(/[^0-9]/g, '')) || 0; }
+
+function recalc() {
+  [1,2,3].forEach(p => {
+    let sum = 0;
+    document.querySelectorAll(`input[data-part="${p}"]`).forEach(inp => {
+      const v = parse(inp.value);
+      inp.value = fmt(v);
+      sum += v;
+    });
+    const subEl = document.getElementById(`part${p}Sub`);
+    const totalEl = document.getElementById(`part${p}Total`);
+    const ovEl = document.getElementById(`ov${p}`);
+    if (subEl) subEl.textContent = fmt(sum);
+    if (totalEl) totalEl.textContent = fmt(sum) + '원';
+    const man = Math.round(sum / 10000);
+    if (ovEl) {
+      if (p === 3) {
+        ovEl.innerHTML = `<em>${man}</em><span class="kc-unit" style="color:rgba(255,255,255,0.4);">만원</span>`;
+      } else {
+        ovEl.innerHTML = `${man}<span class="kc-unit">만원</span>`;
+      }
+    }
+  });
+  let grand = 0;
+  [1,2,3].forEach(p => { grand += parse(document.getElementById(`part${p}Sub`).textContent); });
+  document.getElementById('grandTotal').innerHTML = fmt(grand) + '<span>원</span>';
+  document.getElementById('grandTotal2').innerHTML = fmt(grand) + '<span>원</span>';
+}
+
+function toggleEdit() {
+  const body = document.body;
+  const btn = document.getElementById('editToggle');
+  body.classList.toggle('editing');
+  const isEditing = body.classList.contains('editing');
+  btn.textContent = isEditing ? '편집 완료' : '편집';
+  btn.classList.toggle('active', isEditing);
+  document.querySelectorAll('[contenteditable]').forEach(el => {
+    el.contentEditable = isEditing ? 'true' : 'false';
+  });
+}
+
+function addRow(tbodyId, partNum) {
+  const tbody = document.getElementById(tbodyId);
+  const addRowEl = tbody.querySelector('.add-row');
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="item" contenteditable="true" style="color:#EA580C;">새 항목</td>
+    <td class="desc" contenteditable="true">내용을 입력하세요</td>
+    <td class="amount"><input class="amount-input" type="text" value="0" data-part="${partNum}" onchange="recalc()"><button class="del-btn" onclick="delRow(this)" title="삭제">×</button></td>
+  `;
+  tbody.insertBefore(tr, addRowEl);
+  recalc();
+}
+
+function delRow(btn) {
+  const tr = btn.closest('tr');
+  tr.remove();
+  recalc();
+}
+
+// format on load
+document.querySelectorAll('.amount-input').forEach(inp => {
+  inp.addEventListener('focus', function() { this.select(); });
+});
+</script>
+</body>
+</html>
