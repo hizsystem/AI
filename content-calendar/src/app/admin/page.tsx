@@ -1101,6 +1101,7 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<string>("overview");
   const [fetchKey, setFetchKey] = useState(0);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [wideMode, setWideMode] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -1146,7 +1147,7 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
-      <aside className="w-56 bg-white border-r border-gray-100 flex flex-col fixed h-screen">
+      <aside className={`w-56 bg-white border-r border-gray-100 flex flex-col fixed h-screen transition-transform ${wideMode ? "-translate-x-full" : ""}`}>
         <div className="px-6 py-6">
           <h1 className="text-base font-bold text-gray-900">Brand Dashboard</h1>
           <p className="text-xs text-gray-400 mt-1">{formatMonthLabel(data.currentMonth)}</p>
@@ -1267,7 +1268,7 @@ export default function AdminDashboard() {
       </aside>
 
       {/* Main content */}
-      <main className={`flex-1 ml-56 px-10 py-8 ${activeTab === "tasks" ? "max-w-6xl" : "max-w-4xl"}`}>
+      <main className={`flex-1 px-10 py-8 transition-all ${wideMode ? "ml-0" : "ml-56"} ${activeTab === "tasks" && !wideMode ? "max-w-6xl" : activeTab === "tasks" && wideMode ? "" : "max-w-4xl"}`}>
         {activeTab === "overview" ? (
           <OverviewPanel data={data} />
         ) : activeTab === "tasks" ? (
@@ -1275,6 +1276,8 @@ export default function AdminDashboard() {
             projects={data.summaries
               .filter((s) => s.status === "active")
               .map((s) => ({ slug: s.slug, name: s.name, emoji: s.emoji, brandColor: s.brandColor }))}
+            onToggleWide={() => setWideMode((w) => !w)}
+            isWide={wideMode}
           />
         ) : activeTab === "archive" ? (
           <ArchivePanel
