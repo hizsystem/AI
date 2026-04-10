@@ -76,9 +76,8 @@ DELETE /api/tasks?id=태스크ID
 | 우성민 (Green) | `green` | Lead PM |
 | 김남중 | `namjung` | PM |
 | 이수민 | `sumin` | Designer |
-| 인국 | `inguk` | 콘텐츠 |
-| 예랑 | `yerang` | 브랜드 매니저 |
-| 박진아 (지나) | `jina` | 대표 |
+| 나석환 | `seokhwan` | PM |
+| 안지은 | `jieun` | PM |
 
 ## 상태값
 

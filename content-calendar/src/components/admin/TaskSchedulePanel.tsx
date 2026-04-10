@@ -78,7 +78,7 @@ function QuickAddRow({
   }
 
   return (
-    <div className="grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 py-1.5 border-b border-gray-50">
+    <div className="grid grid-cols-[1fr_80px_80px] gap-0 items-center px-4 py-1.5 border-b border-gray-50">
       <div className="pl-5">
         <input
           ref={inputRef}
@@ -91,6 +91,42 @@ function QuickAddRow({
       </div>
       <div />
       <div />
+    </div>
+  );
+}
+
+// ─── Popover Dropdown ───
+
+function Popover({
+  trigger,
+  open,
+  onClose,
+  children,
+}: {
+  trigger: React.ReactNode;
+  open: boolean;
+  onClose: () => void;
+  children: React.ReactNode;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) onClose();
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, [open, onClose]);
+
+  return (
+    <div ref={ref} className="relative">
+      {trigger}
+      {open && (
+        <div className="absolute z-50 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 py-1 min-w-[120px] left-1/2 -translate-x-1/2">
+          {children}
+        </div>
+      )}
     </div>
   );
 }
@@ -122,14 +158,9 @@ function EditableTaskRow({
     setEditingField(null);
   }
 
-  function cycleStatus() {
-    const next: TaskStatus = task.status === "pending" ? "in-progress" : task.status === "in-progress" ? "done" : "pending";
-    onUpdate(task.id, { status: next });
-  }
-
   return (
-    <div className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 py-2 border-b border-gray-50 hover:bg-gray-50/50">
-      {/* Task name — click to edit */}
+    <div className="group grid grid-cols-[1fr_80px_80px] gap-0 items-center px-4 py-2 border-b border-gray-50 hover:bg-gray-50/50">
+      {/* Task name — click to edit inline */}
       <div className="flex items-center gap-2 min-w-0 pl-5">
         {editingField === "title" ? (
           <input
@@ -158,43 +189,82 @@ function EditableTaskRow({
         </button>
       </div>
 
-      {/* Assignee — click to change */}
+      {/* Assignee — click to open popover */}
       <div className="flex items-center justify-center">
-        {editingField === "assignee" ? (
-          <select
-            autoFocus
-            value={task.assigneeId}
-            onChange={(e) => { onUpdate(task.id, { assigneeId: e.target.value }); setEditingField(null); }}
-            onBlur={() => setEditingField(null)}
-            className="text-xs border border-gray-200 rounded px-1 py-0.5 outline-none bg-white"
-          >
-            {members.map((m) => (
-              <option key={m.id} value={m.id}>{m.name}</option>
-            ))}
-          </select>
-        ) : (
-          <button
-            onClick={() => setEditingField("assignee")}
-            className="flex items-center gap-1 hover:bg-gray-100 rounded px-1.5 py-0.5 transition-colors"
-          >
-            {member && (
-              <>
-                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: member.color }} />
-                <span className="text-xs text-gray-600">{member.name}</span>
-              </>
-            )}
-          </button>
-        )}
+        <Popover
+          open={editingField === "assignee"}
+          onClose={() => setEditingField(null)}
+          trigger={
+            <button
+              onClick={() => setEditingField(editingField === "assignee" ? null : "assignee")}
+              className="flex items-center gap-1.5 hover:bg-gray-100 rounded-md px-2 py-1 transition-colors"
+            >
+              {member && (
+                <>
+                  <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: member.color }} />
+                  <span className="text-xs text-gray-600 whitespace-nowrap">{member.name}</span>
+                </>
+              )}
+            </button>
+          }
+        >
+          {members.map((m) => (
+            <button
+              key={m.id}
+              onClick={() => { onUpdate(task.id, { assigneeId: m.id }); setEditingField(null); }}
+              className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-gray-50 transition-colors ${
+                m.id === task.assigneeId ? "bg-blue-50 text-blue-700 font-medium" : "text-gray-700"
+              }`}
+            >
+              <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: m.color }} />
+              <span>{m.name}</span>
+              {m.id === task.assigneeId && (
+                <svg className="w-3 h-3 ml-auto text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+            </button>
+          ))}
+        </Popover>
       </div>
 
-      {/* Status — click to cycle */}
-      <button
-        onClick={cycleStatus}
-        className={`flex items-center justify-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium ${sc.bg} ${sc.text} hover:opacity-80 transition-opacity`}
-      >
-        <div className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
-        {TASK_STATUS_LABELS[task.status]}
-      </button>
+      {/* Status — click to open popover */}
+      <div className="flex items-center justify-center">
+        <Popover
+          open={editingField === "status"}
+          onClose={() => setEditingField(null)}
+          trigger={
+            <button
+              onClick={() => setEditingField(editingField === "status" ? null : "status")}
+              className={`flex items-center justify-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-medium ${sc.bg} ${sc.text} hover:opacity-80 transition-opacity`}
+            >
+              <div className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
+              {TASK_STATUS_LABELS[task.status]}
+            </button>
+          }
+        >
+          {(["pending", "in-progress", "done"] as TaskStatus[]).map((s) => {
+            const c = TASK_STATUS_COLORS[s];
+            return (
+              <button
+                key={s}
+                onClick={() => { onUpdate(task.id, { status: s }); setEditingField(null); }}
+                className={`w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-gray-50 transition-colors ${
+                  s === task.status ? `${c.bg} font-medium` : "text-gray-700"
+                }`}
+              >
+                <div className={`w-2 h-2 rounded-full ${c.dot}`} />
+                <span className={s === task.status ? c.text : ""}>{TASK_STATUS_LABELS[s]}</span>
+                {s === task.status && (
+                  <svg className="w-3 h-3 ml-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                )}
+              </button>
+            );
+          })}
+        </Popover>
+      </div>
     </div>
   );
 }
@@ -450,7 +520,7 @@ export default function TaskSchedulePanel({
         {/* Timeline Header */}
         <div className="flex border-b border-gray-100">
           <div className="flex-shrink-0 w-[420px] border-r border-gray-100">
-            <div className="grid grid-cols-[1fr_80px_72px] gap-0 px-4 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
+            <div className="grid grid-cols-[1fr_80px_80px] gap-0 px-4 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
               <span>태스크</span>
               <span className="text-center">담당자</span>
               <span className="text-center">진행여부</span>
