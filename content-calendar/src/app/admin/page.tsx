@@ -1285,8 +1285,6 @@ function AdminDashboard() {
             projects={data.summaries
               .filter((s) => s.status === "active")
               .map((s) => ({ slug: s.slug, name: s.name, emoji: s.emoji, brandColor: s.brandColor }))}
-            onToggleWide={() => setWideMode((w) => !w)}
-            isWide={wideMode}
           />
         ) : activeTab === "archive" ? (
           <ArchivePanel
