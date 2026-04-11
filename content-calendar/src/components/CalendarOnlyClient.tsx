@@ -1,23 +1,26 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense, lazy } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Calendar from "@/components/Calendar";
-import TabNavigation from "@/components/huenic/TabNavigation";
-import MoodboardTab from "@/components/huenic/MoodboardTab";
-import RefTab from "@/components/huenic/RefTab";
-import GuideTab from "@/components/huenic/GuideTab";
-import WeeklyReportTab from "@/components/huenic/WeeklyReportTab";
-import KpiTab from "@/components/huenic/KpiTab";
 import { useCalendarData } from "@/hooks/useCalendarData";
 import type { ClientConfig, TabId } from "@/data/client-config";
+
+// Lazy load tab components to avoid bundling issues for calendar-only projects
+const TabNavigation = lazy(() => import("@/components/huenic/TabNavigation"));
+const MoodboardTab = lazy(() => import("@/components/huenic/MoodboardTab"));
+const RefTab = lazy(() => import("@/components/huenic/RefTab"));
+const GuideTab = lazy(() => import("@/components/huenic/GuideTab"));
+const WeeklyReportTab = lazy(() => import("@/components/huenic/WeeklyReportTab"));
+const KpiTab = lazy(() => import("@/components/huenic/KpiTab"));
 
 interface Props {
   config: ClientConfig;
   readOnly?: boolean;
 }
 
-export default function CalendarOnlyClient({ config, readOnly = false }: Props) {
+// Inner component that uses useSearchParams (requires Suspense)
+function CalendarOnlyInner({ config, readOnly = false }: Props) {
   const CLIENT = config.slug;
   const LOGO = config.logo;
   const searchParams = useSearchParams();
@@ -89,7 +92,8 @@ export default function CalendarOnlyClient({ config, readOnly = false }: Props) 
   const { data, loading, error, addItem, updateItem, deleteItem, saveCalendar } =
     useCalendarData(CLIENT, currentMonth);
 
-  if (loadingMonths || (loading && currentMonth)) {
+  // Loading state (only for calendar tab or single-tab)
+  if ((activeTab === "calendar" || !hasTabs) && (loadingMonths || (loading && currentMonth))) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="flex items-center gap-3 text-gray-400">
@@ -103,7 +107,7 @@ export default function CalendarOnlyClient({ config, readOnly = false }: Props) 
     );
   }
 
-  if (!currentMonth || !data || (error && !data)) {
+  if ((activeTab === "calendar" || !hasTabs) && (!currentMonth || !data || (error && !data))) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <p className="text-gray-400">{error || "No calendar data."}</p>
@@ -111,17 +115,19 @@ export default function CalendarOnlyClient({ config, readOnly = false }: Props) 
     );
   }
 
-  // Calendar-only (no extra tabs)
+  // Calendar tab (or single-tab mode)
   if (!hasTabs || activeTab === "calendar") {
     return (
       <>
         {hasTabs && (
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-            <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+            <Suspense fallback={null}>
+              <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+            </Suspense>
           </div>
         )}
         <Calendar
-          data={data}
+          data={data!}
           allMonths={months}
           onMonthChange={setCurrentMonth}
           editMode={readOnly ? false : editMode}
@@ -142,9 +148,8 @@ export default function CalendarOnlyClient({ config, readOnly = false }: Props) 
     );
   }
 
-  // Other tabs (moodboard, ref, guide, report, kpi)
-  // Use slug as brand for non-HUENIC projects
-  const brand = (config.calendarClientPrefix || CLIENT) as any;
+  // Other tabs — use slug directly as brand key (not "huenic-" prefix)
+  const brand = CLIENT as any;
 
   return (
     <div className="min-h-screen bg-white">
@@ -155,16 +160,39 @@ export default function CalendarOnlyClient({ config, readOnly = false }: Props) 
           </p>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{config.name}</h1>
         </div>
-        <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+        <Suspense fallback={null}>
+          <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+        </Suspense>
         <div className="mt-6">
-          {activeTab === "moodboard" && <MoodboardTab brand={brand} />}
-          {activeTab === "ref" && <RefTab brand={brand} />}
-          {activeTab === "guide" && <GuideTab brand={brand} />}
-          {activeTab === "report" && <WeeklyReportTab brand={brand} />}
-          {activeTab === "kpi" && <KpiTab brand={brand} />}
+          <Suspense fallback={<div className="py-20 text-center text-sm text-gray-400">Loading...</div>}>
+            {activeTab === "moodboard" && <MoodboardTab brand={brand} />}
+            {activeTab === "ref" && <RefTab brand={brand} />}
+            {activeTab === "guide" && <GuideTab brand={brand} />}
+            {activeTab === "report" && <WeeklyReportTab brand={brand} />}
+            {activeTab === "kpi" && <KpiTab brand={brand} />}
+          </Suspense>
         </div>
       </div>
     </div>
+  );
+}
+
+// Wrapper with Suspense for useSearchParams
+export default function CalendarOnlyClient(props: Props) {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="flex items-center gap-3 text-gray-400">
+          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+          </svg>
+          <span className="text-sm">Loading...</span>
+        </div>
+      </div>
+    }>
+      <CalendarOnlyInner {...props} />
+    </Suspense>
   );
 }
 

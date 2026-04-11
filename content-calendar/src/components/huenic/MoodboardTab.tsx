@@ -20,7 +20,7 @@ interface MoodboardTabProps {
 
 export default function MoodboardTab({ brand, brandConfig }: MoodboardTabProps) {
   const igProfile = brandConfig?.instagram;
-  const client = `huenic-${brand}`;
+  const client = brand === "veggiet" || brand === "vinker" ? `huenic-${brand}` : brand;
   const [months, setMonths] = useState<string[]>([]);
   const [currentMonth, setCurrentMonth] = useState("");
 
