@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ContentItem } from "@/data/types";
 import type { ChannelType, FinanceConfig } from "@/data/client-config";
@@ -23,6 +23,7 @@ interface ProjectSummary {
   logo: { src: string; alt: string } | null;
   status: "active" | "paused" | "completed";
   channels: ChannelType[];
+  igBlocks?: string[];
   npStoreId?: string;
   brands?: { id: string; label: string; emoji: string }[];
   finance?: FinanceConfig;
@@ -265,8 +266,27 @@ const STATUS_CYCLE: Record<string, string> = {
 
 type IgSubView = "summary" | "moodboard" | "data" | "playbook";
 
+const IG_BLOCK_TO_TAB: Record<string, { view: IgSubView; label: string }> = {
+  "ig-moodboard": { view: "moodboard", label: "무드보드" },
+  "ig-kpi": { view: "data", label: "📊 DATA" },
+  "ig-guide": { view: "playbook", label: "📋 플레이북" },
+};
+
 function InstagramPanel({ project, onStatusChange, onRefresh }: { project: ProjectSummary; onStatusChange?: (item: ContentItem, newStatus: string) => void; onRefresh?: () => void }) {
   const [activeBrand, setActiveBrand] = useState(project.brands?.[0]?.id || "");
+
+  // Build available sub-tabs from blocks config
+  const availableSubViews = useMemo(() => {
+    const views: { view: IgSubView; label: string }[] = [{ view: "summary", label: "요약" }];
+    const blocks = project.igBlocks || ["ig-calendar"];
+    for (const [blockId, tab] of Object.entries(IG_BLOCK_TO_TAB)) {
+      if (blocks.includes(blockId) && !views.some((v) => v.view === tab.view)) {
+        views.push(tab);
+      }
+    }
+    return views;
+  }, [project.igBlocks]);
+
   const [subView, setSubView] = useState<IgSubView>("summary");
   const [initializing, setInitializing] = useState(false);
   const [calendarExists, setCalendarExists] = useState(false);
@@ -342,17 +362,17 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
 
       {/* Sub-view tabs */}
       <div className="flex gap-1 border-b border-gray-200">
-        {(["summary", "moodboard", "data", "playbook"] as IgSubView[]).map((v) => (
+        {availableSubViews.map(({ view, label }) => (
           <button
-            key={v}
-            onClick={() => setSubView(v)}
+            key={view}
+            onClick={() => setSubView(view)}
             className={`px-4 py-2 text-xs font-medium border-b-2 transition-colors -mb-px ${
-              subView === v
-                ? v === "playbook" ? "border-violet-500 text-violet-600" : "border-gray-900 text-gray-900"
+              subView === view
+                ? view === "playbook" ? "border-violet-500 text-violet-600" : "border-gray-900 text-gray-900"
                 : "border-transparent text-gray-400 hover:text-gray-600"
             }`}
           >
-            {v === "summary" ? "요약" : v === "moodboard" ? "무드보드" : v === "data" ? "📊 DATA" : "📋 플레이북"}
+            {label}
           </button>
         ))}
       </div>

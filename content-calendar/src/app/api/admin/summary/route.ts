@@ -130,6 +130,7 @@ export async function GET() {
           channels: project.channels
             .filter((c) => c.enabled)
             .map((c) => c.type),
+          igBlocks: project.channels.find((c) => c.type === "instagram" && c.enabled)?.blocks,
           npStoreId: project.channels.find((c) => c.type === "naver-place" && c.enabled)?.storeId,
           brands: project.brands?.map((b) => ({
             id: b.id,

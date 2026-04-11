@@ -94,6 +94,23 @@ export default function ProjectSettingsPanel({
     return channels.some((c) => c.type === type && c.enabled);
   }
 
+  function getIgBlocks(): string[] {
+    return channels.find((c) => c.type === "instagram")?.blocks || ["ig-calendar"];
+  }
+
+  function toggleIgBlock(blockId: string) {
+    setChannels((prev) => prev.map((ch) => {
+      if (ch.type !== "instagram") return ch;
+      const blocks = ch.blocks || [];
+      return {
+        ...ch,
+        blocks: blocks.includes(blockId as any)
+          ? blocks.filter((b) => b !== blockId)
+          : [...blocks, blockId as any],
+      };
+    }));
+  }
+
   async function handleSave() {
     if (!config) return;
     setSaving(true);
@@ -248,6 +265,41 @@ export default function ProjectSettingsPanel({
               </button>
             ))}
           </div>
+
+          {/* Instagram features (blocks) */}
+          {isChannelEnabled("instagram") && (
+            <div className="space-y-3">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">Instagram 기능</h3>
+              {([
+                { id: "ig-moodboard", label: "무드보드", desc: "비주얼 톤앤매너 보드" },
+                { id: "ig-kpi", label: "KPI / DATA", desc: "팔로워, 도달, 참여율 추적" },
+                { id: "ig-report", label: "주간 리포트", desc: "주간 성과 요약" },
+                { id: "ig-reference", label: "레퍼런스", desc: "참고 콘텐츠 아카이브" },
+                { id: "ig-guide", label: "플레이북", desc: "콘텐츠 가이드라인" },
+              ] as const).map((block) => {
+                const enabled = getIgBlocks().includes(block.id);
+                return (
+                  <button
+                    key={block.id}
+                    onClick={() => toggleIgBlock(block.id)}
+                    className={`w-full px-4 py-2.5 rounded-lg border text-left flex items-center gap-3 transition-colors ${
+                      enabled ? "border-gray-300 bg-gray-50" : "border-gray-100 hover:border-gray-200"
+                    }`}
+                  >
+                    <div className="flex-1">
+                      <span className={`text-sm font-medium ${enabled ? "text-gray-700" : "text-gray-400"}`}>{block.label}</span>
+                      <p className="text-[11px] text-gray-400">{block.desc}</p>
+                    </div>
+                    <div className={`w-8 h-5 rounded-full transition-colors flex items-center ${
+                      enabled ? "bg-gray-900 justify-end" : "bg-gray-200 justify-start"
+                    }`}>
+                      <div className="w-4 h-4 bg-white rounded-full mx-0.5 shadow-sm" />
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
           {/* Content Defaults */}
           {isChannelEnabled("instagram") && (
