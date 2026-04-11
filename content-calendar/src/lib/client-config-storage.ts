@@ -36,7 +36,18 @@ export async function getProjectConfig(
             const mergedChannels = hardcoded.channels.map((baseCh) => {
               if (allBlobDisabled) return baseCh;
               const blobCh = blobChs.find((c: any) => c.type === baseCh.type);
-              return blobCh ? { ...baseCh, ...blobCh, defaultCategories: blobCh.defaultCategories || baseCh.defaultCategories, calendarClientPrefix: blobCh.calendarClientPrefix || baseCh.calendarClientPrefix, storeId: blobCh.storeId || baseCh.storeId } : baseCh;
+              if (!blobCh) return baseCh;
+              // Merge blob channel onto base, preserving critical base fields as fallback
+              return {
+                ...baseCh,
+                enabled: blobCh.enabled ?? baseCh.enabled,
+                blocks: Array.isArray(blobCh.blocks) && blobCh.blocks.length > 0 ? blobCh.blocks : baseCh.blocks,
+                defaultCategories: blobCh.defaultCategories || baseCh.defaultCategories,
+                defaultHashtags: blobCh.defaultHashtags || baseCh.defaultHashtags,
+                defaultMentions: blobCh.defaultMentions || baseCh.defaultMentions,
+                calendarClientPrefix: blobCh.calendarClientPrefix || baseCh.calendarClientPrefix,
+                storeId: blobCh.storeId || baseCh.storeId,
+              };
             });
             for (const blobCh of blobConfig.channels || []) {
               if (!mergedChannels.some((c: any) => c.type === blobCh.type)) {
@@ -108,7 +119,18 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
               const mergedChannels = base.channels.map((baseCh) => {
                 if (allBlobDisabled) return baseCh; // Keep hardcoded state
                 const blobCh = blobChannels.find((c: any) => c.type === baseCh.type);
-                return blobCh ? { ...baseCh, ...blobCh, defaultCategories: blobCh.defaultCategories || baseCh.defaultCategories, calendarClientPrefix: blobCh.calendarClientPrefix || baseCh.calendarClientPrefix, storeId: blobCh.storeId || baseCh.storeId } : baseCh;
+                if (!blobCh) return baseCh;
+              // Merge blob channel onto base, preserving critical base fields as fallback
+              return {
+                ...baseCh,
+                enabled: blobCh.enabled ?? baseCh.enabled,
+                blocks: Array.isArray(blobCh.blocks) && blobCh.blocks.length > 0 ? blobCh.blocks : baseCh.blocks,
+                defaultCategories: blobCh.defaultCategories || baseCh.defaultCategories,
+                defaultHashtags: blobCh.defaultHashtags || baseCh.defaultHashtags,
+                defaultMentions: blobCh.defaultMentions || baseCh.defaultMentions,
+                calendarClientPrefix: blobCh.calendarClientPrefix || baseCh.calendarClientPrefix,
+                storeId: blobCh.storeId || baseCh.storeId,
+              };
               });
               // Add any new channels from Blob that aren't in hardcoded
               for (const blobCh of blobConfig.channels || []) {
