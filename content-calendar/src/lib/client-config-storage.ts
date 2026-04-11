@@ -36,7 +36,7 @@ export async function getProjectConfig(
             const mergedChannels = hardcoded.channels.map((baseCh) => {
               if (allBlobDisabled) return baseCh;
               const blobCh = blobChs.find((c: any) => c.type === baseCh.type);
-              return blobCh ? { ...baseCh, enabled: blobCh.enabled } : baseCh;
+              return blobCh ? { ...baseCh, ...blobCh, defaultCategories: blobCh.defaultCategories || baseCh.defaultCategories, calendarClientPrefix: blobCh.calendarClientPrefix || baseCh.calendarClientPrefix, storeId: blobCh.storeId || baseCh.storeId } : baseCh;
             });
             for (const blobCh of blobConfig.channels || []) {
               if (!mergedChannels.some((c: any) => c.type === blobCh.type)) {
@@ -108,7 +108,7 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
               const mergedChannels = base.channels.map((baseCh) => {
                 if (allBlobDisabled) return baseCh; // Keep hardcoded state
                 const blobCh = blobChannels.find((c: any) => c.type === baseCh.type);
-                return blobCh ? { ...baseCh, enabled: blobCh.enabled } : baseCh;
+                return blobCh ? { ...baseCh, ...blobCh, defaultCategories: blobCh.defaultCategories || baseCh.defaultCategories, calendarClientPrefix: blobCh.calendarClientPrefix || baseCh.calendarClientPrefix, storeId: blobCh.storeId || baseCh.storeId } : baseCh;
               });
               // Add any new channels from Blob that aren't in hardcoded
               for (const blobCh of blobConfig.channels || []) {
