@@ -27,12 +27,21 @@ function platformLabel(p: RefItem["platform"]): string {
   return map[p];
 }
 
+function platformIcon(p: RefItem["platform"]): string {
+  const map: Record<RefItem["platform"], string> = {
+    instagram: "📷",
+    tiktok: "🎵",
+    youtube: "📺",
+    web: "🔗",
+    other: "📌",
+  };
+  return map[p];
+}
 
 export default function RefTab({ brand }: RefTabProps) {
   const { data, loading, error, addItem, deleteItem } = useRefData(brand);
-  const [activeCollection, setActiveCollection] = useState<string>("all");
+  const [openFolder, setOpenFolder] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   // Add form state
   const [newUrl, setNewUrl] = useState("");
@@ -45,22 +54,32 @@ export default function RefTab({ brand }: RefTabProps) {
   const collections = data?.collections ?? [];
   const items = data?.items ?? [];
 
-  const filteredItems = useMemo(() => {
-    if (activeCollection === "all") return items;
-    return items.filter((i) => i.collectionId === activeCollection);
-  }, [items, activeCollection]);
-
   const collectionMap = useMemo(() => {
     return Object.fromEntries(collections.map((c) => [c.id, c]));
   }, [collections]);
 
-  const collectionCounts = useMemo(() => {
-    const counts: Record<string, number> = { all: items.length };
+  // Group items by collection
+  const itemsByCollection = useMemo(() => {
+    const grouped: Record<string, RefItem[]> = {};
     for (const item of items) {
-      counts[item.collectionId] = (counts[item.collectionId] || 0) + 1;
+      if (!grouped[item.collectionId]) grouped[item.collectionId] = [];
+      grouped[item.collectionId].push(item);
     }
-    return counts;
+    return grouped;
   }, [items]);
+
+  // Collections that have items (for folder view)
+  const activeCollections = useMemo(() => {
+    return collections.filter((c) => (itemsByCollection[c.id]?.length ?? 0) > 0);
+  }, [collections, itemsByCollection]);
+
+  // Empty collections (shown as smaller cards)
+  const emptyCollections = useMemo(() => {
+    return collections.filter((c) => (itemsByCollection[c.id]?.length ?? 0) === 0);
+  }, [collections, itemsByCollection]);
+
+  const openFolderItems = openFolder ? (itemsByCollection[openFolder] ?? []) : [];
+  const openFolderCollection = openFolder ? collectionMap[openFolder] : null;
 
   const handleFileUpload = useCallback(
     async (file: File) => {
@@ -119,45 +138,47 @@ export default function RefTab({ brand }: RefTabProps) {
 
   return (
     <div className="mt-6">
-      {/* Collection Tabs */}
-      <div className="flex items-center gap-2 flex-wrap mb-6">
-        <button
-          onClick={() => setActiveCollection("all")}
-          className={`px-3 py-1.5 text-xs font-semibold rounded-full border transition-colors ${
-            activeCollection === "all"
-              ? "bg-gray-900 text-white border-gray-900"
-              : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"
-          }`}
-        >
-          전체 {collectionCounts.all || 0}
-        </button>
-        {collections.map((c) => (
-          <button
-            key={c.id}
-            onClick={() => setActiveCollection(c.id)}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-full border transition-colors ${
-              activeCollection === c.id
-                ? "text-white border-transparent"
-                : "bg-white text-gray-500 border-gray-200 hover:border-gray-400"
-            }`}
-            style={
-              activeCollection === c.id
-                ? { backgroundColor: c.color, borderColor: c.color }
-                : undefined
-            }
-          >
-            {c.name} {collectionCounts[c.id] || 0}
-          </button>
-        ))}
+      {/* Header */}
+      <div className="flex items-center justify-between mb-6">
+        {openFolder ? (
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setOpenFolder(null)}
+              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+              전체 시리즈
+            </button>
+            <div className="flex items-center gap-2">
+              <span
+                className="w-3 h-3 rounded-full"
+                style={{ backgroundColor: openFolderCollection?.color }}
+              />
+              <span className="text-sm font-bold text-gray-900">
+                {openFolderCollection?.name}
+              </span>
+              <span className="text-xs text-gray-400">
+                {openFolderItems.length}개
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-bold text-gray-900">시리즈</span>
+            <span className="text-xs text-gray-400">{items.length}개 레퍼런스</span>
+          </div>
+        )}
 
         <button
           onClick={() => {
             setShowAddForm(!showAddForm);
             if (!newCollection && collections.length > 0) {
-              setNewCollection(activeCollection === "all" ? collections[0].id : activeCollection);
+              setNewCollection(openFolder || collections[0].id);
             }
           }}
-          className="ml-auto px-4 py-1.5 text-xs font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-700 transition-colors"
+          className="px-4 py-1.5 text-xs font-semibold rounded-full bg-gray-900 text-white hover:bg-gray-700 transition-colors"
         >
           + 레퍼런스 추가
         </button>
@@ -181,7 +202,7 @@ export default function RefTab({ brand }: RefTabProps) {
             </div>
             <div>
               <label className="block text-xs font-semibold text-gray-500 mb-1.5">
-                컬렉션
+                시리즈
               </label>
               <select
                 value={newCollection}
@@ -261,118 +282,181 @@ export default function RefTab({ brand }: RefTabProps) {
         </div>
       )}
 
-      {/* Items Grid */}
-      {filteredItems.length === 0 ? (
-        <div className="text-center py-20 text-gray-400 text-sm">
-          {activeCollection === "all"
-            ? "아직 저장한 레퍼런스가 없습니다"
-            : `${collectionMap[activeCollection]?.name ?? ""}에 저장한 레퍼런스가 없습니다`}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredItems.map((item) => (
-            <RefCard
-              key={item.id}
-              item={item}
-              collection={collectionMap[item.collectionId]}
-              expanded={expandedId === item.id}
-              onToggle={() =>
-                setExpandedId(expandedId === item.id ? null : item.id)
-              }
-              onDelete={() => {
-                if (confirm("이 레퍼런스를 삭제할까요?")) deleteItem(item.id);
-              }}
-            />
-          ))}
-        </div>
+      {/* === Folder View (default) === */}
+      {!openFolder && (
+        <>
+          {activeCollections.length === 0 && emptyCollections.length === 0 ? (
+            <div className="text-center py-20 text-gray-400 text-sm">
+              아직 저장한 레퍼런스가 없습니다
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {/* Folders with items */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {activeCollections.map((c) => (
+                  <FolderCard
+                    key={c.id}
+                    collection={c}
+                    items={itemsByCollection[c.id] ?? []}
+                    onClick={() => setOpenFolder(c.id)}
+                  />
+                ))}
+              </div>
+
+              {/* Empty folders */}
+              {emptyCollections.length > 0 && (
+                <div>
+                  <div className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-3">
+                    빈 시리즈
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {emptyCollections.map((c) => (
+                      <button
+                        key={c.id}
+                        onClick={() => setOpenFolder(c.id)}
+                        className="flex items-center gap-2 px-3 py-2 text-xs text-gray-400 border border-dashed border-gray-200 rounded-lg hover:border-gray-300 hover:text-gray-500 transition-colors"
+                      >
+                        <span
+                          className="w-2.5 h-2.5 rounded-full opacity-50"
+                          style={{ backgroundColor: c.color }}
+                        />
+                        {c.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </>
+      )}
+
+      {/* === Folder Detail View === */}
+      {openFolder && (
+        <>
+          {openFolderItems.length === 0 ? (
+            <div className="text-center py-20 text-gray-400 text-sm">
+              {openFolderCollection?.name ?? ""}에 저장한 레퍼런스가 없습니다
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {openFolderItems.map((item) => (
+                <RefCard
+                  key={item.id}
+                  item={item}
+                  onDelete={() => {
+                    if (confirm("이 레퍼런스를 삭제할까요?")) deleteItem(item.id);
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
 }
 
-// --- RefCard ---
+// --- FolderCard: 2x2 thumbnail grid preview ---
+
+function FolderCard({
+  collection,
+  items,
+  onClick,
+}: {
+  collection: RefCollection;
+  items: RefItem[];
+  onClick: () => void;
+}) {
+  // Pick up to 4 items for the 2x2 preview grid
+  const previewItems = items.slice(0, 4);
+
+  return (
+    <button
+      onClick={onClick}
+      className="group text-left border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-gray-300 hover:shadow-md transition-all"
+    >
+      {/* 2x2 Thumbnail Grid */}
+      <div className="aspect-square grid grid-cols-2 grid-rows-2 gap-[1px] bg-gray-100">
+        {previewItems.map((item) => (
+          <div key={item.id} className="relative bg-gray-50 overflow-hidden">
+            {item.thumbnailUrl ? (
+              <img
+                src={item.thumbnailUrl}
+                alt=""
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-50 text-gray-300">
+                <span className="text-lg">{platformIcon(item.platform)}</span>
+              </div>
+            )}
+          </div>
+        ))}
+        {/* Fill empty slots */}
+        {Array.from({ length: 4 - previewItems.length }).map((_, i) => (
+          <div key={`empty-${i}`} className="bg-gray-50" />
+        ))}
+      </div>
+
+      {/* Folder Info */}
+      <div className="px-3 py-3">
+        <div className="flex items-center gap-2 mb-0.5">
+          <span
+            className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+            style={{ backgroundColor: collection.color }}
+          />
+          <span className="text-sm font-bold text-gray-900 truncate">
+            {collection.name}
+          </span>
+        </div>
+        <div className="text-xs text-gray-400 pl-[18px]">
+          {items.length}개
+        </div>
+      </div>
+    </button>
+  );
+}
+
+// --- RefCard (simplified for folder detail view) ---
 
 function RefCard({
   item,
-  collection,
-  onToggle,
   onDelete,
 }: {
   item: RefItem;
-  collection?: RefCollection;
-  expanded: boolean;
-  onToggle: () => void;
   onDelete: () => void;
 }) {
-  const platformIcon: Record<string, React.ReactNode> = {
-    instagram: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-pink-400">
-        <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" strokeWidth="1.5"/>
-        <circle cx="12" cy="12" r="5" stroke="currentColor" strokeWidth="1.5"/>
-        <circle cx="17.5" cy="6.5" r="1.5" fill="currentColor"/>
-      </svg>
-    ),
-    youtube: (
-      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" className="text-red-500">
-        <rect x="2" y="4" width="20" height="16" rx="4" stroke="currentColor" strokeWidth="1.5"/>
-        <path d="M10 9l5 3-5 3V9z" fill="currentColor"/>
-      </svg>
-    ),
-  };
-
   return (
     <div className="border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-gray-300 transition-colors">
       {/* Preview */}
       {item.thumbnailUrl ? (
-        <a
-          href={item.url || undefined}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full h-48 bg-gray-100"
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={item.thumbnailUrl}
-            alt=""
-            className="w-full h-full object-cover"
-          />
+        <a href={item.url || undefined} target="_blank" rel="noopener noreferrer" className="block">
+          <div className="w-full h-48 bg-gray-100">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={item.thumbnailUrl}
+              alt=""
+              className="w-full h-full object-cover"
+            />
+          </div>
         </a>
       ) : (
         <a
           href={item.url || undefined}
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full h-36 bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col items-center justify-center gap-2 hover:from-gray-100 hover:to-gray-150 transition-colors"
+          className="block w-full h-32 bg-gray-50 flex items-center justify-center"
         >
-          {platformIcon[item.platform] || (
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" className="text-gray-300">
-              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-            </svg>
-          )}
-          <span className="text-[10px] text-gray-400 font-medium">
-            {platformLabel(item.platform)}에서 보기 →
-          </span>
+          <div className="flex flex-col items-center justify-center h-full">
+            <span className="text-2xl mb-1">{platformIcon(item.platform)}</span>
+            <span className="text-[10px] text-gray-400">{platformLabel(item.platform)}</span>
+          </div>
         </a>
       )}
 
       {/* Info */}
       <div className="p-4">
-        {/* Collection tag + platform */}
-        <div className="flex items-center gap-2 mb-2">
-          {collection && (
-            <span
-              className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
-              style={{ backgroundColor: collection.color }}
-            >
-              {collection.name}
-            </span>
-          )}
-          <span className="text-[10px] font-medium text-gray-400">
-            {platformLabel(item.platform)}
-          </span>
-        </div>
-
         {/* Comment */}
         {item.comment && (
           <p className="text-sm text-gray-700 leading-relaxed mb-3">

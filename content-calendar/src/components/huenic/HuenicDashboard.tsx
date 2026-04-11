@@ -44,7 +44,7 @@ export default function HuenicDashboard() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <p className="text-xs font-semibold tracking-widest text-gray-400 mb-1">
-              HUENIC DASHBOARD
+              BRANDRISE
             </p>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
               {brand === "veggiet" ? "VEGGIET" : "VINKER"}
