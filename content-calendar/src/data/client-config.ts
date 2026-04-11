@@ -93,7 +93,7 @@ export interface ProjectConfig {
   emoji?: string;
   logo: { src: string; alt: string } | null;
   brandColor: string;
-  status: "active" | "paused" | "completed";
+  status: "active" | "paused" | "completed" | "demo";
 
   channels: ChannelConfig[];
   brands?: BrandConfig[];

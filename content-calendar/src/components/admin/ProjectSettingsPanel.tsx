@@ -235,6 +235,7 @@ export default function ProjectSettingsPanel({
                   <option value="active">Active</option>
                   <option value="paused">Paused</option>
                   <option value="completed">완료</option>
+                  <option value="demo">Demo</option>
                 </select>
               </div>
             </div>

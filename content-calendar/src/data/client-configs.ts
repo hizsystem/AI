@@ -272,12 +272,12 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
     emoji: "☕",
     logo: null,
     brandColor: "#92400e",
-    status: "active",
+    status: "demo",
     channels: [
       {
         type: "instagram",
         enabled: true,
-        blocks: ["ig-calendar", "ig-moodboard", "ig-reference", "ig-kpi", "ig-report"],
+        blocks: ["ig-calendar", "ig-moodboard", "ig-reference", "ig-guide", "ig-kpi", "ig-report"],
         defaultCategories: [
           { id: "menu", name: "메뉴/음료", color: "#92400e" },
           { id: "mood", name: "공간/무드", color: "#6366f1" },

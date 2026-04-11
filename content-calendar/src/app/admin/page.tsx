@@ -21,7 +21,7 @@ interface ProjectSummary {
   emoji?: string;
   brandColor: string;
   logo: { src: string; alt: string } | null;
-  status: "active" | "paused" | "completed";
+  status: "active" | "paused" | "completed" | "demo";
   channels: ChannelType[];
   igBlocks?: string[];
   npStoreId?: string;
@@ -1222,6 +1222,7 @@ function AdminDashboard() {
   const activeProjects = data.summaries.filter((s) => s.status === "active");
   const pausedProjects = data.summaries.filter((s) => s.status === "paused");
   const completedProjects = data.summaries.filter((s) => s.status === "completed");
+  const demoProjects = data.summaries.filter((s) => s.status === "demo");
   const activeProject = data.summaries.find((s) => s.slug === activeTab);
 
   return (
@@ -1311,6 +1312,31 @@ function AdminDashboard() {
               <div className="mx-6 my-3 border-t border-gray-100" />
               <p className="px-6 py-1.5 text-[10px] text-amber-400 font-semibold uppercase tracking-wider">Paused</p>
               {pausedProjects.map((project) => (
+                <button
+                  key={project.slug}
+                  onClick={() => setActiveTab(project.slug)}
+                  className={`w-full px-6 py-3 flex items-center gap-3 text-left text-sm transition-colors ${
+                    activeTab === project.slug
+                      ? "bg-gray-50 text-gray-700 font-medium"
+                      : "text-gray-400 hover:bg-gray-50 hover:text-gray-600"
+                  }`}
+                >
+                  <div
+                    className="w-2 h-2 rounded-full flex-shrink-0 opacity-60"
+                    style={{ backgroundColor: project.brandColor }}
+                  />
+                  <span className="truncate">{project.name}</span>
+                </button>
+              ))}
+            </>
+          )}
+
+          {/* Demo */}
+          {demoProjects.length > 0 && (
+            <>
+              <div className="mx-6 my-3 border-t border-gray-100" />
+              <p className="px-6 py-1.5 text-[10px] text-violet-400 font-semibold uppercase tracking-wider">Demo</p>
+              {demoProjects.map((project) => (
                 <button
                   key={project.slug}
                   onClick={() => setActiveTab(project.slug)}

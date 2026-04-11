@@ -13,7 +13,7 @@ interface ProjectSummary {
   emoji?: string;
   brandColor: string;
   logo: { src: string; alt: string } | null;
-  status: "active" | "paused" | "completed";
+  status: "active" | "paused" | "completed" | "demo";
   channels: ChannelType[];
   brands?: { id: string; label: string; emoji: string }[];
   finance?: FinanceConfig;
