@@ -5,7 +5,7 @@ export interface Category {
   description?: string;
 }
 
-export type ContentStatus = "planning" | "needs-confirm" | "uploaded";
+export type ContentStatus = "planning" | "needs-confirm" | "confirmed" | "uploaded";
 
 export interface ContentOverview {
   description?: string | null;

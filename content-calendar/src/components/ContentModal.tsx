@@ -6,6 +6,7 @@ import type { ContentItem, Category, ContentStatus } from "@/data/types";
 const STATUS_CONFIG: Record<ContentStatus, { label: string; bg: string; text: string }> = {
   planning: { label: "기획", bg: "bg-gray-100", text: "text-gray-500" },
   "needs-confirm": { label: "컨펌 필요", bg: "bg-amber-50", text: "text-amber-600" },
+  confirmed: { label: "컨펌 완료", bg: "bg-blue-50", text: "text-blue-600" },
   uploaded: { label: "업로드 완료", bg: "bg-emerald-50", text: "text-emerald-600" },
 };
 

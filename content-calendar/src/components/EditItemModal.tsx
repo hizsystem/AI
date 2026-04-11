@@ -22,6 +22,7 @@ interface EditItemModalProps {
 const STATUS_OPTIONS: { value: ContentStatus; label: string }[] = [
   { value: "planning", label: "기획" },
   { value: "needs-confirm", label: "컨펌 필요" },
+  { value: "confirmed", label: "컨펌 완료" },
   { value: "uploaded", label: "업로드 완료" },
 ];
 

@@ -31,6 +31,7 @@ const DAY_LABELS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 const STATUS_CONFIG: Record<ContentStatus, { label: string; bg: string; text: string }> = {
   planning: { label: "기획", bg: "bg-gray-100", text: "text-gray-500" },
   "needs-confirm": { label: "컨펌 필요", bg: "bg-amber-50", text: "text-amber-600" },
+  confirmed: { label: "컨펌 완료", bg: "bg-blue-50", text: "text-blue-600" },
   uploaded: { label: "업로드 완료", bg: "bg-emerald-50", text: "text-emerald-600" },
 };
 
@@ -55,6 +56,7 @@ export default function Calendar({
   const [editMoodboard, setEditMoodboard] = useState(false);
   const [dragItemId, setDragItemId] = useState<string | null>(null);
   const [dropTargetDay, setDropTargetDay] = useState<number | null>(null);
+  const [statusFilter, setStatusFilter] = useState<ContentStatus | "all">("all");
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
@@ -100,12 +102,13 @@ export default function Calendar({
     const map: Record<number, ContentItem[]> = {};
     for (const item of data.items) {
       if (!validCategories.has(item.category)) continue;
+      if (statusFilter !== "all" && item.status !== statusFilter) continue;
       const day = parseInt(item.date.split("-")[2], 10);
       if (!map[day]) map[day] = [];
       map[day].push(item);
     }
     return map;
-  }, [data.items, data.categories]);
+  }, [data.items, data.categories, statusFilter]);
 
   const today = new Date();
   const isCurrentMonth =
@@ -223,6 +226,33 @@ export default function Calendar({
             )}
           </div>
           <div className="flex items-center gap-2 flex-wrap">
+            {/* Status filter */}
+            <div className="flex items-center gap-1 mr-2">
+              {([
+                { key: "all" as const, label: "전체", count: data.items.length },
+                ...Object.entries(STATUS_CONFIG).map(([key, cfg]) => ({
+                  key: key as ContentStatus,
+                  label: cfg.label,
+                  count: data.items.filter((i) => i.status === key).length,
+                })),
+              ] as { key: ContentStatus | "all"; label: string; count: number }[]).map(({ key, label, count }) => {
+                const active = statusFilter === key;
+                const cfg = key !== "all" ? STATUS_CONFIG[key] : null;
+                return (
+                  <button
+                    key={key}
+                    onClick={() => setStatusFilter(key)}
+                    className={`px-2.5 py-1 rounded-md text-[11px] font-medium transition-colors ${
+                      active
+                        ? cfg ? `${cfg.bg} ${cfg.text} ring-1 ring-current/20` : "bg-gray-900 text-white"
+                        : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"
+                    }`}
+                  >
+                    {label} {count > 0 && <span className="ml-0.5 opacity-70">{count}</span>}
+                  </button>
+                );
+              })}
+            </div>
             {/* Edit mode toggle */}
             {onToggleEditMode && (
               <button
