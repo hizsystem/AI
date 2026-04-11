@@ -2,46 +2,37 @@
 
 import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import dynamic from "next/dynamic";
 import Calendar from "@/components/Calendar";
+import TabNavigation from "@/components/huenic/TabNavigation";
+import MoodboardTab from "@/components/huenic/MoodboardTab";
+import RefTab from "@/components/huenic/RefTab";
+import GuideTab from "@/components/huenic/GuideTab";
+import WeeklyReportTab from "@/components/huenic/WeeklyReportTab";
+import KpiTab from "@/components/huenic/KpiTab";
 import { useCalendarData } from "@/hooks/useCalendarData";
 import type { ClientConfig, TabId } from "@/data/client-config";
-
-// Dynamic import tab components (SSR-safe)
-const TabNavigation = dynamic(() => import("@/components/huenic/TabNavigation"), { ssr: false });
-const MoodboardTab = dynamic(() => import("@/components/huenic/MoodboardTab"), { ssr: false, loading: () => <TabLoading /> });
-const RefTab = dynamic(() => import("@/components/huenic/RefTab"), { ssr: false, loading: () => <TabLoading /> });
-const GuideTab = dynamic(() => import("@/components/huenic/GuideTab"), { ssr: false, loading: () => <TabLoading /> });
-const WeeklyReportTab = dynamic(() => import("@/components/huenic/WeeklyReportTab"), { ssr: false, loading: () => <TabLoading /> });
-const KpiTab = dynamic(() => import("@/components/huenic/KpiTab"), { ssr: false, loading: () => <TabLoading /> });
-
-function TabLoading() {
-  return <div className="py-20 text-center text-sm text-gray-400">Loading...</div>;
-}
 
 interface Props {
   config: ClientConfig;
   readOnly?: boolean;
 }
 
-// Inner component that uses useSearchParams
 function CalendarOnlyInner({ config, readOnly = false }: Props) {
+  const CLIENT = config.slug;
+  const LOGO = config.logo;
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
-  const CLIENT = config.slug;
-  const LOGO = config.logo;
-
   const hasTabs = config.tabs.length > 1;
-  const validTab = (t: string | null): TabId => {
+  const activeTab = (() => {
+    const t = searchParams.get("tab");
     if (t && config.tabs.includes(t as TabId)) return t as TabId;
     return config.tabs[0] || "calendar";
-  };
-  const activeTab = validTab(searchParams?.get("tab") ?? null);
+  })();
 
   function setActiveTab(tab: TabId) {
-    const params = new URLSearchParams(searchParams?.toString() || "");
+    const params = new URLSearchParams(searchParams.toString());
     params.set("tab", tab);
     router.push(`${pathname}?${params.toString()}`);
   }
@@ -62,9 +53,7 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
           setCurrentMonth(m.includes(now) ? now : m[m.length - 1]);
         }
       }
-    } catch {
-      // fallback
-    } finally {
+    } catch { /* fallback */ } finally {
       setLoadingMonths(false);
     }
   }, [CLIENT, currentMonth]);
@@ -80,24 +69,21 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ month: next }),
       });
-      if (res.ok) {
-        setMonths((prev) => [...prev, next].sort());
-        setCurrentMonth(next);
-      } else if (res.status === 409) {
-        setCurrentMonth(next);
-      }
+      if (res.ok) { setMonths((prev) => [...prev, next].sort()); setCurrentMonth(next); }
+      else if (res.status === 409) { setCurrentMonth(next); }
     } catch { /* ignore */ }
   };
 
   const { data, loading, error, addItem, updateItem, deleteItem, saveCalendar } =
     useCalendarData(CLIENT, currentMonth);
 
-  // Loading / error for calendar tab
-  if ((activeTab === "calendar" || !hasTabs) && (loadingMonths || (loading && currentMonth))) {
+  const isCalendarTab = !hasTabs || activeTab === "calendar";
+
+  if (isCalendarTab && (loadingMonths || (loading && currentMonth))) {
     return <PageLoading />;
   }
 
-  if ((activeTab === "calendar" || !hasTabs) && (!currentMonth || !data || (error && !data))) {
+  if (isCalendarTab && (!currentMonth || !data || (error && !data))) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
         <p className="text-gray-400">{error || "No calendar data."}</p>
@@ -105,8 +91,7 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
     );
   }
 
-  // Calendar tab
-  if (!hasTabs || activeTab === "calendar") {
+  if (isCalendarTab) {
     return (
       <>
         {hasTabs && (
@@ -136,9 +121,8 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
     );
   }
 
-  // Other tabs
+  // Non-calendar tabs
   const brand = CLIENT as any;
-
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -175,7 +159,6 @@ function PageLoading() {
   );
 }
 
-// Wrapper with Suspense for useSearchParams
 export default function CalendarOnlyClient(props: Props) {
   return (
     <Suspense fallback={<PageLoading />}>
