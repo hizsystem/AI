@@ -50,6 +50,8 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
           { id: "reels", name: "릴스", color: "#f97316" },
           { id: "seeding", name: "시딩/콜라보", color: "#8b5cf6" },
         ],
+        defaultHashtags: ["#베지어트", "#VEGGIET", "#식물성단백질"],
+        defaultMentions: ["@veggiet_official"],
       },
       {
         type: "blog",

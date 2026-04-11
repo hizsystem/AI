@@ -22,6 +22,8 @@ interface CalendarProps {
   onSaveCalendar?: (updates: Partial<CalendarData>) => Promise<void>;
   onAddMonth?: () => void;
   logo?: { src: string; alt: string };
+  /** Per-project default hashtags/mentions for new content */
+  contentDefaults?: { hashtags?: string[]; mentions?: string[] };
 }
 
 const DAY_LABELS = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -44,6 +46,7 @@ export default function Calendar({
   onSaveCalendar,
   onAddMonth,
   logo = { src: '', alt: '' },
+  contentDefaults,
 }: CalendarProps) {
   const [selectedItem, setSelectedItem] = useState<ContentItem | null>(null);
   const [editingItem, setEditingItem] = useState<ContentItem | null | "new">(null);
@@ -491,6 +494,7 @@ export default function Calendar({
           onSave={handleSaveItem}
           onDelete={editingItem !== "new" ? handleDeleteItem : undefined}
           onClose={() => setEditingItem(null)}
+          defaults={contentDefaults}
         />
       )}
 

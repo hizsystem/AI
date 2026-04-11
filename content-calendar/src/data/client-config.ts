@@ -32,6 +32,10 @@ export interface ChannelConfig {
   storeId?: string;
   /** Default categories for calendar blocks */
   defaultCategories?: Category[];
+  /** Default hashtags for new content (e.g. ["#브랜드라이즈", "#Brandrise"]) */
+  defaultHashtags?: string[];
+  /** Default mentions for new content (e.g. ["@brandrise_official"]) */
+  defaultMentions?: string[];
 }
 
 export interface InstagramProfile {
@@ -102,6 +106,8 @@ export interface ClientConfig {
   brandColor: string;
   tabs: TabId[];
   defaultCategories: Category[];
+  defaultHashtags?: string[];
+  defaultMentions?: string[];
   brands?: BrandConfig[];
   dashboardTitle?: string;
   calendarClientPrefix?: string;
@@ -136,6 +142,8 @@ export function toClientConfig(p: ProjectConfig): ClientConfig {
     brandColor: p.brandColor,
     tabs: tabs.length > 0 ? tabs : ["calendar"],
     defaultCategories: igChannel?.defaultCategories || [],
+    defaultHashtags: igChannel?.defaultHashtags,
+    defaultMentions: igChannel?.defaultMentions,
     brands: p.brands,
     dashboardTitle: p.dashboardTitle,
     calendarClientPrefix: igChannel?.calendarClientPrefix,

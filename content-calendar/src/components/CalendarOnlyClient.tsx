@@ -100,6 +100,11 @@ export default function CalendarOnlyClient({ config, readOnly = false }: Props) 
       onSaveCalendar={readOnly ? undefined : saveCalendar}
       onAddMonth={readOnly ? undefined : handleAddMonth}
       logo={LOGO ?? undefined}
+      contentDefaults={
+        config.defaultHashtags || config.defaultMentions
+          ? { hashtags: config.defaultHashtags, mentions: config.defaultMentions }
+          : undefined
+      }
     />
   );
 }

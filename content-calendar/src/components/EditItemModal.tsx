@@ -12,6 +12,11 @@ interface EditItemModalProps {
   onDelete?: (id: string) => void;
   onClose: () => void;
   clientId?: string;
+  /** Per-project defaults for new content */
+  defaults?: {
+    hashtags?: string[];
+    mentions?: string[];
+  };
 }
 
 const STATUS_OPTIONS: { value: ContentStatus; label: string }[] = [
@@ -28,6 +33,7 @@ export default function EditItemModal({
   onDelete,
   onClose,
   clientId = "default",
+  defaults,
 }: EditItemModalProps) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -39,8 +45,12 @@ export default function EditItemModal({
   const [status, setStatus] = useState<ContentStatus>(item?.status ?? "planning");
   const [format, setFormat] = useState(item?.overview?.format ?? "");
   const [caption, setCaption] = useState(item?.overview?.caption ?? "");
-  const [hashtags, setHashtags] = useState(item?.overview?.hashtags?.join(" ") ?? "");
-  const [mentions, setMentions] = useState(item?.overview?.mentions?.join(" ") ?? "");
+  const [hashtags, setHashtags] = useState(
+    item?.overview?.hashtags?.join(" ") ?? (!item && defaults?.hashtags ? defaults.hashtags.join(" ") : "")
+  );
+  const [mentions, setMentions] = useState(
+    item?.overview?.mentions?.join(" ") ?? (!item && defaults?.mentions ? defaults.mentions.join(" ") : "")
+  );
   const [videoUrl, setVideoUrl] = useState(item?.overview?.videoUrl ?? "");
   const [notes, setNotes] = useState(item?.overview?.notes ?? "");
   const [images, setImages] = useState<string[]>(item?.overview?.images ?? []);
@@ -440,7 +450,7 @@ export default function EditItemModal({
               type="text"
               value={hashtags}
               onChange={(e) => setHashtags(e.target.value)}
-              placeholder="#베지어트 #VEGGIET #식물성단백질"
+              placeholder={defaults?.hashtags ? defaults.hashtags.join(" ") : "#해시태그"}
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
@@ -454,7 +464,7 @@ export default function EditItemModal({
               type="text"
               value={mentions}
               onChange={(e) => setMentions(e.target.value)}
-              placeholder="@계정명"
+              placeholder={defaults?.mentions ? defaults.mentions.join(" ") : "@계정명"}
               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>

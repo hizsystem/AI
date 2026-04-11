@@ -35,6 +35,8 @@ export default function ProjectSettingsPanel({
   const [channels, setChannels] = useState<ChannelConfig[]>([]);
   const [budget, setBudget] = useState(0);
   const [invoiceDay, setInvoiceDay] = useState(10);
+  const [defaultHashtags, setDefaultHashtags] = useState("");
+  const [defaultMentions, setDefaultMentions] = useState("");
   const [saving, setSaving] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
@@ -60,6 +62,9 @@ export default function ProjectSettingsPanel({
           setChannels(found.channels || []);
           setBudget(found.finance?.monthlyBudget || found.finance?.monthlyFee || 0);
           setInvoiceDay(found.finance?.invoiceDay || 10);
+          const igCh = found.channels?.find((c) => c.type === "instagram");
+          if (igCh?.defaultHashtags) setDefaultHashtags(igCh.defaultHashtags.join(" "));
+          if (igCh?.defaultMentions) setDefaultMentions(igCh.defaultMentions.join(" "));
         }
       })
       .catch(console.error)
@@ -93,13 +98,25 @@ export default function ProjectSettingsPanel({
     if (!config) return;
     setSaving(true);
     try {
+      // Apply hashtag/mention defaults to instagram channel
+      const updatedChannels = channels.map((ch) => {
+        if (ch.type === "instagram") {
+          return {
+            ...ch,
+            defaultHashtags: defaultHashtags.trim() ? defaultHashtags.split(/\s+/).filter(Boolean) : undefined,
+            defaultMentions: defaultMentions.trim() ? defaultMentions.split(/\s+/).filter(Boolean) : undefined,
+          };
+        }
+        return ch;
+      });
+
       const updated: ProjectConfig = {
         ...config,
         name,
         emoji: emoji || undefined,
         brandColor,
         status,
-        channels,
+        channels: updatedChannels,
         finance: budget > 0
           ? { ...config.finance, model: config.finance?.model || "monthly", monthlyBudget: budget, monthlyFee: budget, invoiceDay, currency: "KRW" as const }
           : config.finance,
@@ -231,6 +248,34 @@ export default function ProjectSettingsPanel({
               </button>
             ))}
           </div>
+
+          {/* Content Defaults */}
+          {isChannelEnabled("instagram") && (
+            <div className="space-y-4">
+              <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider">콘텐츠 기본값</h3>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1.5">기본 해시태그 <span className="text-gray-400">(공백 구분)</span></label>
+                <input
+                  type="text"
+                  value={defaultHashtags}
+                  onChange={(e) => setDefaultHashtags(e.target.value)}
+                  placeholder="#브랜드명 #키워드"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1.5">기본 멘션 <span className="text-gray-400">(공백 구분)</span></label>
+                <input
+                  type="text"
+                  value={defaultMentions}
+                  onChange={(e) => setDefaultMentions(e.target.value)}
+                  placeholder="@계정명"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+                />
+              </div>
+              <p className="text-[11px] text-gray-400">콘텐츠 추가 시 자동으로 채워집니다</p>
+            </div>
+          )}
 
           {/* Finance */}
           <div className="space-y-4">

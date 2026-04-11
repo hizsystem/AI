@@ -87,6 +87,10 @@ export default function CalendarTab({ brand }: CalendarTabProps) {
       onDeleteItem={deleteItem}
       onSaveCalendar={saveCalendar}
       logo={{ src: "", alt: "HUENIC" }}
+      contentDefaults={{
+        hashtags: ["#베지어트", "#VEGGIET", "#식물성단백질"],
+        mentions: ["@veggiet_official"],
+      }}
     />
   );
 }
