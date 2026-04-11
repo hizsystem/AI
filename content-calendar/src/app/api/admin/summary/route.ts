@@ -151,8 +151,10 @@ export async function GET() {
     return NextResponse.json({ summaries, week, currentMonth });
   } catch (error) {
     console.error("Admin summary error:", error);
+    const msg = error instanceof Error ? error.message : String(error);
+    const stack = error instanceof Error ? error.stack?.split("\n").slice(0, 5).join("\n") : "";
     return NextResponse.json(
-      { error: "Failed to fetch summary" },
+      { error: "Failed to fetch summary", detail: msg, stack },
       { status: 500 }
     );
   }
