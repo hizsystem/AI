@@ -10,6 +10,7 @@ export interface TeamMember {
 export interface TaskItem {
   id: string;
   projectSlug: string;
+  category?: string;  // e.g. "네이버플레이스", "인플루언서", "체험단"
   title: string;
   assigneeId: string;
   status: TaskStatus;

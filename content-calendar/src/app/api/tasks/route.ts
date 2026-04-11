@@ -32,6 +32,7 @@ export async function POST(req: NextRequest) {
     const task: TaskItem = {
       id: crypto.randomUUID(),
       projectSlug: body.projectSlug,
+      ...(body.category ? { category: body.category } : {}),
       title: body.title,
       assigneeId: body.assigneeId,
       status: body.status || "pending",
@@ -59,16 +60,36 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ error: "Invalid type" }, { status: 400 });
 }
 
-// PATCH — update task
+// PATCH — update task (single or batch)
 export async function PATCH(req: NextRequest) {
   if (!isAdmin(req)) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const body = await req.json();
   const board = await getTaskBoard();
+
+  // Batch update: { batch: [{ id, ...fields }] }
+  if (Array.isArray(body.batch)) {
+    const results: TaskItem[] = [];
+    for (const item of body.batch) {
+      const idx = board.tasks.findIndex((t) => t.id === item.id);
+      if (idx === -1) continue;
+      const updated = { ...board.tasks[idx], ...item, id: board.tasks[idx].id, createdAt: board.tasks[idx].createdAt };
+      if (item.category === null || item.category === "") delete updated.category;
+      board.tasks[idx] = updated;
+      results.push(updated);
+    }
+    await saveTaskBoard(board);
+    return NextResponse.json({ updated: results.length });
+  }
+
+  // Single update
   const idx = board.tasks.findIndex((t) => t.id === body.id);
   if (idx === -1) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  board.tasks[idx] = { ...board.tasks[idx], ...body, id: board.tasks[idx].id, createdAt: board.tasks[idx].createdAt };
+  const updated = { ...board.tasks[idx], ...body, id: board.tasks[idx].id, createdAt: board.tasks[idx].createdAt };
+  // Allow clearing category by sending null/empty
+  if (body.category === null || body.category === "") delete updated.category;
+  board.tasks[idx] = updated;
   await saveTaskBoard(board);
   return NextResponse.json(board.tasks[idx]);
 }
