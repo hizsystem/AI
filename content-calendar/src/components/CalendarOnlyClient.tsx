@@ -1,42 +1,47 @@
 "use client";
 
-import { useState, useEffect, useCallback, Suspense, lazy } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import dynamic from "next/dynamic";
 import Calendar from "@/components/Calendar";
 import { useCalendarData } from "@/hooks/useCalendarData";
 import type { ClientConfig, TabId } from "@/data/client-config";
 
-// Lazy load tab components to avoid bundling issues for calendar-only projects
-const TabNavigation = lazy(() => import("@/components/huenic/TabNavigation"));
-const MoodboardTab = lazy(() => import("@/components/huenic/MoodboardTab"));
-const RefTab = lazy(() => import("@/components/huenic/RefTab"));
-const GuideTab = lazy(() => import("@/components/huenic/GuideTab"));
-const WeeklyReportTab = lazy(() => import("@/components/huenic/WeeklyReportTab"));
-const KpiTab = lazy(() => import("@/components/huenic/KpiTab"));
+// Dynamic import tab components (SSR-safe)
+const TabNavigation = dynamic(() => import("@/components/huenic/TabNavigation"), { ssr: false });
+const MoodboardTab = dynamic(() => import("@/components/huenic/MoodboardTab"), { ssr: false, loading: () => <TabLoading /> });
+const RefTab = dynamic(() => import("@/components/huenic/RefTab"), { ssr: false, loading: () => <TabLoading /> });
+const GuideTab = dynamic(() => import("@/components/huenic/GuideTab"), { ssr: false, loading: () => <TabLoading /> });
+const WeeklyReportTab = dynamic(() => import("@/components/huenic/WeeklyReportTab"), { ssr: false, loading: () => <TabLoading /> });
+const KpiTab = dynamic(() => import("@/components/huenic/KpiTab"), { ssr: false, loading: () => <TabLoading /> });
+
+function TabLoading() {
+  return <div className="py-20 text-center text-sm text-gray-400">Loading...</div>;
+}
 
 interface Props {
   config: ClientConfig;
   readOnly?: boolean;
 }
 
-// Inner component that uses useSearchParams (requires Suspense)
+// Inner component that uses useSearchParams
 function CalendarOnlyInner({ config, readOnly = false }: Props) {
-  const CLIENT = config.slug;
-  const LOGO = config.logo;
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
 
-  // Tab support — only show tabs if more than just "calendar"
+  const CLIENT = config.slug;
+  const LOGO = config.logo;
+
   const hasTabs = config.tabs.length > 1;
   const validTab = (t: string | null): TabId => {
     if (t && config.tabs.includes(t as TabId)) return t as TabId;
     return config.tabs[0] || "calendar";
   };
-  const activeTab = validTab(searchParams.get("tab"));
+  const activeTab = validTab(searchParams?.get("tab") ?? null);
 
   function setActiveTab(tab: TabId) {
-    const params = new URLSearchParams(searchParams.toString());
+    const params = new URLSearchParams(searchParams?.toString() || "");
     params.set("tab", tab);
     router.push(`${pathname}?${params.toString()}`);
   }
@@ -64,14 +69,11 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
     }
   }, [CLIENT, currentMonth]);
 
-  useEffect(() => {
-    fetchMonths();
-  }, [fetchMonths]);
+  useEffect(() => { fetchMonths(); }, [fetchMonths]);
 
   const handleAddMonth = async () => {
     const latest = months.length > 0 ? months[months.length - 1] : getCurrentMonth();
     const next = getNextMonth(latest);
-
     try {
       const res = await fetch(`/api/calendar-months/${CLIENT}`, {
         method: "POST",
@@ -84,27 +86,15 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
       } else if (res.status === 409) {
         setCurrentMonth(next);
       }
-    } catch {
-      // ignore
-    }
+    } catch { /* ignore */ }
   };
 
   const { data, loading, error, addItem, updateItem, deleteItem, saveCalendar } =
     useCalendarData(CLIENT, currentMonth);
 
-  // Loading state (only for calendar tab or single-tab)
+  // Loading / error for calendar tab
   if ((activeTab === "calendar" || !hasTabs) && (loadingMonths || (loading && currentMonth))) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="flex items-center gap-3 text-gray-400">
-          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-          </svg>
-          <span className="text-sm">Loading...</span>
-        </div>
-      </div>
-    );
+    return <PageLoading />;
   }
 
   if ((activeTab === "calendar" || !hasTabs) && (!currentMonth || !data || (error && !data))) {
@@ -115,15 +105,13 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
     );
   }
 
-  // Calendar tab (or single-tab mode)
+  // Calendar tab
   if (!hasTabs || activeTab === "calendar") {
     return (
       <>
         {hasTabs && (
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
-            <Suspense fallback={null}>
-              <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
-            </Suspense>
+            <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
           </div>
         )}
         <Calendar
@@ -148,7 +136,7 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
     );
   }
 
-  // Other tabs — use slug directly as brand key (not "huenic-" prefix)
+  // Other tabs
   const brand = CLIENT as any;
 
   return (
@@ -160,18 +148,28 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
           </p>
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{config.name}</h1>
         </div>
-        <Suspense fallback={null}>
-          <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
-        </Suspense>
+        <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
         <div className="mt-6">
-          <Suspense fallback={<div className="py-20 text-center text-sm text-gray-400">Loading...</div>}>
-            {activeTab === "moodboard" && <MoodboardTab brand={brand} />}
-            {activeTab === "ref" && <RefTab brand={brand} />}
-            {activeTab === "guide" && <GuideTab brand={brand} />}
-            {activeTab === "report" && <WeeklyReportTab brand={brand} />}
-            {activeTab === "kpi" && <KpiTab brand={brand} />}
-          </Suspense>
+          {activeTab === "moodboard" && <MoodboardTab brand={brand} />}
+          {activeTab === "ref" && <RefTab brand={brand} />}
+          {activeTab === "guide" && <GuideTab brand={brand} />}
+          {activeTab === "report" && <WeeklyReportTab brand={brand} />}
+          {activeTab === "kpi" && <KpiTab brand={brand} />}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function PageLoading() {
+  return (
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="flex items-center gap-3 text-gray-400">
+        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+        </svg>
+        <span className="text-sm">Loading...</span>
       </div>
     </div>
   );
@@ -180,17 +178,7 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
 // Wrapper with Suspense for useSearchParams
 export default function CalendarOnlyClient(props: Props) {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="flex items-center gap-3 text-gray-400">
-          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-          </svg>
-          <span className="text-sm">Loading...</span>
-        </div>
-      </div>
-    }>
+    <Suspense fallback={<PageLoading />}>
       <CalendarOnlyInner {...props} />
     </Suspense>
   );
