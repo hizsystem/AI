@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getTaskBoard, saveTaskBoard } from "@/lib/task-storage";
 import type { TaskItem, TeamMember } from "@/data/task-types";
+import { DEFAULT_MEMBERS } from "@/data/task-types";
 
 function isAdmin(req: NextRequest): boolean {
   return req.cookies.get("cc-admin-auth")?.value === "authenticated";
@@ -58,6 +59,13 @@ export async function PATCH(req: NextRequest) {
 
   const body = await req.json();
   const board = await getTaskBoard();
+
+  // Reset members to defaults: { resetMembers: true }
+  if (body.resetMembers) {
+    board.members = [...DEFAULT_MEMBERS];
+    await saveTaskBoard(board);
+    return NextResponse.json({ members: board.members });
+  }
 
   // Batch update: { batch: [{ id, ...fields }] }
   if (Array.isArray(body.batch)) {
