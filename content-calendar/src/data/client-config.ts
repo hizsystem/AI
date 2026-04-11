@@ -70,8 +70,21 @@ export interface FinanceConfig {
   advanceRate?: number; // 선금 비율 (0.5 = 50%)
   // recurring costs (체험단 등)
   recurringCosts?: { name: string; amount: number; frequency: string }[];
+  // 월별 수입/지출 체크리스트
+  monthlyItems?: FinanceLineItem[];
   // notes
   notes?: string;
+}
+
+export interface FinanceLineItem {
+  id: string;
+  type: "income" | "expense";
+  name: string;
+  amount: number;
+  recurring: boolean;       // true = 매월 반복
+  invoiceDate?: string;     // 발행/지불 예정일 (DD or YYYY-MM-DD)
+  checked?: boolean;        // 이번 달 처리 완료 여부
+  note?: string;
 }
 
 export interface ProjectConfig {

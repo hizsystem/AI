@@ -805,8 +805,76 @@ const MODEL_LABELS: Record<string, string> = {
   tbd: "미정",
 };
 
-function FinancePanel({ project }: { project: ProjectSummary }) {
+function FinancePanel({ project, onRefresh }: { project: ProjectSummary; onRefresh?: () => void }) {
   const f = project.finance;
+  const [items, setItems] = useState<import("@/data/client-config").FinanceLineItem[]>(f?.monthlyItems || []);
+  const [showAdd, setShowAdd] = useState(false);
+  const [addType, setAddType] = useState<"income" | "expense">("income");
+  const [addName, setAddName] = useState("");
+  const [addAmount, setAddAmount] = useState("");
+  const [addRecurring, setAddRecurring] = useState(true);
+  const [saving, setSaving] = useState(false);
+
+  // Sync items when project changes
+  useEffect(() => {
+    setItems(project.finance?.monthlyItems || []);
+  }, [project.finance?.monthlyItems]);
+
+  const incomeItems = items.filter((i) => i.type === "income");
+  const expenseItems = items.filter((i) => i.type === "expense");
+  const totalIncome = incomeItems.reduce((s, i) => s + i.amount, 0);
+  const totalExpense = expenseItems.reduce((s, i) => s + i.amount, 0);
+
+  async function saveItems(updated: typeof items) {
+    setSaving(true);
+    try {
+      // Fetch current config, update monthlyItems, save back
+      const res = await fetch("/api/admin/project");
+      if (!res.ok) return;
+      const configs = await res.json();
+      const config = configs.find((c: any) => c.slug === project.slug);
+      if (!config) return;
+      config.finance = { ...config.finance, monthlyItems: updated };
+      await fetch("/api/admin/project", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(config),
+      });
+      setItems(updated);
+      onRefresh?.();
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function handleToggle(id: string) {
+    const updated = items.map((i) => i.id === id ? { ...i, checked: !i.checked } : i);
+    saveItems(updated);
+  }
+
+  function handleDelete(id: string) {
+    saveItems(items.filter((i) => i.id !== id));
+  }
+
+  function handleAdd() {
+    if (!addName.trim() || !addAmount) return;
+    const newItem: import("@/data/client-config").FinanceLineItem = {
+      id: `fin-${Date.now()}`,
+      type: addType,
+      name: addName.trim(),
+      amount: parseInt(addAmount) || 0,
+      recurring: addRecurring,
+    };
+    saveItems([...items, newItem]);
+    setAddName("");
+    setAddAmount("");
+    setShowAdd(false);
+  }
+
+  function formatAmount(n: number) {
+    return n >= 10000 ? `${(n / 10000).toLocaleString()}만원` : `${n.toLocaleString()}원`;
+  }
+
   if (!f) {
     return (
       <div className="bg-white rounded-xl border border-gray-200 p-8 text-center text-sm text-gray-400">
@@ -817,90 +885,112 @@ function FinancePanel({ project }: { project: ProjectSummary }) {
 
   return (
     <div className="space-y-6">
-      {/* Model badge */}
-      <div className="flex items-center gap-2">
-        <span className="text-xs px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 font-medium">
-          {MODEL_LABELS[f.model] || f.model}
-        </span>
-        {f.notes && <span className="text-xs text-gray-400">{f.notes}</span>}
+      {/* Summary cards */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="bg-white rounded-xl border border-gray-200 p-5">
+          <p className="text-xs text-gray-400 mb-1">모델</p>
+          <p className="text-sm font-semibold text-gray-900">{MODEL_LABELS[f.model] || f.model}</p>
+          {f.invoiceDay && <p className="text-[11px] text-gray-400 mt-1">매월 {f.invoiceDay}일 발행</p>}
+        </div>
+        <div className="bg-white rounded-xl border border-emerald-200 p-5">
+          <p className="text-xs text-emerald-500 mb-1">수입 (받을 돈)</p>
+          <p className="text-xl font-bold text-emerald-600">{formatAmount(totalIncome)}</p>
+          <p className="text-[11px] text-gray-400 mt-1">{incomeItems.filter((i) => i.checked).length}/{incomeItems.length} 완료</p>
+        </div>
+        <div className="bg-white rounded-xl border border-red-200 p-5">
+          <p className="text-xs text-red-400 mb-1">지출 (나갈 돈)</p>
+          <p className="text-xl font-bold text-red-500">{formatAmount(totalExpense)}</p>
+          <p className="text-[11px] text-gray-400 mt-1">{expenseItems.filter((i) => i.checked).length}/{expenseItems.length} 완료</p>
+        </div>
       </div>
 
-      {/* Retainer model (휴닉) */}
-      {f.model === "retainer" && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            {f.annualQuote && (
-              <div className="bg-white rounded-xl border border-gray-200 p-5">
-                <p className="text-xs text-gray-400 mb-2">연간 견적</p>
-                <p className="text-xl font-bold text-gray-900">{(f.annualQuote / 10000).toLocaleString()}만원</p>
-              </div>
-            )}
-            {f.monthlyBudget && (
-              <div className="bg-white rounded-xl border border-gray-200 p-5">
-                <p className="text-xs text-gray-400 mb-2">월 예산</p>
-                <p className="text-xl font-bold text-gray-900">{(f.monthlyBudget / 10000).toLocaleString()}만원</p>
-              </div>
-            )}
+      {/* Income checklist */}
+      <div>
+        <h3 className="text-xs font-semibold text-emerald-500 uppercase tracking-wider mb-3">수입 (받을 돈)</h3>
+        {incomeItems.length === 0 ? (
+          <div className="bg-white rounded-xl border border-dashed border-gray-200 p-5 text-center text-xs text-gray-400">
+            등록된 수입 항목이 없습니다
           </div>
-          {f.recurringCosts && f.recurringCosts.length > 0 && (
-            <div>
-              <h3 className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-3">반복 비용</h3>
-              <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
-                {f.recurringCosts.map((cost, i) => (
-                  <div key={i} className="px-5 py-3 flex items-center justify-between">
-                    <span className="text-sm text-gray-700">{cost.name}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-gray-900">{cost.amount.toLocaleString()}원</span>
-                      <span className="text-xs text-gray-400">/ {cost.frequency}</span>
-                    </div>
-                  </div>
-                ))}
+        ) : (
+          <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+            {incomeItems.map((item) => (
+              <div key={item.id} className="group px-5 py-3 flex items-center gap-3">
+                <button onClick={() => handleToggle(item.id)} className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${item.checked ? "bg-emerald-500 border-emerald-500" : "border-gray-300 hover:border-emerald-400"}`}>
+                  {item.checked && <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                </button>
+                <div className={`flex-1 min-w-0 ${item.checked ? "opacity-50" : ""}`}>
+                  <span className={`text-sm ${item.checked ? "line-through text-gray-400" : "text-gray-700"}`}>{item.name}</span>
+                  {item.recurring && <span className="ml-1.5 text-[10px] text-gray-400">매월</span>}
+                </div>
+                <span className={`text-sm font-medium flex-shrink-0 ${item.checked ? "text-gray-300" : "text-emerald-600"}`}>{formatAmount(item.amount)}</span>
+                <button onClick={() => handleDelete(item.id)} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-400 transition-opacity flex-shrink-0">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                </button>
               </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Expense checklist */}
+      <div>
+        <h3 className="text-xs font-semibold text-red-400 uppercase tracking-wider mb-3">지출 (나갈 돈)</h3>
+        {expenseItems.length === 0 ? (
+          <div className="bg-white rounded-xl border border-dashed border-gray-200 p-5 text-center text-xs text-gray-400">
+            등록된 지출 항목이 없습니다
+          </div>
+        ) : (
+          <div className="bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
+            {expenseItems.map((item) => (
+              <div key={item.id} className="group px-5 py-3 flex items-center gap-3">
+                <button onClick={() => handleToggle(item.id)} className={`w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors ${item.checked ? "bg-red-400 border-red-400" : "border-gray-300 hover:border-red-300"}`}>
+                  {item.checked && <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                </button>
+                <div className={`flex-1 min-w-0 ${item.checked ? "opacity-50" : ""}`}>
+                  <span className={`text-sm ${item.checked ? "line-through text-gray-400" : "text-gray-700"}`}>{item.name}</span>
+                  {item.recurring && <span className="ml-1.5 text-[10px] text-gray-400">매월</span>}
+                </div>
+                <span className={`text-sm font-medium flex-shrink-0 ${item.checked ? "text-gray-300" : "text-red-500"}`}>{formatAmount(item.amount)}</span>
+                <button onClick={() => handleDelete(item.id)} className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-400 transition-opacity flex-shrink-0">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3l8 8M11 3l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Add item */}
+      {showAdd ? (
+        <div className="bg-white rounded-xl border border-gray-200 p-5 space-y-3">
+          <div className="flex gap-2">
+            <button onClick={() => setAddType("income")} className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${addType === "income" ? "bg-emerald-50 text-emerald-600 ring-1 ring-emerald-200" : "bg-gray-50 text-gray-400"}`}>수입</button>
+            <button onClick={() => setAddType("expense")} className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${addType === "expense" ? "bg-red-50 text-red-500 ring-1 ring-red-200" : "bg-gray-50 text-gray-400"}`}>지출</button>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <input value={addName} onChange={(e) => setAddName(e.target.value)} placeholder="항목명" className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300" />
+            <input value={addAmount} onChange={(e) => setAddAmount(e.target.value)} placeholder="금액 (원)" type="number" className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300" />
+          </div>
+          <div className="flex items-center justify-between">
+            <label className="flex items-center gap-2 text-xs text-gray-500 cursor-pointer">
+              <input type="checkbox" checked={addRecurring} onChange={(e) => setAddRecurring(e.target.checked)} className="rounded" />
+              매월 반복
+            </label>
+            <div className="flex gap-2">
+              <button onClick={() => setShowAdd(false)} className="px-3 py-1.5 text-xs text-gray-500">취소</button>
+              <button onClick={handleAdd} disabled={!addName.trim() || !addAmount || saving} className="px-4 py-1.5 text-xs font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 disabled:opacity-50">추가</button>
             </div>
-          )}
+          </div>
         </div>
+      ) : (
+        <button onClick={() => setShowAdd(true)} className="w-full py-3 text-xs font-medium text-gray-400 border border-dashed border-gray-200 rounded-xl hover:border-gray-300 hover:text-gray-600 transition-colors">
+          + 항목 추가
+        </button>
       )}
 
-      {/* Monthly model (위드런) */}
-      {f.model === "monthly" && (
-        <div className="grid grid-cols-2 gap-4">
-          {f.monthlyFee && (
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <p className="text-xs text-gray-400 mb-2">월 비용</p>
-              <p className="text-xl font-bold text-gray-900">{(f.monthlyFee / 10000).toLocaleString()}만원</p>
-            </div>
-          )}
-          {f.advanceRate && (
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <p className="text-xs text-gray-400 mb-2">정산 구조</p>
-              <p className="text-sm font-medium text-gray-900">
-                선금 {Math.round(f.advanceRate * 100)}% / 잔금 {Math.round((1 - f.advanceRate) * 100)}%
-              </p>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Expense-only model */}
-      {f.model === "expense-only" && (
-        <div className="bg-white rounded-xl border border-gray-200 p-6 text-center text-sm text-gray-400">
-          구글시트에서 지출 기록 관리 중
-        </div>
-      )}
-
-      {/* TBD model */}
-      {f.model === "tbd" && (
-        <div className="bg-white rounded-xl border border-dashed border-gray-300 p-6 text-center text-sm text-gray-400">
-          재무 모델 미확정
-        </div>
-      )}
-
-      {/* Invoice day */}
-      {f.invoiceDay && (
-        <div className="bg-white rounded-xl border border-gray-200 p-5">
-          <p className="text-xs text-gray-400 mb-2">세금계산서</p>
-          <p className="text-sm font-medium text-gray-900">매월 {f.invoiceDay}일 발행</p>
-        </div>
+      {/* Notes */}
+      {f.notes && (
+        <p className="text-xs text-gray-400 px-1">{f.notes}</p>
       )}
     </div>
   );
@@ -932,7 +1022,7 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
   if (project.channels.includes("instagram")) availableTabs.push("instagram");
   if (project.channels.includes("naver-place")) availableTabs.push("naver-place");
   if (project.channels.includes("blog")) availableTabs.push("blog");
-  if (project.finance) availableTabs.push("finance");
+  availableTabs.push("finance");  // 모든 프로젝트에 재무 탭
   availableTabs.push("archive"); // 모든 프로젝트에 아카이브 탭
 
   const [channelTab, setChannelTab] = useState<ChannelTab>(availableTabs[0] || "instagram");
@@ -1033,7 +1123,7 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
       {channelTab === "naver-place" && <NaverPlacePanel project={project} />}
       {channelTab === "blog" && <BlogPanel project={project} />}
       {channelTab === "schedule" && <SchedulePanel project={project} />}
-      {channelTab === "finance" && <FinancePanel project={project} />}
+      {channelTab === "finance" && <FinancePanel project={project} onRefresh={onRefresh} />}
       {channelTab === "archive" && (
         <ArchivePanel
           projects={[{ slug: project.slug, name: project.name, brandColor: project.brandColor, emoji: project.emoji }]}
