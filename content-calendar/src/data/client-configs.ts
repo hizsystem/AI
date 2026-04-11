@@ -37,7 +37,7 @@ export const DEFAULT_PROJECT_CONFIGS: ProjectConfig[] = [
         },
       },
     ],
-    dashboardTitle: "HUENIC DASHBOARD",
+    dashboardTitle: "BRANDRISE",
     channels: [
       {
         type: "instagram",
