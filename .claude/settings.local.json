@@ -387,7 +387,9 @@
       "Bash(system_profiler SPHardwareDataType)",
       "Bash(head -1116 /Users/wooseongmin/AI/content-calendar/src/components/admin/TaskSchedulePanel.tsx)",
       "Bash(mv /tmp/tsp_fixed.tsx /Users/wooseongmin/AI/content-calendar/src/components/admin/TaskSchedulePanel.tsx)",
-      "Bash(xargs -I{} gh api repos/hizsystem/AI/deployments/{}/statuses --jq '.[0] | \"\\\\\\(.state\\) \\\\\\(.description\\)\"')"
+      "Bash(xargs -I{} gh api repos/hizsystem/AI/deployments/{}/statuses --jq '.[0] | \"\\\\\\(.state\\) \\\\\\(.description\\)\"')",
+      "Bash(du:*)",
+      "Bash(gh workflow:*)"
     ]
   },
   "hooks": {
