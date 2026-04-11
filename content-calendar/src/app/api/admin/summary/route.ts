@@ -22,6 +22,7 @@ interface ProjectSummary {
     total: number;
     planning: number;
     needsConfirm: number;
+    confirmed: number;
     uploaded: number;
   };
   nextContent: { date: string; title: string } | null;
@@ -92,6 +93,7 @@ export async function GET() {
           total: items.length,
           planning: items.filter((i) => (i.status || "planning") === "planning").length,
           needsConfirm: items.filter((i) => i.status === "needs-confirm").length,
+          confirmed: items.filter((i) => i.status === "confirmed").length,
           uploaded: items.filter((i) => i.status === "uploaded").length,
         });
 

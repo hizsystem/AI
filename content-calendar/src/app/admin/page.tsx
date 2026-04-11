@@ -27,9 +27,9 @@ interface ProjectSummary {
   brands?: { id: string; label: string; emoji: string }[];
   finance?: FinanceConfig;
   accessToken?: string;
-  brandStats?: Record<string, { total: number; planning: number; needsConfirm: number; uploaded: number }>;
+  brandStats?: Record<string, { total: number; planning: number; needsConfirm: number; confirmed: number; uploaded: number }>;
   currentMonth: string;
-  stats: { total: number; planning: number; needsConfirm: number; uploaded: number };
+  stats: { total: number; planning: number; needsConfirm: number; confirmed: number; uploaded: number };
   nextContent: { date: string; title: string } | null;
   thisWeekItems: ContentItem[];
 }
@@ -62,18 +62,21 @@ const CHANNEL_ICONS: Record<string, string> = {
 const STATUS_LABELS: Record<string, string> = {
   planning: "기획",
   "needs-confirm": "컨펌 필요",
+  confirmed: "컨펌 완료",
   uploaded: "업로드 완료",
 };
 
 const STATUS_TEXT: Record<string, string> = {
   planning: "text-gray-400",
   "needs-confirm": "text-amber-500",
+  confirmed: "text-blue-500",
   uploaded: "text-emerald-500",
 };
 
 const STATUS_DOT: Record<string, string> = {
   planning: "bg-gray-300",
   "needs-confirm": "bg-amber-400",
+  confirmed: "bg-blue-400",
   uploaded: "bg-emerald-400",
 };
 
@@ -255,11 +258,12 @@ function OverviewPanel({ data }: { data: SummaryData }) {
 
 const STATUS_CYCLE: Record<string, string> = {
   planning: "needs-confirm",
-  "needs-confirm": "uploaded",
+  "needs-confirm": "confirmed",
+  confirmed: "uploaded",
   uploaded: "planning",
 };
 
-type IgSubView = "summary" | "grid" | "playbook" | "kpi" | "report";
+type IgSubView = "summary" | "moodboard" | "data" | "playbook";
 
 function InstagramPanel({ project, onStatusChange, onRefresh }: { project: ProjectSummary; onStatusChange?: (item: ContentItem, newStatus: string) => void; onRefresh?: () => void }) {
   const [activeBrand, setActiveBrand] = useState(project.brands?.[0]?.id || "");
@@ -338,7 +342,7 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
 
       {/* Sub-view tabs */}
       <div className="flex gap-1 border-b border-gray-200">
-        {(["summary", "grid", "kpi", "report", "playbook"] as IgSubView[]).map((v) => (
+        {(["summary", "moodboard", "data", "playbook"] as IgSubView[]).map((v) => (
           <button
             key={v}
             onClick={() => setSubView(v)}
@@ -348,7 +352,7 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
                 : "border-transparent text-gray-400 hover:text-gray-600"
             }`}
           >
-            {v === "summary" ? "요약" : v === "grid" ? "피드 프리뷰" : v === "kpi" ? "KPI" : v === "report" ? "주간 리포트" : "📋 플레이북"}
+            {v === "summary" ? "요약" : v === "moodboard" ? "무드보드" : v === "data" ? "📊 DATA" : "📋 플레이북"}
           </button>
         ))}
       </div>
@@ -362,22 +366,26 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
           : project.thisWeekItems;
         return <>
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-4">
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <p className="text-4xl font-bold text-gray-900">{displayStats.total}</p>
-              <p className="text-xs text-gray-400 mt-2">전체</p>
+          <div className="grid grid-cols-5 gap-3">
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
+              <p className="text-3xl font-bold text-gray-900">{displayStats.total}</p>
+              <p className="text-[11px] text-gray-400 mt-1.5">전체</p>
             </div>
-            <div className="bg-white rounded-xl border border-gray-200 p-5">
-              <p className="text-4xl font-bold text-gray-400">{displayStats.planning}</p>
-              <p className="text-xs text-gray-400 mt-2">기획</p>
+            <div className="bg-white rounded-xl border border-gray-200 p-4">
+              <p className="text-3xl font-bold text-gray-400">{displayStats.planning}</p>
+              <p className="text-[11px] text-gray-400 mt-1.5">기획</p>
             </div>
-            <div className="bg-white rounded-xl border border-dashed border-amber-300 p-5">
-              <p className="text-4xl font-bold text-amber-600">{displayStats.needsConfirm}</p>
-              <p className="text-xs text-amber-500 mt-2">컨펌 필요</p>
+            <div className="bg-white rounded-xl border border-dashed border-amber-300 p-4">
+              <p className="text-3xl font-bold text-amber-600">{displayStats.needsConfirm}</p>
+              <p className="text-[11px] text-amber-500 mt-1.5">컨펌 필요</p>
             </div>
-            <div className="bg-white rounded-xl border border-dashed border-emerald-300 p-5">
-              <p className="text-4xl font-bold text-emerald-600">{displayStats.uploaded}</p>
-              <p className="text-xs text-emerald-500 mt-2">완료</p>
+            <div className="bg-white rounded-xl border border-dashed border-blue-300 p-4">
+              <p className="text-3xl font-bold text-blue-600">{displayStats.confirmed}</p>
+              <p className="text-[11px] text-blue-500 mt-1.5">컨펌 완료</p>
+            </div>
+            <div className="bg-white rounded-xl border border-dashed border-emerald-300 p-4">
+              <p className="text-3xl font-bold text-emerald-600">{displayStats.uploaded}</p>
+              <p className="text-[11px] text-emerald-500 mt-1.5">업로드 완료</p>
             </div>
           </div>
 
@@ -437,101 +445,54 @@ function InstagramPanel({ project, onStatusChange, onRefresh }: { project: Proje
         </>;
       })()}
 
-      {/* Grid preview — Instagram feed simulation */}
-      {subView === "grid" && (() => {
-        const gridItems = (activeBrand
-          ? project.thisWeekItems.filter((i: any) => i._brandId === activeBrand || !i._brandId)
-          : project.thisWeekItems
-        ).filter((i) => i.overview?.images?.[0]);
-
-        // Also show all month items with images (not just this week)
-        // For now, use thisWeekItems since we don't have full month in summary
-        return (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <p className="text-xs text-gray-400">
-                {activeBrand ? project.brands?.find((b) => b.id === activeBrand)?.label : project.name} 피드 프리뷰
-              </p>
-              <a
-                href={`/clients/${project.slug}?tab=moodboard&brand=${activeBrand}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs text-gray-400 hover:text-gray-600"
-              >
-                무드보드 보기 &rarr;
-              </a>
-            </div>
-            {gridItems.length === 0 ? (
-              <div className="bg-white rounded-xl border border-gray-200 p-10 text-center text-sm text-gray-400">
-                이미지가 등록된 콘텐츠가 없습니다
-              </div>
-            ) : (
-              <div className="grid grid-cols-3 gap-0.5 rounded-xl overflow-hidden">
-                {gridItems.map((item) => (
-                  <div key={item.id} className="relative aspect-square bg-gray-100 group">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={item.overview?.images?.[0] || ""}
-                      alt={item.title}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end">
-                      <div className="p-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <p className="text-[11px] text-white font-medium truncate">{item.title}</p>
-                        <p className="text-[10px] text-white/60">{formatDateShort(item.date)}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
+      {/* Moodboard view */}
+      {subView === "moodboard" && (
+        <div className="space-y-4">
+          <div className="bg-white rounded-xl border border-gray-200 p-8 text-center">
+            <p className="text-sm text-gray-500 mb-4">무드보드에서 이번 달 비주얼 톤앤매너를 확인하세요</p>
+            <a
+              href={`/clients/${project.slug}?tab=moodboard&brand=${activeBrand}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-colors"
+            >
+              무드보드 열기 &rarr;
+            </a>
           </div>
-        );
-      })()}
-
-      {/* Playbook view */}
-      {subView === "playbook" && (
-        <PlaybookPanel clientSlug={project.slug} blockType="instagram" blockLabel="Instagram" />
+        </div>
       )}
 
-      {/* KPI view */}
-      {subView === "kpi" && (
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-gray-900">
-              {activeBrand ? project.brands?.find((b) => b.id === activeBrand)?.label : project.name} KPI
-            </h3>
+      {/* DATA view — KPI + Report combined */}
+      {subView === "data" && (
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
             <a
               href={`/clients/${project.slug}?tab=kpi&brand=${activeBrand}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-gray-400 hover:text-gray-600"
+              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-gray-300 transition-colors group"
             >
-              상세 보기 &rarr;
+              <h3 className="text-sm font-semibold text-gray-900 mb-1">📈 KPI</h3>
+              <p className="text-xs text-gray-400 mb-3">팔로워, 도달, 참여율 등 핵심 지표</p>
+              <span className="text-xs text-gray-400 group-hover:text-gray-600">상세 보기 &rarr;</span>
             </a>
-          </div>
-          <p className="text-sm text-gray-400">KPI 데이터는 클라이언트 대시보드에서 확인하세요.</p>
-        </div>
-      )}
-
-      {/* Weekly report view */}
-      {subView === "report" && (
-        <div className="bg-white rounded-xl border border-gray-200 p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-semibold text-gray-900">
-              {activeBrand ? project.brands?.find((b) => b.id === activeBrand)?.label : project.name} 주간 리포트
-            </h3>
             <a
               href={`/clients/${project.slug}?tab=report&brand=${activeBrand}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-gray-400 hover:text-gray-600"
+              className="bg-white rounded-xl border border-gray-200 p-6 hover:border-gray-300 transition-colors group"
             >
-              상세 보기 &rarr;
+              <h3 className="text-sm font-semibold text-gray-900 mb-1">📋 주간 리포트</h3>
+              <p className="text-xs text-gray-400 mb-3">이번 주 성과 요약 및 인사이트</p>
+              <span className="text-xs text-gray-400 group-hover:text-gray-600">상세 보기 &rarr;</span>
             </a>
           </div>
-          <p className="text-sm text-gray-400">주간 리포트는 클라이언트 대시보드에서 확인하세요.</p>
         </div>
+      )}
+
+      {/* Playbook view */}
+      {subView === "playbook" && (
+        <PlaybookPanel clientSlug={project.slug} blockType="instagram" blockLabel="Instagram" />
       )}
     </div>
   );
@@ -971,7 +932,6 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
   if (project.channels.includes("instagram")) availableTabs.push("instagram");
   if (project.channels.includes("naver-place")) availableTabs.push("naver-place");
   if (project.channels.includes("blog")) availableTabs.push("blog");
-  availableTabs.push("schedule"); // 모든 프로젝트에 일정 탭
   if (project.finance) availableTabs.push("finance");
   availableTabs.push("archive"); // 모든 프로젝트에 아카이브 탭
 
