@@ -58,6 +58,7 @@ function AddTaskModal({
 }) {
   const [title, setTitle] = useState("");
   const [projectSlug, setProjectSlug] = useState("huenic");
+  const [category, setCategory] = useState("");
   const [assigneeId, setAssigneeId] = useState(members[0]?.id || "");
   const [startDate, setStartDate] = useState(toYMD(new Date()));
   const [endDate, setEndDate] = useState(toYMD(addDays(new Date(), 7)));
@@ -66,7 +67,7 @@ function AddTaskModal({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!title.trim()) return;
-    onAdd({ title: title.trim(), projectSlug, assigneeId, status, startDate, endDate });
+    onAdd({ title: title.trim(), projectSlug, ...(category.trim() ? { category: category.trim() } : {}), assigneeId, status, startDate, endDate });
   }
 
   return (
@@ -89,7 +90,7 @@ function AddTaskModal({
           />
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           <div>
             <label className="block text-xs text-gray-500 mb-1">프로젝트</label>
             <select
@@ -103,6 +104,15 @@ function AddTaskModal({
                 </option>
               ))}
             </select>
+          </div>
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">카테고리</label>
+            <input
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10"
+              placeholder="예: 네이버플레이스"
+            />
           </div>
           <div>
             <label className="block text-xs text-gray-500 mb-1">담당자</label>
@@ -178,6 +188,158 @@ function AddTaskModal({
   );
 }
 
+// ─── Edit Task Modal ───
+
+function EditTaskModal({
+  task,
+  members,
+  onSave,
+  onClose,
+}: {
+  task: TaskItem;
+  members: TeamMember[];
+  onSave: (updates: Partial<TaskItem>) => void;
+  onClose: () => void;
+}) {
+  const [title, setTitle] = useState(task.title);
+  const [category, setCategory] = useState(task.category || "");
+  const [assigneeId, setAssigneeId] = useState(task.assigneeId);
+  const [projectSlug, setProjectSlug] = useState(task.projectSlug);
+  const [startDate, setStartDate] = useState(task.startDate);
+  const [endDate, setEndDate] = useState(task.endDate);
+  const [status, setStatus] = useState<TaskStatus>(task.status);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    onSave({
+      id: task.id,
+      title: title.trim(),
+      category: category.trim() || null,
+      assigneeId,
+      projectSlug,
+      startDate,
+      endDate,
+      status,
+    } as Partial<TaskItem> & { category: string | null });
+  }
+
+  return (
+    <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50" onClick={onClose}>
+      <form
+        onClick={(e) => e.stopPropagation()}
+        onSubmit={handleSubmit}
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4"
+      >
+        <h3 className="text-base font-bold text-gray-900">태스크 수정</h3>
+
+        <div>
+          <label className="block text-xs text-gray-500 mb-1">태스크</label>
+          <input
+            autoFocus
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10"
+          />
+        </div>
+
+        <div className="grid grid-cols-3 gap-3">
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">프로젝트</label>
+            <select
+              value={projectSlug}
+              onChange={(e) => setProjectSlug(e.target.value)}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10"
+            >
+              {Object.entries(PROJECT_META).map(([slug, meta]) => (
+                <option key={slug} value={slug}>
+                  {meta.emoji} {meta.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">카테고리</label>
+            <input
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10"
+              placeholder="예: 네이버플레이스"
+            />
+          </div>
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">담당자</label>
+            <select
+              value={assigneeId}
+              onChange={(e) => setAssigneeId(e.target.value)}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10"
+            >
+              {members.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">시작일</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10"
+            />
+          </div>
+          <div>
+            <label className="block text-xs text-gray-500 mb-1">종료일</label>
+            <input
+              type="date"
+              value={endDate}
+              onChange={(e) => setEndDate(e.target.value)}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-900/10"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-xs text-gray-500 mb-1">진행여부</label>
+          <div className="flex gap-2">
+            {(["pending", "in-progress", "done"] as TaskStatus[]).map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => setStatus(s)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  status === s
+                    ? `${TASK_STATUS_COLORS[s].bg} ${TASK_STATUS_COLORS[s].text} ring-1 ring-current/20`
+                    : "bg-gray-50 text-gray-400 hover:bg-gray-100"
+                }`}
+              >
+                {TASK_STATUS_LABELS[s]}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-2 pt-2">
+          <button type="button" onClick={onClose} className="px-4 py-2 text-sm text-gray-500 hover:text-gray-700">
+            취소
+          </button>
+          <button
+            type="submit"
+            disabled={!title.trim()}
+            className="px-4 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 disabled:opacity-40"
+          >
+            저장
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
 // ─── Gantt Row ───
 
 function GanttBar({
@@ -234,6 +396,7 @@ export default function TaskSchedulePanel({
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [showAdd, setShowAdd] = useState(false);
+  const [editingTask, setEditingTask] = useState<TaskItem | null>(null);
   const [slackSending, setSlackSending] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const headerScrollRef = useRef<HTMLDivElement>(null);
@@ -285,6 +448,16 @@ export default function TaskSchedulePanel({
     }
   }
 
+  async function handleEditTask(updates: Partial<TaskItem>) {
+    await fetch("/api/tasks", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates),
+    });
+    setEditingTask(null);
+    await fetchBoard();
+  }
+
   async function handleStatusToggle(task: TaskItem) {
     const next: TaskStatus = task.status === "pending" ? "in-progress" : task.status === "in-progress" ? "done" : "pending";
     await fetch("/api/tasks", {
@@ -304,19 +477,24 @@ export default function TaskSchedulePanel({
     if (!board) return;
     setSlackSending(true);
 
-    const grouped = groupByProject(board.tasks);
+    const groupedSlack = groupByProject(board.tasks);
     const lines: string[] = [
       `*📋 Task Schedule Update* (${toYMD(today)})`,
       "",
     ];
 
-    for (const [slug, tasks] of Object.entries(grouped)) {
+    for (const [slug, tasks] of Object.entries(groupedSlack)) {
       const meta = PROJECT_META[slug] || { name: slug, emoji: "📁" };
       lines.push(`*${meta.emoji} ${meta.name}* (${tasks.length})`);
-      for (const task of tasks) {
-        const member = board.members.find((m) => m.id === task.assigneeId);
-        const statusEmoji = task.status === "done" ? "✅" : task.status === "in-progress" ? "🔵" : "⬜";
-        lines.push(`  ${statusEmoji} ${task.title} | ${member?.name || "미정"} | ${formatShort(toDate(task.startDate))}~${formatShort(toDate(task.endDate))}`);
+      const cats = groupByCategory(tasks);
+      for (const { category, tasks: catTasks } of cats) {
+        if (category) lines.push(`  _${category}_`);
+        for (const task of catTasks) {
+          const member = board.members.find((m) => m.id === task.assigneeId);
+          const statusEmoji = task.status === "done" ? "✅" : task.status === "in-progress" ? "🔵" : "⬜";
+          const indent = category ? "    " : "  ";
+          lines.push(`${indent}${statusEmoji} ${task.title} | ${member?.name || "미정"} | ${formatShort(toDate(task.startDate))}~${formatShort(toDate(task.endDate))}`);
+        }
       }
       lines.push("");
     }
@@ -344,8 +522,28 @@ export default function TaskSchedulePanel({
     return map;
   }
 
+  function groupByCategory(tasks: TaskItem[]): { category: string; tasks: TaskItem[] }[] {
+    const map: Record<string, TaskItem[]> = {};
+    for (const t of tasks) {
+      const cat = t.category || "";
+      (map[cat] ||= []).push(t);
+    }
+    // Sort: named categories first (alphabetical), uncategorized last
+    return Object.entries(map)
+      .sort(([a], [b]) => {
+        if (!a) return 1;
+        if (!b) return -1;
+        return a.localeCompare(b);
+      })
+      .map(([category, tasks]) => ({ category, tasks }));
+  }
+
   function toggleProject(slug: string) {
     setExpanded((prev) => ({ ...prev, [slug]: !prev[slug] }));
+  }
+
+  function toggleCategory(key: string) {
+    setExpanded((prev) => ({ ...prev, [key]: prev[key] === undefined ? false : !prev[key] }));
   }
 
   if (loading) {
@@ -449,6 +647,8 @@ export default function TaskSchedulePanel({
               const tasks = grouped[slug] || [];
               const isOpen = expanded[slug];
               const doneCount = tasks.filter((t) => t.status === "done").length;
+              const categories = groupByCategory(tasks);
+              const hasCategories = categories.some((c) => c.category !== "");
 
               return (
                 <div key={slug}>
@@ -471,8 +671,82 @@ export default function TaskSchedulePanel({
                     </span>
                   </button>
 
-                  {/* Task rows */}
-                  {isOpen && tasks.map((task) => {
+                  {/* Category groups or flat task rows */}
+                  {isOpen && hasCategories && categories.map(({ category, tasks: catTasks }) => {
+                    const catKey = `${slug}::${category}`;
+                    const isCatOpen = expanded[catKey] !== false; // default open
+                    const catDone = catTasks.filter((t) => t.status === "done").length;
+
+                    return (
+                      <div key={catKey}>
+                        {/* Category header */}
+                        {category && (
+                          <button
+                            onClick={() => toggleCategory(catKey)}
+                            className="w-full flex items-center gap-2 px-4 py-1.5 pl-8 text-xs hover:bg-gray-50/80 transition-colors border-b border-gray-50"
+                          >
+                            <svg
+                              className={`w-2.5 h-2.5 text-gray-300 transition-transform ${isCatOpen ? "rotate-90" : ""}`}
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M6.293 7.293a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
+                            </svg>
+                            <span className="font-medium text-gray-500">{category}</span>
+                            <span className="text-[10px] text-gray-300 ml-auto">
+                              {catDone}/{catTasks.length}
+                            </span>
+                          </button>
+                        )}
+
+                        {/* Tasks in category */}
+                        {(category ? isCatOpen : true) && catTasks.map((task) => {
+                          const member = board.members.find((m) => m.id === task.assigneeId);
+                          const sc = TASK_STATUS_COLORS[task.status];
+
+                          return (
+                            <div
+                              key={task.id}
+                              className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 py-2 border-b border-gray-50 hover:bg-gray-50/50"
+                            >
+                              <div className={`flex items-center gap-2 min-w-0 ${category ? "pl-9" : "pl-5"}`}>
+                                <span
+                                  className="text-sm text-gray-700 truncate cursor-pointer hover:text-gray-900 hover:underline"
+                                  onClick={() => setEditingTask(task)}
+                                >{task.title}</span>
+                                <button
+                                  onClick={() => handleDelete(task.id)}
+                                  className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-400 transition-opacity ml-auto flex-shrink-0"
+                                >
+                                  <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                  </svg>
+                                </button>
+                              </div>
+                              <div className="flex items-center justify-center gap-1">
+                                {member && (
+                                  <>
+                                    <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: member.color }} />
+                                    <span className="text-xs text-gray-600">{member.name}</span>
+                                  </>
+                                )}
+                              </div>
+                              <button
+                                onClick={() => handleStatusToggle(task)}
+                                className={`flex items-center justify-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium ${sc.bg} ${sc.text} hover:opacity-80 transition-opacity`}
+                              >
+                                <div className={`w-1.5 h-1.5 rounded-full ${sc.dot}`} />
+                                {TASK_STATUS_LABELS[task.status]}
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    );
+                  })}
+
+                  {/* Flat task rows (no categories at all) */}
+                  {isOpen && !hasCategories && tasks.map((task) => {
                     const member = board.members.find((m) => m.id === task.assigneeId);
                     const sc = TASK_STATUS_COLORS[task.status];
 
@@ -481,9 +755,11 @@ export default function TaskSchedulePanel({
                         key={task.id}
                         className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 py-2 border-b border-gray-50 hover:bg-gray-50/50"
                       >
-                        {/* Task name */}
                         <div className="flex items-center gap-2 min-w-0 pl-5">
-                          <span className="text-sm text-gray-700 truncate">{task.title}</span>
+                          <span
+                                  className="text-sm text-gray-700 truncate cursor-pointer hover:text-gray-900 hover:underline"
+                                  onClick={() => setEditingTask(task)}
+                                >{task.title}</span>
                           <button
                             onClick={() => handleDelete(task.id)}
                             className="opacity-0 group-hover:opacity-100 text-gray-300 hover:text-red-400 transition-opacity ml-auto flex-shrink-0"
@@ -493,7 +769,6 @@ export default function TaskSchedulePanel({
                             </svg>
                           </button>
                         </div>
-                        {/* Assignee */}
                         <div className="flex items-center justify-center gap-1">
                           {member && (
                             <>
@@ -502,7 +777,6 @@ export default function TaskSchedulePanel({
                             </>
                           )}
                         </div>
-                        {/* Status */}
                         <button
                           onClick={() => handleStatusToggle(task)}
                           className={`flex items-center justify-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium ${sc.bg} ${sc.text} hover:opacity-80 transition-opacity`}
@@ -531,12 +805,13 @@ export default function TaskSchedulePanel({
               {projectSlugs.map((slug) => {
                 const tasks = grouped[slug] || [];
                 const isOpen = expanded[slug];
+                const categories = groupByCategory(tasks);
+                const hasCategories = categories.some((c) => c.category !== "");
 
                 return (
                   <div key={slug}>
                     {/* Project row spacer */}
                     <div className="h-[37px] border-b border-gray-50 relative">
-                      {/* Today line */}
                       {days.map((d, i) =>
                         isToday(d) ? (
                           <div
@@ -548,12 +823,70 @@ export default function TaskSchedulePanel({
                       )}
                     </div>
 
-                    {/* Task bars */}
-                    {isOpen && tasks.map((task) => {
+                    {/* Category-grouped gantt bars */}
+                    {isOpen && hasCategories && categories.map(({ category, tasks: catTasks }) => {
+                      const catKey = `${slug}::${category}`;
+                      const isCatOpen = expanded[catKey] !== false;
+
+                      return (
+                        <div key={catKey}>
+                          {/* Category header spacer */}
+                          {category && (
+                            <div className="h-[29px] border-b border-gray-50 relative bg-gray-50/30">
+                              {days.map((d, i) =>
+                                isToday(d) ? (
+                                  <div
+                                    key={`today-${i}`}
+                                    className="absolute top-0 bottom-0 w-px bg-blue-300 z-10"
+                                    style={{ left: `${i * dayWidth + dayWidth / 2}px` }}
+                                  />
+                                ) : null
+                              )}
+                            </div>
+                          )}
+
+                          {/* Task bars in category */}
+                          {(category ? isCatOpen : true) && catTasks.map((task) => {
+                            const member = board.members.find((m) => m.id === task.assigneeId);
+                            return (
+                              <div key={task.id} className="h-8 border-b border-gray-50 relative">
+                                {days.map((d, i) => (
+                                  <div
+                                    key={i}
+                                    className={`absolute top-0 bottom-0 border-r border-gray-50 ${
+                                      isToday(d) ? "bg-blue-50/50" : isWeekend(d) ? "bg-gray-50/30" : ""
+                                    }`}
+                                    style={{ left: `${i * dayWidth}px`, width: `${dayWidth}px` }}
+                                  />
+                                ))}
+                                {days.map((d, i) =>
+                                  isToday(d) ? (
+                                    <div
+                                      key={`today-${i}`}
+                                      className="absolute top-0 bottom-0 w-px bg-blue-300 z-10"
+                                      style={{ left: `${i * dayWidth + dayWidth / 2}px` }}
+                                    />
+                                  ) : null
+                                )}
+                                <GanttBar
+                                  task={task}
+                                  timelineStart={timelineStart}
+                                  dayWidth={dayWidth}
+                                  totalDays={totalDays}
+                                  member={member}
+                                />
+                              </div>
+                            );
+                          })}
+                        </div>
+                      );
+                    })}
+
+                    {/* Flat gantt bars (no categories) */}
+                    {isOpen && !hasCategories && tasks.map((task) => {
                       const member = board.members.find((m) => m.id === task.assigneeId);
                       return (
                         <div key={task.id} className="h-8 border-b border-gray-50 relative">
-                          {/* Day columns background */}
                           {days.map((d, i) => (
                             <div
                               key={i}
@@ -563,7 +896,6 @@ export default function TaskSchedulePanel({
                               style={{ left: `${i * dayWidth}px`, width: `${dayWidth}px` }}
                             />
                           ))}
-                          {/* Today line */}
                           {days.map((d, i) =>
                             isToday(d) ? (
                               <div
@@ -619,6 +951,16 @@ export default function TaskSchedulePanel({
           members={board.members}
           onAdd={handleAddTask}
           onClose={() => setShowAdd(false)}
+        />
+      )}
+
+      {/* Edit Task Modal */}
+      {editingTask && (
+        <EditTaskModal
+          task={editingTask}
+          members={board.members}
+          onSave={handleEditTask}
+          onClose={() => setEditingTask(null)}
         />
       )}
     </div>
