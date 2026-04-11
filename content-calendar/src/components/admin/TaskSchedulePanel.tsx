@@ -389,8 +389,12 @@ function GanttBar({
 
 export default function TaskSchedulePanel({
   projects,
+  onToggleWide,
+  isWide,
 }: {
   projects: { slug: string; name: string; emoji?: string; brandColor: string }[];
+  onToggleWide?: () => void;
+  isWide?: boolean;
 }) {
   const [board, setBoard] = useState<TaskBoard | null>(null);
   const [loading, setLoading] = useState(true);
