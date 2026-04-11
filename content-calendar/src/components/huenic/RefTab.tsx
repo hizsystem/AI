@@ -357,7 +357,7 @@ export default function RefTab({ brand }: RefTabProps) {
   );
 }
 
-// --- FolderCard: 2x2 thumbnail grid preview ---
+// --- FolderCard: compact name + count ---
 
 function FolderCard({
   collection,
@@ -368,51 +368,22 @@ function FolderCard({
   items: RefItem[];
   onClick: () => void;
 }) {
-  // Pick up to 4 items for the 2x2 preview grid
-  const previewItems = items.slice(0, 4);
-
   return (
     <button
       onClick={onClick}
-      className="group text-left border border-gray-200 rounded-xl overflow-hidden bg-white hover:border-gray-300 hover:shadow-md transition-all"
+      className="text-left px-4 py-4 border border-gray-200 rounded-xl bg-white hover:border-gray-300 hover:shadow-sm transition-all"
     >
-      {/* 2x2 Thumbnail Grid */}
-      <div className="aspect-square grid grid-cols-2 grid-rows-2 gap-[1px] bg-gray-100">
-        {previewItems.map((item) => (
-          <div key={item.id} className="relative bg-gray-50 overflow-hidden">
-            {item.thumbnailUrl ? (
-              <img
-                src={item.thumbnailUrl}
-                alt=""
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gray-50 text-gray-300">
-                <span className="text-lg">{platformIcon(item.platform)}</span>
-              </div>
-            )}
-          </div>
-        ))}
-        {/* Fill empty slots */}
-        {Array.from({ length: 4 - previewItems.length }).map((_, i) => (
-          <div key={`empty-${i}`} className="bg-gray-50" />
-        ))}
+      <div className="flex items-center gap-2 mb-1">
+        <span
+          className="w-2.5 h-2.5 rounded-full flex-shrink-0"
+          style={{ backgroundColor: collection.color }}
+        />
+        <span className="text-sm font-bold text-gray-900 truncate">
+          {collection.name}
+        </span>
       </div>
-
-      {/* Folder Info */}
-      <div className="px-3 py-3">
-        <div className="flex items-center gap-2 mb-0.5">
-          <span
-            className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-            style={{ backgroundColor: collection.color }}
-          />
-          <span className="text-sm font-bold text-gray-900 truncate">
-            {collection.name}
-          </span>
-        </div>
-        <div className="text-xs text-gray-400 pl-[18px]">
-          {items.length}개
-        </div>
+      <div className="text-xs text-gray-400 pl-[18px]">
+        {items.length}개
       </div>
     </button>
   );
