@@ -73,7 +73,7 @@ export async function GET() {
             for (const brand of project.brands) {
               const key = `${igChannel.calendarClientPrefix}-${brand.id}`;
               const data = await getCalendar(key, currentMonth);
-              if (data) {
+              if (data?.items) {
                 allItems = allItems.concat(
                   data.items.map((item) => ({ ...item, _calendarKey: key, _brandId: brand.id }))
                 );
@@ -81,7 +81,7 @@ export async function GET() {
             }
           } else {
             const data = await getCalendar(project.slug, currentMonth);
-            if (data) {
+            if (data?.items) {
               allItems = allItems.concat(
                 data.items.map((item) => ({ ...item, _calendarKey: project.slug }))
               );
