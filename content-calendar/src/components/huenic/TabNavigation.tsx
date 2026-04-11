@@ -25,23 +25,25 @@ export default function TabNavigation({ tabs, activeTab, onTabChange }: TabNavig
   const tabList = tabs ?? DEFAULT_TABS;
 
   return (
-    <div className="flex gap-1 border-b border-gray-200">
-      {tabList.map((tabId) => {
-        const active = activeTab === tabId;
-        return (
-          <button
-            key={tabId}
-            onClick={() => onTabChange(tabId)}
-            className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors ${
-              active
-                ? "border-gray-900 text-gray-900"
-                : "border-transparent text-gray-400 hover:text-gray-600 hover:border-gray-300"
-            }`}
-          >
-            {TAB_LABELS[tabId] ?? tabId}
-          </button>
-        );
-      })}
+    <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
+      <div className="flex gap-1 border-b border-gray-200 min-w-max">
+        {tabList.map((tabId) => {
+          const active = activeTab === tabId;
+          return (
+            <button
+              key={tabId}
+              onClick={() => onTabChange(tabId)}
+              className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors whitespace-nowrap ${
+                active
+                  ? "border-gray-900 text-gray-900"
+                  : "border-transparent text-gray-400 hover:text-gray-600 hover:border-gray-300"
+              }`}
+            >
+              {TAB_LABELS[tabId] ?? tabId}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

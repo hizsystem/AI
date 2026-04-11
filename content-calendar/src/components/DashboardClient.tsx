@@ -55,7 +55,7 @@ export default function DashboardClient({ config }: Props) {
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
           <div>
             <p className="text-xs font-semibold tracking-widest text-gray-400 mb-1">
               {config.dashboardTitle ?? `${config.name} DASHBOARD`}

@@ -199,16 +199,27 @@ export default function Calendar({
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header with Logo */}
-        <div className="mb-8 flex items-start justify-between">
-          <div>
-            <p className="text-xs font-semibold tracking-widest text-blue-500 mb-2">
-              {monthNames[month]} CALENDAR
-            </p>
-            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900">
-              {data.title}
-            </h1>
+        <div className="mb-8">
+          <div className="flex items-start justify-between mb-3">
+            <div>
+              <p className="text-xs font-semibold tracking-widest text-blue-500 mb-2">
+                {monthNames[month]} CALENDAR
+              </p>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
+                {data.title}
+              </h1>
+            </div>
+            {/* Logo */}
+            {logo.src ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src={logo.src} alt={logo.alt} className="h-10 w-10 sm:h-12 sm:w-12 rounded-lg flex-shrink-0" />
+            ) : (
+              <span className="h-10 sm:h-12 flex items-center px-2 rounded-lg bg-gray-900 text-white text-[10px] sm:text-xs font-bold tracking-wider flex-shrink-0">
+                {logo.alt}
+              </span>
+            )}
           </div>
-          <div className="flex items-center gap-3 flex-shrink-0 ml-4">
+          <div className="flex items-center gap-2 flex-wrap">
             {/* Edit mode toggle */}
             {onToggleEditMode && (
               <button
@@ -261,15 +272,6 @@ export default function Calendar({
                 </span>
               </button>
             )}
-            {/* Logo */}
-            {logo.src ? (
-              /* eslint-disable-next-line @next/next/no-img-element */
-              <img src={logo.src} alt={logo.alt} className="h-12 w-12 rounded-lg" />
-            ) : (
-              <span className="h-12 flex items-center px-2 rounded-lg bg-gray-900 text-white text-xs font-bold tracking-wider">
-                {logo.alt}
-              </span>
-            )}
           </div>
         </div>
 
@@ -297,13 +299,14 @@ export default function Calendar({
         )}
 
         {/* Calendar Grid */}
-        <div className="border border-gray-200 rounded-xl overflow-hidden">
+        <div className="border border-gray-200 rounded-xl overflow-x-auto">
+          <div className="min-w-[480px]">
           {/* Day headers */}
           <div className="grid grid-cols-7 border-b border-gray-200 bg-gray-50">
             {DAY_LABELS.map((day, i) => (
               <div
                 key={day}
-                className={`py-3 text-center text-xs font-semibold tracking-wider ${
+                className={`py-2 sm:py-3 text-center text-[10px] sm:text-xs font-semibold tracking-wider ${
                   i === 0 ? "text-red-400" : "text-gray-400"
                 }`}
               >
@@ -321,7 +324,7 @@ export default function Calendar({
               {week.map((day, di) => (
                 <div
                   key={di}
-                  className={`min-h-[100px] sm:min-h-[120px] p-2 border-r border-gray-100 last:border-r-0 transition-colors ${
+                  className={`min-h-[72px] sm:min-h-[100px] md:min-h-[120px] p-1 sm:p-2 border-r border-gray-100 last:border-r-0 transition-colors ${
                     day === null
                       ? "bg-gray-50/50"
                       : dropTargetDay === day
@@ -427,6 +430,7 @@ export default function Calendar({
               ))}
             </div>
           ))}
+          </div>
         </div>
 
         {/* Legend - only content categories */}
