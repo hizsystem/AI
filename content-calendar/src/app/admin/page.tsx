@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ContentItem } from "@/data/types";
 import type { ChannelType, FinanceConfig } from "@/data/client-config";
@@ -1095,7 +1095,15 @@ function ClientPanel({ project, onRefresh }: { project: ProjectSummary; onRefres
 
 // ─── Main ───
 
-export default function AdminDashboard() {
+export default function AdminPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen text-gray-400">로딩 중...</div>}>
+      <AdminDashboard />
+    </Suspense>
+  );
+}
+
+function AdminDashboard() {
   const [data, setData] = useState<SummaryData | null>(null);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
