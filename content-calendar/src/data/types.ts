@@ -38,7 +38,7 @@ export interface MoodboardItem {
 
 // ─── Archive ───
 
-export type ArchiveItemType = "url" | "html" | "external";
+export type ArchiveItemType = "url" | "html" | "external" | "sheet";
 
 export interface ArchiveItem {
   id: string;

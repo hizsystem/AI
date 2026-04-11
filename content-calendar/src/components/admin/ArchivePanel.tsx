@@ -14,12 +14,14 @@ const TYPE_LABELS: Record<ArchiveItemType, string> = {
   url: "배포 URL",
   html: "HTML 파일",
   external: "외부 링크",
+  sheet: "마스터시트",
 };
 
 const TYPE_COLORS: Record<ArchiveItemType, string> = {
   url: "bg-blue-50 text-blue-600",
   html: "bg-emerald-50 text-emerald-600",
   external: "bg-violet-50 text-violet-600",
+  sheet: "bg-amber-50 text-amber-600",
 };
 
 const CATEGORY_PRESETS = [
@@ -29,6 +31,8 @@ const CATEGORY_PRESETS = [
   "제안서",
   "브랜드 가이드",
   "캠페인 리포트",
+  "공유 링크",
+  "마스터시트",
   "기타",
 ];
 
@@ -181,6 +185,7 @@ export default function ArchivePanel({ projects, filterSlug }: { projects: Proje
                 <option value="url">배포 URL</option>
                 <option value="html">HTML 파일</option>
                 <option value="external">외부 링크</option>
+                <option value="sheet">마스터시트</option>
               </select>
             </div>
             {!isEmbedded && (
