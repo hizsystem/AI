@@ -16,6 +16,7 @@
 - [NP 진단 체크리스트 웹폼](project_np_checklist.md) — Vercel 배포 완료, GAS 연동 대기. URL: np-checklist-alpha.vercel.app
 - [탭샵바 주간미팅 루틴](project_tapshopbar_weekly_meeting.md) — 매주 월요일, 우성민/김희종/박창규. Sheets 태스크+캘린더 연동 준비/랩업 시스템
 - [콘텐츠 캘린더 플랫폼화](project_content_calendar_platform.md) — 멀티 클라이언트 관리자 대시보드, 동적 라우팅, 토큰 접근 제어. 4/10 데드라인, Phase 1~3 목표
+- [댄싱컵(DANCING CUP) 프로젝트](project_dancingcup.md) — 위드런 커피 프랜차이즈, 500만/월 리테이너 + 여름 200만 별도, 킥오프 4/15 부산
 - [모수 프로젝트](project_mosu.md) — 불특정 다수 유입 환경 구축 특명. 성민 총괄. 정부지원사업/홈페이지/진단/메타광고
 - [말렌(MALEN) 프로젝트](project_malen.md) — 동생 지인, 7년차 유니섹스 내추럴웨어. 상담 4/8 완료. 진단→제안서 단계
 
