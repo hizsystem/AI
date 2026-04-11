@@ -411,7 +411,7 @@ export default function GuideTab({ brand }: GuideTabProps) {
       </div>
 
       {/* Key Message */}
-      <div className="mb-8 p-6 rounded-2xl bg-gray-50 border border-gray-100">
+      <div className="mb-8 p-4 sm:p-6 rounded-2xl bg-gray-50 border border-gray-100">
         <p className="text-[10px] font-bold tracking-widest text-gray-400 uppercase mb-2">
           Key Message
         </p>
@@ -441,14 +441,14 @@ export default function GuideTab({ brand }: GuideTabProps) {
               {/* Header (always visible) */}
               <button
                 onClick={() => setExpandedId(isOpen ? null : s.id)}
-                className="w-full flex items-center gap-4 p-4 text-left"
+                className="w-full flex items-start gap-3 p-3 sm:p-4 text-left"
               >
                 <div
-                  className="w-2 h-10 rounded-full flex-shrink-0"
+                  className="w-1.5 sm:w-2 h-10 rounded-full flex-shrink-0 mt-0.5"
                   style={{ backgroundColor: s.color }}
                 />
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-0.5">
+                  <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap mb-0.5">
                     <span className="text-sm font-bold text-gray-900">
                       {s.name}
                     </span>
@@ -459,11 +459,11 @@ export default function GuideTab({ brand }: GuideTabProps) {
                       {s.format.split("(")[0].trim()}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500 truncate">
+                  <p className="text-xs text-gray-500 line-clamp-2 sm:truncate">
                     {s.oneLiner}
                   </p>
                 </div>
-                <div className="flex-shrink-0 text-gray-300">
+                <div className="flex-shrink-0 text-gray-300 mt-1">
                   <svg
                     width="16"
                     height="16"
@@ -480,8 +480,8 @@ export default function GuideTab({ brand }: GuideTabProps) {
 
               {/* Expanded Content */}
               {isOpen && (
-                <div className="px-4 pb-5 pt-0">
-                  <div className="ml-6 border-t border-gray-100 pt-4">
+                <div className="px-3 sm:px-4 pb-5 pt-0">
+                  <div className="ml-0 sm:ml-6 border-t border-gray-100 pt-4">
                     {/* Hook */}
                     <div
                       className="mb-4 p-3 rounded-lg"
@@ -496,8 +496,8 @@ export default function GuideTab({ brand }: GuideTabProps) {
                     </div>
 
                     {/* Format + Reference */}
-                    <div className="mb-4 flex gap-3">
-                      <div className="flex-1 p-2.5 rounded-lg border border-gray-100">
+                    <div className="mb-4 flex flex-col sm:flex-row gap-3">
+                      <div className="sm:flex-1 p-2.5 rounded-lg border border-gray-100">
                         <p className="text-[10px] font-bold text-gray-400 mb-0.5">포맷</p>
                         <EditableText
                           value={s.format}
@@ -506,7 +506,7 @@ export default function GuideTab({ brand }: GuideTabProps) {
                           className="text-xs text-gray-700"
                         />
                       </div>
-                      <div className="flex-1 p-2.5 rounded-lg border border-gray-100">
+                      <div className="sm:flex-1 p-2.5 rounded-lg border border-gray-100">
                         <p className="text-[10px] font-bold text-gray-400 mb-0.5">레퍼런스</p>
                         <div className="mb-1">
                           <EditableText
