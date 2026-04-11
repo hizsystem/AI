@@ -1,9 +1,16 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Calendar from "@/components/Calendar";
+import TabNavigation from "@/components/huenic/TabNavigation";
+import MoodboardTab from "@/components/huenic/MoodboardTab";
+import RefTab from "@/components/huenic/RefTab";
+import GuideTab from "@/components/huenic/GuideTab";
+import WeeklyReportTab from "@/components/huenic/WeeklyReportTab";
+import KpiTab from "@/components/huenic/KpiTab";
 import { useCalendarData } from "@/hooks/useCalendarData";
-import type { ClientConfig } from "@/data/client-config";
+import type { ClientConfig, TabId } from "@/data/client-config";
 
 interface Props {
   config: ClientConfig;
@@ -13,6 +20,23 @@ interface Props {
 export default function CalendarOnlyClient({ config, readOnly = false }: Props) {
   const CLIENT = config.slug;
   const LOGO = config.logo;
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Tab support — only show tabs if more than just "calendar"
+  const hasTabs = config.tabs.length > 1;
+  const validTab = (t: string | null): TabId => {
+    if (t && config.tabs.includes(t as TabId)) return t as TabId;
+    return config.tabs[0] || "calendar";
+  };
+  const activeTab = validTab(searchParams.get("tab"));
+
+  function setActiveTab(tab: TabId) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", tab);
+    router.push(`${pathname}?${params.toString()}`);
+  }
 
   const [months, setMonths] = useState<string[]>([]);
   const [currentMonth, setCurrentMonth] = useState("");
@@ -87,25 +111,60 @@ export default function CalendarOnlyClient({ config, readOnly = false }: Props) 
     );
   }
 
+  // Calendar-only (no extra tabs)
+  if (!hasTabs || activeTab === "calendar") {
+    return (
+      <>
+        {hasTabs && (
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+            <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+          </div>
+        )}
+        <Calendar
+          data={data}
+          allMonths={months}
+          onMonthChange={setCurrentMonth}
+          editMode={readOnly ? false : editMode}
+          onToggleEditMode={readOnly ? undefined : () => setEditMode((prev) => !prev)}
+          onAddItem={readOnly ? undefined : addItem}
+          onUpdateItem={readOnly ? undefined : updateItem}
+          onDeleteItem={readOnly ? undefined : deleteItem}
+          onSaveCalendar={readOnly ? undefined : saveCalendar}
+          onAddMonth={readOnly ? undefined : handleAddMonth}
+          logo={LOGO ?? undefined}
+          contentDefaults={
+            config.defaultHashtags || config.defaultMentions
+              ? { hashtags: config.defaultHashtags, mentions: config.defaultMentions }
+              : undefined
+          }
+        />
+      </>
+    );
+  }
+
+  // Other tabs (moodboard, ref, guide, report, kpi)
+  // Use slug as brand for non-HUENIC projects
+  const brand = (config.calendarClientPrefix || CLIENT) as any;
+
   return (
-    <Calendar
-      data={data}
-      allMonths={months}
-      onMonthChange={setCurrentMonth}
-      editMode={readOnly ? false : editMode}
-      onToggleEditMode={readOnly ? undefined : () => setEditMode((prev) => !prev)}
-      onAddItem={readOnly ? undefined : addItem}
-      onUpdateItem={readOnly ? undefined : updateItem}
-      onDeleteItem={readOnly ? undefined : deleteItem}
-      onSaveCalendar={readOnly ? undefined : saveCalendar}
-      onAddMonth={readOnly ? undefined : handleAddMonth}
-      logo={LOGO ?? undefined}
-      contentDefaults={
-        config.defaultHashtags || config.defaultMentions
-          ? { hashtags: config.defaultHashtags, mentions: config.defaultMentions }
-          : undefined
-      }
-    />
+    <div className="min-h-screen bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-6">
+          <p className="text-xs font-semibold tracking-widest text-gray-400 mb-1">
+            {config.dashboardTitle ?? config.name}
+          </p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{config.name}</h1>
+        </div>
+        <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+        <div className="mt-6">
+          {activeTab === "moodboard" && <MoodboardTab brand={brand} />}
+          {activeTab === "ref" && <RefTab brand={brand} />}
+          {activeTab === "guide" && <GuideTab brand={brand} />}
+          {activeTab === "report" && <WeeklyReportTab brand={brand} />}
+          {activeTab === "kpi" && <KpiTab brand={brand} />}
+        </div>
+      </div>
+    </div>
   );
 }
 
