@@ -62,7 +62,7 @@ export async function GET() {
 
     const summaries: ProjectSummary[] = await Promise.all(
       projects.map(async (project) => {
-        const igChannel = project.channels.find(
+        const igChannel = (project.channels || []).find(
           (c) => c.type === "instagram" && c.enabled
         );
 
@@ -127,11 +127,11 @@ export async function GET() {
           brandColor: project.brandColor,
           logo: project.logo,
           status: project.status,
-          channels: project.channels
+          channels: (project.channels || [])
             .filter((c) => c.enabled)
             .map((c) => c.type),
-          igBlocks: project.channels.find((c) => c.type === "instagram" && c.enabled)?.blocks,
-          npStoreId: project.channels.find((c) => c.type === "naver-place" && c.enabled)?.storeId,
+          igBlocks: (project.channels || []).find((c) => c.type === "instagram" && c.enabled)?.blocks,
+          npStoreId: (project.channels || []).find((c) => c.type === "naver-place" && c.enabled)?.storeId,
           brands: project.brands?.map((b) => ({
             id: b.id,
             label: b.label,

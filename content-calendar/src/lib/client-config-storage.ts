@@ -152,7 +152,9 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
               });
             } else {
               // New project from Blob (not in hardcoded defaults)
-              configs.set(blobConfig.slug, blobConfig as ProjectConfig);
+              const cfg = blobConfig as ProjectConfig;
+              cfg.channels = cfg.channels || [];
+              configs.set(cfg.slug, cfg);
             }
           }
         } catch {
