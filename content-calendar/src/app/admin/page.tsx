@@ -1177,11 +1177,17 @@ function AdminDashboard() {
   const [data, setData] = useState<SummaryData | null>(null);
   const [loading, setLoading] = useState(true);
   const searchParams = useSearchParams();
-  const [activeTab, setActiveTab] = useState<string>(searchParams.get("tab") || "overview");
+  const [activeTab, setActiveTabState] = useState<string>(searchParams.get("tab") || "overview");
   const [fetchKey, setFetchKey] = useState(0);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [wideMode, setWideMode] = useState(false);
   const router = useRouter();
+
+  function setActiveTab(tab: string) {
+    setActiveTabState(tab);
+    const url = tab === "overview" ? "/admin" : `/admin?tab=${tab}`;
+    window.history.replaceState(null, "", url);
+  }
 
   useEffect(() => {
     fetch("/api/admin/summary")
