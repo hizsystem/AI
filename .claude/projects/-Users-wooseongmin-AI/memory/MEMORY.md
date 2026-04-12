@@ -38,6 +38,7 @@
 - [다운로드 폴더 자동 정리](feedback_downloads_cleanup.md) — "다운로드 정리해줘" 요청 시 Documents 구조에 맞게 클라이언트별 자동 분류
 - [회의록 정리 워크플로우](feedback_meeting_notes.md) — 매 회의 녹음→클로바노트 전사→구조화된 회의록. 불참자도 읽을 수 있게, 이름 매핑+핵심 구조화
 - [콘텐츠 캘린더 새 월 추가 시 seed 필수](feedback_content_calendar_seed.md) — Blob만 의존 X, seed JSON+storage+index 등록+git add -f, logo prop 누락 주의
+- [리포트 디자인 컬러 스펙](feedback_report_design.md) — Prep/PostMeeting HTML: 오렌지(#f07030)+화이트/그레이 only, 다색 금지
 - [스몰 브랜드 마케팅 마인드셋](feedback_small_brand_mindset.md) — 200만원 한 방이 작동하는가가 핵심, 히어로 집중, 불필요 항목 과감히 제거
 - [부회장님 보고 스타일](feedback_reporting_style_vc.md) — 핵심 우선, 중요도 1→10, 나이스보다 실기. 기업 써머리 포맷.
 
