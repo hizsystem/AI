@@ -51,14 +51,16 @@ function AddTaskModal({
   members,
   onAdd,
   onClose,
+  preset,
 }: {
   members: TeamMember[];
   onAdd: (t: Omit<TaskItem, "id" | "createdAt">) => void;
   onClose: () => void;
+  preset?: { projectSlug?: string; category?: string };
 }) {
   const [title, setTitle] = useState("");
-  const [projectSlug, setProjectSlug] = useState("huenic");
-  const [category, setCategory] = useState("");
+  const [projectSlug, setProjectSlug] = useState(preset?.projectSlug || "huenic");
+  const [category, setCategory] = useState(preset?.category || "");
   const [assigneeId, setAssigneeId] = useState(members[0]?.id || "");
   const [startDate, setStartDate] = useState(toYMD(new Date()));
   const [endDate, setEndDate] = useState(toYMD(addDays(new Date(), 7)));
@@ -395,7 +397,7 @@ export default function TaskSchedulePanel({
   const [board, setBoard] = useState<TaskBoard | null>(null);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [showAdd, setShowAdd] = useState(false);
+  const [addPreset, setAddPreset] = useState<{ projectSlug?: string; category?: string } | null>(null);
   const [editingTask, setEditingTask] = useState<TaskItem | null>(null);
   const [slackSending, setSlackSending] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -442,7 +444,7 @@ export default function TaskSchedulePanel({
     });
     if (res.ok) {
       await fetchBoard();
-      setShowAdd(false);
+      setAddPreset(null);
       // Auto-expand the project
       setExpanded((prev) => ({ ...prev, [t.projectSlug]: true }));
     }
@@ -593,7 +595,7 @@ export default function TaskSchedulePanel({
             {slackSending ? "전송중..." : "Slack 공유"}
           </button>
           <button
-            onClick={() => setShowAdd(true)}
+            onClick={() => setAddPreset({})}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800"
           >
             <span className="text-sm leading-none">+</span> 태스크 추가
@@ -653,23 +655,30 @@ export default function TaskSchedulePanel({
               return (
                 <div key={slug}>
                   {/* Project row */}
-                  <button
-                    onClick={() => toggleProject(slug)}
-                    className="w-full flex items-center gap-2 px-4 py-2.5 text-sm hover:bg-gray-50 transition-colors border-b border-gray-50"
-                  >
-                    <svg
-                      className={`w-3 h-3 text-gray-400 transition-transform ${isOpen ? "rotate-90" : ""}`}
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
+                  <div className="group/proj flex items-center border-b border-gray-50 hover:bg-gray-50 transition-colors h-[37px]">
+                    <button
+                      onClick={() => toggleProject(slug)}
+                      className="flex-1 flex items-center gap-2 px-4 text-sm h-full"
                     >
-                      <path d="M6.293 7.293a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
-                    </svg>
-                    <div className="w-2 h-2 rounded-full" style={{ backgroundColor: meta.color }} />
-                    <span className="font-medium text-gray-900">{meta.emoji} {meta.name}</span>
-                    <span className="text-xs text-gray-400 ml-auto">
-                      {doneCount}/{tasks.length}
-                    </span>
-                  </button>
+                      <svg
+                        className={`w-3 h-3 text-gray-400 transition-transform ${isOpen ? "rotate-90" : ""}`}
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path d="M6.293 7.293a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
+                      </svg>
+                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: meta.color }} />
+                      <span className="font-medium text-gray-900">{meta.emoji} {meta.name}</span>
+                      <span className="text-xs text-gray-400 ml-auto">
+                        {doneCount}/{tasks.length}
+                      </span>
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setAddPreset({ projectSlug: slug }); }}
+                      className="opacity-0 group-hover/proj:opacity-100 mr-3 w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:text-gray-600 hover:bg-gray-200/60 transition-all text-sm"
+                      title="태스크 추가"
+                    >+</button>
+                  </div>
 
                   {/* Category groups or flat task rows */}
                   {isOpen && hasCategories && categories.map(({ category, tasks: catTasks }) => {
@@ -681,22 +690,29 @@ export default function TaskSchedulePanel({
                       <div key={catKey}>
                         {/* Category header */}
                         {category && (
-                          <button
-                            onClick={() => toggleCategory(catKey)}
-                            className="w-full flex items-center gap-2 px-4 py-1.5 pl-8 text-xs hover:bg-gray-50/80 transition-colors border-b border-gray-50"
-                          >
-                            <svg
-                              className={`w-2.5 h-2.5 text-gray-300 transition-transform ${isCatOpen ? "rotate-90" : ""}`}
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
+                          <div className="group/cat flex items-center bg-gray-50 hover:bg-gray-100/80 transition-colors border-b border-gray-200/60 h-[33px]">
+                            <button
+                              onClick={() => toggleCategory(catKey)}
+                              className="flex-1 flex items-center gap-2 px-4 pl-7 text-xs h-full"
                             >
-                              <path d="M6.293 7.293a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
-                            </svg>
-                            <span className="font-medium text-gray-500">{category}</span>
-                            <span className="text-[10px] text-gray-300 ml-auto">
-                              {catDone}/{catTasks.length}
-                            </span>
-                          </button>
+                              <svg
+                                className={`w-3 h-3 text-gray-400 transition-transform ${isCatOpen ? "rotate-90" : ""}`}
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                              >
+                                <path d="M6.293 7.293a1 1 0 011.414 0L10 9.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" />
+                              </svg>
+                              <span className="font-semibold text-gray-600">{category}</span>
+                              <span className="text-[10px] text-gray-400 ml-auto">
+                                {catDone}/{catTasks.length}
+                              </span>
+                            </button>
+                            <button
+                              onClick={(e) => { e.stopPropagation(); setAddPreset({ projectSlug: slug, category }); }}
+                              className="opacity-0 group-hover/cat:opacity-100 mr-3 w-5 h-5 flex items-center justify-center rounded text-gray-400 hover:text-gray-600 hover:bg-gray-200/60 transition-all text-xs"
+                              title="태스크 추가"
+                            >+</button>
+                          </div>
                         )}
 
                         {/* Tasks in category */}
@@ -707,7 +723,7 @@ export default function TaskSchedulePanel({
                           return (
                             <div
                               key={task.id}
-                              className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 py-2 border-b border-gray-50 hover:bg-gray-50/50"
+                              className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 border-b border-gray-50 hover:bg-gray-50/50 h-8"
                             >
                               <div className={`flex items-center gap-2 min-w-0 ${category ? "pl-9" : "pl-5"}`}>
                                 <span
@@ -753,7 +769,7 @@ export default function TaskSchedulePanel({
                     return (
                       <div
                         key={task.id}
-                        className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 py-2 border-b border-gray-50 hover:bg-gray-50/50"
+                        className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 border-b border-gray-50 hover:bg-gray-50/50 h-8"
                       >
                         <div className="flex items-center gap-2 min-w-0 pl-5">
                           <span
@@ -790,7 +806,7 @@ export default function TaskSchedulePanel({
 
                   {/* Empty state */}
                   {isOpen && tasks.length === 0 && (
-                    <div className="px-4 py-3 pl-9 text-xs text-gray-300 border-b border-gray-50">
+                    <div className="px-4 pl-9 text-xs text-gray-300 border-b border-gray-50 h-[37px] flex items-center">
                       태스크가 없습니다
                     </div>
                   )}
@@ -832,7 +848,7 @@ export default function TaskSchedulePanel({
                         <div key={catKey}>
                           {/* Category header spacer */}
                           {category && (
-                            <div className="h-[29px] border-b border-gray-50 relative bg-gray-50/30">
+                            <div className="h-[33px] border-b border-gray-200/60 relative bg-gray-50">
                               {days.map((d, i) =>
                                 isToday(d) ? (
                                   <div
@@ -946,11 +962,12 @@ export default function TaskSchedulePanel({
       </div>
 
       {/* Add Task Modal */}
-      {showAdd && (
+      {addPreset && (
         <AddTaskModal
           members={board.members}
           onAdd={handleAddTask}
-          onClose={() => setShowAdd(false)}
+          onClose={() => setAddPreset(null)}
+          preset={addPreset}
         />
       )}
 
