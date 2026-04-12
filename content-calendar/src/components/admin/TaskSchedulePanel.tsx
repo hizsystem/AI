@@ -77,7 +77,7 @@ function AddTaskModal({
       <form
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 sm:mx-0 p-5 sm:p-6 space-y-4"
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4"
       >
         <h3 className="text-base font-bold text-gray-900">태스크 추가</h3>
 
@@ -92,7 +92,7 @@ function AddTaskModal({
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           <div>
             <label className="block text-xs text-gray-500 mb-1">프로젝트</label>
             <select
@@ -230,7 +230,7 @@ function EditTaskModal({
       <form
         onClick={(e) => e.stopPropagation()}
         onSubmit={handleSubmit}
-        className="bg-white rounded-2xl shadow-2xl w-full max-w-md mx-4 sm:mx-0 p-5 sm:p-6 space-y-4"
+        className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 space-y-4"
       >
         <h3 className="text-base font-bold text-gray-900">태스크 수정</h3>
 
@@ -244,7 +244,7 @@ function EditTaskModal({
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3">
           <div>
             <label className="block text-xs text-gray-500 mb-1">프로젝트</label>
             <select
@@ -391,12 +391,8 @@ function GanttBar({
 
 export default function TaskSchedulePanel({
   projects,
-  onToggleWide,
-  isWide,
 }: {
   projects: { slug: string; name: string; emoji?: string; brandColor: string }[];
-  onToggleWide?: () => void;
-  isWide?: boolean;
 }) {
   const [board, setBoard] = useState<TaskBoard | null>(null);
   const [loading, setLoading] = useState(true);
@@ -587,23 +583,7 @@ export default function TaskSchedulePanel({
             {board.tasks.length}개 태스크 · {board.tasks.filter((t) => t.status === "in-progress").length}개 진행중
           </p>
         </div>
-        <div className="flex items-center gap-2 flex-wrap justify-end">
-          {onToggleWide && (
-            <button
-              onClick={onToggleWide}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg hover:bg-gray-50"
-              title={isWide ? "기본 보기" : "넓게 보기"}
-            >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                {isWide ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" />
-                ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-                )}
-              </svg>
-              <span className="hidden sm:inline">{isWide ? "기본" : "넓게"}</span>
-            </button>
-          )}
+        <div className="flex items-center gap-2">
           <button
             onClick={handleSlackShare}
             disabled={slackSending}
@@ -612,13 +592,13 @@ export default function TaskSchedulePanel({
             <svg viewBox="0 0 24 24" className="w-3.5 h-3.5" fill="currentColor">
               <path d="M5.042 15.165a2.528 2.528 0 0 1-2.52 2.523A2.528 2.528 0 0 1 0 15.165a2.527 2.527 0 0 1 2.522-2.52h2.52v2.52zm1.271 0a2.527 2.527 0 0 1 2.521-2.52 2.527 2.527 0 0 1 2.521 2.52v6.313A2.528 2.528 0 0 1 8.834 24a2.528 2.528 0 0 1-2.521-2.522v-6.313zM8.834 5.042a2.528 2.528 0 0 1-2.521-2.52A2.528 2.528 0 0 1 8.834 0a2.528 2.528 0 0 1 2.521 2.522v2.52H8.834zm0 1.271a2.528 2.528 0 0 1 2.521 2.521 2.528 2.528 0 0 1-2.521 2.521H2.522A2.528 2.528 0 0 1 0 8.834a2.528 2.528 0 0 1 2.522-2.521h6.312zm10.122 2.521a2.528 2.528 0 0 1 2.522-2.521A2.528 2.528 0 0 1 24 8.834a2.528 2.528 0 0 1-2.522 2.521h-2.522V8.834zm-1.268 0a2.528 2.528 0 0 1-2.523 2.521 2.527 2.527 0 0 1-2.52-2.521V2.522A2.527 2.527 0 0 1 15.165 0a2.528 2.528 0 0 1 2.523 2.522v6.312zm-2.523 10.122a2.528 2.528 0 0 1 2.523 2.522A2.528 2.528 0 0 1 15.165 24a2.527 2.527 0 0 1-2.52-2.522v-2.522h2.52zm0-1.268a2.527 2.527 0 0 1-2.52-2.523 2.526 2.526 0 0 1 2.52-2.52h6.313A2.527 2.527 0 0 1 24 15.165a2.528 2.528 0 0 1-2.522 2.523h-6.313z" />
             </svg>
-            <span className="hidden sm:inline">{slackSending ? "전송중..." : "Slack 공유"}</span>
+            {slackSending ? "전송중..." : "Slack 공유"}
           </button>
           <button
             onClick={() => setAddPreset({})}
             className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800"
           >
-            <span className="text-sm leading-none">+</span> <span className="hidden sm:inline">태스크 추가</span>
+            <span className="text-sm leading-none">+</span> 태스크 추가
           </button>
         </div>
       </div>
@@ -628,7 +608,7 @@ export default function TaskSchedulePanel({
         {/* Timeline Header */}
         <div className="flex border-b border-gray-100">
           {/* Left column header */}
-          <div className="flex-shrink-0 w-full md:w-[420px] border-r border-gray-100">
+          <div className="flex-shrink-0 w-[420px] border-r border-gray-100">
             <div className="grid grid-cols-[1fr_80px_72px] gap-0 px-4 py-2 text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
               <span>태스크</span>
               <span className="text-center">담당자</span>
@@ -636,7 +616,7 @@ export default function TaskSchedulePanel({
             </div>
           </div>
           {/* Timeline dates */}
-          <div className="hidden md:block flex-1 overflow-hidden" ref={headerScrollRef}>
+          <div className="flex-1 overflow-hidden" ref={headerScrollRef}>
             <div className="flex" style={{ width: `${totalDays * dayWidth}px` }}>
               {days.map((d, i) => (
                 <div
@@ -663,7 +643,7 @@ export default function TaskSchedulePanel({
         {/* Body */}
         <div className="flex">
           {/* Left panel (task list) */}
-          <div className="flex-shrink-0 w-full md:w-[420px] border-r border-gray-100">
+          <div className="flex-shrink-0 w-[420px] border-r border-gray-100">
             {projectSlugs.map((slug) => {
               const meta = PROJECT_META[slug] || { name: slug, emoji: "📁", color: "#6b7280" };
               const tasks = grouped[slug] || [];
@@ -675,10 +655,10 @@ export default function TaskSchedulePanel({
               return (
                 <div key={slug}>
                   {/* Project row */}
-                  <div className="group/proj flex items-center border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                  <div className="group/proj flex items-center border-b border-gray-50 hover:bg-gray-50 transition-colors h-[37px]">
                     <button
                       onClick={() => toggleProject(slug)}
-                      className="flex-1 flex items-center gap-2 px-4 py-2.5 text-sm"
+                      className="flex-1 flex items-center gap-2 px-4 text-sm h-full"
                     >
                       <svg
                         className={`w-3 h-3 text-gray-400 transition-transform ${isOpen ? "rotate-90" : ""}`}
@@ -710,10 +690,10 @@ export default function TaskSchedulePanel({
                       <div key={catKey}>
                         {/* Category header */}
                         {category && (
-                          <div className="group/cat flex items-center bg-gray-50 hover:bg-gray-100/80 transition-colors border-b border-gray-200/60">
+                          <div className="group/cat flex items-center bg-gray-50 hover:bg-gray-100/80 transition-colors border-b border-gray-200/60 h-[33px]">
                             <button
                               onClick={() => toggleCategory(catKey)}
-                              className="flex-1 flex items-center gap-2 px-4 py-2 pl-7 text-xs"
+                              className="flex-1 flex items-center gap-2 px-4 pl-7 text-xs h-full"
                             >
                               <svg
                                 className={`w-3 h-3 text-gray-400 transition-transform ${isCatOpen ? "rotate-90" : ""}`}
@@ -743,7 +723,7 @@ export default function TaskSchedulePanel({
                           return (
                             <div
                               key={task.id}
-                              className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 py-2 border-b border-gray-50 hover:bg-gray-50/50"
+                              className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 border-b border-gray-50 hover:bg-gray-50/50 h-8"
                             >
                               <div className={`flex items-center gap-2 min-w-0 ${category ? "pl-9" : "pl-5"}`}>
                                 <span
@@ -789,7 +769,7 @@ export default function TaskSchedulePanel({
                     return (
                       <div
                         key={task.id}
-                        className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 py-2 border-b border-gray-50 hover:bg-gray-50/50"
+                        className="group grid grid-cols-[1fr_80px_72px] gap-0 items-center px-4 border-b border-gray-50 hover:bg-gray-50/50 h-8"
                       >
                         <div className="flex items-center gap-2 min-w-0 pl-5">
                           <span
@@ -826,7 +806,7 @@ export default function TaskSchedulePanel({
 
                   {/* Empty state */}
                   {isOpen && tasks.length === 0 && (
-                    <div className="px-4 py-3 pl-9 text-xs text-gray-300 border-b border-gray-50">
+                    <div className="px-4 pl-9 text-xs text-gray-300 border-b border-gray-50 h-[37px] flex items-center">
                       태스크가 없습니다
                     </div>
                   )}
@@ -835,8 +815,8 @@ export default function TaskSchedulePanel({
             })}
           </div>
 
-          {/* Right panel (timeline) — hidden on mobile */}
-          <div className="hidden md:block flex-1 overflow-x-auto" ref={scrollRef} onScroll={handleScroll}>
+          {/* Right panel (timeline) */}
+          <div className="flex-1 overflow-x-auto" ref={scrollRef} onScroll={handleScroll}>
             <div style={{ width: `${totalDays * dayWidth}px` }}>
               {projectSlugs.map((slug) => {
                 const tasks = grouped[slug] || [];
