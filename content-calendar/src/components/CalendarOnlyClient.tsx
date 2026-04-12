@@ -1,18 +1,41 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Calendar from "@/components/Calendar";
+import TabNavigation from "@/components/huenic/TabNavigation";
+import MoodboardTab from "@/components/huenic/MoodboardTab";
+import RefTab from "@/components/huenic/RefTab";
+import GuideTab from "@/components/huenic/GuideTab";
+import WeeklyReportTab from "@/components/huenic/WeeklyReportTab";
+import KpiTab from "@/components/huenic/KpiTab";
 import { useCalendarData } from "@/hooks/useCalendarData";
-import type { ClientConfig } from "@/data/client-config";
+import type { ClientConfig, TabId } from "@/data/client-config";
 
 interface Props {
   config: ClientConfig;
   readOnly?: boolean;
 }
 
-export default function CalendarOnlyClient({ config, readOnly = false }: Props) {
+function CalendarOnlyInner({ config, readOnly = false }: Props) {
   const CLIENT = config.slug;
   const LOGO = config.logo;
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const hasTabs = config.tabs.length > 1;
+  const activeTab = (() => {
+    const t = searchParams.get("tab");
+    if (t && config.tabs.includes(t as TabId)) return t as TabId;
+    return "calendar";
+  })();
+
+  function setActiveTab(tab: TabId) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", tab);
+    router.push(`${pathname}?${params.toString()}`);
+  }
 
   const [months, setMonths] = useState<string[]>([]);
   const [currentMonth, setCurrentMonth] = useState("");
@@ -30,82 +53,113 @@ export default function CalendarOnlyClient({ config, readOnly = false }: Props) 
           setCurrentMonth(m.includes(now) ? now : m[m.length - 1]);
         }
       }
-    } catch {
-      // fallback
-    } finally {
+    } catch { /* fallback */ } finally {
       setLoadingMonths(false);
     }
   }, [CLIENT, currentMonth]);
 
-  useEffect(() => {
-    fetchMonths();
-  }, [fetchMonths]);
+  useEffect(() => { fetchMonths(); }, [fetchMonths]);
 
   const handleAddMonth = async () => {
     const latest = months.length > 0 ? months[months.length - 1] : getCurrentMonth();
     const next = getNextMonth(latest);
-
     try {
       const res = await fetch(`/api/calendar-months/${CLIENT}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ month: next }),
       });
-      if (res.ok) {
-        setMonths((prev) => [...prev, next].sort());
-        setCurrentMonth(next);
-      } else if (res.status === 409) {
-        setCurrentMonth(next);
-      }
-    } catch {
-      // ignore
-    }
+      if (res.ok) { setMonths((prev) => [...prev, next].sort()); setCurrentMonth(next); }
+      else if (res.status === 409) { setCurrentMonth(next); }
+    } catch { /* ignore */ }
   };
 
   const { data, loading, error, addItem, updateItem, deleteItem, saveCalendar } =
     useCalendarData(CLIENT, currentMonth);
 
-  if (loadingMonths || (loading && currentMonth)) {
+  // Calendar tab: loading/error states
+  if (activeTab === "calendar") {
+    if (loadingMonths || (loading && currentMonth)) return <PageLoading />;
+    if (!currentMonth || !data || (error && !data)) {
+      return (
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <p className="text-gray-400">{error || "No calendar data."}</p>
+        </div>
+      );
+    }
+
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <div className="flex items-center gap-3 text-gray-400">
-          <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-          </svg>
-          <span className="text-sm">Loading...</span>
+      <>
+        {hasTabs && (
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+            <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+          </div>
+        )}
+        <Calendar
+          data={data}
+          allMonths={months}
+          onMonthChange={setCurrentMonth}
+          editMode={readOnly ? false : editMode}
+          onToggleEditMode={readOnly ? undefined : () => setEditMode((prev) => !prev)}
+          onAddItem={readOnly ? undefined : addItem}
+          onUpdateItem={readOnly ? undefined : updateItem}
+          onDeleteItem={readOnly ? undefined : deleteItem}
+          onSaveCalendar={readOnly ? undefined : saveCalendar}
+          onAddMonth={readOnly ? undefined : handleAddMonth}
+          logo={LOGO ?? undefined}
+          contentDefaults={
+            config.defaultHashtags || config.defaultMentions
+              ? { hashtags: config.defaultHashtags, mentions: config.defaultMentions }
+              : undefined
+          }
+        />
+      </>
+    );
+  }
+
+  // Non-calendar tabs
+  const brand = CLIENT as any;
+  return (
+    <div className="min-h-screen bg-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-6">
+          <p className="text-xs font-semibold tracking-widest text-gray-400 mb-1">
+            {config.dashboardTitle ?? config.name}
+          </p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">{config.name}</h1>
+        </div>
+        <TabNavigation tabs={config.tabs} activeTab={activeTab} onTabChange={setActiveTab} />
+        <div className="mt-6">
+          {activeTab === "moodboard" && <MoodboardTab brand={brand} />}
+          {activeTab === "ref" && <RefTab brand={brand} />}
+          {activeTab === "guide" && <GuideTab brand={brand} />}
+          {activeTab === "report" && <WeeklyReportTab brand={brand} />}
+          {activeTab === "kpi" && <KpiTab brand={brand} />}
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
-  if (!currentMonth || !data || (error && !data)) {
-    return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <p className="text-gray-400">{error || "No calendar data."}</p>
-      </div>
-    );
-  }
-
+function PageLoading() {
   return (
-    <Calendar
-      data={data}
-      allMonths={months}
-      onMonthChange={setCurrentMonth}
-      editMode={readOnly ? false : editMode}
-      onToggleEditMode={readOnly ? undefined : () => setEditMode((prev) => !prev)}
-      onAddItem={readOnly ? undefined : addItem}
-      onUpdateItem={readOnly ? undefined : updateItem}
-      onDeleteItem={readOnly ? undefined : deleteItem}
-      onSaveCalendar={readOnly ? undefined : saveCalendar}
-      onAddMonth={readOnly ? undefined : handleAddMonth}
-      logo={LOGO ?? undefined}
-      contentDefaults={
-        config.defaultHashtags || config.defaultMentions
-          ? { hashtags: config.defaultHashtags, mentions: config.defaultMentions }
-          : undefined
-      }
-    />
+    <div className="min-h-screen bg-white flex items-center justify-center">
+      <div className="flex items-center gap-3 text-gray-400">
+        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24" fill="none">
+          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+        </svg>
+        <span className="text-sm">Loading...</span>
+      </div>
+    </div>
+  );
+}
+
+export default function CalendarOnlyClient(props: Props) {
+  return (
+    <Suspense fallback={<PageLoading />}>
+      <CalendarOnlyInner {...props} />
+    </Suspense>
   );
 }
 
