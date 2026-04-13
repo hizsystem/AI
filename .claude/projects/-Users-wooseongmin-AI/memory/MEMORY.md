@@ -18,7 +18,7 @@
 - [콘텐츠 캘린더 플랫폼화](project_content_calendar_platform.md) — 멀티 클라이언트 관리자 대시보드, 동적 라우팅, 토큰 접근 제어. 4/10 데드라인, Phase 1~3 목표
 - [댄싱컵(DANCING CUP) 프로젝트](project_dancingcup.md) — 위드런 커피 프랜차이즈, 500만/월 리테이너 + 여름 200만 별도, 킥오프 4/15 부산
 - [모수 프로젝트](project_mosu.md) — 불특정 다수 유입 환경 구축 특명. 성민 총괄. 정부지원사업/홈페이지/진단/메타광고
-- [말렌(MALEN) 프로젝트](project_malen.md) — 동생 지인, 7년차 유니섹스 내추럴웨어. 상담 4/8 완료. 진단→제안서 단계
+- [말렌(MALEN) 프로젝트](project_malen.md) — 7년차 유니섹스 내추럴웨어. 상담 4/13 완료. 수주확률 65-70%, 제안서 4/16 발송 예정
 
 ## Feedback
 - [콘텐츠 제작 후 반드시 파일 저장](feedback_save_content.md) — 세션 종료 전 md 파일 저장 필수, 대화만으로는 다음 세션에서 복구 불가
@@ -36,6 +36,7 @@
 - [소화 후 위임 원칙](feedback_digest_before_delegate.md) — AI 결과물 팀 전달 전 본인이 먼저 소화(1문장 정의, 3문장 요약, 맥락 전달)
 - [위임 워크플로우](feedback_delegation_workflow.md) — 브리프 바로 전달 X. AI와 방향 → 팀에 탐색 요청 → 심화 → 디테일 브리프 순서
 - [다운로드 폴더 자동 정리](feedback_downloads_cleanup.md) — "다운로드 정리해줘" 요청 시 Documents 구조에 맞게 클라이언트별 자동 분류
+- [광고 소재 프레이밍](feedback_ad_creative_framing.md) — 소재 비교 시 "승자/패자" 프레임 지양, 중립적 표현 사용
 - [회의록 정리 워크플로우](feedback_meeting_notes.md) — 매 회의 녹음→클로바노트 전사→구조화된 회의록. 불참자도 읽을 수 있게, 이름 매핑+핵심 구조화
 - [콘텐츠 캘린더 새 월 추가 시 seed 필수](feedback_content_calendar_seed.md) — Blob만 의존 X, seed JSON+storage+index 등록+git add -f, logo prop 누락 주의
 - [리포트 디자인 컬러 스펙](feedback_report_design.md) — Prep/PostMeeting HTML: 오렌지(#f07030)+화이트/그레이 only, 다색 금지
