@@ -5,8 +5,8 @@ import type { HuenicBrand } from "@/data/huenic-types";
 
 export const dynamic = "force-dynamic";
 
-function validBrand(b: string): HuenicBrand {
-  return b === "veggiet" || b === "vinker" ? b : "veggiet";
+function validBrand(b: string): HuenicBrand | null {
+  return b === "veggiet" || b === "vinker" ? b : null;
 }
 
 // month param format: "2026-03"
@@ -22,6 +22,7 @@ export async function GET(
 ) {
   const { brand: rawBrand, month: rawMonth } = await params;
   const brand = validBrand(rawBrand);
+  if (!brand) return NextResponse.json({ error: "Invalid brand" }, { status: 400 });
   const parsed = parseMonth(rawMonth);
   if (!parsed) {
     return NextResponse.json({ error: "Invalid month format. Use YYYY-MM" }, { status: 400 });
@@ -47,6 +48,7 @@ export async function PUT(
 ) {
   const { brand: rawBrand, month: rawMonth } = await params;
   const brand = validBrand(rawBrand);
+  if (!brand) return NextResponse.json({ error: "Invalid brand" }, { status: 400 });
   const parsed = parseMonth(rawMonth);
   if (!parsed) {
     return NextResponse.json({ error: "Invalid month format. Use YYYY-MM" }, { status: 400 });

@@ -118,6 +118,10 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
   }
 
   // Non-calendar tabs
+  // Only huenic brands (veggiet/vinker) may use huenic-specific tabs (guide/report/kpi).
+  // Other clients pass CLIENT slug which gets fallback-mapped to "veggiet" by the API,
+  // causing data overwrites. Guard against this.
+  const isHuenicBrand = CLIENT === "veggiet" || CLIENT === "vinker";
   const brand = CLIENT as any;
   return (
     <div className="min-h-screen bg-white">
@@ -132,9 +136,14 @@ function CalendarOnlyInner({ config, readOnly = false }: Props) {
         <div className="mt-6">
           {activeTab === "moodboard" && <MoodboardTab brand={brand} />}
           {activeTab === "ref" && <RefTab brand={brand} />}
-          {activeTab === "guide" && <GuideTab brand={brand} />}
-          {activeTab === "report" && <WeeklyReportTab brand={brand} />}
-          {activeTab === "kpi" && <KpiTab brand={brand} />}
+          {activeTab === "guide" && isHuenicBrand && <GuideTab brand={brand} />}
+          {activeTab === "report" && isHuenicBrand && <WeeklyReportTab brand={brand} />}
+          {activeTab === "kpi" && isHuenicBrand && <KpiTab brand={brand} />}
+          {(activeTab === "guide" || activeTab === "report" || activeTab === "kpi") && !isHuenicBrand && (
+            <div className="text-center py-20 text-gray-400 text-sm">
+              이 탭은 현재 준비 중입니다
+            </div>
+          )}
         </div>
       </div>
     </div>

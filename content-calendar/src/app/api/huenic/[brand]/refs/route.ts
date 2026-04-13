@@ -4,8 +4,8 @@ import type { HuenicBrand } from "@/data/huenic-types";
 
 export const dynamic = "force-dynamic";
 
-function validBrand(b: string): HuenicBrand {
-  return b === "veggiet" || b === "vinker" ? b : "veggiet";
+function validBrand(b: string): HuenicBrand | null {
+  return b === "veggiet" || b === "vinker" ? b : null;
 }
 
 export async function GET(
@@ -14,6 +14,7 @@ export async function GET(
 ) {
   const { brand: rawBrand } = await params;
   const brand = validBrand(rawBrand);
+  if (!brand) return NextResponse.json({ error: "Invalid brand" }, { status: 400 });
   const data = await getRefData(brand);
   return NextResponse.json(data);
 }
@@ -24,6 +25,7 @@ export async function PUT(
 ) {
   const { brand: rawBrand } = await params;
   const brand = validBrand(rawBrand);
+  if (!brand) return NextResponse.json({ error: "Invalid brand" }, { status: 400 });
 
   try {
     const body = await req.json();

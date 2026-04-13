@@ -5,8 +5,8 @@ import type { HuenicBrand } from "@/data/huenic-types";
 
 export const dynamic = "force-dynamic";
 
-function validBrand(b: string): HuenicBrand {
-  return b === "veggiet" || b === "vinker" ? b : "veggiet";
+function validBrand(b: string): HuenicBrand | null {
+  return b === "veggiet" || b === "vinker" ? b : null;
 }
 
 // week param format: "2026-4월-1w"
@@ -22,6 +22,7 @@ export async function GET(
 ) {
   const { brand: rawBrand, week: rawWeek } = await params;
   const brand = validBrand(rawBrand);
+  if (!brand) return NextResponse.json({ error: "Invalid brand" }, { status: 400 });
   const parsed = parseWeek(decodeURIComponent(rawWeek));
   if (!parsed) {
     return NextResponse.json({ error: "Invalid week format. Use YYYY-N월-Nw" }, { status: 400 });
@@ -63,6 +64,7 @@ export async function PUT(
 ) {
   const { brand: rawBrand, week: rawWeek } = await params;
   const brand = validBrand(rawBrand);
+  if (!brand) return NextResponse.json({ error: "Invalid brand" }, { status: 400 });
   const parsed = parseWeek(decodeURIComponent(rawWeek));
   if (!parsed) {
     return NextResponse.json({ error: "Invalid week format. Use YYYY-N월-Nw" }, { status: 400 });
