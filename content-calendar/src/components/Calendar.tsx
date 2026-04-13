@@ -101,7 +101,7 @@ export default function Calendar({
     const validCategories = new Set(data.categories.map((c) => c.id));
     const map: Record<number, ContentItem[]> = {};
     for (const item of data.items) {
-      if (!validCategories.has(item.category)) continue;
+      if (item.category && !validCategories.has(item.category)) continue;
       if (statusFilter !== "all" && item.status !== statusFilter) continue;
       const day = parseInt(item.date.split("-")[2], 10);
       if (!map[day]) map[day] = [];
