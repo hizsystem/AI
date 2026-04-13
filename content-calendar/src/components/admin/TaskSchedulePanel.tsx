@@ -484,64 +484,47 @@ export default function TaskSchedulePanel({
     setSlackSending(true);
 
     const todayStr = toYMD(today);
-    // 이번 주 월~일 범위 계산
-    const dayOfWeek = today.getDay(); // 0=일, 1=월 ...
-    const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
-    const weekStart = toYMD(addDays(today, mondayOffset));
-    const weekEnd = toYMD(addDays(today, mondayOffset + 6));
+    const yesterdayStr = toYMD(addDays(today, -1));
+    const dayNames = ["일", "월", "화", "수", "목", "금", "토"];
 
-    // 미완료 태스크만 대상 (done 제외)
+    // 미완료 태스크만 대상
     const activeTasks = board.tasks.filter((t) => t.status !== "done");
 
-    // 금일: endDate가 오늘이거나 이미 지난 태스크 (오늘까지 해결 필요)
-    const todayTasks = activeTasks.filter((t) => t.endDate <= todayStr);
-    // 금주: endDate가 이번 주 내인 태스크 (금일 포함)
-    const weekTasks = activeTasks.filter((t) => t.endDate >= weekStart && t.endDate <= weekEnd);
+    // 오늘 마감: endDate ≤ 오늘 (지연 포함)
+    const dueTodayTasks = activeTasks.filter((t) => t.endDate <= todayStr);
+    // 신규: createdAt이 어제 이후
+    const newTasks = board.tasks.filter((t) => t.createdAt >= yesterdayStr);
 
     const lines: string[] = [
-      `*📋 BC3T Task Summary* (${toYMD(today)})`,
+      `*📋 BC3T Daily Brief* (${formatShort(today)} ${dayNames[today.getDay()]})`,
       "",
     ];
 
-    // 프로젝트 → 카테고리 → 인원 중첩 구조
-    const groupedSlack = groupByProject(activeTasks);
-    for (const [slug, projectTasks] of Object.entries(groupedSlack)) {
-      const meta = PROJECT_META[slug] || { name: slug, emoji: "📁" };
-      const pToday = projectTasks.filter((t) => t.endDate <= todayStr).length;
-      const pWeek = projectTasks.filter((t) => t.endDate >= weekStart && t.endDate <= weekEnd).length;
-      if (pToday === 0 && pWeek === 0) continue;
-
-      lines.push(`*${meta.emoji} ${meta.name}* — 금일 *${pToday}*건 / 금주 *${pWeek}*건`);
-
-      // 카테고리별
-      const cats = groupByCategory(projectTasks);
-      for (const { category, tasks: catTasks } of cats) {
-        const catLabel = category || "미분류";
-        const cToday = catTasks.filter((t) => t.endDate <= todayStr).length;
-        const cWeek = catTasks.filter((t) => t.endDate >= weekStart && t.endDate <= weekEnd).length;
-        if (cToday === 0 && cWeek === 0) continue;
-
-        lines.push(`  └ ${catLabel} — 금일 ${cToday} / 금주 ${cWeek}`);
-
-        // 인원별
-        const memberMap: Record<string, TaskItem[]> = {};
-        for (const t of catTasks) {
-          (memberMap[t.assigneeId] ||= []).push(t);
-        }
-        for (const [memberId, memberTasks] of Object.entries(memberMap)) {
-          const member = board.members.find((m) => m.id === memberId);
-          const mToday = memberTasks.filter((t) => t.endDate <= todayStr).length;
-          const mWeek = memberTasks.filter((t) => t.endDate >= weekStart && t.endDate <= weekEnd).length;
-          if (mToday === 0 && mWeek === 0) continue;
-          lines.push(`      ${member?.name || memberId}: 금일 ${mToday} / 금주 ${mWeek}`);
-        }
+    // ── 오늘 마감 ──
+    if (dueTodayTasks.length > 0) {
+      lines.push(`*🔴 오늘 마감 (${dueTodayTasks.length}건)*`);
+      for (const task of dueTodayTasks) {
+        const meta = PROJECT_META[task.projectSlug] || { name: task.projectSlug, emoji: "📁" };
+        const member = board.members.find((m) => m.id === task.assigneeId);
+        const overdue = task.endDate < todayStr ? " ⚠️" : "";
+        lines.push(`  ${meta.emoji} ${meta.name}: ${task.title} — ${member?.name || "미정"}${overdue}`);
       }
-      lines.push("");
+    } else {
+      lines.push(`*✅ 오늘 마감 태스크 없음*`);
     }
+    lines.push("");
 
-    // 총합
-    lines.push(`───────────────`);
-    lines.push(`*합계: 금일 ${todayTasks.length}건 / 금주 ${weekTasks.length}건* (미완료 기준)`);
+    // ── 신규 태스크 ──
+    if (newTasks.length > 0) {
+      lines.push(`*🆕 신규 태스크 (${newTasks.length}건)*`);
+      for (const task of newTasks) {
+        const meta = PROJECT_META[task.projectSlug] || { name: task.projectSlug, emoji: "📁" };
+        const member = board.members.find((m) => m.id === task.assigneeId);
+        lines.push(`  ${meta.emoji} ${meta.name}: ${task.title} — ${member?.name || "미정"} (~${formatShort(toDate(task.endDate))})`);
+      }
+    } else {
+      lines.push(`*🆕 신규 태스크 없음*`);
+    }
 
     try {
       const res = await fetch("/api/tasks/slack", {
