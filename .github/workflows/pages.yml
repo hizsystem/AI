@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-    paths: ['ecommerce-lecture/**']
+    paths: ['ecommerce-lecture/**', 'docs/**']
   workflow_dispatch:
 
 permissions:
@@ -19,8 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v4
+      - name: Combine deploy sources
+        run: |
+          mkdir -p _site
+          cp -r ecommerce-lecture/* _site/
+          cp -r docs/* _site/
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: ecommerce-lecture
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
