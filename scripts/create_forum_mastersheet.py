@@ -257,10 +257,45 @@ def create_checklist_template_tab(sh):
     return ws
 
 
+def seed_history(sh):
+    """189회 데이터 + 190회 예정 데이터를 히스토리 탭에 시드"""
+    ws = sh.worksheet("연사-브랜드 히스토리")
+    rows = [
+        ["189", "2026-03-31", "스타트업 브랜드가 올리브영 1위까지",
+         "권윤정", "HIZ", "-", "-", "86", "4.0", "리뉴얼 첫 회차"],
+        ["190", "2026-04-28", "잘 만든 콘텐츠, 1억 광고비 안 부럽다",
+         "권윤정", "HIZ", "데이나", "콘텐츠 크리에이터", "", "", "스페셜 게스트"],
+    ]
+    ws.update(values=rows, range_name="A2", value_input_option="USER_ENTERED")
+
+
+def seed_dashboard(sh):
+    """대시보드에 189회 + 190회 데이터 시드"""
+    ws = sh.sheet1
+    # 최근 행사 데이터 (A5:E6)
+    event_rows = [
+        ["189", "2026-03-31", "스타트업 브랜드가 올리브영 1위까지", "권윤정 대표", "86"],
+        ["190", "2026-04-28", "잘 만든 콘텐츠, 1억 광고비 안 부럽다", "권윤정 대표", ""],
+    ]
+    ws.update(values=event_rows, range_name="A5", value_input_option="USER_ENTERED")
+
+    # 다음 행사 정보 (B20:B26)
+    next_event = [
+        ["190"],
+        ["2026-04-28(화) 17:00"],
+        ["잘 만든 콘텐츠, 1억 광고비 안 부럽다"],
+        ["권윤정 대표 (HIZ)"],
+        ["데이나 (콘텐츠 크리에이터)"],
+        ["", "80"],
+        ["=DAYS(\"2026-04-28\",TODAY())"],
+    ]
+    ws.update(values=next_event, range_name="B20", value_input_option="USER_ENTERED")
+
+
 def create_forum_mastersheet(share_emails=None):
     """고벤처포럼 마스터시트 전체 생성"""
     client = get_client()
-    title = "[GoVenture Forum] 마스터시트"
+    title = "[GoVenture Forum] 운영시트"
 
     sh = client.create(title)
     print(f"Created: {title}")
@@ -271,22 +306,37 @@ def create_forum_mastersheet(share_emails=None):
     print("  + 대시보드")
     time.sleep(2)
 
-    # 탭 2: 참석자 통합 DB
+    # 탭 2: 190회 (4월)
+    create_event_tab(sh, 190, 4, "2026-04-28(화) 17:00~19:00")
+    print("  + 190회 (4월)")
+    time.sleep(2)
+
+    # 탭 3: 참석자 통합 DB
     create_participant_db_tab(sh)
     print("  + 참석자 통합 DB")
     time.sleep(2)
 
-    # 탭 3: 연사/브랜드 히스토리
+    # 탭 4: 연사/브랜드 히스토리
     create_event_history_tab(sh)
     print("  + 연사-브랜드 히스토리")
     time.sleep(2)
 
-    # 탭 4: 체크리스트 템플릿
+    # 탭 5: 체크리스트 템플릿
     create_checklist_template_tab(sh)
     print("  + 체크리스트 템플릿")
     time.sleep(2)
 
-    # 공유
+    # 189회 + 190회 시드 데이터
+    seed_history(sh)
+    seed_dashboard(sh)
+    print("  + 189회/190회 시드 데이터")
+    time.sleep(1)
+
+    # 공유: 링크가 있는 모든 사용자 뷰어
+    sh.share("", perm_type="anyone", role="reader")
+    print("  + 공개 링크 설정 (뷰어)")
+
+    # 공유: 편집자
     if share_emails:
         for email in share_emails:
             sh.share(email.strip(), perm_type="user", role="writer")

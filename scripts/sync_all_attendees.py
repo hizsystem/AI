@@ -19,8 +19,8 @@ import csv
 import xlrd
 
 # ── 설정 ──
-SHEET_URL = "https://docs.google.com/spreadsheets/d/1YtOd5pW9ECd_kQggWpk8VojUlpuMXn9PS7R1kBG4NiM/edit"
-TAB_NAME = "참석자 명단"
+SHEET_URL = "https://docs.google.com/spreadsheets/d/1xY2GUqv7xdQ2X6tSW4DGq4gEZHNsGADGrpUOqqrv4KA/edit"
+TAB_NAME = "190회 (4월)"
 
 # ── 파서: 온오프믹스 ──
 def read_onoffmix(filepath):
