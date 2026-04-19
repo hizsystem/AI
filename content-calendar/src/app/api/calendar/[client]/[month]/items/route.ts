@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCalendar, saveCalendar } from "@/lib/storage";
+import { mutateCalendar } from "@/lib/storage";
+import type { ContentItem } from "@/data/types";
 
 export const dynamic = "force-dynamic";
 
@@ -10,18 +11,19 @@ export async function POST(
   const { client, month } = await params;
 
   try {
-    const data = await getCalendar(client, month);
-    if (!data) {
-      return NextResponse.json({ error: "Calendar not found" }, { status: 404 });
-    }
-
-    const item = await req.json();
+    const item = (await req.json()) as ContentItem;
     if (!item.id) {
       item.id = `content-${Date.now()}`;
     }
 
-    data.items.push(item);
-    await saveCalendar(client, month, data);
+    await mutateCalendar(
+      client,
+      month,
+      (data) => {
+        data.items.push(item);
+      },
+      { createIfMissing: true }
+    );
 
     return NextResponse.json(item, { status: 201 });
   } catch (e) {
