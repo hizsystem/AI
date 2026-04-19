@@ -1,5 +1,5 @@
 import { put, list } from "@vercel/blob";
-import type { ProjectConfig, ClientConfig } from "@/data/client-config";
+import type { ProjectConfig, ClientConfig, BlockId } from "@/data/client-config";
 import { toClientConfig } from "@/data/client-config";
 import { DEFAULT_PROJECT_CONFIGS } from "@/data/client-configs";
 
@@ -7,14 +7,30 @@ function configBlobPath(slug: string): string {
   return `config/clients/${slug}.json`;
 }
 
-const CONFIG_CACHE: Record<string, ProjectConfig> = {};
+const CONFIG_CACHE: Record<string, { value: ProjectConfig; expiresAt: number }> = {};
+const CONFIG_CACHE_TTL_MS = 60_000;
+
+/**
+ * Union blob blocks with hardcoded base blocks so that blocks defined in
+ * `DEFAULT_PROJECT_CONFIGS` can never silently disappear from the UI — even if
+ * the admin save persisted a subset. Extra blocks added later via the admin UI
+ * are preserved at the end.
+ */
+function mergeBlocks(baseBlocks: readonly BlockId[] = [], blobBlocks: readonly BlockId[] = []): BlockId[] {
+  const seen = new Set<BlockId>();
+  const out: BlockId[] = [];
+  for (const b of baseBlocks) if (!seen.has(b)) { seen.add(b); out.push(b); }
+  for (const b of blobBlocks) if (!seen.has(b)) { seen.add(b); out.push(b); }
+  return out;
+}
 
 // ─── ProjectConfig API ───
 
 export async function getProjectConfig(
   slug: string
 ): Promise<ProjectConfig | null> {
-  if (CONFIG_CACHE[slug]) return CONFIG_CACHE[slug];
+  const cached = CONFIG_CACHE[slug];
+  if (cached && cached.expiresAt > Date.now()) return cached.value;
 
   // Try Blob first
   if (process.env.BLOB_READ_WRITE_TOKEN) {
@@ -41,7 +57,7 @@ export async function getProjectConfig(
               return {
                 ...baseCh,
                 enabled: blobCh.enabled ?? baseCh.enabled,
-                blocks: Array.isArray(blobCh.blocks) && blobCh.blocks.length > 0 ? blobCh.blocks : baseCh.blocks,
+                blocks: mergeBlocks(baseCh.blocks, Array.isArray(blobCh.blocks) ? blobCh.blocks : []),
                 defaultCategories: blobCh.defaultCategories || baseCh.defaultCategories,
                 defaultHashtags: blobCh.defaultHashtags || baseCh.defaultHashtags,
                 defaultMentions: blobCh.defaultMentions || baseCh.defaultMentions,
@@ -65,10 +81,10 @@ export async function getProjectConfig(
               clientEditable: blobConfig.clientEditable ?? hardcoded.clientEditable,
               channels: mergedChannels,
             };
-            CONFIG_CACHE[slug] = merged;
+            CONFIG_CACHE[slug] = { value: merged, expiresAt: Date.now() + CONFIG_CACHE_TTL_MS };
             return merged;
           }
-          CONFIG_CACHE[slug] = blobConfig as ProjectConfig;
+          CONFIG_CACHE[slug] = { value: blobConfig as ProjectConfig, expiresAt: Date.now() + CONFIG_CACHE_TTL_MS };
           return blobConfig as ProjectConfig;
           }
         }
@@ -81,7 +97,7 @@ export async function getProjectConfig(
   // Fallback to hardcoded defaults
   const fallback =
     DEFAULT_PROJECT_CONFIGS.find((c) => c.slug === slug) ?? null;
-  if (fallback) CONFIG_CACHE[slug] = fallback;
+  if (fallback) CONFIG_CACHE[slug] = { value: fallback, expiresAt: Date.now() + CONFIG_CACHE_TTL_MS };
   return fallback;
 }
 
@@ -124,7 +140,7 @@ export async function listProjectConfigs(): Promise<ProjectConfig[]> {
               return {
                 ...baseCh,
                 enabled: blobCh.enabled ?? baseCh.enabled,
-                blocks: Array.isArray(blobCh.blocks) && blobCh.blocks.length > 0 ? blobCh.blocks : baseCh.blocks,
+                blocks: mergeBlocks(baseCh.blocks, Array.isArray(blobCh.blocks) ? blobCh.blocks : []),
                 defaultCategories: blobCh.defaultCategories || baseCh.defaultCategories,
                 defaultHashtags: blobCh.defaultHashtags || baseCh.defaultHashtags,
                 defaultMentions: blobCh.defaultMentions || baseCh.defaultMentions,
@@ -182,7 +198,7 @@ export async function saveProjectConfig(
     allowOverwrite: true,
   });
 
-  CONFIG_CACHE[config.slug] = config;
+  CONFIG_CACHE[config.slug] = { value: config, expiresAt: Date.now() + CONFIG_CACHE_TTL_MS };
 }
 
 // ─── Legacy compat (used by existing components) ───
