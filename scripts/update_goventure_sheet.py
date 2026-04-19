@@ -1,6 +1,7 @@
 """GoVenture Forum 신청자 명단 → Google Sheets 업데이트"""
 
 import json
+import os
 import sys
 import urllib.request
 from sheets_auth import get_client
@@ -8,9 +9,17 @@ from sheets_auth import get_client
 # --- Config ---
 SPREADSHEET_ID = "1YtOd5pW9ECd_kQggWpk8VojUlpuMXn9PS7R1kBG4NiM"
 SHEET_GID = 783826069
-SUPABASE_URL = "https://zdcwilegoyuipqunyays.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpkY3dpbGVnb3l1aXBxdW55YXlzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MjA4MTI5NSwiZXhwIjoyMDg3NjU3Mjk1fQ.35tNxTVSwBOC7II6FJIO7lKEVp-bpebAkmxgCwvX30E"
 FORUM_ID = "b825ad56-3f31-42b3-9487-f5156c239b60"
+
+SUPABASE_URL = os.environ.get("SUPABASE_URL")
+SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
+
+if not SUPABASE_URL or not SUPABASE_KEY:
+    sys.exit(
+        "✗ 환경변수 SUPABASE_URL, SUPABASE_KEY가 설정되지 않았습니다.\n"
+        "  scripts/.env.example을 참고해 scripts/.env를 만들고 실행하세요:\n"
+        "    set -a && source scripts/.env && set +a && python3 scripts/update_goventure_sheet.py"
+    )
 
 
 def fetch_applicants():
